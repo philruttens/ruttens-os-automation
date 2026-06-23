@@ -1,0 +1,44 @@
+name: Daily Artifact Backup & Report
+
+on:
+  schedule:
+    # Run at 2:00 AM UTC (adjust timezone offset as needed)
+    # For CET (UTC+1): Use 01:00 UTC for 02:00 CET
+    # For CEST (UTC+2): Use 00:00 UTC for 02:00 CEST
+    - cron: '00 00 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  backup-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Create Gmail token secret
+        run: |
+          mkdir -p ~/.config
+          echo "${{ secrets.GMAIL_APP_PASSWORD }}" > ~/.ruttens_gmail_token
+          chmod 600 ~/.ruttens_gmail_token
+
+      - name: Run backup & email script
+        env:
+          ARTIFACTS_DIR: ${{ github.workspace }}/Artifacts
+          BACKUP_LOG: ${{ github.workspace }}/CLAUDE/artifact_backup_log.txt
+        run: |
+          python3 scripts/daily_artifact_backup.py
+
+      - name: Commit & push logs
+        if: always()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CLAUDE/artifact_backup_log.txt
+          git commit -m "🤖 Daily artifact backup log - $(date -u +'%Y-%m-%d %H:%M:%S')" || true
+          git push origin main || true
