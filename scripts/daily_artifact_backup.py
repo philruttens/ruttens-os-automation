@@ -148,7 +148,13 @@ def main():
             app_password = f.read().replace(" ", "").strip()
     except FileNotFoundError:
         print(f"ERROR: Token file not found at {TOKEN_FILE}")
-        print("Set GitHub Secret: GMAIL_APP_PASSWORD")
+        print("ACTION: Add GMAIL_APP_PASSWORD as a GitHub Secret in repo Settings → Secrets → Actions")
+        return False
+
+    if not app_password:
+        print("ERROR: GMAIL_APP_PASSWORD secret is empty.")
+        print("ACTION: Go to GitHub repo → Settings → Secrets → Actions → update GMAIL_APP_PASSWORD")
+        print("  Create an App Password at: myaccount.google.com → Security → 2-Step Verification → App Passwords")
         return False
 
     rows_html = ""

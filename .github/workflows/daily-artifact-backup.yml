@@ -39,6 +39,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          mkdir -p CLAUDE
+          touch CLAUDE/artifact_backup_log.txt
           git add CLAUDE/artifact_backup_log.txt
           git commit -m "🤖 Daily artifact backup log - $(date -u +'%Y-%m-%d %H:%M:%S')" || true
           git push origin main || true
