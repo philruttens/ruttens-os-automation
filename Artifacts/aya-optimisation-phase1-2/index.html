@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Aya Optimisation Phase1 2",
+  "schemaVersion": 1,
+  "description": "AYA Phase 1→2 GTM optimisation: top 5 stop/start/change recommendations for Louis (CEO), based on the 12 Jun call, V3 cheat sheets, Teams rollout messages, and the 90-day HubSpot export. Static analysis snapshot with local checkbox progress (key: aya_optimisation_jun2026_v1)."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AYA Optimisation — Phase 1 → 2</title>
+<style>
+:root { color-scheme: light; --blue:#38B6FF; --ink:#0A0A0A; --mut:#5b6573; --line:#e6e9ee; --bg:#ffffff; --soft:#f5f8fb;
+  --stop:#e5484d; --start:#11a36b; --change:#f5a623; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; }
+.wrap { max-width:1080px; margin:0 auto; padding:28px 22px 60px; }
+.kicker { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--blue); font-weight:700; }
+h1 { font-size:27px; margin:6px 0 4px; letter-spacing:-.01em; }
+.sub { color:var(--mut); font-size:14px; margin-bottom:22px; }
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:18px 0 26px; }
+.kpi { background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+.kpi .n { font-size:24px; font-weight:700; }
+.kpi .l { font-size:12px; color:var(--mut); margin-top:2px; }
+.diag { background:var(--soft); border:1px solid var(--line); border-left:4px solid var(--blue); border-radius:10px; padding:14px 18px; margin-bottom:26px; font-size:14px; }
+.diag b { color:var(--ink); }
+h2 { font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); margin:30px 0 12px; }
+.card { border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px; display:flex; gap:16px; align-items:flex-start; }
+.card .num { font-size:22px; font-weight:800; color:var(--blue); min-width:26px; }
+.card .body { flex:1; }
+.tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:999px; color:#fff; margin-bottom:6px; }
+.tag.stop { background:var(--stop); } .tag.start { background:var(--start); } .tag.change { background:var(--change); }
+.card h3 { margin:2px 0 6px; font-size:16px; }
+.card p { margin:0 0 8px; font-size:13.5px; color:#26303c; }
+.meta { font-size:12px; color:var(--mut); }
+.meta b { color:var(--ink); }
+.done { opacity:.5; }
+.done h3 { text-decoration:line-through; }
+.row { display:flex; align-items:center; gap:8px; margin-top:6px; }
+.row input { width:16px; height:16px; accent-color:var(--blue); }
+.row label { font-size:12.5px; color:var(--mut); }
+.seq { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 24px; }
+.chip { background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:12.5px; }
+.foot { margin-top:32px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:var(--mut); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">RUTTENS+ · Fractional GTM · AYA</div>
+  <h1>AYA Optimisation — Phase 1 → 2</h1>
+  <div class="sub">Top 5 stop / start / change · for Louis (CEO) · prepared 16 Jun 2026 · ahead of the Sep–Oct merger</div>
+
+  <div class="grid">
+    <div class="kpi"><div class="n">~160</div><div class="l">active companies (90d)</div></div>
+    <div class="kpi"><div class="n">163</div><div class="l">active contacts (90d)</div></div>
+    <div class="kpi"><div class="n">40%</div><div class="l">new customers via installers</div></div>
+    <div class="kpi"><div class="n">3 → 1.5</div><div class="l">marketing days/wk (Pieter)</div></div>
+  </div>
+
+  <div class="diag">
+    <b>Diagnosis:</b> The top of the funnel works — strong ICP fit across energy, renewables, utilities and industrial SMEs. The gap is the <b>marketing-activity → sales-conversion handoff</b>: the 90-day export shows marketing activity on most accounts but almost no <b>sales engagement</b> logged against it, plus foundation blockers (Odoo↔HubSpot sync, GA4/pixel, CRM hygiene) quietly throttling results. None of the fixes below need new budget.
+  </div>
+
+  <h2>The five moves</h2>
+  <div id="cards"></div>
+
+  <h2>Recommended sequencing</h2>
+  <div class="seq">
+    <div class="chip"><b>This month:</b> #2 Log conversations · #4 Installer campaign</div>
+    <div class="chip"><b>Decision (Louis + Pieter):</b> #1 Capacity · #3 Nurture reframe</div>
+    <div class="chip"><b>Running fix (Justin):</b> #5 Outreach + data foundations</div>
+  </div>
+
+  <div class="foot">
+    Sources: AYA × Phil call (12 Jun 2026, Fireflies summary) · AYA Sales &amp; Marketing Cheat Sheets V3 · Teams rollout messages V3 · HubSpot portal 148176566 — 90-day engaged contacts/companies export (window from 18 Mar 2026). Static analysis snapshot; not a live data feed. Checkbox progress saves locally in this view.
+  </div>
+</div>
+
+<script>
+const CARDS = [
+ {n:1,type:'stop',title:"Don't cut marketing capacity while the funnel is full",
+  p:"Pieter dropped from 3 → 1.5 days/week right after the webinar engine started producing (712 contacts in W1, 80 Battery-Storage registrants). The 80 needed nurture inside 48h — cutting capacity mid-funnel risks warm leads going cold. Restore enough capacity to run nurture, or fully automate W2/W4 before reducing hours.",
+  owner:"Louis / Pieter"},
+ {n:2,type:'start',title:"Capture every sales conversation in HubSpot",
+  p:"The export shows marketing activity on most accounts but almost no sales engagement timestamps. We can't fix the diagnostic→close bottleneck without conversation data — objections, pricing pushback, timing. Mandate call recording or structured SPICED notes on every meeting. Single biggest lever on conversion.",
+  owner:"Arnaud / Vincent / Jasper"},
+ {n:3,type:'change',title:'Reframe from "close now" to structured nurture for delayed deals',
+  p:"The market is delaying on budget, not rejecting the offer. Reps chasing immediate closes burn good pipeline. Qualify hard with SPICED, then move not-ready leads into a defined nurture track triggered by critical events (contract expiry, CapEx window) instead of pushing or abandoning them.",
+  owner:"Sales + Pieter"},
+ {n:4,type:'start',title:"Launch the installer campaign now — before mid-July",
+  p:"Installers are 40% of new customers, already trusted in their B2B communities, and they bring end-customers. Highest-yield, lowest-CAC segment we have, and underexploited. Run it per business unit (different installer types per BU). Don't wait for the merger. Phil to resend the plan and help execute.",
+  owner:"Pieter / Phil"},
+ {n:5,type:'change',title:"Shift from LinkedHelper volume to relationship-led outreach — and fix the data foundations",
+  p:"LinkedHelper is losing effectiveness as everyone saturates it. Move to semi-manual influencer/comment engagement and harvest the CEO/Louis/Antoine follower networks. In parallel fix the plumbing costing us silently: Odoo↔HubSpot sync, GA4 + LinkedIn pixel (overdue), Outlook plugin for Arnaud & Vincent, and CRM hygiene (internal 'AYA/Pieter' + blank-name records polluting reports).",
+  owner:"Justin / Pieter"}
+];
+const KEY='aya_optimisation_jun2026_v1';
+let state={};
+try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ state={}; }
+const host=document.getElementById('cards');
+CARDS.forEach(c=>{
+  const done=!!state['c'+c.n];
+  const el=document.createElement('div');
+  el.className='card'+(done?' done':'');
+  el.innerHTML=`<div class="num">${c.n}</div><div class="body">
+    <span class="tag ${c.type}">${c.type}</span>
+    <h3>${c.title}</h3>
+    <p>${c.p}</p>
+    <div class="meta">Owner: <b>${c.owner}</b></div>
+    <div class="row"><input type="checkbox" id="cb${c.n}" ${done?'checked':''}><label for="cb${c.n}">Mark addressed</label></div>
+  </div>`;
+  host.appendChild(el);
+  el.querySelector('input').addEventListener('change',e=>{
+    state['c'+c.n]=e.target.checked;
+    try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(_){}
+    el.classList.toggle('done',e.target.checked);
+  });
+});
+</script>
+</body>
+</html>

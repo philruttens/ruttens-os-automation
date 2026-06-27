@@ -1,0 +1,557 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Erea Connect Linkedin Scheduler",
+  "schemaVersion": 1,
+  "description": "EREA Connect LinkedIn cross-promo scheduler. Phil posts both Versie A (Tue Jun 24) and Versie B (Wed Jun 25). EN/NL toggle on each post. Herman's pre-drafted comment in NL+EN. ICP segments, project context, and next steps roadmap."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EREA Connect · LinkedIn Scheduler</title>
+<style>
+:root{color-scheme:light;--erea-dark:#065f46;--erea-mid:#059669;--erea-light:#f0fdf4;--erea-border:#a7f3d0;--navy:#0D1B2A;--amber:#F5A623;--blue:#38B6FF;--grey:#f4f6f8;--border:#e5e9ef;--green:#22c55e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{font-family:'Segoe UI',Inter,system-ui,sans-serif;background:var(--grey);color:var(--navy);display:flex;min-height:100vh;font-size:14px}
+
+/* SIDEBAR */
+.sidebar{width:220px;min-width:220px;background:var(--erea-dark);color:#fff;position:fixed;left:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;padding:0;z-index:100}
+.sb-brand{padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.15)}
+.sb-brand h2{font-size:12px;font-weight:800;color:#6ee7b7;letter-spacing:.08em;text-transform:uppercase}
+.sb-brand p{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.sb-brand .sub-brand{font-size:9px;color:rgba(255,255,255,.3);margin-top:3px}
+
+.status-box{margin:12px 14px;background:rgba(110,231,183,.12);border:1px solid rgba(110,231,183,.25);border-radius:8px;padding:10px 12px}
+.status-box .label{font-size:9px;color:#6ee7b7;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.status-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.status-row span{font-size:10px;color:rgba(255,255,255,.55)}
+.status-row strong{font-size:11px;color:#fff;font-weight:700}
+.status-pill{display:inline-block;padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;background:#059669;color:#fff}
+
+.sb-nav{padding:6px 0;flex:1}
+.sb-nav a{display:flex;align-items:center;gap:7px;padding:7px 18px;color:rgba(255,255,255,.6);text-decoration:none;font-size:11px;font-weight:500;transition:all .12s;border-left:3px solid transparent;cursor:pointer}
+.sb-nav a:hover{color:#fff;background:rgba(110,231,183,.12);border-left-color:#6ee7b7}
+.sb-nav .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);flex-shrink:0}
+.nav-section{padding:8px 18px 3px;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.09em}
+.sb-footer{padding:10px 18px;border-top:1px solid rgba(255,255,255,.1);font-size:9px;color:rgba(255,255,255,.3);line-height:1.9}
+
+.main{margin-left:220px;width:calc(100% - 220px);min-height:100vh;overflow-y:auto}
+.hero{background:var(--erea-dark);color:#fff;padding:18px 26px;border-bottom:4px solid #059669}
+.hero h1{font-size:18px;font-weight:800}
+.hero .sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
+.hero-stats{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.hero-stat{background:rgba(255,255,255,.08);border-radius:8px;padding:8px 13px;border:1px solid rgba(110,231,183,.2)}
+.hero-stat .val{font-size:18px;font-weight:800;color:#6ee7b7}
+.hero-stat .lbl{font-size:10px;color:rgba(255,255,255,.45)}
+
+.banner{padding:9px 26px;font-size:11px;font-weight:600;border-left:4px solid #059669;background:var(--erea-light);color:var(--erea-dark)}
+
+.kpi-bar{display:flex;gap:6px;padding:10px 26px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.kpi{background:var(--erea-light);border:1px solid var(--erea-border);border-radius:6px;padding:5px 10px;font-size:10px;color:var(--erea-dark);font-weight:600}
+.kpi span{font-weight:800;color:var(--erea-mid);margin-right:3px}
+
+/* WEEK SECTIONS */
+.week-section{padding:20px 26px;border-bottom:2px solid var(--border);scroll-margin-top:0}
+.week-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+.week-title{font-size:15px;font-weight:800;color:var(--erea-dark)}
+.week-sub{font-size:11px;color:#6b7280;margin-top:3px;font-weight:500;line-height:1.5}
+.week-prog{background:var(--erea-light);border:1px solid var(--erea-border);border-radius:20px;padding:3px 11px;font-size:11px;color:var(--erea-mid);font-weight:600}
+
+.ch-header{display:flex;align-items:center;gap:7px;margin:14px 0 8px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.ch-erea{background:var(--erea-light);color:var(--erea-dark);border-left:3px solid var(--erea-mid)}
+.ch-comment{background:#fdf4ff;color:#6d28d9;border-left:3px solid #8b5cf6}
+
+/* POST CARDS */
+.post-list{display:flex;flex-direction:column;gap:8px}
+.post-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:0;transition:box-shadow .12s;border-left:4px solid var(--erea-mid)}
+.post-item:hover{box-shadow:0 2px 10px rgba(5,150,105,.1)}
+.post-item.comment-item{border-left:4px solid #8b5cf6;background:#fdf4ff}
+.post-top{display:flex;gap:10px;align-items:flex-start}
+.post-body{flex:1;min-width:0}
+.post-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+.post-num{font-size:12px;font-weight:800;color:var(--erea-dark)}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-erea{background:var(--erea-dark);color:#6ee7b7}
+.badge-comment{background:#ede9fe;color:#6d28d9}
+.badge-en{background:#dbeafe;color:#1d4ed8}
+.badge-nl{background:#dcfce7;color:#166534}
+.time-pill{font-size:11px;background:var(--grey);border:1px solid var(--border);color:#374151;padding:2px 8px;border-radius:4px;font-weight:600}
+.post-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px;line-height:1.4}
+.post-hint{font-size:10px;color:#9ca3af;line-height:1.5;margin-top:2px}
+.post-hint .warn{color:#dc2626;font-weight:700}
+.post-hint .ok{color:var(--erea-mid);font-weight:700}
+
+.post-actions{display:flex;gap:4px;align-items:flex-start;flex-shrink:0;flex-direction:column}
+.btn{padding:5px 9px;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;transition:opacity .12s;width:80px;justify-content:center}
+.btn:hover{opacity:.82}
+.btn-li{background:#0077b5;color:#fff}
+.btn-cap{background:var(--erea-mid);color:#fff}
+.btn-comment{background:#8b5cf6;color:#fff}
+
+/* LANGUAGE TABS */
+.lang-tabs{display:flex;gap:4px;margin-top:10px;margin-bottom:0}
+.lang-tab{padding:4px 12px;border:1px solid var(--erea-border);border-radius:5px 5px 0 0;font-size:10px;font-weight:700;cursor:pointer;background:var(--grey);color:#6b7280;transition:all .12s}
+.lang-tab.active{background:var(--erea-mid);color:#fff;border-color:var(--erea-mid)}
+.lang-tab.comment-tab{border-color:#c4b5fd}
+.lang-tab.comment-tab.active{background:#8b5cf6;border-color:#8b5cf6}
+.lang-panel{display:none}
+.lang-panel.active{display:block}
+
+/* CAPTION DRAWER */
+.drawer{background:#f0fdf4;border:1px solid var(--erea-border);border-radius:0 7px 7px 7px;padding:11px 13px;font-size:11px;line-height:1.8;white-space:pre-wrap;border-left:3px solid var(--erea-mid);color:#374151;position:relative;margin-top:0}
+.drawer.comment-d{border-left-color:#8b5cf6;background:#fdf4ff;border-color:#ddd6fe}
+.copy-btn{position:absolute;top:7px;right:7px;background:var(--erea-mid);color:#fff;border:none;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;transition:opacity .12s}
+.copy-btn:hover{opacity:.82}
+.copy-btn.copied{background:var(--green)}
+
+/* SEQUENCE BOX */
+.sequence-box{background:#fff;border:1px solid var(--erea-border);border-radius:10px;padding:14px 18px;margin-bottom:12px;border-left:4px solid var(--erea-mid)}
+.sequence-box h3{font-size:11px;font-weight:800;color:var(--erea-dark);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.seq-step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.seq-num{width:20px;height:20px;background:var(--erea-mid);color:#fff;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.seq-text{font-size:11px;color:#374151;line-height:1.6}
+.seq-text strong{color:var(--erea-dark)}
+
+/* ICP GRID */
+.icp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.icp-card{background:#fff;border:1px solid var(--erea-border);border-radius:8px;padding:10px 12px;border-top:3px solid var(--erea-mid)}
+.icp-card h4{font-size:11px;font-weight:800;color:var(--erea-dark);margin-bottom:4px}
+.icp-card p{font-size:10px;color:#6b7280;line-height:1.5}
+.icp-flag{font-size:9px;font-weight:700;color:var(--erea-mid);margin-top:4px}
+
+/* CONTEXT */
+.context-section{padding:18px 26px;background:var(--erea-light);border-bottom:2px solid var(--erea-border)}
+.context-section h2{font-size:13px;font-weight:800;color:var(--erea-dark);margin-bottom:10px}
+.context-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.context-card{background:#fff;border:1px solid var(--erea-border);border-radius:8px;padding:10px 12px}
+.context-card h4{font-size:10px;font-weight:700;color:var(--erea-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.context-card p{font-size:11px;color:#374151;line-height:1.55}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="sidebar">
+  <div class="sb-brand">
+    <h2>🤝 EREA Connect</h2>
+    <p>LinkedIn Cross-Promo · W/O 22 jun</p>
+    <div class="sub-brand">Powered by RUTTENS+</div>
+  </div>
+  <div class="status-box">
+    <div class="label">Campaign Status</div>
+    <div class="status-row"><span>Posts</span><strong>2 · Phil posts both</strong></div>
+    <div class="status-row"><span>Languages</span><strong>EN + NL toggle</strong></div>
+    <div class="status-row"><span>Status</span><span class="status-pill">🟢 Ready</span></div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-section">📅 Posts W/O 22 Jun</div>
+    <a onclick="gotoSection('post-a-section')"><span class="dot"></span> Versie A · EN/NL · Tue Jun 24</a>
+    <a onclick="gotoSection('post-b-section')"><span class="dot"></span> Versie B · EN/NL · Wed Jun 25</a>
+    <div class="nav-section" style="margin-top:6px">💬 Herman's Comment</div>
+    <a onclick="gotoSection('herman-comment-section')"><span class="dot" style="background:#a78bfa"></span> NL + EN · Add to Versie A</a>
+    <div class="nav-section" style="margin-top:6px">🎯 Context & ICPs</div>
+    <a onclick="gotoSection('context-section')"><span class="dot"></span> EREA Connect overview</a>
+    <a onclick="gotoSection('icp-section')"><span class="dot"></span> 4 ICP segments</a>
+    <div class="nav-section" style="margin-top:6px">📋 Next Steps</div>
+    <a onclick="gotoSection('nextsteps-section')"><span class="dot"></span> Roadmap & handover</a>
+  </div>
+  <div class="sb-footer">
+    🤝 EREA Connect<br>
+    Versie A: Phil · Tue 24 Jun 08:30<br>
+    Versie B: Phil · Wed 25 Jun 08:30<br>
+    Herman adds comment on Versie A<br>
+    Herman + Tunity tagged in both
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+  <div class="hero">
+    <h1>🤝 EREA Connect — LinkedIn Cross-Promo <span style="font-size:11px;color:#6ee7b7;font-weight:500;background:rgba(110,231,183,.15);padding:3px 8px;border-radius:4px;margin-left:8px;">W/O 22 Jun · EN/NL</span></h1>
+    <div class="sub">Phil posts both · EN/NL toggle on each post · Herman adds pre-drafted comment · Not counted in RUTTENS+ scheduler</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val">2</div><div class="lbl">Posts to publish</div></div>
+      <div class="hero-stat"><div class="val">Tue + Wed</div><div class="lbl">Jun 24–25 · 08:30 CET</div></div>
+      <div class="hero-stat"><div class="val">EN / NL</div><div class="lbl">Toggle per post</div></div>
+      <div class="hero-stat"><div class="val">6K+</div><div class="lbl">Prospects in pipeline</div></div>
+    </div>
+  </div>
+
+  <div class="banner">
+    ⚠️ <strong>Sequence:</strong> Phil posts Versie A (Tue Jun 24 08:30) → DM Herman with comment text → Herman adds comment within 2–4h → Phil posts Versie B (Wed Jun 25 08:30) → Herman + Tunity like &amp; share Versie B
+  </div>
+
+  <div class="kpi-bar">
+    <div class="kpi"><span>GOAL</span>Announce EREA Connect publicly</div>
+    <div class="kpi"><span>AUDIENCE</span>Phil's EN network + EREA's NL/BE network</div>
+    <div class="kpi"><span>FOLLOW-UP</span>LinkedHelper campaign live W/O 30 jun</div>
+    <div class="kpi"><span>HANDOVER</span>Playbook to EREA team Jul 9</div>
+  </div>
+
+  <!-- ════════ VERSIE A ════════ -->
+  <div class="week-section" id="post-a-section" style="border-top:4px solid #059669">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Versie A · Case Study · Phil Posts · EN or NL</div>
+        <div class="week-sub">📅 Tue Jun 24 · 08:30 CET · Phil posts · Tags @Herman Nollet + @Tunity · DM Herman pre-drafted comment after posting</div>
+      </div>
+      <div class="week-prog">EREA-A · First post</div>
+    </div>
+    <div class="ch-erea ch-header">🤝 EREA CONNECT · CASE STUDY POST · Phil posts · Toggle EN/NL · Tags @Herman + @Tunity</div>
+
+    <div class="post-list">
+      <div class="post-item" id="item-erea-a">
+        <div class="post-top">
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-num">EREA-A</span>
+              <span class="badge badge-erea">EREA CROSS-PROMO</span>
+              <span class="time-pill">Tue Jun 24 · 08:30 CET</span>
+            </div>
+            <div class="post-title">Phil Ruttens · Case Study — EREA Connect launch · Tags @Herman Nollet + @Tunity</div>
+            <div class="post-hint"><span class="ok">✅ Phil posts this</span> · Choose EN or NL below · After posting: DM Herman with his pre-drafted comment (see section below)</div>
+          </div>
+          <div class="post-actions">
+            <button class="btn btn-li" onclick="window.top.open('https://www.linkedin.com/post/new/','_blank')">Post ↗</button>
+          </div>
+        </div>
+        <!-- LANG TABS A -->
+        <div class="lang-tabs">
+          <div class="lang-tab active" onclick="switchLang('a','en',this)">🇬🇧 EN</div>
+          <div class="lang-tab" onclick="switchLang('a','nl',this)">🇧🇪 NL</div>
+        </div>
+        <!-- EN -->
+        <div class="lang-panel active" id="panel-a-en">
+          <div class="drawer" id="drawer-a-en">
+            <button class="copy-btn" onclick="copyEl('drawer-a-en')">Copy</button>What does it look like when a Belgian industrial distributor decides to get serious about LinkedIn?
+
+We're about to find out.
+
+Over the last few months I've been building the GTM foundation for Herman Nollet and the team at EREA — a technical wholesale distributor of electrical installation materials, active in Belgium, the Netherlands, France, and Germany.
+
+Strong reputation. Loyal customers. Nearly invisible to new prospects online.
+
+Here's what we built — EREA Connect:
+
+→ Prospect database: 5,800+ mapped contacts across 4 markets and 4 countries
+→ 4 ICP segments defined: technical directors, consultants, procurement leads, and specialists
+→ Personalised LinkedIn outreach sequences in NL, FR, EN, and DE — one per segment
+→ Full playbook: strategy, messaging guide, and execution framework — transferable to their team
+
+The goal isn't mass outreach. It's systematic, personal, relevant conversations — at scale.
+
+What makes this interesting in technical B2B: your buyers are on LinkedIn. They just haven't heard from you yet. EREA Connect is about to change that.
+
+Thanks @Herman Nollet for the trust, and @Tunity for coordinating the execution.
+
+Watching closely to see how this plays out over the coming weeks.
+
+#EREAConnect #LinkedIn #B2BMarketing #SocialSelling #TechnicalDistribution #RUTTENS</div>
+        </div>
+        <!-- NL -->
+        <div class="lang-panel" id="panel-a-nl">
+          <div class="drawer" id="drawer-a-nl">
+            <button class="copy-btn" onclick="copyEl('drawer-a-nl')">Copy</button>Wat gebeurt er als een Belgische technische groothandelaar beslist om LinkedIn serieus te nemen?
+
+Dat gaan we ontdekken.
+
+De voorbije maanden heb ik de GTM-basis gebouwd voor Herman Nollet en het team van EREA — een technische groothandelaar van elektrisch installatiemateriaal, actief in België, Nederland, Frankrijk en Duitsland.
+
+Sterke reputatie. Loyale klanten. Maar quasi onzichtbaar voor nieuwe prospecten online.
+
+Dit hebben we gebouwd — EREA Connect:
+
+→ Prospectendatabase: 5.800+ gemapte contacten over 4 markten en 4 landen
+→ 4 ICP-segmenten uitgewerkt: technische directeurs, adviseurs, aankoopverantwoordelijken en specialisten
+→ Gepersonaliseerde LinkedIn-outreach-sequenties in NL, FR, EN en DE — één per segment
+→ Volledig playbook: strategie, messaging-gids en uitvoeringsframework — overdraagbaar aan hun team
+
+Het doel is geen massamailing. Wel systematisch, persoonlijk en relevant — op schaal.
+
+In technische B2B geldt: je kopers zijn actief op LinkedIn. Ze hebben gewoon nog niet van jou gehoord. EREA Connect gaat dat veranderen.
+
+Dank aan @Herman Nollet voor het vertrouwen, en aan @Tunity voor de coördinatie.
+
+Ik volg dit op de voet de komende weken.
+
+#EREAConnect #LinkedIn #B2BMarketing #SocialSelling #TechnischeDistributie #RUTTENS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ HERMAN'S COMMENT ════════ -->
+  <div class="week-section" id="herman-comment-section" style="border-top:2px solid #8b5cf6;background:#fdf4ff">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:#6d28d9">💬 Herman's Pre-Drafted Comment on Versie A</div>
+        <div class="week-sub">📅 Tue Jun 24 · within 2–4h after Phil's post · Forward to herman.nollet@erea.be · Herman posts as comment on Versie A (not a new post)</div>
+      </div>
+      <div class="week-prog" style="color:#6d28d9;background:#ede9fe;border-color:#c4b5fd">Herman adds comment</div>
+    </div>
+    <div class="ch-comment ch-header">💬 HERMAN'S COMMENT · Forward to herman.nollet@erea.be · Ask him to add as comment on Phil's Versie A post · Within 2–4h</div>
+
+    <div class="post-list">
+      <div class="post-item comment-item">
+        <div class="post-top">
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-num">HERMAN-COMMENT</span>
+              <span class="badge badge-comment">COMMENT</span>
+              <span class="time-pill">Tue Jun 24 · within 2–4h of Versie A</span>
+            </div>
+            <div class="post-title">Herman Nollet adds comment on Phil's Versie A post</div>
+            <div class="post-hint"><span class="warn">⚠️ Herman adds this as a comment — NOT a separate post</span> · ~80 words · Conversational endorsement</div>
+          </div>
+        </div>
+        <div class="lang-tabs">
+          <div class="lang-tab comment-tab active" onclick="switchLang('herm','nl',this)">🇧🇪 NL (Primary)</div>
+          <div class="lang-tab comment-tab" onclick="switchLang('herm','en',this)">🇬🇧 EN (Option)</div>
+        </div>
+        <div class="lang-panel active" id="panel-herm-nl">
+          <div class="drawer comment-d" id="drawer-herm-nl">
+            <button class="copy-btn" onclick="copyEl('drawer-herm-nl')">Copy</button>Klopt, en ik kan bevestigen dat het anders voelt dan wat we eerder probeerden.
+
+Wat ik waardeerde: Philippe heeft ons geen kant-en-klare template verkocht. We hebben samen de 4 ICP-segmenten uitgewerkt, de boodschappen getest, en een aanpak gebouwd die mijn team zelf kan verder zetten.
+
+Nog vroeg om resultaten te claimen. Maar de aanpak klopt.
+
+Benieuwd naar de reacties van onze prospecten de komende weken.</div>
+        </div>
+        <div class="lang-panel" id="panel-herm-en">
+          <div class="drawer comment-d" id="drawer-herm-en">
+            <button class="copy-btn" onclick="copyEl('drawer-herm-en')">Copy</button>That's accurate — and I can confirm it feels different from what we tried before.
+
+What I appreciated: Philippe didn't sell us a template. We worked through the 4 ICP segments together, tested the messaging, and built an approach that my team can continue running independently.
+
+Too early to claim results. But the process is right.
+
+Looking forward to seeing how our prospects respond over the coming weeks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ VERSIE B ════════ -->
+  <div class="week-section" id="post-b-section" style="border-top:2px solid #059669">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Versie B · Launch Announcement · Phil Posts</div>
+        <div class="week-sub">📅 Wed Jun 25 · 08:30 CET · Phil posts · Tags @Herman Nollet + @Tunity · Herman + Tunity: like &amp; share</div>
+      </div>
+      <div class="week-prog">EREA-B · Second post</div>
+    </div>
+    <div class="ch-erea ch-header">🤝 EREA CONNECT · LAUNCH ANNOUNCEMENT · Phil posts · Day after Versie A · Tag @Herman + @Tunity</div>
+
+    <div class="post-list">
+      <div class="post-item" id="item-erea-b">
+        <div class="post-top">
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-num">EREA-B</span>
+              <span class="badge badge-erea">EREA CROSS-PROMO</span>
+              <span class="time-pill">Wed Jun 25 · 08:30 CET</span>
+            </div>
+            <div class="post-title">Phil Ruttens · Launch Announcement — EREA Connect · Tags @Herman Nollet + @Tunity</div>
+            <div class="post-hint"><span class="ok">✅ Phil posts this</span> · Day after Versie A · Choose EN or NL below · Herman + Tunity should like &amp; share</div>
+          </div>
+          <div class="post-actions">
+            <button class="btn btn-li" onclick="window.top.open('https://www.linkedin.com/post/new/','_blank')">Post ↗</button>
+          </div>
+        </div>
+        <!-- LANG TABS B -->
+        <div class="lang-tabs">
+          <div class="lang-tab" onclick="switchLang('b','en',this)">🇬🇧 EN</div>
+          <div class="lang-tab active" onclick="switchLang('b','nl',this)">🇧🇪 NL (Primary)</div>
+        </div>
+        <!-- EN -->
+        <div class="lang-panel" id="panel-b-en">
+          <div class="drawer" id="drawer-b-en">
+            <button class="copy-btn" onclick="copyEl('drawer-b-en')">Copy</button>What if a Belgian technical distributor with 6,000 prospects decided to use LinkedIn systematically?
+
+That's what Herman Nollet, co-owner of EREA, set out to answer.
+
+EREA sells electrical installation materials in Belgium, the Netherlands, France, and Germany. Strong reputation. Loyal customers. But almost invisible to new prospects online.
+
+Together we built something that works for their context:
+
+→ 4 ICP segments identified (technical directors, consultants, procurement, specialists)
+→ A personalised LinkedIn sequence per segment — in NL, FR, EN, and DE
+→ LinkedIn Sales Navigator + LinkedHelper 2 for 25 targeted connection requests per day
+→ Fully transferable to their team after launch
+
+We call it EREA Connect.
+
+No mass mailing. No bot messages. Just systematically reaching the right people at the right moment.
+
+Shoutout to @Herman Nollet for the trust and @Tunity for coordinating the rollout.
+
+This is the kind of B2B marketing that works in technical sectors: patient, personal, and scalable.
+
+Curious to see how this unfolds over the coming weeks.
+
+#EREAConnect #LinkedIn #B2BMarketing #SocialSelling #GTM #RUTTENS</div>
+        </div>
+        <!-- NL -->
+        <div class="lang-panel active" id="panel-b-nl">
+          <div class="drawer" id="drawer-b-nl">
+            <button class="copy-btn" onclick="copyEl('drawer-b-nl')">Copy</button>Wat als een Belgische technische groothandelaar met 6.000 prospecten systematisch LinkedIn gaat inzetten?
+
+Dat vroeg Herman Nollet, co-eigenaar van EREA, zich af.
+
+EREA verkoopt elektrisch installatiemateriaal in België, Nederland, Frankrijk en Duitsland. Sterke reputatie. Loyale klanten. Maar quasi onzichtbaar voor nieuwe prospecten online.
+
+We hebben samen iets gebouwd dat werkt voor hun context:
+
+→ 4 ICP-segmenten geïdentificeerd (technische directeurs, adviseurs, aankoop, specialisten)
+→ Per segment een gepersonaliseerde LinkedIn-sequentie in NL, FR, EN en DE
+→ LinkedIn Sales Navigator + LinkedHelper 2 voor 25 persoonlijke connectieverzoeken per dag
+→ Volledig overdraagbaar aan hun team na opstart
+
+We noemen het EREA Connect.
+
+Geen massamailing. Geen botberichten. Gewoon systematisch relevante mensen aanspreken op het juiste moment.
+
+Shoutout aan @Herman Nollet voor het vertrouwen en @Tunity voor de coördinatie.
+
+Dit is het soort B2B marketing dat werkt in technische sectoren: geduldig, persoonlijk, en op schaal.
+
+Benieuwd hoe dit uitpakt de komende weken.
+
+#EREAConnect #LinkedIn #B2BMarketing #SocialSelling #GTM #RUTTENS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ CONTEXT ════════ -->
+  <div class="context-section" id="context-section">
+    <h2>🎯 EREA Connect — Project Context</h2>
+    <div class="context-grid">
+      <div class="context-card">
+        <h4>Who is EREA</h4>
+        <p>Technical wholesale distributor, electrical installation materials. BE, NL, FR, DE. Co-owner: Herman Nollet. GM: Jeroen Goetschalckx.</p>
+      </div>
+      <div class="context-card">
+        <h4>What is EREA Connect</h4>
+        <p>LinkedIn outreach programme built by Phil (RUTTENS+). 4 ICP segments, multilingual sequences, Sales Navigator + LinkedHelper 2. 25 targeted requests/day.</p>
+      </div>
+      <div class="context-card">
+        <h4>Tunity's Role</h4>
+        <p>Agency coordinating execution. Google Ads managed by Tunity (not Phil). LI posts amplified by Tunity. Possible coordination of EREA playbook execution post-Jul 9.</p>
+      </div>
+      <div class="context-card">
+        <h4>Timeline</h4>
+        <p>W/O 22 jun: Cross-promo live. Session B (W/O 30 jun): LinkedHelper setup. Jul 9: Handover playbook to EREA team.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ ICP SEGMENTS ════════ -->
+  <div class="week-section" id="icp-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:var(--erea-dark)">🎯 EREA Connect — 4 ICP Segments</div>
+        <div class="week-sub">6,000+ prospects segmented · Sequences in NL · FR · EN · DE</div>
+      </div>
+      <div class="week-prog">4 segments · 4 languages</div>
+    </div>
+    <div class="icp-grid">
+      <div class="icp-card">
+        <h4>🔧 Technical Directors</h4>
+        <p>Decision makers in installation companies. Pain: reliability of supply, technical specs.</p>
+        <div class="icp-flag">Segment 1 · High priority</div>
+      </div>
+      <div class="icp-card">
+        <h4>📐 Consultants / Advisors</h4>
+        <p>Engineering consultants who specify products. Pain: product knowledge, lead time.</p>
+        <div class="icp-flag">Segment 2 · Influence buyers</div>
+      </div>
+      <div class="icp-card">
+        <h4>🛒 Procurement Leads</h4>
+        <p>Buyers at large contractors. Pain: pricing, availability, vendor reliability.</p>
+        <div class="icp-flag">Segment 3 · Volume accounts</div>
+      </div>
+      <div class="icp-card">
+        <h4>⚡ Technical Specialists</h4>
+        <p>Installers and technicians. Pain: product compatibility, stock availability.</p>
+        <div class="icp-flag">Segment 4 · End-user advocacy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ NEXT STEPS ════════ -->
+  <div class="week-section" id="nextsteps-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:var(--erea-dark)">📋 Next Steps — EREA Connect Roadmap</div>
+        <div class="week-sub">After W/O 22 jun cross-promo posts</div>
+      </div>
+    </div>
+    <div class="sequence-box">
+      <h3>Immediate Actions (Phil) · W/O 22 Jun</h3>
+      <div class="seq-step"><div class="seq-num">1</div><div class="seq-text"><strong>Send NL email</strong> to herman.nollet@erea.be + jeroen.goetschalckx@erea.be + zita@tunity.be confirming sequence + forward Herman's comment text (NL or EN)</div></div>
+      <div class="seq-step"><div class="seq-num">2</div><div class="seq-text"><strong>Post Versie A</strong> Tue Jun 24 08:30 CET · Choose EN or NL · DM Herman immediately after with comment text</div></div>
+      <div class="seq-step"><div class="seq-num">3</div><div class="seq-text"><strong>Post Versie B</strong> Wed Jun 25 08:30 CET · Monitor engagement · Engage comments · Tag Herman + Tunity</div></div>
+      <div class="seq-step"><div class="seq-num">4</div><div class="seq-text"><strong>Rename playbook file:</strong> EREA_LinkedIn_Social_Selling_Playbook_Delarobro_Jun2026.md → EREA_Connect_LinkedIn_Outreach_Plan_Jun2026.md</div></div>
+    </div>
+    <div class="sequence-box" style="border-left-color:#059669">
+      <h3>✅ Tool Decision — Waalaxy (Confirmed)</h3>
+      <div class="seq-step"><div class="seq-num" style="background:#059669">✓</div><div class="seq-text"><strong>Waalaxy chosen for EREA</strong> from mid-July · Cloud-based · No desktop dependency · Same tool whether Phil/Tunity or Herman's team operates it · No migration risk</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#059669">1</div><div class="seq-text"><strong>Session B (W/O 30 Jun):</strong> Waalaxy 1-seat setup · Import 5,873-contact DB · Configure sequences per ICP segment · Start with FR segment</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#059669">2</div><div class="seq-text"><strong>Post-handover (from Jul 9):</strong> Scale to 3–4 seats as EREA team self-operates · Annual billing recommended</div></div>
+    </div>
+    <div class="sequence-box" style="border-left-color:#8b5cf6">
+      <h3>📊 Campaign Support — Conversion Targets (6K base, buffered ÷2)</h3>
+      <div class="seq-step"><div class="seq-num" style="background:#8b5cf6">~</div><div class="seq-text"><strong>Connection acceptance (15–17%)</strong> → ~450–500 new connections over 6 months</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#8b5cf6">~</div><div class="seq-text"><strong>Warm replies (7–10% of accepted)</strong> → ~35–50 conversations initiated</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#8b5cf6">~</div><div class="seq-text"><strong>Discovery meetings (10–15% of replies)</strong> → ~5–8 meetings booked</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#8b5cf6">~</div><div class="seq-text"><strong>Deals (10–15% of meetings)</strong> → ~1 closed + 3–5 in pipeline for Q1 2027</div></div>
+      <div class="seq-step"><div class="seq-num" style="background:#6b7280">ℹ</div><div class="seq-text" style="color:#6b7280;font-style:italic">Estimates based on B2B technical-sector benchmarks, halved for conservative expectations. Actual results may exceed these figures.</div></div>
+    </div>
+    <div class="sequence-box" style="margin-bottom:0">
+      <h3>Session C — W/O 7 Jul (SharePoint Transfer + Handover)</h3>
+      <div class="seq-step"><div class="seq-num">1</div><div class="seq-text"><strong>Prerequisite:</strong> Ask Tunity/Herman for SharePoint folder URL before this session</div></div>
+      <div class="seq-step"><div class="seq-num">2</div><div class="seq-text"><strong>Transfer all EREA files</strong> to SharePoint · Waalaxy training doc for EREA team · Full playbook handover Jul 9</div></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+function switchLang(postId, lang, btn) {
+  // deactivate all tabs and panels for this post
+  const tabs = btn.parentElement.querySelectorAll('.lang-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // find sibling panels
+  const tabsParent = btn.parentElement; // .lang-tabs
+  let next = tabsParent.nextElementSibling;
+  while(next && next.classList.contains('lang-panel')) {
+    next.classList.remove('active');
+    next = next.nextElementSibling;
+  }
+  const panel = document.getElementById('panel-' + postId + '-' + lang);
+  if(panel) panel.classList.add('active');
+}
+
+function copyEl(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const btn = el.querySelector('.copy-btn');
+  const text = el.innerText.replace(/^Copy\n?/,'').trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    if(btn){btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000)}
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    if(btn){btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},2000)}
+  });
+}
+function gotoSection(id) {
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Streaming Tracker Belgium",
+  "schemaVersion": 1,
+  "description": "Weekly streaming picks + full watchlist for Belgium. 79 titles across Netflix, Prime, Apple TV+, HBO Max and more. Filter by type, platform, RT score. Mark watched or reject titles. Updated every Thursday."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Streaming Tracker — Belgium</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; font-size: 14px; min-height: 100vh; }
+
+/* Header */
+.hdr { background: #0f0f1a; color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 3px solid #38B6FF; }
+.hdr-title { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.hdr-sub { font-size: 11px; color: #88aacc; margin-top: 2px; }
+.hdr-stats { margin-left: auto; display: flex; gap: 16px; text-align: right; }
+.hdr-stat { font-size: 12px; color: #aac; }
+.hdr-stat strong { color: #fff; font-size: 16px; display: block; }
+
+/* Stats bar */
+.stats-bar { background: #fff; border-bottom: 1px solid #e2e4e9; padding: 8px 20px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+.sstat { font-size: 12px; color: #666; display: flex; align-items: center; gap: 5px; }
+.sstat strong { color: #1a1a2e; font-weight: 600; }
+.sstat-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+/* Controls */
+.controls { background: #fff; border-bottom: 1px solid #e2e4e9; padding: 10px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.ctrl-group { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+select, input[type=text] { border: 1px solid #d0d4dd; border-radius: 6px; padding: 6px 10px; font-size: 12px; background: #fff; color: #1a1a2e; height: 32px; }
+select:focus, input[type=text]:focus { outline: none; border-color: #38B6FF; box-shadow: 0 0 0 2px rgba(56,182,255,0.15); }
+input.search { min-width: 180px; flex: 1; }
+.show-watched-label { font-size: 12px; display: flex; align-items: center; gap: 5px; cursor: pointer; white-space: nowrap; padding: 6px 10px; border: 1px solid #d0d4dd; border-radius: 6px; background: #fff; height: 32px; user-select: none; }
+.show-watched-label:hover { background: #f4f5f7; }
+.show-watched-label input { cursor: pointer; accent-color: #38B6FF; }
+
+/* Tabs */
+.tabs { background: #fff; border-bottom: 1px solid #e2e4e9; padding: 0 20px; display: flex; gap: 2px; overflow-x: auto; }
+.tab { padding: 10px 16px; border: none; background: none; cursor: pointer; font-size: 13px; font-weight: 500; color: #777; border-bottom: 3px solid transparent; margin-bottom: -1px; transition: all 0.15s; white-space: nowrap; }
+.tab:hover { color: #38B6FF; }
+.tab.active { color: #38B6FF; border-bottom-color: #38B6FF; }
+.tab.tab-rejected.active { color: #E63946; border-bottom-color: #E63946; }
+.tab.tab-rejected:hover { color: #E63946; }
+
+/* Content */
+.content { padding: 16px 20px 24px; }
+.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #888; margin-bottom: 10px; margin-top: 18px; }
+.section-label:first-child { margin-top: 0; }
+
+/* Table */
+.tbl-wrap { background: #fff; border-radius: 8px; border: 1px solid #e2e4e9; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+thead { background: #f8f9fb; }
+th { padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #e2e4e9; white-space: nowrap; cursor: pointer; user-select: none; }
+th:hover { background: #eef0f4; color: #38B6FF; }
+th.no-sort { cursor: default; }
+th.no-sort:hover { background: #f8f9fb; color: #666; }
+th .sort-icon { margin-left: 3px; opacity: 0.4; font-size: 9px; }
+th.sorted .sort-icon { opacity: 1; color: #38B6FF; }
+td { padding: 8px 12px; border-bottom: 1px solid #f0f1f5; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbfd; }
+tr.is-watched td { opacity: 0.45; }
+tr.is-watched td .title-cell { text-decoration: line-through; }
+tr.is-rejected td { opacity: 0.35; background: #fff8f8; }
+tr.is-rejected td .title-cell { color: #999; }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; line-height: 16px; }
+.b-movie    { background: #EDF2FF; color: #3B5BDB; }
+.b-series   { background: #FFF4E6; color: #D9480F; }
+.b-weekly   { background: #EBFBEE; color: #2B8A3E; }
+.b-watchlist { background: #F3F0FF; color: #5C37A8; }
+
+/* Platform chips */
+.plat { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.p-netflix  { background: #E50914; color: #fff; }
+.p-prime    { background: #00A8E1; color: #fff; }
+.p-appletv  { background: #1c1c1e; color: #fff; }
+.p-hbomax   { background: #5822FF; color: #fff; }
+.p-vrtmax   { background: #009B77; color: #fff; }
+.p-other    { background: #6c757d; color: #fff; }
+
+/* RT score */
+.rt { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; min-width: 42px; text-align: center; }
+.rt-hi  { background: #D3F9D8; color: #1B4332; }
+.rt-mid { background: #FFF3BF; color: #744210; }
+.rt-lo  { background: #FFE3E3; color: #742A2A; }
+.rt-na  { background: #E9ECEF; color: #868E96; }
+
+/* IMDb */
+.imdb { font-size: 12px; font-weight: 600; color: #333; }
+.imdb-na { color: #bbb; }
+
+/* NEW badge */
+.new-tag { background: #FF3B30; color: #fff; font-size: 9px; padding: 1px 4px; border-radius: 6px; margin-left: 4px; font-weight: 800; vertical-align: middle; letter-spacing: 0.3px; }
+
+/* Action column — watched checkbox + reject button */
+.action-col { display: flex; align-items: center; gap: 5px; justify-content: center; }
+.watched-cb { width: 16px; height: 16px; cursor: pointer; accent-color: #38B6FF; flex-shrink: 0; }
+.reject-btn { background: none; border: none; cursor: pointer; font-size: 14px; color: #ccc; padding: 0 1px; line-height: 1; border-radius: 3px; flex-shrink: 0; transition: color 0.12s, background 0.12s; }
+.reject-btn:hover { color: #E63946; background: #FFE8E8; border-radius: 3px; }
+.reject-btn.is-rejected { color: #E63946; font-weight: 900; }
+.unreject-btn { background: #FFE8E8; border: 1px solid #E63946; color: #E63946; font-size: 11px; cursor: pointer; padding: 2px 8px; border-radius: 10px; font-weight: 600; white-space: nowrap; }
+.unreject-btn:hover { background: #E63946; color: #fff; }
+
+/* Title cell */
+.title-cell { font-weight: 500; color: #1a1a2e; }
+.notes-cell { font-size: 11px; color: #888; margin-top: 2px; }
+
+/* Empty */
+.empty { text-align: center; padding: 36px 20px; color: #aaa; font-size: 13px; }
+.empty strong { display: block; font-size: 16px; margin-bottom: 6px; color: #ccc; }
+
+/* Archive / Rejected section headers */
+.archive-header { display: flex; align-items: center; gap: 8px; margin-top: 20px; margin-bottom: 10px; }
+.archive-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #888; }
+.archive-count { background: #e2e4e9; color: #666; font-size: 11px; padding: 1px 7px; border-radius: 10px; font-weight: 600; }
+.rejected-header .archive-title { color: #E63946; }
+.rejected-header .archive-count { background: #FFE8E8; color: #E63946; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div style="font-size:28px;line-height:1">🎬</div>
+  <div>
+    <div class="hdr-title">Streaming Tracker — Belgium</div>
+    <div class="hdr-sub">Weekly picks + full watchlist · Updated 12/06/2026</div>
+  </div>
+  <div class="hdr-stats" id="hdrStats"></div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="controls">
+  <div class="ctrl-group">
+    <input type="text" class="search" id="searchInput" placeholder="🔍  Search title…" />
+    <select id="filterType">
+      <option value="">All types</option>
+      <option value="Series">Series</option>
+      <option value="Movie">Movie</option>
+    </select>
+    <select id="filterPlatform">
+      <option value="">All platforms</option>
+      <option value="Netflix">Netflix</option>
+      <option value="Prime">Amazon Prime</option>
+      <option value="Apple TV+">Apple TV+</option>
+      <option value="HBO Max">HBO Max</option>
+      <option value="VRT Max">VRT Max</option>
+      <option value="Other">Other / Unknown</option>
+    </select>
+    <select id="filterSource">
+      <option value="">All sources</option>
+      <option value="weekly">Weekly picks</option>
+      <option value="watchlist">Watchlist</option>
+    </select>
+    <select id="filterRT">
+      <option value="">All ratings</option>
+      <option value="hi">RT ≥ 80% 🟢</option>
+      <option value="mid">RT 60–79% 🟡</option>
+      <option value="lo">RT &lt; 60% 🔴</option>
+      <option value="na">No RT rating</option>
+    </select>
+  </div>
+  <label class="show-watched-label">
+    <input type="checkbox" id="showWatched"> Show watched
+  </label>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="all">All Titles</button>
+  <button class="tab" data-tab="weekly">📅 Weekly Picks</button>
+  <button class="tab" data-tab="watchlist">📋 Watchlist</button>
+  <button class="tab" data-tab="archive">✅ Watched Archive</button>
+  <button class="tab tab-rejected" data-tab="rejected">🚫 Rejected</button>
+</div>
+
+<div class="content" id="mainContent"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// STABLE KEYS — NEVER CHANGE: state persists across HTML updates
+// ─────────────────────────────────────────────────────────────
+const LS_WATCHED  = 'streaming-tracker-watched-v1';
+const LS_REJECTED = 'streaming-tracker-rejected-v1';
+
+// ─────────────────────────────────────────────────────────────
+// DATA — regenerated weekly by scheduled task
+// Last updated: 12/06/2026
+// ─────────────────────────────────────────────────────────────
+const TITLES = [
+  // ── WEEKLY PICKS Jun 11, 2026 ────────────────────────────
+  { id:'shrinking-s2',           title:'Shrinking',                       type:'Series', platform:'Apple TV+', season:'S2',   rt:95,  imdb:8.0, source:'weekly',    notes:'NEW this week ✨ — Harrison Ford, Jason Segel', isNew:true  },
+  { id:'rick-morty-s8',          title:'Rick and Morty',                  type:'Series', platform:'HBO Max',   season:'S8',   rt:94,  imdb:9.1, source:'weekly',    notes:'#1 Belgium HBO Max',                             isNew:false },
+  { id:'the-boys-s4',            title:'The Boys',                        type:'Series', platform:'Prime',     season:'S4',   rt:84,  imdb:8.7, source:'weekly',    notes:'#4 Belgium Prime Video',                         isNew:false },
+  { id:'euphoria-s2',            title:'Euphoria',                        type:'Series', platform:'HBO Max',   season:'S2',   rt:82,  imdb:8.3, source:'weekly',    notes:'#2 Belgium HBO Max',                             isNew:false },
+  { id:'maximum-pleasure-g',     title:'Maximum Pleasure Guaranteed',     type:'Series', platform:'Apple TV+', season:'S1',   rt:null,imdb:null,source:'weekly',    notes:'NEW this week ✨ — Tatiana Maslany',              isNew:true  },
+  { id:'f1-the-movie',           title:'F1 The Movie',                    type:'Movie',  platform:'Apple TV+', season:'',     rt:null,imdb:null,source:'weekly',    notes:'#1 Apple TV+ Belgium — Brad Pitt ✨',             isNew:true  },
+  { id:'the-gorge',              title:'The Gorge',                       type:'Movie',  platform:'Apple TV+', season:'',     rt:95,  imdb:7.9, source:'weekly',    notes:'Apple TV+ hit — Miles Teller, Anya Taylor-Joy',  isNew:false },
+  { id:'greenland-2',            title:'Greenland 2: Migration',          type:'Movie',  platform:'Prime',     season:'',     rt:null,imdb:null,source:'weekly',    notes:'#4 Belgium Prime Video',                         isNew:false },
+  { id:'bullet-train',           title:'Bullet Train',                    type:'Movie',  platform:'HBO Max',   season:'',     rt:53,  imdb:7.3, source:'weekly',    notes:'#2 Belgium HBO Max — Brad Pitt',                 isNew:false },
+  { id:'the-alto-knights',       title:'The Alto Knights',                type:'Movie',  platform:'Netflix',   season:'',     rt:50,  imdb:5.7, source:'weekly',    notes:'#4 Belgium Netflix',                             isNew:false },
+
+  // ── WATCHLIST — Series ────────────────────────────────────
+  { id:'blue-eye-samurai',       title:'Blue Eye Samurai',                type:'Series', platform:'Netflix',   season:'S1',   rt:97,  imdb:8.4, source:'watchlist', notes:'Animated — stunning visuals',                    isNew:false },
+  { id:'poker-face',             title:'Poker Face',                      type:'Series', platform:'Prime',     season:'S1',   rt:96,  imdb:7.9, source:'watchlist', notes:'Rian Johnson anthology — Natasha Lyonne',        isNew:false },
+  { id:'attorney-woo',           title:'Extraordinary Attorney Woo',      type:'Series', platform:'Netflix',   season:'S1',   rt:88,  imdb:8.8, source:'watchlist', notes:'Korean drama',                                   isNew:false },
+  { id:'fargo-s1',               title:'Fargo',                           type:'Series', platform:'Prime',     season:'S1',   rt:97,  imdb:8.9, source:'watchlist', notes:'Martin Freeman · start with S1',                 isNew:false },
+  { id:'the-night-manager',      title:'The Night Manager',               type:'Series', platform:'Prime',     season:'S1',   rt:96,  imdb:8.4, source:'watchlist', notes:'Tom Hiddleston, Hugh Laurie',                    isNew:false },
+  { id:'the-americans',          title:'The Americans',                   type:'Series', platform:'Prime',     season:'S1–6', rt:97,  imdb:8.4, source:'watchlist', notes:'Cold War spy drama — RT 97% — 6 seasons',        isNew:false },
+  { id:'sherlock-bbc',           title:'Sherlock',                        type:'Series', platform:'Netflix',   season:'S1–4', rt:88,  imdb:9.1, source:'watchlist', notes:'Benedict Cumberbatch',                           isNew:false },
+  { id:'love-death-robots',      title:'Love, Death + Robots',            type:'Series', platform:'Netflix',   season:'S1–3', rt:92,  imdb:8.4, source:'watchlist', notes:'Animated sci-fi anthology — RT 92%',             isNew:false },
+  { id:'dark-winds',             title:'Dark Winds',                      type:'Series', platform:'Prime',     season:'S1–2', rt:91,  imdb:7.5, source:'watchlist', notes:'AMC Navajo Nation crime drama',                  isNew:false },
+  { id:'disclaimer-appletv',     title:'Disclaimer',                      type:'Series', platform:'Apple TV+', season:'S1',   rt:76,  imdb:7.2, source:'watchlist', notes:'Cate Blanchett · Alfonso Cuarón',                isNew:false },
+  { id:'schitts-creek',          title:"Schitt's Creek",                  type:'Series', platform:'Netflix',   season:'S1–6', rt:95,  imdb:8.5, source:'watchlist', notes:'Comedy — all 6 seasons',                        isNew:false },
+  { id:'bones-netflix',          title:'Bones',                           type:'Series', platform:'Netflix',   season:'S1+',  rt:87,  imdb:8.0, source:'watchlist', notes:'Crime procedural',                               isNew:false },
+  { id:'young-sherlock',         title:'Young Sherlock',                  type:'Series', platform:'Prime',     season:'S1',   rt:85,  imdb:null,source:'watchlist', notes:'Guy Ritchie',                                    isNew:false },
+  { id:'rooster-prime',          title:'Rooster',                         type:'Series', platform:'Prime',     season:'S1',   rt:85,  imdb:null,source:'watchlist', notes:'Steve Carell',                                   isNew:false },
+  { id:'the-great',              title:'The Great',                       type:'Series', platform:'Other',     season:'S1–3', rt:91,  imdb:8.0, source:'watchlist', notes:'Hulu/Starzplay — Elle Fanning',                  isNew:false },
+  { id:'citadel-prime',          title:'Citadel',                         type:'Series', platform:'Prime',     season:'S1',   rt:53,  imdb:6.6, source:'watchlist', notes:'Priyanka Chopra, Richard Madden',                isNew:false },
+  { id:'unfamiliar-netflix',     title:'Unfamiliar',                      type:'Series', platform:'Netflix',   season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'German BND spy thriller',                        isNew:false },
+  { id:'nemesis-netflix',        title:'Nemesis',                         type:'Series', platform:'Netflix',   season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'#8 Belgium Netflix Jun 10',                      isNew:true  },
+  { id:'the-madness-netflix',    title:'The Madness',                     type:'Series', platform:'Netflix',   season:'S1',   rt:52,  imdb:5.9, source:'watchlist', notes:'Colman Domingo',                                 isNew:false },
+  { id:'dtf-st-louis',           title:'DTF: St. Louis',                  type:'Series', platform:'Netflix',   season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'David Harbour whodunnit',                        isNew:false },
+  { id:'the-evil-lawyer',        title:'The Evil Lawyer',                 type:'Series', platform:'Netflix',   season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Guardian: "gripping & twisty"',                  isNew:true  },
+  { id:'the-spiral-appletv',     title:'The Spiral',                      type:'Series', platform:'Apple TV+', season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'',                                               isNew:false },
+  { id:'star-city-appletv',      title:'Star City',                       type:'Series', platform:'Apple TV+', season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'NEW on Apple TV+ ✨',                             isNew:true  },
+  { id:'central-intelligence-a', title:'The Agency',                      type:'Series', platform:'Prime',     season:'S1',   rt:97,  imdb:8.0, source:'watchlist', notes:'Showtime/Prime CIA thriller — Michael Fassbender', isNew:false },
+  { id:'chestnut-man-2',         title:'The Chestnut Man: Hide & Seek',   type:'Series', platform:'Netflix',   season:'S2',   rt:null,imdb:null,source:'watchlist', notes:'Danish thriller sequel',                         isNew:false },
+  { id:'last-samurai-standing',  title:'Last Samurai Standing',           type:'Series', platform:'Netflix',   season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'',                                               isNew:false },
+  { id:'the-killing',            title:'The Killing',                     type:'Series', platform:'Other',     season:'S1–4', rt:94,  imdb:8.2, source:'watchlist', notes:'Danish crime — Sofie Gråbøl · RT 94%',           isNew:false },
+  { id:'la-brea',                title:'La Brea',                         type:'Series', platform:'Netflix',   season:'S1–3', rt:27,  imdb:6.4, source:'watchlist', notes:'Sci-fi sinkhole NBC drama',                      isNew:false },
+  { id:'under-the-dome',         title:'Under the Dome',                  type:'Series', platform:'Other',     season:'S1–3', rt:72,  imdb:6.2, source:'watchlist', notes:'CBS · Stephen King adaptation',                  isNew:false },
+  { id:'3-body-problem',         title:'3 Body Problem',                  type:'Series', platform:'Netflix',   season:'S1',   rt:68,  imdb:7.3, source:'watchlist', notes:'Netflix hard sci-fi 8 eps — Benioff & Weiss',    isNew:false },
+  { id:'black-mirror',           title:'Black Mirror',                    type:'Series', platform:'Netflix',   season:'S1–7', rt:83,  imdb:8.7, source:'watchlist', notes:'Anthology sci-fi — start any episode · IMDb 8.7', isNew:false },
+  { id:'this-not-murder-mystery', title:'This Is Not a Murder Mystery',   type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Belgian crime drama · Channel 4 2026 ✨',         isNew:true  },
+  { id:'legends-bbc',            title:'Legends',                         type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Steve Coogan · drug gang BBC 2026',               isNew:true  },
+  { id:'affection-appletv',      title:'Affection',                       type:'Series', platform:'Apple TV+', season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'French adaptation · Apple TV+',                  isNew:false },
+  { id:'vladimir-series',        title:'Vladimir',                        type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'2026',                                           isNew:true  },
+  { id:'michael-mosley-jot',     title:'Michael Mosley: Just One Thing',  type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'BBC tribute documentary 2024',                   isNew:false },
+  { id:'criminal-record',        title:'Criminal Record',                 type:'Series', platform:'Apple TV+', season:'S1',   rt:90,  imdb:7.5, source:'watchlist', notes:'Peter Capaldi, Cush Jumbo · Apple TV+ 2024 · RT 90%', isNew:false },
+  { id:'cape-fear-series',       title:'Cape Fear',                       type:'Series', platform:'Apple TV+', season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Limited series 2025 · Apple TV+',                isNew:true  },
+  { id:'widows-bay',             title:"Widow's Bay",                     type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'',                                               isNew:true  },
+  { id:'nobody-wants-this',      title:'Nobody Wants This',               type:'Series', platform:'Netflix',   season:'S1',   rt:95,  imdb:7.6, source:'watchlist', notes:'Rom-com — Adam Brody, Kristen Bell 2024',        isNew:false },
+  { id:'frida-doc',              title:'Frida',                           type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Documentary series',                             isNew:false },
+  { id:'becoming-frida',         title:'Becoming Frida',                  type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'BBC iPlayer documentary',                        isNew:false },
+  { id:'8-bergen',               title:'8 Bergen',                        type:'Series', platform:'Other',     season:'S1',   rt:null,imdb:null,source:'watchlist', notes:'Scandinavian series',                            isNew:false },
+
+  // ── WATCHLIST — Movies ────────────────────────────────────
+  { id:'howls-moving-castle',    title:"Howl's Moving Castle",            type:'Movie',  platform:'Netflix',   season:'',     rt:87,  imdb:8.2, source:'watchlist', notes:'Studio Ghibli',                                  isNew:false },
+  { id:'anatomy-of-a-fall',      title:'Anatomy of a Fall',               type:'Movie',  platform:'Netflix',   season:'',     rt:96,  imdb:7.8, source:'watchlist', notes:'Palme d\'Or 2023',                               isNew:false },
+  { id:'in-the-mood-for-love',   title:'In the Mood for Love',            type:'Movie',  platform:'Other',     season:'',     rt:98,  imdb:8.1, source:'watchlist', notes:'Wong Kar-wai classic 2000',                      isNew:false },
+  { id:'a-most-violent-year',    title:'A Most Violent Year',             type:'Movie',  platform:'Other',     season:'',     rt:90,  imdb:7.0, source:'watchlist', notes:'Oscar Isaac 2014',                               isNew:false },
+  { id:'den-of-thieves-2',       title:'Den of Thieves 2: Pantera',       type:'Movie',  platform:'Other',     season:'',     rt:73,  imdb:7.1, source:'watchlist', notes:'2025',                                           isNew:false },
+  { id:'hamnet',                 title:'Hamnet',                          type:'Movie',  platform:'Apple TV+', season:'',     rt:null,imdb:null,source:'watchlist', notes:'Paul Mescal · Shakespeare 2026',                 isNew:true  },
+  { id:'the-housemaid',          title:'The Housemaid',                   type:'Movie',  platform:'Apple TV+', season:'',     rt:null,imdb:null,source:'watchlist', notes:'2026',                                           isNew:true  },
+  { id:'signal-one',             title:'Signal One',                      type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Dennis Quaid · alien drama · Jun 15 2026',       isNew:true  },
+  { id:'no-other-choice',        title:'No Other Choice',                 type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Park Chan-wook 2025',                            isNew:false },
+  { id:'worldbreaker',           title:'Worldbreaker',                    type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Luke Evans, Milla Jovovich sci-fi 2026',         isNew:true  },
+  { id:'intergalactic-kid-cudi', title:'Intergalactic',                   type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Kid Cudi 2026',                                  isNew:true  },
+  { id:'tribe-2026',             title:'Tribe',                           type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'California mountains cult 2026',                 isNew:true  },
+  { id:'good-luck-have-fun',     title:"Good Luck Have Fun Don't Die",    type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'',                                               isNew:false },
+  { id:'ghost-killer-2026',      title:'Ghost Killer',                    type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Guardian: "fantastic karate-chopping" 2026',     isNew:true  },
+  { id:'sentimental-value',      title:'Sentimental Value',               type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Joachim Trier 2025',                             isNew:false },
+  { id:'stars-at-noon',          title:'Stars at Noon',                   type:'Movie',  platform:'Other',     season:'',     rt:52,  imdb:5.7, source:'watchlist', notes:'Claire Denis · Margaret Qualley',                isNew:false },
+  { id:'running-man-2025',       title:'Running Man',                     type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'2025',                                           isNew:false },
+  { id:'itch-2026',              title:'Itch',                            type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Body horror 2026',                               isNew:true  },
+  { id:'surrender-2026',         title:'Surrender',                       type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Josh Duhamel thriller 2026',                     isNew:true  },
+  { id:'perfect-days-wenders',   title:'Perfect Days',                    type:'Movie',  platform:'Other',     season:'',     rt:97,  imdb:7.6, source:'watchlist', notes:'Wim Wenders 2023 · RT 97%',                      isNew:false },
+  { id:'taste-of-things',        title:'The Taste of Things',             type:'Movie',  platform:'Other',     season:'',     rt:97,  imdb:7.4, source:'watchlist', notes:'Juliette Binoche · Palme d\'Or nom 2023 · RT 97%',isNew:false },
+  { id:'the-stranger-2022',      title:'The Stranger',                    type:'Movie',  platform:'Netflix',   season:'',     rt:94,  imdb:7.5, source:'watchlist', notes:'2022 Australian true-crime thriller · RT 94%',   isNew:false },
+  { id:'redux-redux',            title:'Redux Redux',                     type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Guardian: time-loop thriller 2026',              isNew:true  },
+  { id:'else-2026',              title:'Else',                            type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Pandemic-style horror 2026',                     isNew:true  },
+  { id:'the-secret-agent-2025',  title:'The Secret Agent',                type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Brazilian drama · Guardian ★★★★ 2025',           isNew:false },
+  { id:'voice-of-hind-rajab',    title:'The Voice of Hind Rajab',         type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'Documentary 2025',                               isNew:false },
+  { id:'a-real-pain',            title:'A Real Pain',                     type:'Movie',  platform:'Other',     season:'',     rt:98,  imdb:7.6, source:'watchlist', notes:'Jesse Eisenberg 2024 · Oscar winner · RT 98%',   isNew:false },
+  { id:'weapons-2025',           title:'Weapons',                         type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'2025',                                           isNew:false },
+  { id:'fuze-2026',              title:'Fuze',                            type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'2026',                                           isNew:true  },
+  { id:'send-help',              title:'Send Help',                       type:'Movie',  platform:'Other',     season:'',     rt:null,imdb:null,source:'watchlist', notes:'',                                               isNew:false },
+];
+
+// ─────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────
+let watched  = new Set(JSON.parse(localStorage.getItem(LS_WATCHED)  || '[]'));
+let rejected = new Set(JSON.parse(localStorage.getItem(LS_REJECTED) || '[]'));
+let activeTab = 'all';
+let sortKey = null;
+let sortDir = 1;
+
+function saveWatched()  { localStorage.setItem(LS_WATCHED,  JSON.stringify([...watched])); }
+function saveRejected() { localStorage.setItem(LS_REJECTED, JSON.stringify([...rejected])); }
+
+// ─────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────
+function platClass(p) {
+  return { 'Netflix':'p-netflix','Prime':'p-prime','Apple TV+':'p-appletv','HBO Max':'p-hbomax','VRT Max':'p-vrtmax' }[p] || 'p-other';
+}
+function rtClass(v) {
+  if (v===null) return 'rt-na';
+  return v>=80?'rt-hi':v>=60?'rt-mid':'rt-lo';
+}
+function rtText(v) { return v!==null ? v+'%' : '–'; }
+function typeLabel(t) {
+  return t==='Series'
+    ? '<span class="badge b-series">Series</span>'
+    : '<span class="badge b-movie">Movie</span>';
+}
+function sourceLabel(s) {
+  return s==='weekly'
+    ? '<span class="badge b-weekly">📅 Weekly</span>'
+    : '<span class="badge b-watchlist">📋 Watchlist</span>';
+}
+
+// ─────────────────────────────────────────────────────────────
+// Filter
+// ─────────────────────────────────────────────────────────────
+function getFiltered(mode) {
+  // mode: 'main' | 'archive' | 'rejected'
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  const fType     = document.getElementById('filterType').value;
+  const fPlatform = document.getElementById('filterPlatform').value;
+  const fSource   = document.getElementById('filterSource').value;
+  const fRT       = document.getElementById('filterRT').value;
+  const showW     = document.getElementById('showWatched').checked;
+
+  return TITLES.filter(r => {
+    const isW = watched.has(r.id);
+    const isR = rejected.has(r.id);
+
+    if (mode === 'archive')  return isW && !isR;
+    if (mode === 'rejected') return isR;
+
+    // main views — hide rejected always
+    if (isR) return false;
+    if (isW && !showW) return false;
+
+    if (activeTab === 'weekly'    && r.source !== 'weekly')    return false;
+    if (activeTab === 'watchlist' && r.source !== 'watchlist') return false;
+
+    if (search && !r.title.toLowerCase().includes(search) && !(r.notes||'').toLowerCase().includes(search)) return false;
+    if (fType     && r.type     !== fType)     return false;
+    if (fPlatform && r.platform !== fPlatform) return false;
+    if (fSource   && r.source   !== fSource)   return false;
+    if (fRT === 'hi'  && (r.rt===null || r.rt<80))            return false;
+    if (fRT === 'mid' && (r.rt===null || r.rt<60 || r.rt>=80))return false;
+    if (fRT === 'lo'  && (r.rt===null || r.rt>=60))           return false;
+    if (fRT === 'na'  && r.rt!==null)                         return false;
+
+    return true;
+  });
+}
+
+function sortData(data) {
+  if (!sortKey) return data;
+  return [...data].sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    const nullDir = sortDir === 1 ? -9999 : 9999;
+    if (av===null||av===undefined) av = nullDir;
+    if (bv===null||bv===undefined) bv = nullDir;
+    if (typeof av==='string') av=av.toLowerCase();
+    if (typeof bv==='string') bv=bv.toLowerCase();
+    if (av<bv) return -sortDir;
+    if (av>bv) return sortDir;
+    return 0;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────
+// Build table
+// ─────────────────────────────────────────────────────────────
+const COLS = [
+  { key:null,       label:'Actions', nosort:true  },
+  { key:'title',    label:'Title'                 },
+  { key:'type',     label:'Type'                  },
+  { key:'platform', label:'Platform'              },
+  { key:'season',   label:'Season / Notes'        },
+  { key:'rt',       label:'RT %'                  },
+  { key:'imdb',     label:'IMDb'                  },
+  { key:'source',   label:'Source'                },
+];
+
+function buildTable(data, inRejectedTab) {
+  if (!data.length) {
+    return '<div class="empty"><strong>Nothing here</strong>No titles match your filters</div>';
+  }
+
+  const thead = '<thead><tr>' + COLS.map(c => {
+    if (c.nosort) return `<th class="no-sort" style="width:68px">${c.label}</th>`;
+    const active = sortKey===c.key ? ' sorted' : '';
+    const icon   = sortKey===c.key ? (sortDir===1?'▲':'▼') : '⇅';
+    return `<th class="${active}" onclick="doSort('${c.key}')">${c.label} <span class="sort-icon">${icon}</span></th>`;
+  }).join('') + '</tr></thead>';
+
+  const rows = data.map(r => {
+    const isW = watched.has(r.id);
+    const isR = rejected.has(r.id);
+    let rowClass = '';
+    if (isW) rowClass = ' class="is-watched"';
+    if (isR) rowClass = ' class="is-rejected"';
+
+    const newTag  = r.isNew ? '<span class="new-tag">NEW</span>' : '';
+    const notesTxt = r.notes ? `<div class="notes-cell">${r.notes}</div>` : '';
+    const imdbHtml = r.imdb!==null
+      ? `<span class="imdb">${r.imdb}</span><span style="font-size:10px;color:#bbb"> /10</span>`
+      : '<span class="imdb-na">–</span>';
+
+    const rejectClass = isR ? ' is-rejected' : '';
+    const rejectTitle = isR ? 'Un-reject' : 'Reject (hide from list)';
+
+    const actionCol = inRejectedTab
+      ? `<td style="width:68px;text-align:center"><button class="unreject-btn" onclick="toggleR('${r.id}')">↩ Restore</button></td>`
+      : `<td style="width:68px"><div class="action-col">
+           <input type="checkbox" class="watched-cb" ${isW?'checked':''} onchange="toggleW('${r.id}')">
+           <button class="reject-btn${rejectClass}" onclick="toggleR('${r.id}')" title="${rejectTitle}">✕</button>
+         </div></td>`;
+
+    return `<tr${rowClass}>
+      ${actionCol}
+      <td><div class="title-cell">${r.title}${newTag}</div>${notesTxt}</td>
+      <td>${typeLabel(r.type)}</td>
+      <td><span class="plat ${platClass(r.platform)}">${r.platform}</span></td>
+      <td style="font-size:12px;color:#666">${r.season||''}</td>
+      <td><span class="rt ${rtClass(r.rt)}">${rtText(r.rt)}</span></td>
+      <td>${imdbHtml}</td>
+      <td>${sourceLabel(r.source)}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="tbl-wrap"><table>${thead}<tbody>${rows}</tbody></table></div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Full render
+// ─────────────────────────────────────────────────────────────
+function render() {
+  const total   = TITLES.length;
+  const nSeries = TITLES.filter(r=>r.type==='Series').length;
+  const nMovies = TITLES.filter(r=>r.type==='Movie').length;
+  const nWeekly = TITLES.filter(r=>r.source==='weekly').length;
+  const nW      = watched.size;
+  const nR      = rejected.size;
+  const pct     = Math.round(nW/total*100);
+
+  document.getElementById('hdrStats').innerHTML = `
+    <div class="hdr-stat"><strong>${total}</strong> total</div>
+    <div class="hdr-stat"><strong>${nW}</strong> watched</div>
+    <div class="hdr-stat"><strong>${nR}</strong> rejected</div>
+  `;
+  document.getElementById('statsBar').innerHTML = `
+    <div class="sstat"><span class="sstat-dot" style="background:#3B5BDB"></span>Series <strong>${nSeries}</strong></div>
+    <div class="sstat"><span class="sstat-dot" style="background:#D9480F"></span>Movies <strong>${nMovies}</strong></div>
+    <div class="sstat"><span class="sstat-dot" style="background:#2B8A3E"></span>Weekly picks <strong>${nWeekly}</strong></div>
+    <div class="sstat"><span class="sstat-dot" style="background:#38B6FF"></span>Watched <strong>${nW}/${total-nR}</strong> (${pct}%)</div>
+    <div class="sstat"><span class="sstat-dot" style="background:#E63946"></span>Rejected <strong>${nR}</strong></div>
+    <div class="sstat" style="margin-left:auto;font-size:11px;color:#bbb">Updated 12/06/2026</div>
+  `;
+
+  const content = document.getElementById('mainContent');
+
+  if (activeTab === 'archive') {
+    const data = sortData(getFiltered('archive'));
+    if (!data.length) {
+      content.innerHTML = '<div class="empty"><strong>No archived titles yet</strong>Check the ✓ checkbox on any title to archive it here</div>';
+    } else {
+      content.innerHTML = `
+        <div class="archive-header">
+          <div class="archive-title">✅ Watched Archive</div>
+          <div class="archive-count">${data.length}</div>
+        </div>
+        ${buildTable(data, false)}
+      `;
+    }
+    return;
+  }
+
+  if (activeTab === 'rejected') {
+    const data = sortData(getFiltered('rejected'));
+    if (!data.length) {
+      content.innerHTML = '<div class="empty"><strong>No rejected titles</strong>Click the ✕ button on any title to move it here</div>';
+    } else {
+      content.innerHTML = `
+        <div class="archive-header rejected-header">
+          <div class="archive-title">🚫 Rejected</div>
+          <div class="archive-count">${data.length}</div>
+        </div>
+        <div style="font-size:12px;color:#999;margin-bottom:12px">Click ↩ Restore to move back to the main list</div>
+        ${buildTable(data, true)}
+      `;
+    }
+    return;
+  }
+
+  const data = sortData(getFiltered('main'));
+
+  if (activeTab === 'weekly') {
+    const series = data.filter(r=>r.type==='Series');
+    const movies = data.filter(r=>r.type==='Movie');
+    let html = '';
+    if (series.length) html += `<div class="section-label">📺 Top 5 Series — Week of 11/06/2026</div>${buildTable(series, false)}`;
+    if (movies.length) html += `<div class="section-label">🎬 Top 5 Movies — Week of 11/06/2026</div>${buildTable(movies, false)}`;
+    if (!html) html = '<div class="empty"><strong>No results</strong>Adjust your filters</div>';
+    content.innerHTML = html;
+    return;
+  }
+
+  if (!data.length) {
+    content.innerHTML = '<div class="empty"><strong>No results</strong>Adjust your filters or enable "Show watched"</div>';
+    return;
+  }
+
+  content.innerHTML = `<div class="section-label">${data.length} title${data.length!==1?'s':''}</div>${buildTable(data, false)}`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Actions
+// ─────────────────────────────────────────────────────────────
+function toggleW(id) {
+  if (watched.has(id)) watched.delete(id);
+  else {
+    watched.add(id);
+    rejected.delete(id); // can't be both
+    saveRejected();
+  }
+  saveWatched();
+  render();
+}
+
+function toggleR(id) {
+  if (rejected.has(id)) rejected.delete(id);
+  else {
+    rejected.add(id);
+    watched.delete(id); // can't be both
+    saveWatched();
+  }
+  saveRejected();
+  render();
+}
+
+function doSort(key) {
+  if (sortKey === key) sortDir = -sortDir;
+  else { sortKey = key; sortDir = 1; }
+  render();
+}
+
+// ─────────────────────────────────────────────────────────────
+// Tab + filter listeners
+// ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeTab = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+
+['searchInput','filterType','filterPlatform','filterSource','filterRT','showWatched'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('change', render);
+  if (id==='searchInput') el.addEventListener('input', render);
+});
+
+render();
+</script>
+</body>
+</html>

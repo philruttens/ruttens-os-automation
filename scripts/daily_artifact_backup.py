@@ -40,19 +40,23 @@ def count_checkboxes(html):
 
 def read_artifact_html(artifact_id):
     """
-    Read artifact HTML from local filesystem
-    GitHub Actions will have artifacts synced via git or downloaded
+    Read artifact HTML from local filesystem.
+    Checks repo root first (works for GitHub Actions after checkout),
+    then falls back to the Google Drive path for local Mac runs.
     """
-    # Try local first (for local testing)
-    local_path = f"/Users/philruttens/Documents/Claude/Artifacts/{artifact_id}/index.html"
-    if os.path.exists(local_path):
-        with open(local_path, 'r', encoding='utf-8', errors='ignore') as f:
-            return f.read()
-
-    # Try repo root (for GitHub Actions)
+    # Repo root — works in GitHub Actions (after git checkout) and when run from repo root locally
     repo_path = f"./Artifacts/{artifact_id}/index.html"
     if os.path.exists(repo_path):
         with open(repo_path, 'r', encoding='utf-8', errors='ignore') as f:
+            return f.read()
+
+    # Google Drive fallback for local Mac runs not from repo root
+    gdrive_path = (
+        "/Users/philruttens/Library/CloudStorage/"
+        f"GoogleDrive-pruttens@gmail.com/My Drive/RUTTENS+OS/Artifacts/{artifact_id}/index.html"
+    )
+    if os.path.exists(gdrive_path):
+        with open(gdrive_path, 'r', encoding='utf-8', errors='ignore') as f:
             return f.read()
 
     return None

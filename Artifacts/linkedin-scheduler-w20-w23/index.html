@@ -1,0 +1,1805 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Content Scheduler Jun 2026 · LI + IG + Substack",
+  "schemaVersion": 1,
+  "description": "Multi-channel scheduler: LinkedIn 29 posts + S2/S3 Substack teasers (Jun 9 + Jun 15), Instagram + Aug restart slots. Holiday extended to Jun 4. Catch-up starts Thu 4 Jun. Updated Thu 4 Jun."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RUTTENS+ Q3 Content Scheduler</title>
+<style>
+:root{color-scheme:light;--amber:#F5A623;--navy:#0D1B2A;--blue:#38B6FF;--black:#0A0A0A;--grey:#f4f6f8;--border:#e5e9ef;--ig:#C13584;--sub:#FF6719;--green:#22c55e;--w20:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{font-family:'Segoe UI',Inter,system-ui,sans-serif;background:var(--grey);color:var(--navy);display:flex;min-height:100vh;font-size:14px}
+
+/* SIDEBAR */
+.sidebar{width:210px;min-width:210px;background:var(--navy);color:#fff;position:fixed;left:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;padding:0;z-index:100}
+.sb-brand{padding:14px 18px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-brand h2{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.08em;text-transform:uppercase}
+.sb-brand p{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+
+.progress-wrap{padding:10px 18px 0}
+.progress-label{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;display:flex;justify-content:space-between}
+.progress-label span{color:var(--amber);font-weight:700}
+.progress-bar{height:4px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:var(--amber);border-radius:3px;transition:width .3s}
+.progress-bar.ig-bar .progress-fill{background:var(--ig)}
+
+.sb-nav{padding:6px 0;flex:1}
+.sb-nav a{display:flex;align-items:center;gap:7px;padding:6px 18px;color:rgba(255,255,255,.55);text-decoration:none;font-size:11px;font-weight:500;transition:all .12s;border-left:3px solid transparent;cursor:pointer}
+.sb-nav a:hover,.sb-nav a.active{color:#fff;background:rgba(245,166,35,.1);border-left-color:var(--amber)}
+.sb-nav .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0}
+.sb-nav a:hover .dot,.sb-nav a.active .dot{background:var(--amber)}
+.nav-section{padding:8px 18px 2px;font-size:9px;font-weight:700;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.09em}
+
+.sb-footer{padding:10px 18px;border-top:1px solid rgba(255,255,255,.1);font-size:9px;color:rgba(255,255,255,.3);line-height:1.8}
+
+.main{margin-left:210px;width:calc(100% - 210px);min-height:100vh;overflow-y:auto}
+.hero{background:var(--navy);color:#fff;padding:18px 26px;border-bottom:3px solid var(--amber)}
+.hero h1{font-size:18px;font-weight:800}
+.hero .sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
+.hero-stats{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hero-stat{background:rgba(255,255,255,.07);border-radius:7px;padding:7px 11px}
+.hero-stat .val{font-size:17px;font-weight:800;color:var(--amber)}
+.hero-stat .lbl{font-size:10px;color:rgba(255,255,255,.4)}
+.hero-stat.ig-stat .val{color:var(--ig)}
+.hero-stat.sub-stat .val{color:var(--sub)}
+
+/* BANNER */
+.banner{padding:8px 26px;font-size:11px;font-weight:600;border-left:4px solid var(--amber);background:#fffbeb;color:#92400e}
+.banner-red{background:#fef2f2;border-left-color:var(--w20);color:#991b1b}
+.banner-blue{background:#dbeafe;border-left-color:var(--blue);color:#1e40af}
+
+/* WEEK SECTIONS */
+.week-section{padding:18px 26px;border-bottom:2px solid var(--border);scroll-margin-top:0}
+.week-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px}
+.week-title{font-size:15px;font-weight:800;color:var(--navy)}
+.week-sub{font-size:11px;color:#6b7280;margin-top:2px;font-weight:500}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-left:6px}
+.pill-catchup{background:#fde68a;color:#92400e}
+.pill-back{background:#dbeafe;color:#1e40af}
+.pill-w20{background:#fee2e2;color:#991b1b}
+.week-prog{background:var(--grey);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:#6b7280}
+.week-prog span{font-weight:700;color:var(--navy)}
+
+/* CHANNEL HEADERS within week */
+.ch-header{display:flex;align-items:center;gap:7px;margin:12px 0 7px;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.ch-header.li-h{background:#dbeafe;color:#1e40af;border-left:3px solid #1d4ed8}
+.ch-header.ig-h{background:#fce7f3;color:#9d174d;border-left:3px solid var(--ig)}
+.ch-header.sub-h{background:#fff7ed;color:#9a3412;border-left:3px solid var(--sub)}
+
+/* POST CARDS */
+.post-list{display:flex;flex-direction:column;gap:6px}
+.post-item{background:#fff;border:1px solid var(--border);border-radius:9px;padding:10px 12px;display:flex;gap:9px;align-items:flex-start;transition:box-shadow .12s}
+.post-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.post-item.done{background:#f0fdf4;border-color:#bbf7d0}
+.post-item.done .post-title{text-decoration:line-through;color:#9ca3af}
+.post-item.ig-item{border-left:3px solid var(--ig)}
+.post-item.sub-item{border-left:3px solid var(--sub)}
+.post-item.w20-item{border-left:3px solid var(--w20)}
+
+.post-check{width:18px;height:18px;border:2px solid #d1d5db;border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;margin-top:2px;appearance:none;background:#fff}
+.post-check:checked{background:var(--green);border-color:var(--green)}
+.post-check:checked::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+
+.post-body{flex:1;min-width:0}
+.post-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:3px}
+.post-num{font-size:11px;font-weight:700;color:var(--navy)}
+.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-text{background:#dbeafe;color:#1d4ed8}
+.badge-carousel{background:#ede9fe;color:#6d28d9}
+.badge-video{background:#ffedd5;color:#c2410c}
+.badge-ig{background:#fce7f3;color:#9d174d}
+.badge-sub{background:#fff7ed;color:#c2410c}
+.time-pill{font-size:11px;background:var(--grey);border:1px solid var(--border);color:#374151;padding:2px 7px;border-radius:4px;font-weight:600}
+.catchup-badge{font-size:9px;color:#92400e;font-weight:700;background:#fef3c7;padding:2px 6px;border-radius:4px}
+.w20-badge{font-size:9px;color:#991b1b;font-weight:700;background:#fee2e2;padding:2px 6px;border-radius:4px}
+.pptx-badge{font-size:9px;color:#7c3aed;font-weight:700;background:#ede9fe;padding:2px 6px;border-radius:4px}
+
+.post-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:2px;line-height:1.4}
+.post-hint{font-size:10px;color:#9ca3af}
+.post-hint .warn{color:#dc2626;font-weight:700}
+
+.post-actions{display:flex;gap:4px;align-items:flex-start;flex-shrink:0;flex-direction:column}
+.btn{padding:5px 8px;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;transition:opacity .12s;width:74px;justify-content:center}
+.btn:hover{opacity:.82}
+.btn-li{background:#0077b5;color:#fff}
+.btn-cap{background:var(--blue);color:#fff}
+.btn-pdf{background:#7c3aed;color:#fff}
+.btn-drive{background:#1a73e8;color:#fff}
+.btn-visual{background:var(--ig);color:#fff}
+.btn-sub{background:var(--sub);color:#fff}
+
+/* CAPTION DRAWER */
+.drawer{display:none;margin-top:8px;background:#f8f7ff;border:1px solid #e0d9f9;border-radius:6px;padding:10px 11px;font-size:11px;line-height:1.75;white-space:pre-wrap;border-left:3px solid var(--blue);color:#374151;position:relative}
+.drawer.carousel{border-left-color:#7c3aed}
+.drawer.video{border-left-color:#f97316}
+.drawer.ig{border-left-color:var(--ig);background:#fdf4fb}
+.drawer.sub-d{border-left-color:var(--sub);background:#fff8f3}
+.drawer.dp-comment{border-left-color:#8b5cf6;background:#fdf4ff}
+.drawer.open{display:block}
+.copy-btn{position:absolute;top:6px;right:6px;background:var(--blue);color:#fff;border:none;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;transition:opacity .12s}
+.copy-btn:hover{opacity:.82}
+.copy-btn.copied{background:var(--green)}
+
+/* SUBSTACK CARDS */
+.sub-piece{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:9px;border-left:4px solid var(--sub)}
+.sub-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:3px}
+.sub-meta{font-size:11px;color:#6b7280;margin-bottom:6px}
+.sub-cta{display:inline-block;background:var(--sub);color:#fff;padding:4px 10px;border-radius:5px;font-size:11px;font-weight:700;text-decoration:none;margin-top:6px}
+.sub-excerpt{font-size:12px;color:#374151;line-height:1.65;margin-bottom:6px}
+
+/* INLINE SUBSTACK NOTE (within week section) */
+.sub-inline-note{background:#fff7ed;border:1px solid #fed7aa;border-radius:7px;padding:9px 12px;margin-top:10px;border-left:3px solid var(--sub);font-size:11px;color:#9a3412;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sub-inline-note strong{font-size:12px;color:#7c2d12}
+
+/* no-visual badge */
+.no-visual{font-size:10px;color:#dc2626;background:#fee2e2;padding:2px 6px;border-radius:4px;font-weight:600}
+
+/* WORKFLOW BOX */
+.workflow{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:16px 26px}
+.workflow h3{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.workflow ol{padding-left:14px;font-size:11px;line-height:2;color:#374151}
+.cta-note{background:#fffbeb;border:1px solid #fde68a;border-radius:5px;padding:6px 10px;margin-top:8px;font-size:11px;color:#92400e;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="sidebar">
+  <div class="sb-brand">
+    <h2>RUTTENS+</h2>
+    <p>RUTTENS+ Q3 Content Scheduler</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">LinkedIn <span id="sb-count">0 / 25</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="sb-fill" style="width:0%"></div></div>
+    <div class="progress-label">Instagram <span id="ig-count">0 / 15</span></div>
+    <div class="progress-bar ig-bar"><div class="progress-fill" id="ig-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="nav-section">📋 LinkedIn + Instagram</div>
+    <a onclick="gotoSection('jun1-section')" id="nav-jun1"><span class="dot"></span> Jun 9–13 · WK1 (5+3)</a>
+    <a onclick="gotoSection('jun8-section')" id="nav-jun8"><span class="dot"></span> Jun 16–20 · WK2 (6+3)</a>
+    <a onclick="gotoSection('jun15-section')" id="nav-jun15"><span class="dot"></span> Jun 23–27 · WK3 (5+3)</a>
+    <a onclick="gotoSection('jun22-section')" id="nav-jun22"><span class="dot"></span> Jun 30–Jul 4 · WK4 (5+3)</a>
+    <a onclick="gotoSection('jun29-section')" id="nav-jun29"><span class="dot"></span> Jul 7–11 · WK5 (5+3)</a>
+    <div class="nav-section" style="margin-top:6px">📰 Substack (3)</div>
+    <a onclick="gotoSection('substack-section')"><span class="dot"></span> S1 Jun 12 · S2 Jun 26 · S3 Jul 10</a>
+    <div class="nav-section" style="margin-top:6px">💬 Dialogue Posts (6)</div>
+    <a onclick="gotoSection('dialogue-section')"><span class="dot" style="background:#8b5cf6"></span> 5 ICP · EN + NL · Standalone</a>
+    <div class="nav-section" style="margin-top:6px;color:#9ca3af">📦 MAYBE (Sep–Dec)</div>
+    <a onclick="gotoSection('maybe-section')" style="opacity:0.65"><span class="dot" style="background:#6b7280"></span> 2 teasers · activate when URLs live</a>
+    <div class="nav-section" style="margin-top:6px;color:#9ca3af">📤 Outreach Messages</div>
+    <a onclick="gotoSection('outreach-section')" style="opacity:0.65"><span class="dot" style="background:#6b7280"></span> 6 messages · recruiter A/B/C × perm/interim</a>
+    <div class="nav-section" style="margin-top:6px">🎓 Course / Cohort</div>
+    <a onclick="gotoSection('cohort-section')"><span class="dot" style="background:#0ea5e9"></span> P1–P14 · 4 weeks · Stuck Founder ICP</a>
+  </div>
+
+  <div class="sb-footer">
+    🚀 Rebalanced schedule Jun 9<br>
+    Mon 08:30·Tue 12:00·Wed 08:30·Thu 12:00·Fri 08:30<br>
+    IG: Tue·Thu·Sat 12:00 CET<br>
+    SUB: Biweekly Thu
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+  <div class="hero">
+    <h1>RUTTENS+ Q3 Content Scheduler <span style="font-size:11px;color:#fbbf24;font-weight:500;background:rgba(245,166,35,.15);padding:3px 8px;border-radius:4px;margin-left:8px;">Updated Wed 10 Jun</span></h1>
+    <div class="sub">5×/week · 26 LI · 2 MAYBE · 15 IG · 3 Substack · Hook-first · Max 1 offer/week</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val" id="stat-done">0</div><div class="lbl">LI Scheduled ✓</div></div>
+      <div class="hero-stat"><div class="val" id="stat-pending">26</div><div class="lbl">LI Remaining</div></div>
+      <div class="hero-stat ig-stat"><div class="val" id="ig-stat-done">0</div><div class="lbl">IG Posted ✓</div></div>
+      <div class="hero-stat ig-stat"><div class="val">15</div><div class="lbl">IG Total</div></div>
+      <div class="hero-stat sub-stat"><div class="val">3</div><div class="lbl">Substack Pieces</div></div>
+    </div>
+  </div>
+
+  <!-- ════════ JUN 9-13 WK1 ════════ -->
+  <div class="week-section" id="jun1-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Jun 9–13 · WK1</div>
+        <div class="week-sub">Mon 9 · Tue 10 · Wed 11 · Thu 12 · Fri 13 · IG: Tue 10 · Thu 12 · Sat 14 · 12:00 CET</div>
+      </div>
+      <div class="week-prog">LI done: <span id="prog-li-jun1">0 / 5</span> · IG done: <span id="prog-ig-jun1">0 / 3</span></div>
+    </div>
+    <div class="ch-header li-h">💼 LINKEDIN · 5 posts · 70/20/10 · hook-first</div>
+    <div class="post-list" id="list-li-jun1"></div>
+    <div class="ch-header ig-h">📸 INSTAGRAM · 3 WC posts (Tue Jun 10 · Thu Jun 12 · Sat Jun 14 · 12:00 CET)</div>
+    <div class="post-list" id="list-ig-jun1"></div>
+    <div class="sub-inline-note"><strong>📰 SUBSTACK S1 — Thu Jun 12</strong><span>👆 Full content below</span></div>
+  </div>
+
+  <!-- ════════ JUN 16-20 WK2 ════════ -->
+  <div class="week-section" id="jun8-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Jun 16–20 · WK2</div>
+        <div class="week-sub">Mon 16 · Tue 17 · Wed 18 · Thu 19 · Fri 20 · IG: Tue 17 · Thu 19 · Sat 21 · 12:00 CET</div>
+      </div>
+      <div class="week-prog">LI done: <span id="prog-li-jun8">0 / 5</span> · IG done: <span id="prog-ig-jun8">0 / 3</span></div>
+    </div>
+    <div class="ch-header li-h">💼 LINKEDIN · 5 posts · 70/20/10 · hook-first</div>
+    <div class="post-list" id="list-li-jun8"></div>
+    <div class="ch-header ig-h">📸 INSTAGRAM · 3 WC posts (Tue Jun 17 · Thu Jun 19 · Sat Jun 21 · 12:00 CET)</div>
+    <div class="post-list" id="list-ig-jun8"></div>
+  </div>
+
+  <!-- ════════ JUN 23-27 WK3 ════════ -->
+  <div class="week-section" id="jun15-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Jun 23–27 · WK3</div>
+        <div class="week-sub">Mon 23 · Tue 24 · Wed 25 · Thu 26 · Fri 27 · IG: Tue 24 · Thu 26 · Sat 28 · 12:00 CET</div>
+      </div>
+      <div class="week-prog">LI done: <span id="prog-li-jun15">0 / 5</span> · IG done: <span id="prog-ig-jun15">0 / 3</span></div>
+    </div>
+    <div class="ch-header li-h">💼 LINKEDIN · 5 posts · 70/20/10 · hook-first</div>
+    <div class="post-list" id="list-li-jun15"></div>
+    <div class="ch-header ig-h">📸 INSTAGRAM · 3 WC posts (Tue Jun 24 · Thu Jun 26 · Sat Jun 28 · 12:00 CET)</div>
+    <div class="post-list" id="list-ig-jun15"></div>
+    <div class="sub-inline-note"><strong>📰 SUBSTACK S2 — Thu Jun 26</strong><span>👆 Full content below</span></div>
+  </div>
+
+  <!-- ════════ JUN 30-JUL 4 WK4 ════════ -->
+  <div class="week-section" id="jun22-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Jun 30–Jul 4 · WK4</div>
+        <div class="week-sub">Mon 30 · Tue Jul 1 · Wed Jul 2 · Thu Jul 3 · Fri Jul 4 · IG: Tue Jul 1 · Thu Jul 3 · Sat Jul 5 · 12:00 CET</div>
+      </div>
+      <div class="week-prog">LI done: <span id="prog-li-jun22">0 / 5</span> · IG done: <span id="prog-ig-jun22">0 / 3</span></div>
+    </div>
+    <div class="ch-header li-h">💼 LINKEDIN · 5 posts · 70/20/10 · hook-first</div>
+    <div class="post-list" id="list-li-jun22"></div>
+    <div class="ch-header ig-h">📸 INSTAGRAM · 3 WC posts (Tue Jul 1 · Thu Jul 3 · Sat Jul 5 · 12:00 CET)</div>
+    <div class="post-list" id="list-ig-jun22"></div>
+  </div>
+
+  <!-- ════════ JUL 7-11 WK5 ════════ -->
+  <div class="week-section" id="jun29-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title">Jul 7–11 · WK5</div>
+        <div class="week-sub">Mon 7 · Tue 8 · Wed 9 · Thu 10 · Fri 11 · IG: Tue 8 · Thu 10 · Sat 12 · 12:00 CET</div>
+      </div>
+      <div class="week-prog">LI done: <span id="prog-li-jun29">0 / 5</span> · IG done: <span id="prog-ig-jun29">0 / 3</span></div>
+    </div>
+    <div class="ch-header li-h">💼 LINKEDIN · 5 posts · 70/20/10 · hook-first</div>
+    <div class="post-list" id="list-li-jun29"></div>
+    <div class="ch-header ig-h">📸 INSTAGRAM · 3 WC posts (Tue Jul 8 · Thu Jul 10 · Sat Jul 12 · 12:00 CET)</div>
+    <div class="post-list" id="list-ig-jun29"></div>
+    <div class="sub-inline-note"><strong>📰 SUBSTACK S3 — Thu Jul 10</strong><span>👆 Full content below</span></div>
+  </div>
+
+  <!-- ════════ SUBSTACK ════════ -->
+  <div class="week-section" id="substack-section">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:var(--sub)">📰 Substack · 3 Long-Form Pieces</div>
+        <div class="week-sub">Biweekly Thursdays · Expand each to copy full article → paste into Substack editor</div>
+      </div>
+    </div>
+
+    <!-- S1 -->
+    <div class="sub-piece">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div>
+          <div class="sub-title">S1 — Find Your GTM Animal</div>
+          <div class="sub-meta">📅 Thu Jun 12, 2026 · CTA: ruttens.com/quiz · ~900 words</div>
+          <div class="sub-excerpt">The 6 B2B revenue archetypes — and the exact ceiling each one is about to hit. 🐆 Cheetah · 🦝 Raccoon · 🦓 Zebra · 🐘 Elephant · 🦬 Bison · 🐅 Leopard.</div>
+          <a href="#" onclick="window.top.open('https://ruttens.com/quiz','_blank');return false;" class="sub-cta">→ ruttens.com/quiz</a>
+        </div>
+        <div style="display:flex;gap:5px;flex-shrink:0">
+          <input type="checkbox" class="post-check" id="chk-sub1" onclick="toggleSub('sub1')">
+          <button class="btn btn-sub" onclick="toggleDrawer('drawer-sub1')">📋 Article</button>
+        </div>
+      </div>
+      <div class="drawer sub-d" id="drawer-sub1"><button class="copy-btn" onclick="copyDrawer('drawer-sub1')">Copy</button>PIECE 1 — Find Your GTM Animal
+The 6 B2B revenue archetypes — and the exact ceiling each one is about to hit
+Primary CTA: Take the quiz → ruttens.com/quiz
+
+Every B2B company has a go-to-market engine. Or the conspicuous absence of one.
+
+Most leaders can feel which they have. What they can't do is name it — and you can't fix what you can't name. So over 25 years of building revenue engines across more than 40 teams, I started noticing the same six patterns repeating. Different industries, different sizes, same shape. I gave them animals, because animals are easier to remember than frameworks.
+
+Here's the thing nobody tells you: each archetype works. Until it doesn't. Every one of them has a ceiling baked in — a point where the very thing that got you here stops you from going further. The trap isn't being the wrong animal. The trap is hitting your ceiling without realising that's what's happening, and responding by doing more of what already stopped working.
+
+🐆 The Cheetah runs on hustle. Founder-led, fast, lethal in a deal. It's working — for now. The ceiling: pipeline is invisible until deals close, and you can't clone yourself. Growth is capped at your personal bandwidth.
+
+🦝 The Raccoon is sharper than 90% of the market. Clever positioning, clever tactics, clever everything. The cleverness is the constraint. The system lives in your head, so every hire "doesn't get it" and fails. You've made yourself the bottleneck.
+
+🦓 The Zebra has the team and the instincts. Some months work. Others you genuinely can't say why. The ceiling: sales and marketing aren't running on the same data, so you're guessing at what's actually driving results — and you can't repeat what you can't see.
+
+🐘 The Elephant is respected and trusted. Everyone who knows you, buys. The problem is everyone who doesn't know you yet doesn't know you exist. Without warm intros, new-business pipeline is thin. Your reputation doesn't scale past your network.
+
+🦬 The Bison won the category and then stopped hunting. Pipeline maintenance quietly replaced pipeline creation. The numbers look stable right up until the trajectory flattens — and flat, in a market that's moving, is slow decline.
+
+🐅 The Leopard cracked the code: precision targeting, clean motion, repeatable results. Only about 1 in 7 B2B teams score here. The challenge isn't fixing anything — it's scaling the precision without losing the thing that made it work.
+
+Read those again and one will sting more than the others. That's the useful signal.
+
+Knowing your animal does three things. It tells you the specific ceiling you're walking toward, so you stop being surprised by it. It tells you which moves matter for your stage — instead of importing advice built for a company three sizes away from yours. And it gives your team shared language: "we're being a Cheetah about this" is a faster, more honest conversation than a quarterly strategy offsite.
+
+I built a 12-question quiz that takes about two minutes and asks for no email. It returns your archetype, the ceiling you're about to hit, and three moves specific to where you are. You'll also get an 8-page playbook for your animal.
+
+It's free because the diagnosis should be. What you do next is the part that's worth paying for.
+
+Find your GTM Animal → ruttens.com/quiz</div>
+    </div>
+
+    <!-- S2 -->
+    <div class="sub-piece">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div>
+          <div class="sub-title">S2 — Your €60K on Marketing Should Make €600K in Pipeline</div>
+          <div class="sub-meta">📅 Thu Jun 26, 2026 · CTA: ruttens.com/marketing-roi-fix-sheet · ~1,000 words</div>
+          <div class="sub-excerpt">Why it doesn't, the three hidden drains, and the 30-day fix. Drain 1: agency activity that isn't pipeline. Drain 2: no attribution. Drain 3: content that doesn't move buyers.</div>
+          <a href="#" onclick="window.top.open('https://ruttens.com/marketing-roi-fix-sheet','_blank');return false;" class="sub-cta">→ ruttens.com/marketing-roi-fix-sheet</a>
+        </div>
+        <div style="display:flex;gap:5px;flex-shrink:0">
+          <input type="checkbox" class="post-check" id="chk-sub2" onclick="toggleSub('sub2')">
+          <button class="btn btn-sub" onclick="toggleDrawer('drawer-sub2')">📋 Article</button>
+        </div>
+      </div>
+      <div class="drawer sub-d" id="drawer-sub2"><button class="copy-btn" onclick="copyDrawer('drawer-sub2')">Copy</button>PIECE 2 — Your €60K on Marketing Should Make €600K in Pipeline
+Why it doesn't, the three hidden drains, and the 30-day fix
+Primary CTA: Get the Fix Sheet → ruttens.com/marketing-roi-fix-sheet
+
+Let's start with an uncomfortable number.
+
+If you spend €60,000 a year on marketing — a modest budget for a B2B company doing a few million in revenue — that money should be generating at least €600,000 in pipeline. A 10x marketing-to-pipeline ratio isn't aggressive. It's the floor for a functioning engine.
+
+Most companies I scan can't tell me their ratio at all. They pay €5–20K a month, they see activity, and they cannot tie a single euro of that spend to a closed deal. The money isn't working. It's leaking. And it leaks in three predictable places.
+
+Drain one: agency activity that isn't pipeline. Your agency sends a monthly report full of impressions, reach, engagement, posts shipped. All real. None of it is pipeline. Activity got measured because activity is easy to measure. The output that matters — qualified conversations with buyers — never made it onto the dashboard, because nobody built the dashboard to track it. I've sat with founders paying €4K a month for a content engine whose pipeline impact, measured honestly, was zero.
+
+Drain two: no attribution, so you can't kill what's failing. When you can't see which channel produced which conversation, you can't cut the losers. So you keep funding all of them, including the bottom 50% that contribute almost nothing. Spread thin across everything, you're under-investing in the few channels that actually work.
+
+Drain three: content that doesn't move buyers. Likes are not intent. A post can perform beautifully on the platform and do nothing for the pipeline, because it spoke to peers instead of buyers, or it described what you do instead of the outcome the buyer gets. Volume without buyer-relevance is just noise you paid for.
+
+Here's the part that surprises people: fixing this is mostly subtraction, and it's fast.
+
+Kill the bottom 50% of your channels. Not pause — kill. Re-budget toward the top 20%, because that's where roughly 80% of your pipeline already comes from; you're just starving it. Then add one buyer-outcome metric to every case study and every campaign — €X in pipeline, X% lift, X weeks — so that everything you publish is forced to point at a result a buyer cares about.
+
+Audit. Kill. Rebuild. Measure. Run that loop over 30 days and the typical result is a 30–60% lift in your marketing-to-pipeline ratio. No new headcount. No new agency. Often a smaller budget, spent with intent.
+
+I put the three drains, the nine specific fixes, and the 30-day plan on a single page you can print and hand to your team. No call required. No email gate. The point is to be useful before you ever talk to me.
+
+Get the Marketing ROI Fix Sheet → ruttens.com/marketing-roi-fix-sheet
+
+And if you'd rather have someone find your specific leaks with you, the Revenue Scan does exactly that in 20 minutes — ruttens.com/revenue-scan.</div>
+    </div>
+
+    <!-- S3 -->
+    <div class="sub-piece">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div>
+          <div class="sub-title">S3 — Hire a CMO, Hire a Fractional, or Boost In-House?</div>
+          <div class="sub-meta">📅 Thu Jul 10, 2026 · CTA: ruttens.com/team-upgrade-30-day-plan · ~1,100 words</div>
+          <div class="sub-excerpt">The €180K decision most B2B leaders get wrong. Three states: A (foundational gap → fractional), B (mature but stuck → 60-90d), C (one specific gap → 30d). Only State A points near a CMO.</div>
+          <a href="#" onclick="window.top.open('https://ruttens.com/team-upgrade-30-day-plan','_blank');return false;" class="sub-cta">→ ruttens.com/team-upgrade-30-day-plan</a>
+        </div>
+        <div style="display:flex;gap:5px;flex-shrink:0">
+          <input type="checkbox" class="post-check" id="chk-sub3" onclick="toggleSub('sub3')">
+          <button class="btn btn-sub" onclick="toggleDrawer('drawer-sub3')">📋 Article</button>
+        </div>
+      </div>
+      <div class="drawer sub-d" id="drawer-sub3"><button class="copy-btn" onclick="copyDrawer('drawer-sub3')">Copy</button>PIECE 3 — Hire a CMO, Hire a Fractional, or Boost In-House?
+The €180K decision most B2B leaders get wrong
+Primary CTA: Get the 30-Day Decision Plan → ruttens.com/team-upgrade-30-day-plan
+
+The instinct, when marketing is underperforming, is to hire a CMO.
+
+It feels decisive. It looks like leadership. And for a meaningful share of companies, it's a €100,000 mistake.
+
+Here's the math nobody runs before the job posting goes live. A B2B CMO costs €120–180K a year in salary. Add benefits, add recruiting fees, add the six months it takes a senior hire to learn your business before they produce anything. You're committing to the better part of €200K and half a year before you know whether it was the right call. For a company that needed direction — not a permanent executive — that's an overspend you feel for years.
+
+The reason this goes wrong so often is that "our marketing isn't working" gets treated as one problem when it's actually three different ones, each with a different fix.
+
+State A: the foundational gap. You have people doing marketing, but no one has ever built the system underneath them. No ICP clarity, no positioning, no engine. A junior team here will stay busy and go nowhere, not because they're weak but because no one's leading. This is the case where fractional leadership earns its keep — six months of a senior operator setting the strategy and building the engine, typically €2,499–€3,990 a month. A fraction of the full-time cost, available now, gone when the engine runs.
+
+State B: mature but stuck. The team is capable and the basics exist, but you've plateaued and can't see why. This usually isn't a leadership gap — it's a specific diagnostic-and-rebuild problem. A focused 60–90 day engagement, €1,995–€7,990 fixed, finds the constraint and fixes it. Hiring a CMO here would be using a permanent solution for a temporary problem.
+
+State C: one specific gap. Everything works except one thing — your outbound is dead, or your attribution is broken, or your messaging doesn't land. You don't need a CMO or a six-month engagement. You need a 30-day intervention on the one broken part, €1,995–€3,500 fixed.
+
+Notice that only State A points anywhere near a CMO-shaped solution — and even then, fractional first. The full-time hire makes sense once the engine exists and you genuinely need a permanent leader to run and scale it. Hiring before that is paying executive prices for work that isn't executive-level yet.
+
+So the real question isn't "should we hire a CMO." It's "which of these three states are we actually in." Get that right and the spending decision answers itself.
+
+I built a one-page decision plan with a five-question decision tree and a 30-day plan for each path. It's the same logic three RUTTENS+ clients are running right now.
+
+Get the Team Upgrade 30-Day Plan → ruttens.com/team-upgrade-30-day-plan</div>
+    </div>
+  </div><!-- /substack section -->
+
+  <!-- ════════ MAYBE: S2/S3 Teasers → activate Sep-Dec when Substack URLs live ════════ -->
+  <div class="week-section" id="maybe-section" style="border-color:#4b5563;opacity:0.8">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:#9ca3af">📦 MAYBE — Substack Teasers (Sep–Dec)</div>
+        <div class="week-sub">Moved here · Not counted in progress · Activate when [S2/S3 link] placeholders replaced with live Substack URLs</div>
+      </div>
+      <div class="week-prog" style="color:#6b7280">2 posts · unscheduled</div>
+    </div>
+    <div class="ch-header li-h" style="background:#1f2937;color:#9ca3af;border-bottom:1px solid #374151">📋 SUBSTACK TEASERS · move to active week once URLs are live — do not post with [placeholder] links</div>
+    <div class="post-list" id="list-li-maybe"></div>
+  </div><!-- /maybe section -->
+
+  <!-- brand amp content moved to separate artifact -->
+  <!--
+  <div class="week-section" id="substack-brand-section">
+    ...
+  </div>
+  -->
+
+  <div class="workflow">
+    <h3>📋 3-Step Workflow</h3>
+    <ol>
+      <li>Open LinkedIn → paste caption from drawer</li>
+      <li>Open PDF path on Mac Finder → <em>_LINKEDIN/visuals/</em></li>
+      <li>Attach PDF to first comment (carousel) or post body (image)</li>
+    </ol>
+  </div>
+
+
+  <!-- ════════ DIALOGUE POSTS ════════ -->
+  <div class="week-section" id="dialogue-section" style="border-top:3px solid #8b5cf6">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:#6d28d9">💬 Dialogue Posts · 5 ICP · Standalone Batch</div>
+        <div class="week-sub">First-call conversations · Miet format · Question close · Use 1/week interleaved with calendar</div>
+      </div>
+      <div class="week-prog">Posted: <span id="dp-count">0 / 6</span></div>
+    </div>
+    <div class="ch-header" style="background:#f5f3ff;color:#6d28d9;border-left:3px solid #8b5cf6">💬 ICP DIALOGUE POSTS · Real first-call language · Question close · First-comment links only · Space 1/week</div>
+    <div class="post-list" id="list-dp"></div>
+  </div>
+
+  <!-- ════════ OUTREACH MESSAGES ════════ -->
+  <div class="week-section" id="outreach-section" style="border-color:#4b5563;opacity:0.85">
+    <div class="week-header">
+      <div>
+        <div class="week-title" style="color:#9ca3af">📤 Outreach Messages — Recruiter Responses</div>
+        <div class="week-sub">For reference only · Copy manually · Not integrated with LinkedIn posting flow</div>
+      </div>
+      <div class="week-prog" style="color:#6b7280">6 messages · A/B/C × Permanent / Interim</div>
+    </div>
+    <div class="ch-header li-h" style="background:#1f2937;color:#9ca3af;border-bottom:1px solid #374151">📤 RECRUITER OUTREACH · Use when recruiters reach out · Personalise [Name] · CVs at ruttens.com/cmo</div>
+
+    <div style="padding:6px 0 4px;font-size:10px;font-weight:700;color:#6b7280;letter-spacing:.07em;text-transform:uppercase">── Permanent Roles ──</div>
+    <div class="post-list">
+      <!-- PERM A -->
+      <div class="post-item" style="border-left:3px solid #6b7280">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">PERM-A</span>
+            <span class="badge" style="background:#e5e7eb;color:#374151">PERMANENT</span>
+            <span class="time-pill">Version A · Direct &amp; Confident</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">Cold/formal · 25+ yrs · €8m pipeline · ruttens.com/cmo</div>
+          <div class="post-hint">Use for cold recruiter outreach · Formal/unknown contact</div>
+          <div class="drawer open" id="drawer-out-perma"><button class="copy-btn" onclick="copyDrawer('drawer-out-perma')">Copy</button>Hi [Name],
+
+Thanks for reaching out. I'm open to the right permanent CMO or VP Marketing role — B2B SaaS, fintech, or tech scale-up, ideally EU/UK-based or remote-friendly.
+
+A quick snapshot:
+- 25+ years B2B marketing, last 5 in CMO/VP roles
+- €8m+ pipeline attributed, 20%+ quarterly MQL/SQL growth across multiple orgs
+- Board-level reporting, full P&amp;L ownership, AI-enhanced team workflows
+
+Full background + 3 downloadable CVs (VP Marketing, Fractional CMO, Head of GTM) at ruttens.com/cmo
+More on my approach and recent work: ruttens.com/about
+
+One thing worth noting — I'm heads-down all summer building my own AI-based system and new client solutions, so I have a strong enough network and pipeline for now. But I'm genuinely open to the right permanent opportunity and happy to have a conversation.
+
+If you have something that fits, let's talk. And if I'm not the right match but you're looking to place B2B marketing leaders in my network — happy to refer you to the right person.
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-perma')">📋 Toggle</button>
+        </div>
+      </div>
+      <!-- PERM B -->
+      <div class="post-item" style="border-left:3px solid #6b7280">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">PERM-B</span>
+            <span class="badge" style="background:#e5e7eb;color:#374151">PERMANENT</span>
+            <span class="time-pill">Version B · Warmer / Relationship-first</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">Warmer tone · includes quiz CTA · mutual connection context</div>
+          <div class="post-hint">Use when you've met the recruiter or have a mutual connection</div>
+          <div class="drawer open" id="drawer-out-permb"><button class="copy-btn" onclick="copyDrawer('drawer-out-permb')">Copy</button>Hi [Name],
+
+Good to hear from you. I'm selectively exploring permanent CMO/VP Marketing opportunities — the right role, right stage, right leadership team.
+
+My sweet spot: B2B scale-ups (SaaS, fintech, tech) where marketing needs to be rebuilt or sharpened into a proper revenue engine. I've done this across 5+ organisations, with board-level results to show.
+
+You can find everything you need — background, metrics, and 3 downloadable CVs — at ruttens.com/cmo
+For a fuller picture of how I work: ruttens.com/about
+
+I should mention: I'm spending the summer heads-down on building my own AI systems and new solutions — I'm not actively job-hunting. But if the opportunity genuinely fits, I'm worth a call. And if not for me, I'm happy to point you toward someone great in my network.
+
+One more thing — I built a GTM diagnostic quiz that takes 2 minutes and gives you a personalised GTM Animal playbook. Curious if it gives you a useful lens for the profiles you place: ruttens.com/quiz
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-permb')">📋 Toggle</button>
+        </div>
+      </div>
+      <!-- PERM C -->
+      <div class="post-item" style="border-left:3px solid #6b7280">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">PERM-C</span>
+            <span class="badge" style="background:#e5e7eb;color:#374151">PERMANENT</span>
+            <span class="time-pill">Version C · Short / LinkedIn DM</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">Short format · LinkedIn DM or WhatsApp · no fluff</div>
+          <div class="post-hint">Use for LinkedIn DM, WhatsApp, or when they've read your profile already</div>
+          <div class="drawer open" id="drawer-out-permc"><button class="copy-btn" onclick="copyDrawer('drawer-out-permc')">Copy</button>Hi [Name],
+
+Open to the right permanent CMO or VP Marketing role. B2B focus, EU/UK, board-level experience.
+
+All the detail you need — CVs, metrics, background — at ruttens.com/cmo
+My approach and recent work: ruttens.com/about
+
+Heads-up: I'm deep in building my own AI systems this summer, so I'm not actively searching. But the right fit is worth a conversation. If I'm not your match, happy to refer you to someone who is.
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-permc')">📋 Toggle</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:10px 0 4px;font-size:10px;font-weight:700;color:#6b7280;letter-spacing:.07em;text-transform:uppercase">── Interim / Fractional Roles ──</div>
+    <div class="post-list">
+      <!-- FRAC A -->
+      <div class="post-item" style="border-left:3px solid #d97706">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">FRAC-A</span>
+            <span class="badge" style="background:#fef3c7;color:#92400e">INTERIM/FRAC</span>
+            <span class="time-pill">Version A · Direct &amp; Confident</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">12+ mandates · fast start · 3–6mo interim or 2–3 days/wk fractional</div>
+          <div class="post-hint">Use for cold recruiter outreach on interim/fractional briefs</div>
+          <div class="drawer open" id="drawer-out-fraca"><button class="copy-btn" onclick="copyDrawer('drawer-out-fraca')">Copy</button>Hi [Name],
+
+Thanks for reaching out. Interim and fractional engagements are exactly where I play — I can move fast, come with a proven playbook, and deliver measurable results without a long ramp.
+
+My profile:
+- 12+ fractional and interim CMO mandates delivered
+- Available for 3–6 month interim, fractional (2–3 days/week), or advisory arrangements
+- B2B SaaS · Fintech · Tech scale-ups · EU/UK
+
+3 CVs (including a dedicated Fractional CMO version) + full background at ruttens.com/cmo
+More on how I work: ruttens.com/about
+
+Fair to say: I'm also spending the summer building my own AI-based system and new solutions — my own pipeline is strong. But if you have an urgent brief where the fit is right, I'm worth a call. And if not, I'm happy to refer you to the right person in my network.
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-fraca')">📋 Toggle</button>
+        </div>
+      </div>
+      <!-- FRAC B -->
+      <div class="post-item" style="border-left:3px solid #d97706">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">FRAC-B</span>
+            <span class="badge" style="background:#fef3c7;color:#92400e">INTERIM/FRAC</span>
+            <span class="time-pill">Version B · Warmer / Relationship-first</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">Warmer · fractional is my sweet spot · includes quiz CTA</div>
+          <div class="post-hint">Use when you've met the recruiter or have a mutual connection</div>
+          <div class="drawer open" id="drawer-out-fracb"><button class="copy-btn" onclick="copyDrawer('drawer-out-fracb')">Copy</button>Hi [Name],
+
+Good to hear from you. Fractional and interim CMO is genuinely my sweet spot — I can step in quickly, get aligned fast, and deliver without needing six months of onboarding.
+
+I've done 12+ of these engagements across B2B SaaS, fintech, and tech scale-ups. I typically work at 2–3 days/week fractional or full-time for defined interim periods.
+
+Everything you need — including a dedicated Fractional CMO CV — is at ruttens.com/cmo
+How I work and recent results: ruttens.com/about
+
+Worth knowing: I'm heads-down this summer building my own AI systems and new client solutions. So I'm selective. But the right urgent brief still gets my full attention. And if it's not a match, I'll gladly point you toward someone in my network.
+
+Also — I built a 2-minute GTM diagnostic that gives a personalised playbook based on GTM type. Might be a useful lens for the profiles you place: ruttens.com/quiz
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-fracb')">📋 Toggle</button>
+        </div>
+      </div>
+      <!-- FRAC C -->
+      <div class="post-item" style="border-left:3px solid #d97706">
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-num">FRAC-C</span>
+            <span class="badge" style="background:#fef3c7;color:#92400e">INTERIM/FRAC</span>
+            <span class="time-pill">Version C · Short / LinkedIn DM</span>
+          </div>
+          <div class="post-title" style="color:#6b7280">Short format · "Fractional is my core" · no fluff</div>
+          <div class="post-hint">Use for LinkedIn DM, WhatsApp, or when they've read your profile already</div>
+          <div class="drawer open" id="drawer-out-fracc"><button class="copy-btn" onclick="copyDrawer('drawer-out-fracc')">Copy</button>Hi [Name],
+
+Fractional and interim CMO is my core. 12+ mandates delivered. Fast start, no long ramp.
+
+B2B SaaS · Fintech · Tech scale-ups. EU/UK. 2–3 days/week or full-time interim.
+
+Dedicated Fractional CMO CV + full background: ruttens.com/cmo
+My approach: ruttens.com/about
+
+Heads-down on my own AI systems this summer, but open to the right urgent brief. If I'm not the fit, happy to refer you to someone who is.
+
+Phil</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn btn-cap" onclick="toggleDrawer('drawer-out-fracc')">📋 Toggle</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;padding:8px 12px;background:#1f2937;border-radius:6px;font-size:10px;color:#9ca3af;line-height:1.8">
+      <strong style="color:#d1d5db">Usage notes:</strong> Always personalise [Name] · Version B includes quiz CTA (ruttens.com/quiz) · All CVs at ruttens.com/cmo · Version A = cold/formal · Version B = warmer/relationship · Version C = short/LinkedIn DM
+    </div>
+  </div><!-- /outreach section -->
+
+  <div class="week-section" id="cohort-section">
+    <div class="week-header" style="border-left:4px solid #0ea5e9">
+      <div>
+        <div class="week-title">🎓 Course / Cohort — Founding Launch Posts</div>
+        <div class="week-meta">14 LinkedIn posts · 4-week sequence · Stuck Founder ICP · B2B Pipeline Engine</div>
+      </div>
+      <div class="week-stats" style="color:#0ea5e9">
+        <span id="cohort-count">0 / 14</span> posted
+      </div>
+    </div>
+    <div class="cohort-legend" style="padding:8px 16px 4px;font-size:11px;color:#6b7280;display:flex;gap:12px;flex-wrap:wrap">
+      <span>W1: Pain awareness + data</span>
+      <span>W2: Framework + event</span>
+      <span>W3: Social proof + remind</span>
+      <span>W4: Cart open + close</span>
+    </div>
+    <div class="post-list" id="list-cohort"></div>
+  </div><!-- /cohort section -->
+
+</div><!-- /main -->
+
+<script>
+const PDF_BASE = '/Users/philruttens/Library/CloudStorage/GoogleDrive-pruttens@gmail.com/My Drive/RUTTENS+OS/_LINKEDIN/visuals/';
+const VIS_BASE = '/Users/philruttens/Library/CloudStorage/GoogleDrive-pruttens@gmail.com/My Drive/RUTTENS+OS/04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/';
+const DRIVE_LI = 'https://drive.google.com/drive/folders/1ut630Het69obPNpnmoHIZFg0MOn2GwsC';
+const LS_LI = 'sched_li_jun2026_v5';
+const LS_IG = 'sched_ig_jun2026_v1';
+const LS_SUB = 'sched_sub_jun2026_v1';
+const LS_COHORT = 'sched_cohort_jun2026_v1';
+
+let STATE_LI = {};
+let STATE_IG = {};
+let STATE_SUB = {};
+let STATE_COHORT = {};
+
+/* ─── LINKEDIN DATA ─── */
+const LI_WEEKS = {
+'li-jun1': { posts: [
+  { id:'li1-1', num:'1', type:'text', time:'Mon Jun 9 · 08:30 CET',
+    title:'Most companies think they have a marketing problem.',
+    hint:'FC: If you\'re not sure which, I\'ll name your 3 biggest leaks in a free 20-min Revenue Scan → ruttens.com',
+    caption:`Most B2B companies think they have a marketing problem.\n\nThey don't. They have a "nobody owns the handoff" problem.\n\nMarketing optimises for leads. Sales optimises for its number. The gap between them is where the revenue quietly leaks — and no campaign, tool or rebrand fixes a gap nobody owns.\n\nI've walked into 40+ B2B teams in 25 years. The fastest-growing ones didn't spend more. They closed that gap first.\n\nWhere does your pipeline actually leak — marketing, the handoff, or sales?`
+  },
+  { id:'li1-2', num:'2', type:'carousel', time:'Tue Jun 10 · 12:00 CET',
+    title:'SP-1: Don\'t take my word for it.',
+    hint:'FC: If that\'s the kind of thinking your pipeline needs, the first 20 minutes are free → ruttens.com | @tag: Hirst · Kartik · Pohlman · Washington · Denham',
+    pdf:'SocialProof/SP-1_Carousel_LeadersSay.pdf',
+    caption:`"Don't take my word for it."\n\nI've worked with 40+ B2B teams in 25 years. The proof that matters isn't my pitch — it's what those leaders said afterwards.\n\nFive of them, in their own words 👇\n\nWhich line sounds most like where your team is right now?`
+  },
+  { id:'li1-3', num:'3', type:'image', time:'Wed Jun 11 · 08:30 CET',
+    title:'CAC Teardown: €800 or €3,200?',
+    hint:'FC: I do this teardown live in the Revenue Scan → ruttens.com',
+    pdf:'Teardowns/Teardown_CAC.png',
+    caption:`This is how a €3M SaaS company convinced itself its CAC was €800.\n\n(I've blurred the name. The mistake is everywhere.)\n\nThey counted ad spend. That's it.\n\nWhat they left out 👇\n— agency retainer\n— SDR salaries\n— event + tooling costs\n— management time reviewing it all\n\nReal CAC: €3,200. Their LTV: €2,800.\nThey were about to DOUBLE the ad budget.\n\nAdd it up honestly before you scale anything.\n\nWhat's missing from how your team calculates CAC?`
+  },
+  { id:'li1-4', num:'4', type:'image', time:'Thu Jun 12 · 12:00 CET',
+    title:'SP-2: James Hirst — when things get tough.',
+    hint:'FC: Not sure which moment you\'re in? The 2-min GTM quiz names it → ruttens.com/quiz-preview | @tag James Hirst',
+    pdf:'SocialProof/SP-2_QuoteCard_JamesHirst.png',
+    caption:`Anyone looks good when the plan is working.\n\nThe job I get hired for is the other moment — budget frozen, a campaign just flopped, sales and marketing blaming each other.\n\nJames Hirst, who co-founded Tyk, put it better than I could 👇 [quote on card]\n\nWhen things got tough at your company, who did you want in the room — and why?`
+  },
+  { id:'li1-5', num:'5', type:'text', time:'Fri Jun 13 · 08:30 CET',
+    title:'A year ago I almost said yes to a full-time CMO role.',
+    hint:'FC: (optional) This is the work → ruttens.com',
+    caption:`A year ago I almost said yes to a full-time CMO role.\n\nGood company. Big title. The kind of offer my 30-year-old self would have grabbed with both hands.\n\nI turned it down.\n\nNot because of the work — because I'd finally understood what I'm actually good at: walking into a B2B team, finding the one thing throttling revenue, fixing it, and handing it back so they can run it without me. A title would have buried that under politics.\n\nGoing fractional was the scariest professional decision I've made. It was also the right one.\n\nWhat's a "safe" yes you're glad you turned down?`
+  }
+]},
+'li-jun8': { posts: [
+  { id:'li2-1', num:'6', type:'text', time:'Mon Jun 16 · 08:30 CET',
+    title:'The fastest-growing B2B companies I know share one pattern.',
+    hint:'FC: (none required)',
+    caption:`The fastest-growing B2B companies I know share one pattern: the founder stopped being the best closer.\n\nNot because they burned out. Because they built a motion that worked without them.\n\nFounder-led sales is a feature in year one. It becomes a bug in year three — when every deal still needs your personal credibility, your story, your follow-up to close.\n\nThe ceiling isn't market size or pricing or product. It's the founder's calendar.\n\nI've watched 40+ B2B teams hit that ceiling and stall. The ones who broke through didn't hire more salespeople. They engineered the handoff.\n\nWhat's still on your shoulders that shouldn't be?`
+  },
+  { id:'li2-2', num:'7', type:'image', time:'Tue Jun 17 · 12:00 CET',
+    title:'SP-3: Nitin Kartik — breaking down silos.',
+    hint:'FC: Curious which silo is costing you most? 2-min GTM quiz → ruttens.com/quiz-preview | @tag Nitin Kartik',
+    pdf:'SocialProof/SP-3_QuoteCard_NitinKartik.png',
+    caption:`"Breaking down silos to drive revenue."\n\nThat's the advice Nitin Kartik (CEO, Caribou Strategic) says he still uses — and it's the single most common fix I make.\n\nMarketing optimises for leads. Sales optimises for its number. Nobody owns the handoff in between. That gap is where most B2B revenue quietly leaks.\n\nYou don't fix it with more tools. You fix it with one shared definition and one shared number.\n\nCurious which silo is costing you most? 2-minute GTM quiz → ruttens.com/quiz-preview`
+  },
+  { id:'li2-3', num:'8', type:'image', time:'Wed Jun 18 · 08:30 CET',
+    title:'Pipeline Review Teardown.',
+    hint:'FC: I run this live in the Revenue Scan → ruttens.com',
+    pdf:'Teardowns/Teardown_Pipeline.png',
+    caption:`This is a real pipeline review I was asked to sit in on. I changed the numbers, not the pattern.\n\nThe team had 22 deals in the pipeline. The sales director called it "healthy."\n\nHere's what I saw instead 👇\n— 14 deals hadn't moved in 30+ days\n— 6 had a "next step" of "follow up" with no date\n— 3 were stuck waiting on a proposal nobody had actually sent\n— The one deal marked "closing this month" had no champion identified\n\nThat's not a pipeline. That's a list.\n\nA real pipeline has movement, dates, named stakeholders, and clear blockers. Without those four things, your forecast is fiction.\n\nWhat does your pipeline review actually tell you?`
+  },
+  { id:'li2-4', num:'9', type:'carousel', time:'Thu Jun 19 · 12:00 CET',
+    title:'SP-4: Revenue data, not vanity metrics.',
+    hint:'FC: Want to see where your funnel leaks revenue? 5-min Lead-to-Deal Audit → ruttens.com/quiz-preview',
+    pdf:'SocialProof/SP-4_Carousel_RevenueData.pdf',
+    caption:`The fastest way to tell whether marketing is working: ask what it's measured on.\n\nTraffic and impressions? Or pipeline and revenue?\n\nFor 25 years my answer has been the same one — and it's what these four say about working with me 👇\n\n→ Swipe through.\n\nData informs the strategy. It doesn't replace it. And it never gets confused with vanity metrics.\n\nWant to see where your funnel leaks revenue? 5-min Lead-to-Deal Audit → ruttens.com/quiz-preview`
+  },
+  { id:'li2-5', num:'10', type:'text', time:'Fri Jun 20 · 08:30 CET',
+    title:'The biggest lie I told myself in corporate.',
+    hint:'FC: If this resonates → SCAN €499 at ruttens.com',
+    caption:`The biggest lie I told myself in corporate: "I just need one more year."\n\nI said it at year 7. Year 11. Year 16.\n\nThen someone I respected left to go independent, and I watched them do more interesting work, with more autonomy, in less time. I spent six months convincing myself they were just lucky.\n\nThey weren't. I was avoiding the decision.\n\nGoing fractional was the scariest thing I did professionally. No safety net. No job title. Just: can I actually help companies grow, or have I just been in rooms where growth happened?\n\nThe answer surprised me. The market taught me more in 12 months than the previous decade did.\n\nWhat's the decision you keep putting off by telling yourself "one more year"?`
+  },
+  { id:'li2-dutch', num:'NL', type:'text', time:'Mon Jun 16 · 10:30 CET',
+    title:'De meeste B2B-bedrijven denken dat ze een marketingprobleem hebben.',
+    hint:'🇧🇪 Nederlandstalige post voor Belgian SME segment · FC: Niet zeker welk? Ik benoem de 3 grootste lekken in een gratis 20-min Revenue Scan → ruttens.com',
+    caption:`De meeste B2B-bedrijven denken dat ze een marketingprobleem hebben.\n\nDat klopt niet. Ze hebben een "niemand is verantwoordelijk voor de overdracht"-probleem.\n\nMarketing optimaliseert voor leads. Sales optimaliseert voor zijn cijfer. De kloof tussen die twee is waar omzet stilletjes weglekt — en geen campagne, tool of rebrand lost een kloof op die niemand in eigendom heeft.\n\nIk heb de afgelopen 25 jaar meer dan 40 B2B-teams van dichtbij meegemaakt. De snelst groeiende gaven niet meer uit. Ze sloten die kloof als eerste.\n\nWaar lekt jouw pipeline eigenlijk — marketing, de overdracht, of sales?`
+  }
+]},
+'li-jun15': { posts: [
+  { id:'li3-1', num:'11', type:'text', time:'Mon Jun 23 · 08:30 CET',
+    title:'"Brand is soft." I hear this from B2B founders at least twice a month.',
+    hint:'FC: (none required)',
+    caption:`"Brand is soft." I hear this from B2B founders at least twice a month.\n\nThey're wrong. And I have the CAC numbers to prove it.\n\nThe companies I've worked with that invested in consistent brand — clear positioning, recognisable voice, specific point of view — always had lower cost-per-lead and shorter sales cycles than those that didn't.\n\nBecause when a prospect already knows what you stand for, your sales team isn't starting from zero.\n\nBrand doesn't replace pipeline. It makes every pipeline conversation shorter.\n\nIf your team is spending 45 minutes of every discovery call explaining who you are, that's not a sales problem.\n\nWhat does your brand do for your pipeline — or doesn't it?`
+  },
+  { id:'li3-2', num:'12', type:'image', time:'Tue Jun 24 · 12:00 CET',
+    title:'SP-5: Paul Cooper — from a revenue standpoint.',
+    hint:'FC: 5-min Lead-to-Deal Audit → ruttens.com/quiz-preview | @tag Paul Cooper',
+    pdf:'SocialProof/SP-5_QuoteCard_PaulCooper.png',
+    caption:`"From a revenue standpoint and not traffic."\n\nPaul Cooper ran marketing performance under me at Tyk. That line is the whole philosophy in nine words.\n\nMost B2B dashboards are full of numbers that feel good and prove nothing — sessions, impressions, MQLs that never convert.\n\nThe only metrics I let a team celebrate are the ones a CFO would recognise: pipeline created, win rate, CAC, revenue.\n\nIf your reporting can't connect a campaign to a closed deal, that's the first thing I'd fix.\n\n5-min Lead-to-Deal Audit → ruttens.com/quiz-preview`
+  },
+  { id:'li3-3', num:'13', type:'image', time:'Wed Jun 25 · 08:30 CET',
+    title:'I\'ve seen three rebrand disasters in the last 18 months.',
+    hint:'FC: (none required)',
+    pdf:'Teardowns/Teardown_Rebrand.png',
+    caption:`I've seen three rebrand disasters in the last 18 months. Same mistake every time.\n\nThe company changed everything that didn't matter and nothing that did.\n\nNew logo. New colours. New "brand personality" described in 47 adjectives. New website copy so generic it could have been written for any company in any sector.\n\nWhat they didn't change: their positioning. Their messaging hierarchy. How they explain what they do in one sentence.\n\nSo the new brand launched. The team felt refreshed. The website looked great.\n\nAnd leads stayed flat, because nobody outside the building knew what had changed — or why they should care.\n\nA rebrand that doesn't touch positioning isn't a rebrand. It's wallpaper.\n\nHas your brand ever looked better while performing worse?`
+  },
+  { id:'li3-4', num:'14', type:'image', time:'Thu Jun 26 · 12:00 CET',
+    title:'SP-6: Arne Pohlman — rolled up his sleeves.',
+    hint:'FC: Senior thinking that ships → ruttens.com/contact | @tag Arne Pohlman',
+    pdf:'SocialProof/SP-6_QuoteCard_ArnePohlman.png',
+    caption:`"He didn't just advise; he rolled up his sleeves."\n\nArne Pohlman (Chief Economist & MD, FocusEconomics) brought me in to help hire their Head of Marketing. I didn't hand over a framework and leave — I built the actual assessment we used to evaluate every candidate.\n\nThat's the difference between a consultant and an operator. Strategy that never touches execution is just an expensive opinion.\n\nMost of my engagements end the same way: a working motion, handed over to your team to run without me.\n\nIf you want senior thinking that ships, not just slides → ruttens.com/contact`
+  },
+  { id:'li3-5', num:'15', type:'text', time:'Fri Jun 27 · 08:30 CET',
+    title:'I spent last Saturday doing something that felt completely useless at the time.',
+    hint:'FC: When did you last interrogate your positioning? GTM quiz → ruttens.com/quiz-preview',
+    caption:`I spent last Saturday doing something that felt completely useless at the time.\n\nI rewrote my own positioning statement. For the fourth time in two years.\n\nNot because a client asked. Not because my numbers were down. Just because I sensed it had drifted — that what I was saying and what I was actually delivering had slowly pulled apart.\n\nThe process took three hours and one very strong coffee. It felt self-indulgent.\n\nBut the next two proposals I wrote were sharper, faster, and both converted. The clarity showed up everywhere.\n\nMost founders I work with haven't revisited their positioning in 18 months. It shows — in the hesitations on discovery calls, in the generic messaging, in the deals that stall without explanation.\n\nWhen did you last interrogate what you actually stand for in the market?`
+  }
+]},
+'li-jun22': { posts: [
+  { id:'li4-1', num:'16', type:'text', time:'Mon Jun 30 · 08:30 CET',
+    title:'Every B2B team I\'ve talked to in the last 6 months is "implementing AI in their GTM."',
+    hint:'FC: (none required)',
+    caption:`Every B2B team I've talked to in the last 6 months is "implementing AI in their GTM."\n\nMost of them are automating the wrong things.\n\nThey've built AI sequences that send 300 cold emails a day. AI tools that summarise sales calls nobody reads. AI dashboards that produce beautiful charts of metrics that don't move revenue.\n\nMeanwhile, the fundamentals are still broken: no clear ICP, no shared definition of a qualified lead, no working handoff between marketing and sales.\n\nAI on top of a broken process doesn't fix the process. It just breaks it faster, at scale, with better formatting.\n\nThe fastest gains I've seen this year came from teams that automated one thing that was genuinely working — not from teams that sprinted to "be an AI company."\n\nWhich part of your GTM actually earns automation?`
+  },
+  { id:'li4-2', num:'17', type:'carousel', time:'Tue Jul 1 · 12:00 CET',
+    title:'SP-7: Building demand engines.',
+    hint:'FC: Pipeline Sprint from €2,590 → ruttens.com/sprint',
+    pdf:'SocialProof/SP-7_Carousel_DemandEngines.pdf',
+    caption:`Some teams need a strategy. More often, they need someone to build the engine and prove it works.\n\nI've stood up demand-gen and ABM operations from zero — targeting, data, tooling, channels, reporting, the sales handoff — more times than I can count.\n\nHere's what 4 founders and leaders said about that work 👇\n\n→ Swipe through.\n\nThis is exactly what the Pipeline Sprint does now: one leak, one motion, built and handed over in 4 weeks. Not a strategy doc — a running engine.\n\nfrom €2,590 → ruttens.com/sprint`
+  },
+  { id:'li4-3', num:'18', type:'image', time:'Wed Jul 2 · 08:30 CET',
+    title:'Where did you lose the last 10 leads that didn\'t convert?',
+    hint:'FC: I run this teardown live in the Revenue Scan → ruttens.com',
+    pdf:'Teardowns/Teardown_FunnelLeak.png',
+    caption:`Where did you lose the last 10 leads that didn't convert?\n\nMost teams can't answer that question. That's the leak.\n\nHere's the funnel teardown I run in every Revenue Scan 👇\n\nStage 1 → Stage 2: Lead to MQL\nIf >50% drop here, your targeting is off. You're attracting the wrong people.\n\nStage 2 → Stage 3: MQL to SQL\nIf >40% drop here, marketing and sales disagree on what "ready" means. Classic handoff problem.\n\nStage 3 → Stage 4: SQL to Proposal\nIf >30% drop here, you're having discovery calls with people who were never going to buy. Champion problem.\n\nStage 4 → Stage 5: Proposal to Close\nIf >40% drop here, your pricing, timeline, or ROI story is breaking down. Not a sales problem — a positioning problem.\n\nMost teams patch the bottom of the funnel. The money is at the top.\n\nWhich stage loses the most in your funnel?`
+  },
+  { id:'li4-4', num:'19', type:'image', time:'Thu Jul 3 · 12:00 CET',
+    title:'SP-8: Richard Washington — my go-to.',
+    hint:'FC: First 20 minutes free → ruttens.com | @tag Richard Washington',
+    pdf:'SocialProof/SP-8_QuoteCard_RichardWashington.png',
+    caption:`"My go-to for marketing and revenue insights."\n\nRichard Washington runs Tick Talent — he places senior marketers for a living. When someone who interviews marketers all day calls you his go-to, it means something.\n\nHis phrase I like most: "a true Multiplier." That's the brief I hold myself to — leave the team sharper than I found it, with a system they can run without me.\n\nIf you want that for your team — senior, scoped, transparent → the first 20 minutes are free at ruttens.com\n\nTag a founder who's still doing all the GTM themselves 👇`
+  },
+  { id:'li4-5', num:'20', type:'text', time:'Fri Jul 4 · 08:30 CET',
+    title:'I turned down a €180k CMO offer 14 months ago.',
+    hint:'FC: Pipeline Sprint from €2,590 → ruttens.com/sprint',
+    caption:`I turned down a €180k CMO offer 14 months ago.\n\nThe package was good. The company was solid. I said no in under 48 hours.\n\nNot because I didn't want it. Because I'd finally understood the tradeoff clearly: a title, a fixed scope, and a fixed context — versus the ability to walk into 6 different B2B companies per year and solve the hardest revenue problem in each one.\n\nI'm better at the second thing.\n\nIt took me 20 years to learn that being good at fixing things and being good at running things are different skills. Most CMOs I know are great operators. What I do is closer to firefighting — find the leak, build the fix, hand it over so your team can run it.\n\nGoing fractional wasn't a lifestyle choice. It was an honest career decision.\n\nWhat would you do differently if you stopped optimising for the title?`
+  }
+]},
+'li-jun29': { posts: [
+  { id:'li5-1', num:'21', type:'text', time:'Mon Jul 7 · 08:30 CET',
+    title:'The B2B companies winning right now aren\'t necessarily smarter.',
+    hint:'FC: (none required)',
+    caption:`The B2B companies winning right now aren't necessarily smarter. They're more consistent.\n\nSame messaging. Same cadence. Same offer. Month after month.\n\nThe ones stalling keep changing things. New positioning every quarter. New channel every six weeks. New tool, new campaign, new "approach."\n\nConsistency feels boring. It also compounds.\n\nI've tracked this across 40+ teams: the single biggest predictor of pipeline growth in year two isn't strategy quality — it's execution consistency in year one.\n\nIt's not what you start. It's what you keep doing after the novelty wears off.\n\nWhat did you start six months ago that you quietly stopped doing — and why?`
+  },
+  { id:'li5-2', num:'22', type:'image', time:'Tue Jul 8 · 12:00 CET',
+    title:'A B2B SaaS team came to me in January.',
+    hint:'FC: (none required)',
+    pdf:'SocialProof/SP-ClientWin_Jul2026.png',
+    caption:`I don't normally share client results without permission.\n\nThis one I got clearance on.\n\nA B2B SaaS team came to me in January. Marketing and sales hadn't agreed on a single number in 18 months. Every monthly review turned into a blame session.\n\nSix weeks later: one shared pipeline dashboard, one agreed MQL definition, and a weekly 30-minute handoff review that everyone actually shows up to.\n\nThe first quarter with the new process: 34% increase in SQL-to-close rate. Not because the salespeople got better. Because they were finally working the right leads.\n\nFixing the handoff before fixing the messaging is almost always the right order.\n\nWhere does the blame circulate in your GTM — and what would it take to stop it?`
+  },
+  { id:'li5-3', num:'23', type:'image', time:'Wed Jul 9 · 08:30 CET',
+    title:'Messaging Teardown: your homepage headline.',
+    hint:'FC: (none required)',
+    pdf:'Teardowns/Teardown_Messaging.png',
+    caption:`I ask every new client the same question: "Read me your homepage headline. Out loud."\n\nThen I ask: "Who else could say that?"\n\nMost of the time, the answer is "everyone in our category."\n\nThat's the messaging problem. Not the design. Not the copy length. Not the CTA. The headline could belong to any competitor — and the rest of the page flows from that undifferentiated premise.\n\nThe teardown is always the same 👇\nLine 1: Is the ICP named or implied?\nLine 2: Is the specific problem named?\nLine 3: Is the outcome specific and credible?\nLine 4: Is there a reason to believe it?\n\nMost B2B homepages pass 1 of those 4 tests. The best ones pass all 4 in the first screen.\n\nRead your homepage out loud. What number does it pass?`
+  },
+  { id:'li5-4', num:'24', type:'carousel', time:'Thu Jul 10 · 12:00 CET',
+    title:'The 5 pipeline leaks I find in almost every B2B team.',
+    hint:'FC: (none required)',
+    pdf:'Teaching/PipelineLeaks_Carousel.pdf',
+    caption:`The 5 pipeline leaks I find in almost every B2B team 👇\n\n(Swipe through — one fix per slide)\n\nI've done this audit 40+ times. The patterns are always the same. The fixes are usually simpler than the team expects.\n\nWhich leak sounds most like yours?`
+  },
+  { id:'li5-5', num:'25', type:'text', time:'Fri Jul 11 · 08:30 CET',
+    title:'Two years ago I had 0 LinkedIn followers, 0 newsletter subscribers, and 0 fractional clients.',
+    hint:'FC: Free 20-min Revenue Scan → ruttens.com',
+    caption:`Two years ago I had 0 LinkedIn followers, 0 newsletter subscribers, and 0 fractional clients.\n\nI had a hypothesis: that senior B2B marketers with real operator experience could create more value working across 4–6 companies per year than running one team full-time.\n\nI still believe it. The evidence is now a lot more convincing.\n\nNone of it happened because I found the perfect content strategy. It happened because I kept showing up every week, even when the numbers didn't moved.\n\nIf you're building something and the early traction is slow — that's not a signal to pivot. It's a signal to persist.\n\nWhat's the thing you're building that hasn't proved itself yet?`
+  }
+]}
+};
+
+/* ─── LINKEDIN MAYBE (Sep-Dec · awaiting live Substack URLs) ─── */
+const LI_MAYBE = [
+  { id:'li-maybe-s2', num:'S2', type:'text', time:'⚠️ Unscheduled — replace [S2 link] first',
+    title:'The buyer didn\'t pick a competitor. They stopped.',
+    hint:'⚠️ Replace [S2 link] with live Substack URL before scheduling · Substack S2 teaser',
+    caption:`Look at your last quarter's forecast.\n\nFind the deals marked "stalled." Now subtract the ones that went to a named competitor.\n\nWhat's left?\n\nFor most B2B teams — it's the majority.\n\nAround half of all stalled B2B deals don't lose to another vendor. They lose to nothing. The buyer just stops. Budget reallocated. Stakeholder changed. Let's revisit in the autumn.\n\nThe deal doesn't die loudly. It quietly disappears from the pipeline and gets re-forecast to next quarter. Then the next. Until someone deletes it.\n\nThis isn't a sales problem. It's a decision architecture problem.\n\nIn this month's newsletter: why committees freeze — and the three moves that unfreeze them.\n\n→ [S2 link] (substack.com/@philruttens)`
+  },
+  { id:'li-maybe-s3', num:'S3', type:'text', time:'⚠️ Unscheduled — replace [S3 link] first',
+    title:'Distinctiveness is the only marketing budget that compounds.',
+    hint:'⚠️ Replace [S3 link] with live Substack URL before scheduling · Substack S3 teaser · publishes ~Jun 15',
+    caption:`CAC is up 60% over five years, across B2B sectors.\n\nIf you've been running the same acquisition model since 2021 — paid ads, cold outreach at volume, SEO blog content — you've been paying more for the same pipeline every year.\n\nThe curve isn't reversing.\n\nHere's the shift that matters: 81% of B2B buyers now make vendor decisions before engaging sales. They arrive at the first conversation with a preference already formed — based on what they found in AI search results, what colleagues recommended, what they read and recognised before the RFP existed.\n\nYou can't buy your way onto a shortlist you're not on before the conversation starts.\n\nThe only budget that doesn't get more expensive every year — in this month's newsletter.\n\n→ [S3 link] (substack.com/@philruttens)`
+  }
+];
+
+/* ─── INSTAGRAM DATA ─── */
+const IG_WEEKS = {
+'ig-jun1': { posts: [
+  { id:'ig-wc02', num:'WC-02', time:'Tue Jun 10 · 12:00 CET', visual:'WC02_animals_portrait.png',
+    title:'What\'s your GTM Animal? 🐆🦝🐘',
+    caption:`What's your GTM Animal? 🐆🦝🐘\n\n6 types. One determines how your B2B company grows — or stalls.\n\nTake the 2-min quiz → ruttens.com/quiz-preview` },
+  { id:'ig-wc01', num:'WC-01', time:'Thu Jun 12 · 12:00 CET', visual:'WC01_engine_portrait.png',
+    title:'Most B2B companies don\'t have a revenue problem. They have an engine problem. ⚙️',
+    caption:`Most B2B companies don't have a revenue problem. They have an engine problem. ⚙️\n\nThe leads exist. The budget exists. The team exists.\n\nThe problem is everything between those three things.\n\nFix the engine → ruttens.com` },
+  { id:'ig-wc03', num:'WC-03', time:'Sat Jun 14 · 12:00 CET', visual:'WC03_leaks_portrait.png',
+    title:'Your pipeline isn\'t empty. It\'s leaking. 🪣',
+    caption:`Your pipeline isn't empty. It's leaking. 🪣\n\nMost B2B teams patch the bottom. The money is always at the top.\n\nFind your leaks → ruttens.com/quiz-preview` }
+]},
+'ig-jun8': { posts: [
+  { id:'ig-wc04', num:'WC-04', time:'Tue Jun 17 · 12:00 CET', visual:'WC04_roi_portrait.png',
+    title:'ROI isn\'t a metric. It\'s a conversation. 📊',
+    caption:`ROI isn't a metric. It's a conversation. 📊\n\nIf your marketing team can't connect a campaign to a closed deal, that's the first thing I'd fix.\n\nStart with the Revenue Scan → ruttens.com` },
+  { id:'ig-wc07', num:'WC-07', time:'Thu Jun 19 · 12:00 CET', visual:'WC07_founder_portrait.png',
+    title:'Founder-led sales has a ceiling. 📈',
+    caption:`Founder-led sales has a ceiling. 📈\n\nThe question isn't whether you're good at selling. It's whether your company can sell without you.\n\nLearn the difference → ruttens.com` },
+  { id:'ig-wc05', num:'WC-05', time:'Sat Jun 21 · 12:00 CET', visual:'WC05_team_portrait.png',
+    title:'Your team isn\'t the problem. The handoff is. 🤝',
+    caption:`Your team isn't the problem. The handoff is. 🤝\n\nMarketing optimises for leads. Sales optimises for its number. Nobody owns the gap in between.\n\nFix the handoff → ruttens.com` }
+]},
+'ig-jun15': { posts: [
+  { id:'ig-wc08', num:'WC-08', time:'Tue Jun 24 · 12:00 CET', visual:'WC08_sme_portrait.png',
+    title:'SME owners: you\'re not too small for proper GTM. 🏭',
+    caption:`SME owners: you're not too small for proper GTM. 🏭\n\nYou're too busy doing it wrong.\n\nThe Revenue Scan is 20 minutes → ruttens.com` },
+  { id:'ig-wc09', num:'WC-09', time:'Thu Jun 26 · 12:00 CET', visual:'WC09_tech_portrait.png',
+    title:'Tech scale-ups: you\'ve got product-market fit. Now what? 🚀',
+    caption:`Tech scale-ups: you've got product-market fit. Now what? 🚀\n\nThe next ceiling is always GTM. Channel, ICP, messaging, handoff.\n\nFind yours → ruttens.com` },
+  { id:'ig-wc06', num:'WC-06', time:'Sat Jun 28 · 12:00 CET', visual:null,
+    title:'Brand isn\'t soft. It\'s your lowest-CAC sales tool.',
+    caption:`[Visual TBD]\n\nBrand isn't soft. It's your lowest-CAC sales tool.\n\nIf your team spends 45 minutes of every discovery call explaining who you are — that's not a sales problem.\n\nFix the positioning → ruttens.com` }
+]},
+'ig-jun22': { posts: [
+  { id:'ig-wc10', num:'WC-10', time:'Tue Jul 1 · 12:00 CET', visual:'WC10_agency_portrait.png',
+    title:'Agencies: your clients don\'t want more content. 📣',
+    caption:`Agencies: your clients don't want more content. 📣\n\nThey want a system that converts. There's a difference.\n\nHelp them build one → ruttens.com` },
+  { id:'ig-wc11', num:'WC-11', time:'Thu Jul 3 · 12:00 CET', visual:'WC11_pevc_portrait.png',
+    title:'PE/VC portfolio: GTM is always the gap. 💼',
+    caption:`PE/VC portfolio: GTM is always the gap. 💼\n\nProduct works. Sales exists. But the engine between them is broken.\n\nFix it before the next funding round → ruttens.com/for-pe-vc` },
+  { id:'ig-wc13', num:'WC-13', time:'Sat Jul 5 · 12:00 CET', visual:'WC13_pain_portrait.png',
+    title:'Three B2B pains. One root cause. 🩻',
+    caption:`Three B2B pains. One root cause. 🩻\n\nAI invisibility. No-decision stalls. CAC inflation.\n\nThey all trace back to the same broken GTM motion.\n\nDiagnose yours → ruttens.com/quiz-preview` }
+]},
+'ig-jun29': { posts: [
+  { id:'ig-wc12', num:'WC-12', time:'Tue Jul 8 · 12:00 CET', visual:'WC12_pricing_portrait.png',
+    title:'Pricing transparency isn\'t a weakness. 💰',
+    caption:`Pricing transparency isn't a weakness. 💰\n\nIt's a filter. The right clients respect it. The wrong ones leave before wasting your time.\n\nSee the ladder → ruttens.com/pricing` },
+  { id:'ig-wc14', num:'WC-14', time:'Thu Jul 10 · 12:00 CET', visual:'WC14_scan_portrait.png',
+    title:'20 minutes. 3 biggest leaks. Free. 🔍',
+    caption:`20 minutes. 3 biggest leaks. Free. 🔍\n\nThe Revenue Scan is how most engagements start.\n\nBook yours → ruttens.com` },
+  { id:'ig-wc15', num:'WC-15', time:'Sat Jul 12 · 12:00 CET', visual:'WC15_solutions_portrait.png',
+    title:'Not every problem needs the same solution. 🗺️',
+    caption:`Not every problem needs the same solution. 🗺️\n\nSCAN → Sprint → LAB → MAP → MAX.\n\nFind your fit → ruttens.com/pricing` }
+]}
+};
+
+/* ─── RENDER LI POST ─── */
+function renderLIPost(p) {
+  const typeCls = p.type==='carousel'?'carousel':p.type==='video'?'video':'';
+  const badgeLabel = p.type==='carousel'?'CAROUSEL':p.type==='video'?'VIDEO 🎬':'TEXT';
+  const badgeCls = p.type==='carousel'?'badge-carousel':p.type==='video'?'badge-video':'badge-text';
+  const fromBadge = p.fromWeek==='W20'
+    ? `<span class="w20-badge">⚠️ W20 NOT POSTED</span>`
+    : p.fromWeek
+    ? `<span class="catchup-badge">🟡 ${p.fromWeek} catch-up</span>`
+    : '';
+  const pptxBadge = p.pptxTodo ? `<span class="pptx-badge">⚠️ PPTX needed</span>` : '';
+
+  let actionsHtml = `<button class="btn btn-cap" onclick="toggleDrawer('drawer-${p.id}')">📋 Caption</button>
+    <button class="btn btn-li" onclick="window.top.open('https://www.linkedin.com/post/new/','_blank')">Post ↗</button>`;
+  if (p.pdf) {
+    actionsHtml += `<button class="btn btn-pdf" onclick="copyPath('${PDF_BASE}${p.pdf}', this)" title="${p.pdf}">📋 PDF Path</button>
+    <button class="btn btn-drive" onclick="window.top.open('${DRIVE_LI}','_blank')">🗂️ Drive</button>`;
+  }
+
+  const isW20 = p.fromWeek === 'W20';
+  return `<div class="post-item${isW20?' w20-item':''}" id="item-${p.id}">
+    <input type="checkbox" class="post-check" id="chk-${p.id}" onclick="toggleLI('${p.id}')">
+    <div class="post-body">
+      <div class="post-meta">
+        <span class="post-num">${p.num}</span>
+        <span class="badge ${badgeCls}">${badgeLabel}</span>
+        <span class="time-pill">${p.time}</span>
+        ${fromBadge}${pptxBadge}
+      </div>
+      <div class="post-title" id="title-${p.id}">${p.title}</div>
+      ${p.hint ? `<div class="post-hint">${p.hint}</div>` : ''}
+      <div class="drawer ${typeCls}" id="drawer-${p.id}">
+        <button class="copy-btn" onclick="copyDrawer('drawer-${p.id}')">Copy</button>${p.caption}</div>
+    </div>
+    <div class="post-actions">${actionsHtml}</div>
+  </div>`;
+}
+
+/* ─── RENDER IG POST ─── */
+function renderIGPost(p) {
+  const visualBtn = p.visual
+    ? `<button class="btn btn-visual" onclick="copyPath('${VIS_BASE}${p.visual}',this)" title="${p.visual}">📁 Visual</button>`
+    : `<span class="no-visual">⚠️ Visual TBD</span>`;
+  const ampBadge = '';
+  return `<div class="post-item ig-item" id="item-${p.id}">
+    <input type="checkbox" class="post-check" id="chk-${p.id}" onclick="toggleIG('${p.id}')">
+    <div class="post-body">
+      <div class="post-meta">
+        <span class="post-num">${p.num}</span>
+        <span class="badge badge-ig">IG</span>
+        <span class="time-pill">${p.time}</span>
+        ${ampBadge}
+      </div>
+      <div class="post-title">${p.title}</div>
+      <div class="drawer ig" id="drawer-${p.id}">
+        <button class="copy-btn" onclick="copyDrawer('drawer-${p.id}')">Copy</button>${p.caption}</div>
+    </div>
+    <div class="post-actions">
+      <button class="btn btn-cap" onclick="toggleDrawer('drawer-${p.id}')">📋 Caption</button>
+      ${visualBtn}
+    </div>
+  </div>`;
+}
+
+/* ─── HELPERS ─── */
+function gotoSection(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+function toggleDrawer(id){ document.getElementById(id).classList.toggle('open'); }
+
+function copyDrawer(id){
+  const d=document.getElementById(id);
+  const b=d.querySelector('.copy-btn');
+  const clone=d.cloneNode(true); clone.querySelector('.copy-btn').remove();
+  navigator.clipboard.writeText((clone.innerText||clone.textContent).trim()).then(()=>{
+    b.textContent='Copied ✓'; b.classList.add('copied');
+    setTimeout(()=>{ b.textContent='Copy'; b.classList.remove('copied'); },2000);
+  });
+}
+
+function copyPath(path, btn){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(path).then(()=>{
+      const o=btn.textContent; btn.textContent='✅ Copied!';
+      setTimeout(()=>{ btn.textContent=o; },2000);
+    }).catch(()=>{ prompt('⌘C to copy path:', path); });
+  } else { prompt('⌘C to copy path:', path); }
+}
+
+function scrollTo(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+/* ─── STATE (in-memory, localStorage best-effort) ─── */
+function tryPersist(key,obj){ try{ localStorage.setItem(key,JSON.stringify(obj)); }catch(e){} }
+
+function toggleLI(id){ STATE_LI[id]=document.getElementById('chk-'+id).checked; tryPersist(LS_LI,STATE_LI); updateLIUI(); }
+function toggleIG(id){ STATE_IG[id]=document.getElementById('chk-'+id).checked; tryPersist(LS_IG,STATE_IG); updateIGUI(); }
+function toggleSub(id){ STATE_SUB[id]=document.getElementById('chk-'+id).checked; tryPersist(LS_SUB,STATE_SUB); }
+
+/* ─── UPDATE LI UI ─── */
+function updateLIUI(){
+  const s=STATE_LI; let total=0;
+  const WK_MAP = {
+    'li-jun1':'li-jun1','li-jun8':'li-jun8','li-jun15':'li-jun15',
+    'li-jun22':'li-jun22','li-jun29':'li-jun29'
+  };
+  Object.entries(LI_WEEKS).forEach(([wk,{posts}])=>{
+    let wd=0;
+    posts.forEach(p=>{
+      const done=!!s[p.id];
+      if(done){total++;wd++;}
+      const el=document.getElementById('item-'+p.id);
+      const ch=document.getElementById('chk-'+p.id);
+      if(el){ el.classList.toggle('done',done); }
+      if(ch) ch.checked=done;
+    });
+    const progId = 'prog-'+wk.replace('li-','li-');
+    const prog=document.getElementById('prog-'+wk);
+    if(prog) prog.textContent=wd+' / '+posts.length;
+  });
+  const all = Object.values(LI_WEEKS).flatMap(w=>w.posts).length;
+  const pct=Math.round((total/Math.max(all,1))*100);
+  document.getElementById('sb-count').textContent=total+' / '+all;
+  document.getElementById('sb-fill').style.width=pct+'%';
+  document.getElementById('stat-done').textContent=total;
+  document.getElementById('stat-pending').textContent=all-total;
+}
+
+/* ─── UPDATE IG UI ─── */
+function updateIGUI(){
+  const s=STATE_IG; let total=0;
+  Object.entries(IG_WEEKS).forEach(([wk,{posts}])=>{
+    let wd=0;
+    posts.forEach(p=>{
+      const done=!!s[p.id];
+      if(done){total++;wd++;}
+      const ch=document.getElementById('chk-'+p.id);
+      const el=document.getElementById('item-'+p.id);
+      if(ch) ch.checked=done;
+      if(el) el.classList.toggle('done',done);
+    });
+    const prog=document.getElementById('prog-'+wk);
+    if(prog) prog.textContent=wd+' / '+posts.length;
+  });
+  const all=Object.values(IG_WEEKS).flatMap(w=>w.posts).length;
+  document.getElementById('ig-count').textContent=total+' / '+all;
+  document.getElementById('ig-fill').style.width=Math.round(total/all*100)+'%';
+  document.getElementById('ig-stat-done').textContent=total;
+}
+
+/* ─── INIT ─── */
+function init(){
+  // Load persisted state into memory
+  try{ const v=localStorage.getItem(LS_LI); if(v) STATE_LI=JSON.parse(v); }catch(e){}
+  try{ const v=localStorage.getItem(LS_IG); if(v) STATE_IG=JSON.parse(v); }catch(e){}
+  try{ const v=localStorage.getItem(LS_SUB); if(v) STATE_SUB=JSON.parse(v); }catch(e){}
+  // Render LI per week section
+  Object.entries(LI_WEEKS).forEach(([wk,{posts}])=>{
+    const el=document.getElementById('list-'+wk);
+    if(el) el.innerHTML=posts.map(renderLIPost).join('');
+  });
+  // Render IG per week section
+  Object.entries(IG_WEEKS).forEach(([wk,{posts}])=>{
+    const el=document.getElementById('list-'+wk);
+    if(el) el.innerHTML=posts.map(renderIGPost).join('');
+  });
+  updateLIUI();
+  updateIGUI();
+  // Render MAYBE section (not counted in LI progress)
+  const maybeEl = document.getElementById('list-li-maybe');
+  if(maybeEl) maybeEl.innerHTML = LI_MAYBE.map(renderLIPost).join('');
+  // Restore Sub checkboxes from STATE
+  ['sub1','sub2','sub3'].forEach(id=>{
+    const ch=document.getElementById('chk-'+id);
+    if(ch) ch.checked=!!STATE_SUB[id];
+  });
+  // Dialogue posts
+  try{ const v=localStorage.getItem(LS_DP); if(v) STATE_DP=JSON.parse(v); }catch(e){}
+  const dpList=document.getElementById('list-dp');
+  if(dpList) dpList.innerHTML=DIALOGUE_POSTS.map(renderDPPost).join('');
+  DIALOGUE_POSTS.forEach(p=>{
+    const ch=document.getElementById('dp-chk-'+p.id);
+    const el=document.getElementById('dp-item-'+p.id);
+    if(ch) ch.checked=!!STATE_DP[p.id];
+    if(el) el.classList.toggle('done',!!STATE_DP[p.id]);
+  });
+  updateDPCount();
+  // Cohort posts
+  try{ const v=localStorage.getItem(LS_COHORT); if(v) STATE_COHORT=JSON.parse(v); }catch(e){}
+  const cohortList=document.getElementById('list-cohort');
+  if(cohortList) cohortList.innerHTML=COHORT_POSTS.map(renderCohortPost).join('');
+  COHORT_POSTS.forEach(p=>{
+    const ch=document.getElementById('cohort-chk-'+p.id);
+    const el=document.getElementById('cohort-item-'+p.id);
+    if(ch) ch.checked=!!STATE_COHORT[p.id];
+    if(el) el.classList.toggle('done',!!STATE_COHORT[p.id]);
+  });
+  updateCohortCount();
+}
+
+/* ─── DIALOGUE POSTS ─── */
+const LS_DP = 'sched_dp_jun2026_v1';
+let STATE_DP = {};
+
+const DIALOGUE_POSTS = [
+  { id:'dp1', num:'D1', lang:'EN', icp:'P1 · Stuck Founder',
+    title:'First call. He talked for 22 minutes. I said three sentences.',
+    hint:'FC: GTM Animal quiz → ruttens.com/quiz-preview',
+    caption:`First call.
+He talked for 22 minutes.
+I said three sentences.
+
+His pipeline wasn't the problem.
+His positioning wasn't the problem.
+His product wasn't the problem.
+
+He was the problem.
+
+Not because he was bad at anything.
+Because he was the only person who knew how to close.
+Every deal went through him.
+Every discovery call, him.
+Every proposal, him.
+Every "let me think about it," him again.
+
+He'd built something that couldn't grow without him being everywhere.
+And he knew it.
+
+"I can't hand this off," he said.
+"Nobody else closes the way I do."
+
+That's not a sales problem.
+That's a founder trap.
+
+The ceiling isn't the market size or the team size.
+It's the fact that you are the only one who knows what makes you win.
+
+How do you systematize what's currently only in your head?`,
+    comment:`If this sounds familiar — the free GTM Animal quiz shows you exactly which founder pattern you're in and what type of engine fits your closing style.
+Take it in 2 min → ruttens.com/quiz-preview`
+  },
+  { id:'dp2', num:'D2', lang:'EN', icp:'P3 · AI-Disrupted Scale-up',
+    title:'First call. Their product hadn\'t changed. Their buyers had.',
+    hint:'FC: 5 pipeline leaks → ruttens.com/pipeline-leaks',
+    caption:`First call.
+She was proud of the product.
+She should have been — it was genuinely good.
+
+"We've had the same positioning since 2021," she said.
+"It used to work. Now it doesn't."
+
+Their win rate had dropped 18% in six months.
+Their sales cycle had stretched from 6 weeks to 14.
+Their pipeline was full. Their close rate was not.
+
+"What changed?" I asked.
+
+She paused.
+
+"Our buyers changed.
+They come in now saying ChatGPT can do what we do.
+We spend half of every call explaining why it can't."
+
+That's not a sales problem.
+That's a positioning crisis.
+
+The product hadn't changed.
+The buyers had.
+
+And the messaging — built for a world before every executive had an AI co-pilot — was quietly losing conversations it never even got a chance to have.
+
+When did you last rewrite your core positioning from scratch?`,
+    comment:`If your pipeline is full but close rate is dropping — that's almost always a positioning leak, not a sales problem. I mapped the 5 most common ones here:
+ruttens.com/pipeline-leaks`
+  },
+  { id:'dp3', num:'D3', lang:'EN', icp:'P3 · Leaderless Marketing Team',
+    title:'First call. Three marketers. No CMO. Board meeting on Friday.',
+    hint:'FC: Free 20-min Revenue Scan → ruttens.com',
+    caption:`First call.
+Three marketers on the Zoom.
+No CMO.
+
+"We've been without a head of marketing for nine months," said the CEO.
+"The board meeting is Friday."
+
+I asked what they were presenting.
+
+Silence.
+
+Then: "Pipeline numbers. Which aren't great."
+
+I asked who owned pipeline in the room.
+Everyone looked at someone else.
+
+Marketing said sales wasn't following up on leads.
+Sales said marketing wasn't sending qualified leads.
+The CEO was nodding at both of them.
+
+Nine months of that.
+
+The problem wasn't the team — they were all smart, committed people.
+The problem was that nobody had decided what "good" looked like.
+
+No shared definition of a qualified lead.
+No agreed pipeline stage.
+No joint metric everyone had signed up to.
+
+You don't need a CMO to fix that.
+You need one meeting, one decision, one number everyone owns.
+
+If marketing and sales walked into a room tomorrow, what would they agree on first?`,
+    comment:`The Revenue Scan starts exactly here — naming the one handoff metric that's blocking pipeline. Free 20 minutes:
+ruttens.com`
+  },
+  { id:'dp4en', num:'D4', lang:'EN', icp:'P2 · Industrial SME',
+    title:'First call. Twelve years in business. Not one client had ever found him online.',
+    hint:'FC: Free Revenue Scan → ruttens.com',
+    caption:`First call.
+Twelve years in business.
+95% customer retention.
+Not one client had ever found him online.
+
+"All our work comes from referrals," he said.
+"Trade shows, word of mouth, recommendations."
+
+I asked: "Is that a strategy or a habit?"
+
+Longer pause.
+
+"A habit, I suppose."
+
+He had a €14 million business, a small team, loyal clients across three sectors.
+He'd never needed to explain himself to a stranger.
+His reputation did it for him.
+
+But two of his three biggest clients were being acquired.
+New procurement teams. New vendor processes.
+New people who'd never heard of him.
+
+The business he'd built on trust was suddenly invisible to the people making the buying decisions.
+
+"I don't want to become a marketing company," he said.
+"I just want the right people to know we exist."
+
+That's not a marketing ask.
+That's a simple engine problem.
+
+You don't need a rebrand.
+You need a few pages that do in 3 minutes what your best clients do over coffee.
+
+What would happen to your pipeline if your three best referrers went quiet next month?`,
+    comment:`This is the exact problem a free Revenue Scan names in 20 minutes — where your referral engine is invisible and where to fix it first.
+Book here → ruttens.com`
+  },
+  { id:'dp4nl', num:'D4', lang:'NL', icp:'P2 · Industrieel KMO',
+    title:'Eerste gesprek. Twaalf jaar in business. Niet één klant had hem ooit online gevonden.',
+    hint:'FC: Gratis Revenue Scan → ruttens.com',
+    caption:`Eerste gesprek.
+Twaalf jaar in business.
+95% klantretentie.
+Niet één klant had hem ooit online gevonden.
+
+"Al ons werk komt via aanbevelingen," zei hij.
+"Vakbeurzen, mond-tot-mondreclame, doorverwijzingen."
+
+Ik vroeg: "Is dat een strategie of een gewoonte?"
+
+Langere stilte.
+
+"Een gewoonte, eigenlijk."
+
+Hij had een bedrijf van €14 miljoen, een klein team, trouwe klanten in drie sectoren.
+Hij had nooit hoeven uitleggen wie hij was aan een vreemde.
+Zijn reputatie deed dat voor hem.
+
+Maar twee van zijn drie grootste klanten werden overgenomen.
+Nieuwe inkoopteams. Nieuwe leveranciersprocessen.
+Nieuwe mensen die nog nooit van hem gehoord hadden.
+
+Het bedrijf dat hij had opgebouwd op vertrouwen was plots onzichtbaar voor de mensen die de aankoopbeslissingen namen.
+
+"Ik wil niet een marketingbedrijf worden," zei hij.
+"Ik wil gewoon dat de juiste mensen weten dat we bestaan."
+
+Dat is geen marketingvraag.
+Dat is een eenvoudig motor-probleem.
+
+Je hebt geen rebranding nodig.
+Je hebt een paar pagina's nodig die in 3 minuten doen wat je beste klanten doen over een koffie.
+
+Wat zou er met je pipeline gebeuren als je drie beste doorverwijzers volgende maand stil werden?`,
+    comment:`Dit is precies het probleem dat een gratis Revenue Scan in 20 minuten benoemt — waar je verwijzingsmotor onzichtbaar is en waar je als eerste moet ingrijpen.
+Boek hier → ruttens.com`
+  },
+  { id:'dp5', num:'D5', lang:'EN', icp:'P4 · PE/VC Portfolio Operator',
+    title:'First call. Five companies. Five agencies. One very quiet board meeting.',
+    hint:'FC: PE/VC page → ruttens.com/for-pe-vc',
+    caption:`First call.
+Five portfolio companies.
+Five different marketing agencies.
+A monthly bill somewhere between €35K and €75K total across the group.
+
+"And none of it is clearly trackable," he said.
+"I know we're spending. I don't know what we're getting."
+
+I asked which of the five was performing.
+He named one — hesitantly.
+
+"How do you know it's performing?"
+"The founder told me it was."
+
+"What did the agency say?"
+"Their report showed good engagement."
+
+"What did sales say?"
+"Sales and marketing don't really talk in that one."
+
+That's not a reporting problem.
+That's five separate GTM experiments, running in parallel, with no shared hypothesis, no shared metrics, no shared accountability.
+
+Every portfolio company paying €5–15K/month to a different agency, none provable.
+The agencies are optimising for metrics.
+The companies are optimising for looking like they're doing marketing.
+Nobody is optimising for pipeline.
+
+If you had to cut two of the five agencies tomorrow, how would you decide which two?`,
+    comment:`This is exactly why I work with PE/VC operators directly — one GTM audit across the portfolio, one shared accountability framework. More here:
+ruttens.com/for-pe-vc`
+  }
+];
+
+function renderDPPost(p) {
+  const langBadge = p.lang==='NL'
+    ? '<span class="badge" style="background:#ede9fe;color:#6d28d9;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700">NL</span>'
+    : '<span class="badge badge-text">EN</span>';
+  return `<div class="post-item" id="dp-item-${p.id}" style="border-left:3px solid #8b5cf6">
+    <input type="checkbox" class="post-check" id="dp-chk-${p.id}" onclick="toggleDP('${p.id}')">
+    <div class="post-body">
+      <div class="post-meta">
+        <span class="post-num">${p.num}</span>
+        ${langBadge}
+        <span class="time-pill">${p.icp}</span>
+      </div>
+      <div class="post-title">${p.title}</div>
+      ${p.hint ? `<div class="post-hint">${p.hint}</div>` : ''}
+      <div class="drawer" id="dc-${p.id}"><button class="copy-btn" onclick="copyDrawer('dc-${p.id}')">Copy</button>${p.caption}</div>
+      <div class="drawer dp-comment" id="dcmt-${p.id}"><button class="copy-btn" style="background:#8b5cf6" onclick="copyDrawer('dcmt-${p.id}')">Copy</button>${p.comment}</div>
+    </div>
+    <div class="post-actions">
+      <button class="btn btn-cap" onclick="toggleDrawer('dc-${p.id}')">📋 Caption</button>
+      <button class="btn" style="background:#8b5cf6;color:#fff;font-size:10px;font-weight:700;border:none;border-radius:5px;padding:5px 8px;cursor:pointer;white-space:nowrap" onclick="toggleDrawer('dcmt-${p.id}')">💬 Comment</button>
+      <button class="btn btn-li" onclick="window.top.open('https://www.linkedin.com/post/new/','_blank')">Post ↗</button>
+    </div>
+  </div>`;
+}
+
+function toggleDP(id){
+  STATE_DP[id]=document.getElementById('dp-chk-'+id).checked;
+  tryPersist(LS_DP,STATE_DP);
+  const el=document.getElementById('dp-item-'+id);
+  if(el) el.classList.toggle('done',STATE_DP[id]);
+  updateDPCount();
+}
+function updateDPCount(){
+  const count=Object.values(STATE_DP).filter(Boolean).length;
+  const el=document.getElementById('dp-count');
+  if(el) el.textContent=count+' / '+DIALOGUE_POSTS.length;
+}
+
+/* ─── COHORT POSTS ─── */
+const COHORT_POSTS = [
+  { id:'c1', num:'P1', type:'text', time:'W1 · Mon 10:30am CET',
+    title:'Your pipeline doesn\'t have a marketing problem. It has a founder dependency problem.',
+    hint:'Recognition play — no CTA needed',
+    caption:`Your pipeline doesn't have a marketing problem.
+
+It has a founder dependency problem.
+
+Here's how to know:
+
+If you went completely dark for 30 days — no posts, no DMs, no calls, no outreach — what would still come in?
+
+Most founders I talk to pause before answering that question.
+
+Because the honest answer is: not much.
+
+The pipeline moves when you move it. Deals close when you're in the room. Content works when you post it. Prospects follow up when you follow up first.
+
+That's not a pipeline. That's a person.
+
+And the fix isn't to work harder or hire faster. It's to build the system that replaces your personal effort with a process that runs without you.
+
+3 things that create founder dependency (in almost every case I've seen):
+
+1. The message lives in your head, not in your content
+2. The content strategy is "what do I feel like posting today"
+3. Nobody owns the follow-up between "interested" and "yes"
+
+The frustrating part? Most founders already have 80% of what they need to fix this. The problem isn't assets — it's architecture.`
+  },
+  { id:'c2', num:'P2', type:'data', time:'W1 · Wed 1pm CET',
+    title:'48% of B2B buyers now use AI to shortlist vendors before they ever speak to a human.',
+    hint:'FC: Comment below — what does AI say when someone asks for a solution to your problem?',
+    caption:`48% of B2B buyers now use AI to shortlist vendors before they ever speak to a human.
+
+That means before you get a single inbound call, nearly half of your potential customers have already asked ChatGPT, Claude, or Perplexity who they should talk to.
+
+If your name doesn't come up — you don't exist.
+
+I tested this last month. I asked Claude to recommend B2B revenue advisors in Belgium. It named 4 people. I was on the list. Several people I know who've been doing this longer were not.
+
+What determined who made the list?
+
+Not years of experience. Not LinkedIn connections. Not even client results.
+
+It came down to: whose thinking is clearly and consistently articulated in text that AI models have access to?
+
+That's website copy. That's LinkedIn content. That's blog posts, case studies, published frameworks.
+
+The companies winning AI shortlisting aren't the most established. They're the ones whose positioning is clearest and most consistently published.
+
+This is why generic content kills you. "We help companies grow" tells AI nothing. "We fix the handoff between B2B marketing and sales for Series A founders in 90 days" — that's something an AI can match to a query.
+
+What does AI say when someone asks for a solution to your problem?`
+  },
+  { id:'c3', num:'P3', type:'story', time:'W1 · Fri 9am CET',
+    title:'One of my clients lost a €60k deal last year and didn\'t realise it until 8 weeks later.',
+    hint:'FC: What does your follow-up process look like right now?',
+    caption:`One of my clients lost a €60k deal last year and didn't realise it until 8 weeks later.
+
+Here's what happened.
+
+A prospect downloaded their content, booked a call, got excited, asked for a proposal.
+
+The call was great. The proposal was good. The prospect said: "Let me run this by my co-founder and get back to you next week."
+
+Two weeks went by. No follow-up from my client's side.
+
+Three weeks. Still nothing.
+
+By week 6, the prospect had moved on. Found someone else. Not because the other option was better — because the other person followed up.
+
+When I asked my client why they didn't follow up: "I didn't want to seem pushy."
+
+This is not a personality problem. It's a systems problem.
+
+There was no follow-up owner. No automated nudge. No defined "if they go quiet after X days, here's what we do." Just a founder who was already chasing 5 other things and assumed the prospect would come back.
+
+They almost never come back.
+
+The difference between a pipeline and a wishlist is a system that follows up when you forget to.
+
+What does your follow-up process look like right now?`
+  },
+  { id:'c4', num:'P4', type:'framework', time:'W2 · Mon 10:30am CET',
+    title:'Most B2B founders think about pipeline in 2 layers. Marketing → Sales. This is the wrong model.',
+    hint:'FC: Save this for your next pipeline review',
+    caption:`Most B2B founders think about pipeline in 2 layers.
+
+Marketing (top) → Sales (bottom).
+
+Marketing generates leads. Sales closes them. If something's wrong, either marketing isn't generating enough leads or sales isn't closing them.
+
+This is the wrong model.
+
+There are 3 layers. The missing one is why most "fix marketing" or "hire a salesperson" solutions don't work.
+
+Layer 1 — Awareness
+Getting in front of the right people. Content, ads, outreach, events. Most founders obsess over this layer.
+
+Layer 2 — Pipeline Engine (the missing layer)
+- Does the right person read what you write and immediately think "that's me"?
+- Does every touchpoint build the case you can solve their specific problem?
+- Is there a clear path from "interested" to "decided"?
+
+Layer 3 — Close
+The discovery call, the proposal, the negotiation. Most founders over-invest here when the real leak is in Layer 2.
+
+The test: if you stopped all outreach for 30 days, what would still bring in deals?
+
+If the answer is "nothing" — your Layer 2 is missing.
+
+The good news: you probably already have most of the assets. They're just not connected.
+
+Building Layer 2 is what I help founders do. It usually takes 90 days to get it working properly.`
+  },
+  { id:'c5', num:'P5', type:'framework', time:'W2 · Wed 1pm CET',
+    title:'What a broken B2B pipeline looks like vs what a working one looks like.',
+    hint:'FC: Comment if this is you — which version are you running right now?',
+    caption:`What a broken B2B pipeline looks like vs what a working one looks like.
+
+BROKEN:
+
+Content: the founder posts when they have something to say. It gets views. No leads.
+Outreach: the founder sends DMs when they remember to. Some replies. No system.
+Proposals: sent when the prospect asks. No follow-up cadence. Deals drift.
+Close: depends entirely on the founder being in the room.
+
+Result: pipeline that performs exactly as hard as the founder is working that week.
+
+WORKING:
+
+Content: 2-3 posts per week based on a 90-day ICP message map. Every post pushes one specific reader to take one specific next step.
+Outreach: sequenced. Founder or team sends connection + 3 messages. Non-responders get re-queued at 30 days. Nothing falls through.
+Proposals: followed up on day 3, day 7, day 14. No guessing who owns it.
+Close: the prospect has been warmed by 5 touchpoints before they hit the call. The founder's time is spent on qualified conversations, not education.
+
+Result: pipeline that runs whether the founder is at their desk or not.
+
+The difference between the two is not resources. It's architecture.
+
+Most founders I work with have the second version working by month 3. Not perfectly — but well enough that they could go on holiday without losing the pipeline.
+
+Which version are you running right now?`
+  },
+  { id:'c6', num:'P6', type:'text', time:'W2 · Thu 9am CET',
+    title:'"My content gets good engagement but I\'m not getting any leads from it." I hear this every week.',
+    hint:'FC: What\'s your content actually driving people to do?',
+    caption:`"My content gets good engagement but I'm not getting any leads from it."
+
+I hear this every week.
+
+And almost every time, the problem is the same thing.
+
+The content is generating awareness for a problem the founder solves — but it's not connecting the problem to the founder's specific solution.
+
+Example:
+
+Post that gets lots of engagement: "Here's why B2B pipelines dry up in Q3." (The pain — everyone relates, lots of comments)
+
+Post that generates leads: "Here's why B2B pipelines dry up in Q3 — and here's the exact framework I use with clients to fix it before October." (The pain + the solution path + proof you can fix it)
+
+The difference is specificity.
+
+Content that resonates is not the same as content that converts.
+
+Resonance says: "Yes, that's my problem."
+Conversion says: "And this person can fix it."
+
+Most founders write the first. Very few write the second.
+
+The fix is not to post more. It's to audit every post and ask: at the end of this, does the right reader know what to do next?
+
+If the answer is "no" — the content is doing half the job.
+
+What's your content actually driving people to do?`
+  },
+  { id:'c7', num:'P7', type:'event', time:'W2 · Fri 9am CET',
+    title:'I\'m running a free live session in 10 days. "Build a B2B Pipeline Engine in 90 Days"',
+    hint:'FC: Registration link in comments. If you can\'t make it live — comment or DM me',
+    caption:`I'm running a free live session in 10 days.
+
+"Build a B2B Pipeline Engine in 90 Days"
+[DATE] at [TIME] CET | Free | 90 minutes
+
+Here's what I'll cover:
+
+→ Why 90% of B2B pipelines are founder-dependent (and how to know if yours is)
+→ The 3 things that kill pipeline in every company I've worked with — and what to do about them
+→ The Pipeline Engine model: the layer between marketing and sales that most companies are missing
+→ Live teardown: I'll walk through a real company's pipeline and show exactly where it breaks
+→ What fixing it looks like in 90 days — step by step
+
+No recording. Live only. Q&A at the end.
+
+At the end, I'll open the 8-seat founding cohort. If it's a fit, you'll be able to apply. If not, the frameworks are useful either way.
+
+Registration link in the comments.
+
+If you can't make it live — comment or DM me and I'll send you the summary notes.`
+  },
+  { id:'c8', num:'P8', type:'text', time:'W3 · Mon 10:30am CET',
+    title:'Most B2B companies lose more deals between "marketing" and "sales" than they lose to competitors.',
+    hint:'FC: What does your handoff process look like on paper?',
+    caption:`Most B2B companies lose more deals between "marketing" and "sales" than they lose to competitors.
+
+Here's what the leak looks like:
+
+Marketing runs a campaign. A prospect downloads something, books a meeting, or fills a form.
+
+That lead lands in a CRM or a spreadsheet or a Slack channel.
+
+And then something doesn't happen.
+
+The salesperson assumes the marketer will follow up. The marketer assumes the salesperson will follow up. The founder is on a call. Nobody follows up.
+
+The prospect goes back to their day. They get an email from someone else. They book a different call. Three months later, they're a customer of your competitor.
+
+This is the handoff problem. It's not a people problem. It's a process problem.
+
+The companies that fix it are the ones that define explicitly:
+- Who owns a lead the moment it comes in
+- What happens in the first 24 hours
+- What the follow-up cadence is through day 30
+- What "qualified" means before the founder's time is involved
+
+Without those 4 things defined in writing, the handoff leaks.
+
+Every time.
+
+What does your handoff process look like on paper?`
+  },
+  { id:'c9', num:'P9', type:'framework', time:'W3 · Wed 1pm CET',
+    title:'Not every B2B company needs the same pipeline. Here are 3 of the 6 GTM Animals.',
+    hint:'FC: Quiz link in comments — ruttens.com/quiz',
+    caption:`Not every B2B company needs the same pipeline.
+
+After working with 50+ companies, I've noticed they tend to fall into 6 patterns — and the companies that try to copy the wrong model waste a lot of time and money on tactics that don't fit.
+
+Here are 3 of the 6:
+
+🐆 The Cheetah — Fast, instinct-driven, closes everything personally. Works at first. Doesn't scale. Pipeline dies when the founder stops running.
+
+The fix: You need systems and delegation before you need more leads.
+
+🦓 The Zebra — Industrial, relationship-first, sales cycles of 6–18 months. LinkedIn content does almost nothing. Referrals and in-person are everything.
+
+The fix: You need a referral engine, not a content calendar.
+
+🐘 The Elephant — Enterprise, complex sale, multiple stakeholders. Your biggest problem isn't awareness — it's navigating the buying committee.
+
+The fix: You need a multi-threaded account strategy, not a single point of contact.
+
+The mistake most companies make: they see what's working for a Cheetah (high-velocity LinkedIn outreach, volume DMs) and try to apply it to an Elephant (enterprise account with 5 stakeholders). It fails. Not because the tactic is bad — because it's the wrong tactic for the animal.
+
+Take the quiz to find out which one you are: ruttens.com/quiz`
+  },
+  { id:'c10', num:'P10', type:'story', time:'W3 · Thu 9am CET',
+    title:'Eight months ago, a founder came to me with this problem: "I\'m doing €1.2M ARR. I know I should be at €2M."',
+    hint:'FC: DM me "cohort" if you want to be first in',
+    caption:`Eight months ago, a founder came to me with this problem:
+
+"I'm doing €1.2M ARR. I know I should be at €2M. I've tried everything. Content doesn't work. Cold email gets ignored. I'm the only one who can close a deal."
+
+Classic Cheetah pattern.
+
+We spent 90 days doing three things:
+
+1. Rebuilt the message. Not the website copy — the actual sentence that made the right person say "this person is describing my problem." Took us 3 weeks to get it right.
+
+2. Built a content system that didn't require the founder to be inspired. A 12-week content map with a clear ICP, a specific pain per post, and a CTA attached to every piece. The founder's job became "review and post," not "write from scratch."
+
+3. Fixed the handoff. Built a 5-step sequence that runs from first contact to proposal, with a clear owner at each step. No more deals going quiet.
+
+Result at month 4 post-engagement: inbound up 3x. Close rate on qualified conversations up from 40% to 68%. And for the first time, the founder took a 2-week holiday without losing deals.
+
+That last part matters more than any revenue number.
+
+This is what I'm building the 90-day cohort around.
+
+More details on the cohort coming this week. 8 seats. Early access for people on the list.
+
+DM me "cohort" if you want to be first in.`
+  },
+  { id:'c11', num:'P11', type:'event', time:'W3 · Fri 9am CET',
+    title:'Tomorrow: live session on B2B pipeline. "Build a B2B Pipeline Engine in 90 Days" — no recording.',
+    hint:'FC: Register (link in comments) or DM for summary notes',
+    caption:`Tomorrow: live session on B2B pipeline.
+
+"Build a B2B Pipeline Engine in 90 Days"
+[DATE] at [TIME] CET
+
+No recording. Live only.
+
+If you've been following this content over the past 2 weeks — on the founder bottleneck, the 3-layer pipeline model, the handoff problem — tomorrow is where it all connects.
+
+I'll walk through:
+→ Why the problems I've been describing are almost universal at the 5–30M ARR stage
+→ A live teardown of a real pipeline (I've got permission to share — it's a company most of you will recognise the pattern of)
+→ The exact steps I use to rebuild it in 90 days
+
+At the end: I'm opening 8 founding cohort seats. If you want to be in the room for that announcement, register.
+
+Link in comments.
+
+If you can't make it: DM me and I'll send the summary.`
+  },
+  { id:'c12', num:'P12', type:'offer', time:'W4 · Mon 10:30am CET',
+    title:'The RUTTENS+ Founding Cohort is open. 8 seats. 90 days. Direct access to me.',
+    hint:'FC: To apply: reply to this post or DM me. 8 seats. Closing [DATE].',
+    caption:`The RUTTENS+ Founding Cohort is open.
+
+8 seats. 90 days. Direct access to me.
+
+Here's what we build together:
+
+Month 1: Diagnosis + Message
+We find the single biggest leak in your pipeline. We rebuild the message — what you say, to whom, in what order — so the right person hears it and takes action.
+
+Month 2: Content + Outreach
+We build a content system that creates leads without requiring you to be inspired every morning. We set up an outbound process that runs whether you're at your desk or not.
+
+Month 3: Pipeline + Handoff
+We fix the handoff. We build the process that turns "interested" into "closed" without the founder being in every conversation. We document everything so it works without you.
+
+You keep everything you build.
+
+Founding price: €3,450 (full price: €6,900). First proof round — you get extra attention and a lower price.
+
+Who this is for: B2B founders at 5–30 FTE where the pipeline only moves when they push it.
+
+To apply: reply to this post or DM me with your company, what you do, and one sentence on your current pipeline situation.
+
+8 seats. Closing [DATE].`
+  },
+  { id:'c13', num:'P13', type:'urgency', time:'W4 · Wed 1pm CET',
+    title:'Quick update on the cohort: [X] of 8 seats have been filled. [Y] spots left.',
+    hint:'FC: Apply link in comments or DM me. Closes [DATE].',
+    caption:`Quick update on the cohort: [X] of 8 seats have been filled.
+
+[Y] spots left.
+
+A few people have messaged me saying they're interested but haven't applied yet. So this is a nudge.
+
+The people who've applied have all said some version of the same thing: "I've been dealing with this problem for 18 months and I haven't fixed it yet."
+
+That's the pattern.
+
+The reason most founders don't fix their pipeline isn't that they don't know it's broken. It's that it's never urgent enough to address. There's always a deal to close, a hire to make, an investor to update.
+
+The 90-day cohort forces the urgency. You've committed time, money, and a peer group who will notice if you're not doing the work.
+
+That accountability is part of what makes it work.
+
+If you've been thinking about it: [APPLY LINK] or DM me.
+
+Closes [DATE].`
+  },
+  { id:'c14', num:'P14', type:'urgency', time:'W4 · Fri 9am CET',
+    title:'Last call. The founding cohort closes tonight at midnight.',
+    hint:'FC: DM me or reply to this post if you want the last seat.',
+    caption:`Last call.
+
+The founding cohort closes tonight at midnight.
+
+8 founders. 90 days. €3,450 founding price (goes to €6,900 after tonight).
+
+If this has been sitting in the back of your head for the past 2 weeks — this is the last nudge I'm going to send.
+
+To everyone who's already applied: I'll confirm your spot by end of day today.
+
+To everyone who hasn't: DM me or reply to this post if you want the last seat.
+
+That's it.
+
+Phil`
+  }
+];
+
+function renderCohortPost(p){
+  const badgeMap={text:['TEXT','badge-text'],data:['DATA','badge-carousel'],story:['STORY','badge-text'],framework:['FRAMEWORK','badge-carousel'],event:['EVENT','badge-video'],offer:['OFFER','badge-video'],urgency:['URGENCY','badge-video']};
+  const [badgeLabel,badgeCls]=badgeMap[p.type]||['TEXT','badge-text'];
+  return `<div class="post-item" id="cohort-item-${p.id}" style="border-left:3px solid #0ea5e9">
+    <input type="checkbox" class="post-check" id="cohort-chk-${p.id}" onclick="toggleCohort('${p.id}')">
+    <div class="post-body">
+      <div class="post-meta">
+        <span class="post-num">${p.num}</span>
+        <span class="badge ${badgeCls}">${badgeLabel}</span>
+        <span class="time-pill" style="background:#e0f2fe;border-color:#bae6fd;color:#0369a1">${p.time}</span>
+      </div>
+      <div class="post-title" id="cohort-title-${p.id}">${p.title}</div>
+      ${p.hint?`<div class="post-hint">${p.hint}</div>`:''}
+      <div class="drawer" id="cohort-drawer-${p.id}">
+        <button class="copy-btn" onclick="copyDrawer('cohort-drawer-${p.id}')">Copy</button>${p.caption}</div>
+    </div>
+    <div class="post-actions">
+      <button class="btn btn-cap" onclick="toggleDrawer('cohort-drawer-${p.id}')">📋 Caption</button>
+      <button class="btn btn-li" onclick="window.top.open('https://www.linkedin.com/post/new/','_blank')">Post ↗</button>
+    </div>
+  </div>`;
+}
+function toggleCohort(id){STATE_COHORT[id]=document.getElementById('cohort-chk-'+id).checked;tryPersist(LS_COHORT,STATE_COHORT);const el=document.getElementById('cohort-item-'+id);if(el)el.classList.toggle('done',STATE_COHORT[id]);updateCohortCount();}
+function updateCohortCount(){const count=Object.values(STATE_COHORT).filter(Boolean).length;const el=document.getElementById('cohort-count');if(el)el.textContent=count+' / '+COHORT_POSTS.length;}
+
+init();
+</script>
+</body>
+</html>

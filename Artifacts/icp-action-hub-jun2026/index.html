@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Icp Action Hub Jun2026",
+  "schemaVersion": 1,
+  "description": "Daily-use ICP Action Hub for RUTTENS+ Jun–Aug 2026 pipeline plan. 6 tabs: Daily HQ (phase tracker, open items, offer ladder) + 5 ICP tabs (Stuck Founder, AI Scale-up, Leaderless Team, Portfolio Operator, Industrial/NL). Each ICP tab has pain phrases, targeting criteria, copy-paste outreach messages (M0–M3), and weekly action checklists. All checkboxes persist via localStorage."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+ ICP Action Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--blue:#38B6FF;--black:#0A0A0A;--dark:#1a1a1a;--mid:#444;--light:#f6f7f9;--white:#fff;--border:#e2e4e8;--green:#22c55e;--amber:#f59e0b;--red:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--light);color:var(--black);font-size:14px;min-height:100vh}
+
+/* HEADER */
+.hdr{background:var(--black);color:var(--white);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--blue)}
+.hdr-title{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:1px}
+.hdr-title span{color:var(--blue)}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.badge{background:var(--blue);color:var(--black);font-size:11px;font-weight:700;padding:3px 9px;border-radius:3px;font-family:'Oswald',sans-serif;letter-spacing:0.5px}
+.date-badge{color:#888;font-size:12px}
+
+/* TABS */
+.tabs{background:var(--dark);display:flex;overflow-x:auto;border-bottom:2px solid rgba(56,182,255,0.3)}
+.tabs::-webkit-scrollbar{height:3px}
+.tabs::-webkit-scrollbar-thumb{background:var(--blue)}
+.tab-btn{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:0.5px;color:#777;background:none;border:none;padding:11px 16px;cursor:pointer;white-space:nowrap;transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:var(--white)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-icon{font-size:14px}
+
+/* CONTENT */
+.tab-pane{display:none;padding:18px 20px;max-width:920px;margin:0 auto}
+.tab-pane.active{display:block}
+
+/* SECTION */
+.sec{background:var(--white);border-radius:8px;padding:16px;margin-bottom:14px;border:1px solid var(--border)}
+.sec-title{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sec-title::before{content:'';display:inline-block;width:3px;height:14px;background:var(--blue);border-radius:2px;flex-shrink:0}
+
+/* PROFILE CARD */
+.profile{background:var(--black);color:var(--white);border-radius:8px;padding:16px;margin-bottom:14px;border-left:4px solid var(--blue)}
+.profile h2{font-family:'Oswald',sans-serif;font-size:20px;color:var(--blue);margin-bottom:5px}
+.profile .meta{font-size:13px;color:#aaa;line-height:1.6;margin-bottom:10px}
+.trigger{padding:8px 12px;background:rgba(56,182,255,.12);border-left:3px solid var(--blue);font-size:13px;color:#cce8ff;border-radius:0 4px 4px 0;line-height:1.5}
+.trigger strong{color:var(--white)}
+
+/* GRID LAYOUTS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.two-col,.three-col{grid-template-columns:1fr}}
+
+/* PHRASES */
+.phrase-list{display:grid;gap:7px}
+.phrase{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:9px 11px;background:var(--light);border-radius:5px;border-left:3px solid var(--blue)}
+.phrase-txt{flex:1;font-style:italic;color:var(--mid);font-size:13px;line-height:1.5}
+
+/* COPY BUTTON */
+.cp{background:var(--blue);color:var(--black);border:none;padding:4px 9px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.cp:hover{background:#5cc6ff}
+.cp.ok{background:var(--green);color:var(--white)}
+
+/* MESSAGE BLOCKS */
+.msg{margin-bottom:12px}
+.msg-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.msg-label{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#888}
+.msg-body{background:var(--light);border:1px solid var(--border);border-radius:6px;padding:11px 13px;font-size:13px;line-height:1.7;color:var(--mid);white-space:pre-wrap}
+
+/* CHECKLIST */
+.checklist{display:grid;gap:7px}
+.ci{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:6px;cursor:pointer;transition:background .15s;border:1px solid transparent;user-select:none}
+.ci:hover{background:#f0f9ff;border-color:#e0f2fe}
+.ci.done{background:#f0fdf4;border-color:#bbf7d0}
+.ci.done .cl{text-decoration:line-through;color:#9ca3af}
+.ci.done .cs{color:#d1fae5}
+.cb{width:17px;height:17px;border:2px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s}
+.ci.done .cb{background:var(--green);border-color:var(--green)}
+.cb svg{display:none}
+.ci.done .cb svg{display:block}
+.cl{font-size:13px;line-height:1.5;color:var(--mid)}
+.cs{font-size:11px;color:#9ca3af;margin-top:2px}
+
+/* RESET BTN */
+.reset-btn{background:none;border:1px solid var(--border);color:#bbb;font-size:11px;padding:4px 9px;border-radius:4px;cursor:pointer;margin-top:8px;font-family:'IBM Plex Sans',sans-serif;transition:all .15s}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* CRITERIA */
+.criteria{display:grid;gap:6px;margin-top:4px}
+.crit{display:flex;gap:7px;font-size:13px;line-height:1.5;color:var(--mid)}
+.crit::before{content:'→';color:var(--blue);font-weight:700;flex-shrink:0}
+
+/* PHASE BAR */
+.phase-bar{background:var(--black);border-radius:8px;padding:16px;margin-bottom:14px}
+.phase-bar h3{font-family:'Oswald',sans-serif;font-size:15px;color:var(--blue);margin-bottom:12px;letter-spacing:.5px}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:640px){.phases{grid-template-columns:repeat(2,1fr)}}
+.phase{padding:10px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.phase.now{background:rgba(56,182,255,.18);border-color:var(--blue)}
+.ph-num{font-family:'Oswald',sans-serif;color:var(--blue);font-size:12px;letter-spacing:.5px}
+.ph-dates{color:#888;font-size:11px;margin-top:2px}
+.ph-name{color:#ddd;font-size:12px;margin-top:3px;line-height:1.4}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:13px;text-align:center}
+.stat-n{font-family:'Oswald',sans-serif;font-size:26px;color:var(--blue)}
+.stat-l{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+
+/* PRIORITY FLAGS */
+.flag-r{color:var(--red)}
+.flag-a{color:var(--amber)}
+.flag-g{color:var(--green)}
+
+/* OFFER CARD */
+.offer-card{padding:10px 12px;background:var(--light);border-radius:6px;border-left:3px solid var(--blue);margin-bottom:8px}
+.offer-name{font-family:'Oswald',sans-serif;font-size:13px;color:var(--blue);margin-bottom:3px}
+.offer-txt{font-size:12px;color:var(--mid);line-height:1.5}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+/* OPTION TAGS */
+.opt-tag{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 8px;border-radius:3px;margin-right:5px;font-family:'Oswald',sans-serif;white-space:nowrap;flex-shrink:0}
+.opt-a{background:#dbeafe;color:#1e40af}
+.opt-b{background:#fef3c7;color:#92400e}
+.opt-c{background:#fce7f3;color:#9d174d}
+.opt-nl{background:#dcfce7;color:#166534}
+.opt-en{background:#ede9fe;color:#5b21b6}
+.lang-pair{display:grid;gap:6px;margin-top:6px}
+.lang-row{background:var(--light);border-radius:5px;padding:8px 10px;border-left:3px solid var(--border)}
+.lang-row-hdr{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.tactic-note{font-size:11px;color:#888;font-style:italic;margin-bottom:10px;line-height:1.5;padding:6px 9px;background:var(--light);border-radius:4px;border-left:2px solid var(--border)}
+.cta-sub{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--blue);margin:10px 0 8px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-title">RUTTENS+ <span>ICP ACTION HUB</span></div>
+  <div class="hdr-right">
+    <span class="date-badge">Jun–Aug 2026</span>
+    <span class="badge">60-DAY PLAN</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('daily',this)"><span class="tab-icon">📅</span> Daily HQ</button>
+  <button class="tab-btn" onclick="switchTab('icp1',this)"><span class="tab-icon">🏃</span> Stuck Founder</button>
+  <button class="tab-btn" onclick="switchTab('icp2',this)"><span class="tab-icon">🤖</span> AI Scale-up</button>
+  <button class="tab-btn" onclick="switchTab('icp3',this)"><span class="tab-icon">📊</span> Leaderless Team</button>
+  <button class="tab-btn" onclick="switchTab('icp4',this)"><span class="tab-icon">💼</span> Portfolio Op</button>
+  <button class="tab-btn" onclick="switchTab('icp5',this)"><span class="tab-icon">🏭</span> Industrial</button>
+</div>
+
+<!-- ===== DAILY HQ ===== -->
+<div id="pane-daily" class="tab-pane active">
+
+  <div class="phase-bar">
+    <h3>60-DAY PLAN — CURRENT PHASE</h3>
+    <div class="phases">
+      <div class="phase now">
+        <div class="ph-num">PHASE 1 ← NOW</div>
+        <div class="ph-dates">Jun 10–21</div>
+        <div class="ph-name">Fix foundations. Build Connector Shortlist. No cold outreach yet.</div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">PHASE 2</div>
+        <div class="ph-dates">Jun 22 – Jul 7</div>
+        <div class="ph-name">SP Series live. Daily engagement rhythm. Observe reactions.</div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">PHASE 3</div>
+        <div class="ph-dates">Jul 8–21</div>
+        <div class="ph-name">Connect with shortlist. LH for Industrial/Agency only (max 20/wk).</div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">PHASE 4</div>
+        <div class="ph-dates">Jul 22 – Aug</div>
+        <div class="ph-name">Co-creation live. Formalise 1–2 referral partnerships.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n" id="stat-done">0</div><div class="stat-l">Tasks Done</div></div>
+    <div class="stat"><div class="stat-n" id="stat-total">0</div><div class="stat-l">Total Tasks</div></div>
+    <div class="stat"><div class="stat-n" id="stat-pct">0%</div><div class="stat-l">Completion</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Daily Routine — 20 min</div>
+      <div class="checklist">
+        <div class="ci" onclick="tog(this)" data-key="d_comment">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Comment on 1–2 Connector posts</div><div class="cs">3+ sentences, reference their specific point. Never just "great post."</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="d_scan">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Scan new posts from Connector Shortlist</div><div class="cs">5 min. Save ones worth commenting on tomorrow.</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="d_replies">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Reply to all comments on your posts</div><div class="cs">Every comment. Always. Non-negotiable for the algorithm.</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="d_post">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Check scheduled post went live + first 30-min replies</div><div class="cs">On post days. Engage hard in first 30 min to boost reach.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Phase 1 Actions — Jun 10–21</div>
+      <div class="checklist">
+        <div class="ci done" onclick="tog(this)" data-key="p1_lh">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">✅ Pause all 6 LH P0 campaigns</div></div>
+        </div>
+        <div class="ci done" onclick="tog(this)" data-key="p1_vlad_call">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">✅ Vlad referral call done (Jun 10)</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="p1_vlad_email">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Written referral criteria confirmed (1-para email)</div><div class="cs">Criteria: Pre-ABM B2B, &lt;€20K ACV, &lt;0.8 FTE marketer</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="p1_shortlist">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Connector Shortlist — 20 names in Google Sheet</div><div class="cs">Columns: Name | Company | ICP type | Why | Status | Last action</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="p1_links">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">Move all post links to first comment</div><div class="cs">Not in the post body. Applies to all posts from now on.</div></div>
+        </div>
+        <div class="ci" onclick="tog(this)" data-key="p1_questions">
+          <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><div class="cl">All posts end with a genuine question</div><div class="cs">Check the next 4 scheduled posts. Add a question to any that don't have one.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🔴 Open Items — Priority Queue</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="open_tally">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-r">🔴</span> Tally forms 1/2/3 build — OVERDUE</div><div class="cs">Needs dedicated session + Tally MCP. Upload: CLAUDE_SETUP.md + Tally decisions file.</div></div>
+      </div>
+      <div class="ci" onclick="tog(this)" data-key="open_zen">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-r">🔴</span> Zen Doc session — OVERDUE</div><div class="cs">Run HOLIDAY_RESET_SESSION_PROMPT_May2026.md. Phil uploads the specified files first.</div></div>
+      </div>
+      <div class="ci" onclick="tog(this)" data-key="open_sprint_lp">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-r">🔴</span> Pipeline Sprint landing page — OVERDUE</div><div class="cs">New session: upload CLAUDE_SETUP.md + ICP file. Direction in Session C1.</div></div>
+      </div>
+      <div class="ci" onclick="tog(this)" data-key="open_s2s3">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-a">🟡</span> S2/S3 Substack URLs → activate MAYBE teasers</div><div class="cs">Supply live URLs to move Jun 9 + Jun 15 teasers to confirmed schedule.</div></div>
+      </div>
+      <div class="ci" onclick="tog(this)" data-key="open_canva">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-a">🟡</span> Canva SP Series visuals (SP1–SP8)</div><div class="cs">Required for the LinkedIn SP content series.</div></div>
+      </div>
+      <div class="ci" onclick="tog(this)" data-key="open_pevc">
+        <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="cl"><span class="flag-a">🟡</span> /for-pe-vc page copy</div><div class="cs">Direction written in SessionsABC file C1. Build in next website session.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Offer Ladder — Quick Reference</div>
+    <div class="two-col">
+      <div>
+        <div class="offer-card"><div class="offer-name">SCAN — €499</div><div class="offer-txt">20-min Revenue Scan. Entry point. Find the leak before we fix it.</div></div>
+        <div class="offer-card"><div class="offer-name">PIPELINE SPRINT — from €2,590</div><div class="offer-txt">4-week sprint. One bottleneck. One measurable result. No retainer.</div></div>
+        <div class="offer-card"><div class="offer-name">LAB — €2,990/mo</div><div class="offer-txt">Fractional CMO. Weekly rhythm. You get the thinking, not the junior.</div></div>
+      </div>
+      <div>
+        <div class="offer-card"><div class="offer-name">MAP — from €6,990</div><div class="offer-txt">Full GTM diagnostic + 90-day execution roadmap. Board-ready output.</div></div>
+        <div class="offer-card"><div class="offer-name">SPRINT — from €15,900</div><div class="offer-txt">Full GTM rebuild. 3 months. Dedicated. Results or we talk.</div></div>
+        <div class="offer-card"><div class="offer-name">MAX — from €3,990/mo</div><div class="offer-txt">Embedded fractional CMO. Strategic + executional. Monthly.</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== ICP 1: STUCK FOUNDER ===== -->
+<div id="pane-icp1" class="tab-pane">
+
+  <div class="profile">
+    <h2>🏃 THE STUCK FOUNDER</h2>
+    <div class="meta">B2B SaaS or services · €0.5–3M ARR · 5–20 FTE · Founder closes 70–80% of deals personally · Tried hiring but the handover never sticks</div>
+    <div class="trigger"><strong>Activate when:</strong> Revenue plateau 2+ consecutive quarters, or founder takes a holiday and pipeline drops immediately. They're posting "I need to stop being the bottleneck" content.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Pain Phrases — Use Verbatim</div>
+      <div class="phrase-list">
+        <div class="phrase"><div class="phrase-txt">"I can't hand it off because nobody knows how we close deals."</div><button class="cp" onclick="cp(this,`I can't hand it off because nobody knows how we close deals.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"My pipeline dies when I stop pushing it."</div><button class="cp" onclick="cp(this,`My pipeline dies when I stop pushing it.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"We tried to hire a sales rep but it didn't work."</div><button class="cp" onclick="cp(this,`We tried to hire a sales rep but it didn't work.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"I'm the bottleneck."</div><button class="cp" onclick="cp(this,`I'm the bottleneck.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"Every founder hits the same ceiling."</div><button class="cp" onclick="cp(this,`Every founder hits the same ceiling.`)">Copy</button></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Where to Find Them</div>
+      <div class="criteria">
+        <div class="crit">LinkedIn Sales Nav: B2B SaaS/services · founder or CEO title · 5–20 FTE · Belgium/NL/DACH</div>
+        <div class="crit">Posts: "bootstrapped to €X", "founder-led sales", "first hire", "delegation"</div>
+        <div class="crit">Comments on Vlad FullFunnel content — they're his audience too, check for warm Vlad referrals</div>
+        <div class="crit">GTM Animal: likely 🐆 Cheetah or 🦝 Raccoon — use the quiz as a low-friction entry</div>
+        <div class="crit">Best entry offer: SCAN €499 → Pipeline Sprint if gap is clear</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🚀 Publish First — Anchor Post</div>
+    <div class="tactic-note">Post this. Then when you drop a pre-warm comment on a prospect's post, mention: "I wrote about this just today: [paste your post URL]" — instant credibility hook.</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">LinkedIn Post (~150 words)</span><button class="cp" onclick="cp(this,`Most B2B founders hit the same wall somewhere between €1M and €3M.\n\nNot a product wall. Not a talent wall. A founder wall.\n\nEvery new deal still runs through you. You're the CRO, the closer, the relationship. And it works — until it doesn't.\n\nThe problem isn't that you're a bottleneck.\nThe problem is that the thing that makes you good at selling has never been written down.\n\nNo playbook. No documented win criteria. No way to transfer what you know to someone else.\n\nThe fastest fix isn't hiring. It's extraction.\n\nWhat's the one thing that's true in every deal you close that your team doesn't know to say?\n\nStart there.\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy Post</button></div>
+      <div class="msg-body">Most B2B founders hit the same wall somewhere between €1M and €3M.
+
+Not a product wall. Not a talent wall. A founder wall.
+
+Every new deal still runs through you. You're the CRO, the closer, the relationship. And it works — until it doesn't.
+
+The problem isn't that you're a bottleneck.
+The problem is that the thing that makes you good at selling has never been written down.
+
+No playbook. No documented win criteria. No way to transfer what you know to someone else.
+
+The fastest fix isn't hiring. It's extraction.
+
+What's the one thing that's true in every deal you close that your team doesn't know to say?
+
+Start there.
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+    </div>
+    <div class="ci" onclick="tog(this)" data-key="i1_pub">
+      <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><div class="cl">Posted this week ✓</div></div>
+    </div>
+    <hr>
+    <div class="cta-sub">🔗 Free Tool CTA — Drop in Comments</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">GTM Quiz — ruttens.com/quiz</span><button class="cp" onclick="cp(this,`If it helps — I made a free 3-min quiz that maps your GTM motion and usually surfaces exactly where the ceiling is: ruttens.com/quiz`)">Copy</button></div>
+      <div class="msg-body">If it helps — I made a free 3-min quiz that maps your GTM motion and usually surfaces exactly where the ceiling is: ruttens.com/quiz</div>
+    </div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">ICP Landing — ruttens.com/for-founders</span><button class="cp" onclick="cp(this,`A bit more on how I work with founders at this stage: ruttens.com/for-founders`)">Copy</button></div>
+      <div class="msg-body">A bit more on how I work with founders at this stage: ruttens.com/for-founders</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Message Scripts</div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-a">A · Formal</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Something I see with every founder at the €1–3M stage: the first thing that breaks isn't the product, the team, or the market. It's the process that only lives in the founder's head — the playbook that was never written down.`)">Copy</button></div>
+      <div class="msg-body">Something I see with every founder at the €1–3M stage: the first thing that breaks isn't the product, the team, or the market. It's the process that only lives in the founder's head — the playbook that was never written down.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-b">B · Dynamic</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Founder-led sales has a dirty secret: the company doesn't scale past you. Not because you're not trying. But because your pipeline runs on things only you know — the right read, the right question, the right moment to close. That's not a sales problem. That's an infrastructure problem.`)">Copy</button></div>
+      <div class="msg-body">Founder-led sales has a dirty secret: the company doesn't scale past you. Not because you're not trying. But because your pipeline runs on things only you know — the right read, the right question, the right moment to close. That's not a sales problem. That's an infrastructure problem.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-c">C · Contrarian</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Hot take: most B2B founders aren't bottlenecks. Their teams just can't close without them because no one ever documented why deals actually win. Not the official reason — the real one. You didn't fail to delegate. You failed to make the invisible visible.`)">Copy</button></div>
+      <div class="msg-body">Hot take: most B2B founders aren't bottlenecks. Their teams just can't close without them because no one ever documented why deals actually win. Not the official reason — the real one. You didn't fail to delegate. You failed to make the invisible visible.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Connection Note (~50 words)</span><button class="cp" onclick="cp(this,`Hi [Name] — I work with B2B founders on the point where founder-led sales hits its ceiling. I saw your post about [specific thing] and it's exactly the pattern I keep seeing at your stage. Would be good to be connected.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — I work with B2B founders on the point where founder-led sales hits its ceiling. I saw your post about [specific thing] and it's exactly the pattern I keep seeing at your stage. Would be good to be connected.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 1 — Send within 24h of connection accepting</span><button class="cp" onclick="cp(this,`Hi [Name] — quick one.\n\nI'm writing a short piece on the exact moment B2B founders hit the €1–3M ceiling — what breaks, what they wish they'd done earlier, and what actually works to get through it. You've been through that.\n\nWould you be up for a 20-minute conversation I can quote? I'll send you the draft before anything goes live. No agenda beyond getting the story right.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — quick one.
+
+I'm writing a short piece on the exact moment B2B founders hit the €1–3M ceiling — what breaks, what they wish they'd done earlier, and what actually works to get through it. You've been through that.
+
+Would you be up for a 20-minute conversation I can quote? I'll send you the draft before anything goes live. No agenda beyond getting the story right.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 2 — Follow-up (5–7 days, no reply)</span><button class="cp" onclick="cp(this,`Hi [Name] — sent you a note last week about the €1–3M founder ceiling piece. No pressure if the timing's off — I'm doing 4–5 of these conversations over the next few weeks and wanted to see if this one made sense. Happy to keep it to 15 minutes.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — sent you a note last week about the €1–3M founder ceiling piece. No pressure if the timing's off — I'm doing 4–5 of these conversations over the next few weeks and wanted to see if this one made sense. Happy to keep it to 15 minutes.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 3 — Close (when interest shown)</span><button class="cp" onclick="cp(this,`Perfect — happy to make it easy. Here's a link to book: [Calendly]. 20–30 minutes, I'll record if you're OK with that, and I'll send you the questions in advance so there are no surprises.`)">Copy</button></div>
+      <div class="msg-body">Perfect — happy to make it easy. Here's a link to book: [Calendly]. 20–30 minutes, I'll record if you're OK with that, and I'll send you the questions in advance so there are no surprises.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Weekly Action Pipeline</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="i1_find"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Found 3+ Stuck Founder targets this week</div><div class="cs">Add to Connector Shortlist with Why note and ICP type</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i1_comment"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Commented on target content before connecting (min. 1 interaction)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i1_connect"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Sent connection request with personalised note (Phase 3+ only)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i1_m1"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Sent Message 1 within 24h of connection accepting</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i1_m2"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Sent Message 2 follow-up (no reply after 5–7 days)</div></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetICP(['i1_find','i1_comment','i1_connect','i1_m1','i1_m2'])">↺ Reset this week</button>
+  </div>
+
+</div>
+
+<!-- ===== ICP 2: AI SCALE-UP ===== -->
+<div id="pane-icp2" class="tab-pane">
+
+  <div class="profile">
+    <h2>🤖 THE AI-DISRUPTED SCALE-UP</h2>
+    <div class="meta">B2B tech · €3–10M ARR · 20–50 FTE · GTM worked for 3 years, now stalling · CEO confused: product unchanged, but pipeline is slower and deals take longer to close</div>
+    <div class="trigger"><strong>Activate when:</strong> 3+ consecutive quarters of MQL decline, or first AI-themed competitor win, or board asking "what's our AI strategy?" They're posting about repositioning or GTM rethink.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Pain Phrases — Use Verbatim</div>
+      <div class="phrase-list">
+        <div class="phrase"><div class="phrase-txt">"Our product sold itself for 3 years. Now prospects ask why they can't just use ChatGPT."</div><button class="cp" onclick="cp(this,`Our product sold itself for 3 years. Now prospects ask why they can't just use ChatGPT.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"We've been running the same GTM for 4 years and it's stopped working."</div><button class="cp" onclick="cp(this,`We've been running the same GTM for 4 years and it's stopped working.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"We know we need to reposition but nobody has time to do it."</div><button class="cp" onclick="cp(this,`We know we need to reposition but nobody has time to do it.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"48% of deals end in no decision — they didn't pick a competitor, they just stopped."</div><button class="cp" onclick="cp(this,`48% of deals end in no decision — they didn't pick a competitor, they just stopped.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"AI alternatives appeared."</div><button class="cp" onclick="cp(this,`AI alternatives appeared.`)">Copy</button></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Where to Find Them</div>
+      <div class="criteria">
+        <div class="crit">LinkedIn: B2B SaaS CEO/CCO · €3–10M ARR · 20–50 FTE · Series A or bootstrapped · EU</div>
+        <div class="crit">Vlad referral signal: no dedicated marketer (under 0.8 FTE), ACV under $20K → pre-ABM → Phil</div>
+        <div class="crit">Posts about: AI competition, pipeline slowing, repositioning, no-decision rates</div>
+        <div class="crit">GTM Animal: 🦓 Zebra (methodical) or 🐘 Elephant (enterprise-leaning) → quiz entry works here</div>
+        <div class="crit">Best entry: SCAN €499 → MAP if repositioning needed → MAX ongoing</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🚀 Publish First — Anchor Post</div>
+    <div class="tactic-note">Post this. Then when you drop a pre-warm comment on a prospect's post, mention: "I wrote about this just today: [paste your post URL]" — instant credibility hook.</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">LinkedIn Post (~150 words)</span><button class="cp" onclick="cp(this,`The B2B companies struggling right now didn't get disrupted by a better product.\n\nThey got disrupted by a better story.\n\nTheir competitor figured out how to answer 'why not just use AI for that?' before it became an objection in every demo.\n\nThey didn't — and now every call has a version of that question somewhere in it.\n\nThe fix isn't a new feature. It's a repositioned narrative that makes you the obvious choice for a specific buyer with a specific problem your product solves better than any AI-first alternative.\n\nMost companies I talk to haven't worked that narrative out yet.\n\nThey're still selling 2021 positioning in a 2025 market.\n\nWhat's yours?\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy Post</button></div>
+      <div class="msg-body">The B2B companies struggling right now didn't get disrupted by a better product.
+
+They got disrupted by a better story.
+
+Their competitor figured out how to answer 'why not just use AI for that?' before it became an objection in every demo.
+
+They didn't — and now every call has a version of that question somewhere in it.
+
+The fix isn't a new feature. It's a repositioned narrative that makes you the obvious choice for a specific buyer with a specific problem your product solves better than any AI-first alternative.
+
+Most companies I talk to haven't worked that narrative out yet.
+
+They're still selling 2021 positioning in a 2025 market.
+
+What's yours?
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+    </div>
+    <div class="ci" onclick="tog(this)" data-key="i2_pub">
+      <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><div class="cl">Posted this week ✓</div></div>
+    </div>
+    <hr>
+    <div class="cta-sub">🔗 Free Tool CTA — Drop in Comments</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">GTM Quiz — ruttens.com/quiz</span><button class="cp" onclick="cp(this,`Quick check — have you done the GTM Animal quiz? Takes 3 min and often surfaces exactly where the story is breaking: ruttens.com/quiz`)">Copy</button></div>
+      <div class="msg-body">Quick check — have you done the GTM Animal quiz? Takes 3 min and often surfaces exactly where the story is breaking: ruttens.com/quiz</div>
+    </div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">ICP Landing — ruttens.com/for-tech-scaleups</span><button class="cp" onclick="cp(this,`I work specifically with B2B tech companies on this — bit more context here: ruttens.com/for-tech-scaleups`)">Copy</button></div>
+      <div class="msg-body">I work specifically with B2B tech companies on this — bit more context here: ruttens.com/for-tech-scaleups</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Message Scripts</div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-a">A · Formal</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`The 'our product sells itself' era ended for most B2B companies sometime in 2023–2024. Not because the products got worse. Because AI made the comparison easier and the 'why not just use ChatGPT' question started appearing in every demo. The companies winning now built a clear answer to that question before anyone asked it.`)">Copy</button></div>
+      <div class="msg-body">The 'our product sells itself' era ended for most B2B companies sometime in 2023–2024. Not because the products got worse. Because AI made the comparison easier and the 'why not just use ChatGPT' question started appearing in every demo. The companies winning now built a clear answer to that question before anyone asked it.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-b">B · Dynamic</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Most B2B companies I talk to have the same problem: their pitch was built for 2021. The buyer has changed. The questions have changed. The competitive landscape has changed. But the deck, the website, the talking points? Exactly the same. The companies winning right now didn't update their GTM — they rebuilt the story from scratch.`)">Copy</button></div>
+      <div class="msg-body">Most B2B companies I talk to have the same problem: their pitch was built for 2021. The buyer has changed. The questions have changed. The competitive landscape has changed. But the deck, the website, the talking points? Exactly the same. The companies winning right now didn't update their GTM — they rebuilt the story from scratch.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-c">C · Contrarian</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Unpopular opinion: if your B2B pipeline is slowing down, AI competitors aren't the root cause. Your ICP was always more fragile than you thought — AI just accelerated the moment of truth. The question isn't 'how do we fight ChatGPT.' It's 'why were we winning before, and is that reason still true?' Most teams haven't asked that yet.`)">Copy</button></div>
+      <div class="msg-body">Unpopular opinion: if your B2B pipeline is slowing down, AI competitors aren't the root cause. Your ICP was always more fragile than you thought — AI just accelerated the moment of truth. The question isn't 'how do we fight ChatGPT.' It's 'why were we winning before, and is that reason still true?' Most teams haven't asked that yet.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Connection Note</span><button class="cp" onclick="cp(this,`Hi [Name] — I work with B2B tech companies on the repositioning problem: when the GTM that built the business stops working. Saw your post on [X] and it resonated — it's the same pattern I'm seeing across the market right now. Good to connect.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — I work with B2B tech companies on the repositioning problem: when the GTM that built the business stops working. Saw your post on [X] and it resonated — it's the same pattern I'm seeing across the market right now. Good to connect.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 1 — Send within 24h of connecting</span><button class="cp" onclick="cp(this,`Hi [Name] — I'm putting together a short piece on what the B2B GTM playbook actually looks like for AI-era companies: what's working, what the old playbooks miss, and where founders keep getting it wrong.\n\nI'm doing 4–5 structured back-and-forths with people I respect and publishing the best exchanges. Would you want to be one of them? 30 minutes, recorded, I handle the write-up, you approve your quotes.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — I'm putting together a short piece on what the B2B GTM playbook actually looks like for AI-era companies: what's working, what the old playbooks miss, and where founders keep getting it wrong.
+
+I'm doing 4–5 structured back-and-forths with people I respect and publishing the best exchanges. Would you want to be one of them? 30 minutes, recorded, I handle the write-up, you approve your quotes.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 2 — Follow-up (5–7 days)</span><button class="cp" onclick="cp(this,`Hi [Name] — sent you a note last week about the AI-era GTM piece. No pressure if the timing's off — I'm doing 4–5 of these over the next few weeks. Happy to keep it to 15 minutes.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — sent you a note last week about the AI-era GTM piece. No pressure if the timing's off — I'm doing 4–5 of these over the next few weeks. Happy to keep it to 15 minutes.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 3 — Close</span><button class="cp" onclick="cp(this,`Perfect — [Calendly link]. 20–30 minutes, I'll record if you're OK, questions sent in advance.`)">Copy</button></div>
+      <div class="msg-body">Perfect — [Calendly link]. 20–30 minutes, I'll record if you're OK, questions sent in advance.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Weekly Action Pipeline</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="i2_find"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Found 3+ AI Scale-up targets this week</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i2_comment"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Commented before connecting (min. 1 interaction)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i2_connect"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Connection request with personalised note (Phase 3+)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i2_m1"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 1 sent within 24h of connection</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i2_m2"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 2 follow-up sent (5–7 days)</div></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetICP(['i2_find','i2_comment','i2_connect','i2_m1','i2_m2'])">↺ Reset this week</button>
+  </div>
+
+</div>
+
+<!-- ===== ICP 3: LEADERLESS TEAM ===== -->
+<div id="pane-icp3" class="tab-pane">
+
+  <div class="profile">
+    <h2>📊 THE LEADERLESS MARKETING TEAM</h2>
+    <div class="meta">B2B tech · Series A/B · 40–80 FTE · 3–6 marketers doing the work, no CMO above them · Board asks for pipeline metrics, team answers with engagement metrics</div>
+    <div class="trigger"><strong>Activate when:</strong> Missed quarterly pipeline target, or new CEO/board member asking for accountability. They're posting a "VP Marketing" or "first CMO" job ad — peak buying signal.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Pain Phrases — Use Verbatim</div>
+      <div class="phrase-list">
+        <div class="phrase"><div class="phrase-txt">"We have people doing marketing but nobody owns the number."</div><button class="cp" onclick="cp(this,`We have people doing marketing but nobody owns the number.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"The board keeps asking which campaigns are generating revenue and we can't answer."</div><button class="cp" onclick="cp(this,`The board keeps asking which campaigns are generating revenue and we can't answer.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"Marketing and sales blame each other every quarter."</div><button class="cp" onclick="cp(this,`Marketing and sales blame each other every quarter.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"Nobody owns the handoff."</div><button class="cp" onclick="cp(this,`Nobody owns the handoff.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"€5–15K/month per agency, none provable."</div><button class="cp" onclick="cp(this,`€5–15K/month per agency, none provable.`)">Copy</button></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Where to Find Them</div>
+      <div class="criteria">
+        <div class="crit">LinkedIn: CEO/CCO at B2B Series A–B tech · 40–80 FTE · EU-based</div>
+        <div class="crit">Also target: Head of Marketing with no CMO above them (VP title but no C-level)</div>
+        <div class="crit">Job post signal: "VP Marketing", "Head of Growth", "first CMO" = strong buying trigger</div>
+        <div class="crit">Posts: "alignment between marketing and sales", "pipeline metrics", "CMO search"</div>
+        <div class="crit">Best entry: SCAN → LAB (fractional CMO framing) → MAP if they need the full audit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🚀 Publish First — Anchor Post</div>
+    <div class="tactic-note">Post this. Then when you drop a pre-warm comment on a prospect's post, mention: "I wrote about this just today: [paste your post URL]" — instant credibility hook.</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">LinkedIn Post (~150 words)</span><button class="cp" onclick="cp(this,`The most expensive thing in B2B marketing isn't an agency retainer.\n\nIt's the empty decision-making chair.\n\nTalented team. Good tools. Active campaigns.\n\nAnd a leadership vacuum where someone should be setting direction, owning the number, and bridging the gap with sales.\n\nWhat happens without it:\n→ Marketing optimises for leads\n→ Sales optimises for its number\n→ Nobody owns the gap between them\n→ Revenue leaks quietly, quarter after quarter\n\nThe fix isn't always a full-time CMO hire.\n\nSometimes it's a fractional senior decision-maker who comes in, clears the fog, and gets the team pointed at real pipeline — in 90 days.\n\nIf your marketing team is doing the work but nobody's owning the outcome, that's the gap I fill.\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy Post</button></div>
+      <div class="msg-body">The most expensive thing in B2B marketing isn't an agency retainer.
+
+It's the empty decision-making chair.
+
+Talented team. Good tools. Active campaigns.
+
+And a leadership vacuum where someone should be setting direction, owning the number, and bridging the gap with sales.
+
+What happens without it:
+→ Marketing optimises for leads
+→ Sales optimises for its number
+→ Nobody owns the gap between them
+→ Revenue leaks quietly, quarter after quarter
+
+The fix isn't always a full-time CMO hire.
+
+Sometimes it's a fractional senior decision-maker who comes in, clears the fog, and gets the team pointed at real pipeline — in 90 days.
+
+If your marketing team is doing the work but nobody's owning the outcome, that's the gap I fill.
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+    </div>
+    <div class="ci" onclick="tog(this)" data-key="i3_pub">
+      <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><div class="cl">Posted this week ✓</div></div>
+    </div>
+    <hr>
+    <div class="cta-sub">🔗 Free Tool CTA — Drop in Comments</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Free Playbook — ruttens.com/playbook</span><button class="cp" onclick="cp(this,`I put together a free playbook on closing this gap without a full CMO hire: ruttens.com/playbook`)">Copy</button></div>
+      <div class="msg-body">I put together a free playbook on closing this gap without a full CMO hire: ruttens.com/playbook</div>
+    </div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Revenue Scan Booking — ruttens.com/contact</span><button class="cp" onclick="cp(this,`Free 20-min Revenue Scan if this is live for you right now — maps exactly where the leak is: ruttens.com/contact`)">Copy</button></div>
+      <div class="msg-body">Free 20-min Revenue Scan if this is live for you right now — maps exactly where the leak is: ruttens.com/contact</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Message Scripts</div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-a">A · Formal</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Marketing optimises for leads. Sales optimises for its number. The gap between them is where revenue quietly leaks — and no campaign, tool, or rebrand fixes a gap that nobody owns.`)">Copy</button></div>
+      <div class="msg-body">Marketing optimises for leads. Sales optimises for its number. The gap between them is where revenue quietly leaks — and no campaign, tool, or rebrand fixes a gap that nobody owns.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-b">B · Dynamic</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`The most expensive role in B2B isn't VP Sales. It's the empty CMO chair. A talented team doing the work, no one owning the number, leadership wondering every quarter why marketing isn't generating pipeline. The fix isn't always a hire. Sometimes it's accountability and a shared definition of what good actually looks like.`)">Copy</button></div>
+      <div class="msg-body">The most expensive role in B2B isn't VP Sales. It's the empty CMO chair. A talented team doing the work, no one owning the number, leadership wondering every quarter why marketing isn't generating pipeline. The fix isn't always a hire. Sometimes it's accountability and a shared definition of what good actually looks like.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-c">C · Contrarian</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Controversial opinion: the 'marketing and sales alignment' problem doesn't exist. What exists is a measurement problem. Nobody agreed on what success looks like — so both sides optimise for their own metric and blame each other every quarter. Fix the shared metric first. The alignment follows automatically.`)">Copy</button></div>
+      <div class="msg-body">Controversial opinion: the 'marketing and sales alignment' problem doesn't exist. What exists is a measurement problem. Nobody agreed on what success looks like — so both sides optimise for their own metric and blame each other every quarter. Fix the shared metric first. The alignment follows automatically.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Connection Note</span><button class="cp" onclick="cp(this,`Hi [Name] — I work as a fractional CMO for B2B tech companies at the stage where they have a marketing team but not a senior decision-maker. Saw your post on [X] — it's exactly the gap I specialise in. Good to connect.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — I work as a fractional CMO for B2B tech companies at the stage where they have a marketing team but not a senior decision-maker. Saw your post on [X] — it's exactly the gap I specialise in. Good to connect.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 1 — Send within 24h of connecting</span><button class="cp" onclick="cp(this,`Hi [Name] — quick one.\n\nI'm writing a short piece on the exact moment B2B companies hit the "marketing team without a CMO" ceiling — what breaks, what the board starts asking, and what actually fixes it. You've navigated that.\n\nWould you be up for a 20-minute conversation I can quote? No pitch, just the story. I'll share it before anything goes live.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — quick one.
+
+I'm writing a short piece on the exact moment B2B companies hit the "marketing team without a CMO" ceiling — what breaks, what the board starts asking, and what actually fixes it. You've navigated that.
+
+Would you be up for a 20-minute conversation I can quote? No pitch, just the story. I'll share it before anything goes live.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 2 — Follow-up (5–7 days)</span><button class="cp" onclick="cp(this,`Hi [Name] — sent a note last week about the CMO gap piece. No pressure — 15 minutes if the timing works, otherwise no worries at all.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — sent a note last week about the CMO gap piece. No pressure — 15 minutes if the timing works, otherwise no worries at all.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 3 — Close</span><button class="cp" onclick="cp(this,`Perfect — here's a time to book: [Calendly]. 20 minutes, questions in advance, your approval before anything is published.`)">Copy</button></div>
+      <div class="msg-body">Perfect — here's a time to book: [Calendly]. 20 minutes, questions in advance, your approval before anything is published.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Weekly Action Pipeline</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="i3_find"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Found 3+ Leaderless Team targets this week</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i3_comment"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Commented before connecting</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i3_connect"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Connection request with personalised note (Phase 3+)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i3_m1"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 1 sent within 24h</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i3_m2"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 2 follow-up sent</div></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetICP(['i3_find','i3_comment','i3_connect','i3_m1','i3_m2'])">↺ Reset this week</button>
+  </div>
+
+</div>
+
+<!-- ===== ICP 4: PORTFOLIO OPERATOR ===== -->
+<div id="pane-icp4" class="tab-pane">
+
+  <div class="profile">
+    <h2>💼 THE PORTFOLIO OPERATOR</h2>
+    <div class="meta">PE or VC operating partner · 3–8 B2B portfolio companies (€5–30M each) · Each on a different agency · No consistent reporting framework · LP pressure for operational metrics</div>
+    <div class="trigger"><strong>Activate when:</strong> New portfolio company acquisition, or LP review request for GTM performance. They're posting about "portfolio operations" or "value creation." HIGH LTV: one relationship = 3–8 engagements.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Pain Phrases — Use Verbatim</div>
+      <div class="phrase-list">
+        <div class="phrase"><div class="phrase-txt">"Every portfolio company paying €5–15K/month to a different agency. I can't prove ROI on any of them."</div><button class="cp" onclick="cp(this,`Every portfolio company paying €5–15K/month to a different agency. I can't prove ROI on any of them.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"I need a common GTM playbook I can actually implement across the portfolio."</div><button class="cp" onclick="cp(this,`I need a common GTM playbook I can actually implement across the portfolio.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"The marketing at our portfolio companies is not investor-ready."</div><button class="cp" onclick="cp(this,`The marketing at our portfolio companies is not investor-ready.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"Board-ready metrics" / "investor-ready pipeline"</div><button class="cp" onclick="cp(this,`Board-ready metrics / investor-ready pipeline`)">Copy</button></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Where to Find Them</div>
+      <div class="criteria">
+        <div class="crit">LinkedIn: "Operating Partner", "Value Creation", "Portfolio Operations" at PE/VC firms</div>
+        <div class="crit">Filter: EU-based funds · B2B-focused portfolio · Growth/mid-market stage</div>
+        <div class="crit">Also: "Chief Commercial Officer" at PE-backed holding companies</div>
+        <div class="crit">Posts: portfolio performance, GTM standardisation, agency fragmentation, LP metrics</div>
+        <div class="crit">TREAT AS MULTIPLIER: invest more time here. One converted OP = 3–8 engagements.</div>
+        <div class="crit">Best entry: MAP (portfolio-level GTM audit) → MAX for ongoing portfolio oversight</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🚀 Publish First — Anchor Post</div>
+    <div class="tactic-note">Post this. Then when you drop a pre-warm comment on a prospect's post, mention: "I wrote about this just today: [paste your post URL]" — instant credibility hook.</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">LinkedIn Post (~150 words)</span><button class="cp" onclick="cp(this,`The most expensive GTM mistake I see in PE portfolios:\n\nEvery company on a different agency, running on different metrics, with no way to benchmark one against the other.\n\nThe cost isn't €15K/month per company.\n\nIt's the inability to learn across the portfolio.\n\nCompany A finds something that works. That insight dies in a quarterly report nobody reads.\n\nCompany C is making the same mistake Company A made 18 months ago. Nobody catches it in time.\n\nOne shared GTM framework across a portfolio doesn't just reduce cost.\n\nIt creates a learning engine that compounds.\n\nThat's the unlock most operating partners haven't made yet.\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy Post</button></div>
+      <div class="msg-body">The most expensive GTM mistake I see in PE portfolios:
+
+Every company on a different agency, running on different metrics, with no way to benchmark one against the other.
+
+The cost isn't €15K/month per company.
+
+It's the inability to learn across the portfolio.
+
+Company A finds something that works. That insight dies in a quarterly report nobody reads.
+
+Company C is making the same mistake Company A made 18 months ago. Nobody catches it in time.
+
+One shared GTM framework across a portfolio doesn't just reduce cost.
+
+It creates a learning engine that compounds.
+
+That's the unlock most operating partners haven't made yet.
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+    </div>
+    <div class="ci" onclick="tog(this)" data-key="i4_pub">
+      <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><div class="cl">Posted this week ✓</div></div>
+    </div>
+    <hr>
+    <div class="cta-sub">🔗 Free Tool CTA — Drop in Comments</div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Free GTM Audit — ruttens.com/audit</span><button class="cp" onclick="cp(this,`I wrote a free GTM audit that helps identify the biggest gaps across a portfolio quickly: ruttens.com/audit`)">Copy</button></div>
+      <div class="msg-body">I wrote a free GTM audit that helps identify the biggest gaps across a portfolio quickly: ruttens.com/audit</div>
+    </div>
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Revenue Scan Booking — ruttens.com/contact</span><button class="cp" onclick="cp(this,`If you're evaluating GTM health across companies, a free Revenue Scan is the fastest way to get a first read: ruttens.com/contact`)">Copy</button></div>
+      <div class="msg-body">If you're evaluating GTM health across companies, a free Revenue Scan is the fastest way to get a first read: ruttens.com/contact</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Message Scripts</div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-a">A · Formal</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`The most expensive GTM problem in a PE portfolio isn't any single company's pipeline. It's the fact that every company is on a different agency, using different metrics, with no common playbook. The cost isn't €15K/month per company. It's the inability to compare, benchmark, or improve across the portfolio.`)">Copy</button></div>
+      <div class="msg-body">The most expensive GTM problem in a PE portfolio isn't any single company's pipeline. It's the fact that every company is on a different agency, using different metrics, with no common playbook. The cost isn't €15K/month per company. It's the inability to compare, benchmark, or improve across the portfolio.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-b">B · Dynamic</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`Portfolio operators are running 4–6 GTM experiments simultaneously with no common framework and no way to know which one is actually working. The real cost isn't the agency fees. It's the inability to learn across companies. If you can't compare results, you can't improve any of them. The benchmark is sitting right there — you just can't see it yet.`)">Copy</button></div>
+      <div class="msg-body">Portfolio operators are running 4–6 GTM experiments simultaneously with no common framework and no way to know which one is actually working. The real cost isn't the agency fees. It's the inability to learn across companies. If you can't compare results, you can't improve any of them. The benchmark is sitting right there — you just can't see it yet.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label"><span class="opt-tag opt-c">C · Contrarian</span> Pre-warm comment</span><button class="cp" onclick="cp(this,`The biggest mistake PE operating partners make with portfolio marketing: installing a system before diagnosing the actual problem. Every company gets the same playbook. Half of them don't need that playbook. They need to stop doing three things, not start doing five new ones. The fastest GTM improvement I've seen in a portfolio came from subtraction, not addition.`)">Copy</button></div>
+      <div class="msg-body">The biggest mistake PE operating partners make with portfolio marketing: installing a system before diagnosing the actual problem. Every company gets the same playbook. Half of them don't need that playbook. They need to stop doing three things, not start doing five new ones. The fastest GTM improvement I've seen in a portfolio came from subtraction, not addition.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Connection Note</span><button class="cp" onclick="cp(this,`Hi [Name] — I run GTM diagnostics and fractional CMO engagements for B2B companies, including PE-backed ones. I've been thinking a lot about the portfolio standardisation problem recently — saw your post on [X] and it's exactly the angle I've been working on. Good to connect.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — I run GTM diagnostics and fractional CMO engagements for B2B companies, including PE-backed ones. I've been thinking a lot about the portfolio standardisation problem recently — saw your post on [X] and it's exactly the angle I've been working on. Good to connect.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 1 — Send within 24h</span><button class="cp" onclick="cp(this,`Hi [Name] — quick one.\n\nI'm putting together a short piece on what investor-ready GTM actually looks like at the portfolio level: the metrics that matter to LPs, the playbook that works across companies at different stages, and the agency fragmentation problem nobody talks about.\n\nI'm doing 4–5 conversations with operating partners who've built this. Would you be up for 20 minutes? I'll share the piece for your review before it's published.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — quick one.
+
+I'm putting together a short piece on what investor-ready GTM actually looks like at the portfolio level: the metrics that matter to LPs, the playbook that works across companies at different stages, and the agency fragmentation problem nobody talks about.
+
+I'm doing 4–5 conversations with operating partners who've built this. Would you be up for 20 minutes? I'll share the piece for your review before it's published.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 2 — Follow-up (5–7 days)</span><button class="cp" onclick="cp(this,`Hi [Name] — sent a note last week about the portfolio GTM piece. No pressure — 15 minutes if useful, otherwise no worries.`)">Copy</button></div>
+      <div class="msg-body">Hi [Name] — sent a note last week about the portfolio GTM piece. No pressure — 15 minutes if useful, otherwise no worries.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 3 — Close</span><button class="cp" onclick="cp(this,`Great — [Calendly link]. 20 minutes, I'll send the questions in advance, your review before anything goes live.`)">Copy</button></div>
+      <div class="msg-body">Great — [Calendly link]. 20 minutes, I'll send the questions in advance, your review before anything goes live.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Weekly Action Pipeline</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="i4_find"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Found 2+ Portfolio Operator targets this week</div><div class="cs">Lower volume, higher priority — these are multiplier relationships</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i4_comment"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Commented on 2+ posts before connecting</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i4_connect"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Connection request with personalised note (Phase 3+)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i4_m1"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 1 sent within 24h</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i4_m2"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 2 follow-up sent</div></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetICP(['i4_find','i4_comment','i4_connect','i4_m1','i4_m2'])">↺ Reset this week</button>
+  </div>
+
+</div>
+
+<!-- ===== ICP 5: INDUSTRIAL INVISIBLE ===== -->
+<div id="pane-icp5" class="tab-pane">
+
+  <div class="profile">
+    <h2>🏭 THE INDUSTRIAL INVISIBLE</h2>
+    <div class="meta">Belgian/Dutch-speaking industrial SME · €10–20M turnover · Exceptional product · Loyal customers · Wins on merit + referrals · Zero digital pipeline · Doesn't trust agencies</div>
+    <div class="trigger"><strong>Activate when:</strong> Failed trade-show ROI, new owner wanting to grow beyond referrals, or competitor gaining visibility online. They Google "B2B marketing industrial Belgium." Approach in Dutch — it shows you understand the market.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="sec">
+      <div class="sec-title">Pain Phrases — Use Verbatim</div>
+      <div class="phrase-list">
+        <div class="phrase"><div class="phrase-txt">"We have great customers but they all came from referrals."</div><button class="cp" onclick="cp(this,`We have great customers but they all came from referrals.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"New buyers never find us."</div><button class="cp" onclick="cp(this,`New buyers never find us.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"We tried a marketing agency but they didn't understand industrial."</div><button class="cp" onclick="cp(this,`We tried a marketing agency but they didn't understand industrial.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"We don't need a rebrand — we need new customers."</div><button class="cp" onclick="cp(this,`We don't need a rebrand — we need new customers.`)">Copy</button></div>
+        <div class="phrase"><div class="phrase-txt">"Goed product, echte klanten, maar nieuwe kopers vinden ons niet." (NL)</div><button class="cp" onclick="cp(this,`Goed product, echte klanten, maar nieuwe kopers vinden ons niet.`)">Copy</button></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Where to Find Them</div>
+      <div class="criteria">
+        <div class="crit">LinkedIn NL: "zaakvoerder", "commercieel directeur" · industriële kmo · 50–200 medewerkers</div>
+        <div class="crit">Sectors: machine building, industrial services, B2B manufacturing, technical distribution</div>
+        <div class="crit">Also: Agoria members · Voka members · family-owned manufacturers</div>
+        <div class="crit">Approach in Dutch — shows you understand the Flemish market. Use Jun 16 NL post as proof of voice.</div>
+        <div class="crit">Best entry: SCAN €499 + Pipeline Sprint — quick win over long retainer for this profile</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">🚀 Publish First — Anchor Post</div>
+    <div class="tactic-note">Post this. Then when you drop a pre-warm comment on a prospect's post, mention: "I wrote about this just today: [paste your post URL]" — instant credibility hook.</div>
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label">LinkedIn Post (~150 words)</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`De meeste industriële B2B-bedrijven hebben hetzelfde probleem: hun beste klanten vonden hen. De rest vindt hen niet.\n\nNiet omdat ze geen goed product hebben. Niet omdat ze te duur zijn.\n\nMaar omdat ze onzichtbaar zijn voor kopers die nu actief op zoek zijn.\n\nDe koper die uw product nodig heeft, zoekt vandaag online. Ze vergelijken. Ze vragen offertes aan bij wie ze vinden.\n\nAls u niet verschijnt in die zoektocht, wint een concurrent dat gesprek zonder dat u het weet.\n\nZichtbaarheid is geen marketing. Het is de basis van groei voor elke B2B-onderneming die niet 100% afhankelijk wil zijn van referrals.\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy NL</button></div>
+          <div class="msg-body">De meeste industriële B2B-bedrijven hebben hetzelfde probleem: hun beste klanten vonden hen. De rest vindt hen niet.
+
+Niet omdat ze geen goed product hebben. Niet omdat ze te duur zijn.
+
+Maar omdat ze onzichtbaar zijn voor kopers die nu actief op zoek zijn.
+
+De koper die uw product nodig heeft, zoekt vandaag online. Ze vergelijken. Ze vragen offertes aan bij wie ze vinden.
+
+Als u niet verschijnt in die zoektocht, wint een concurrent dat gesprek zonder dat u het weet.
+
+Zichtbaarheid is geen marketing. Het is de basis van groei voor elke B2B-onderneming die niet 100% afhankelijk wil zijn van referrals.
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`Most industrial B2B companies have the same problem: their best customers found them. The rest don't.\n\nNot because the product is wrong. Not because the price is off.\n\nBecause they're invisible to buyers who are actively searching right now.\n\nThe buyer who needs what you sell is online today. Comparing. Requesting quotes from whoever shows up.\n\nIf you're not in that conversation, a competitor wins it before you even knew it was happening.\n\nVisibility isn't marketing. It's the foundation of growth for any B2B company that can't rely on referrals alone.\n\n→ BOOK A REVENUE SCAN · RUTTENS.COM`)">Copy EN</button></div>
+          <div class="msg-body">Most industrial B2B companies have the same problem: their best customers found them. The rest don't.
+
+Not because the product is wrong. Not because the price is off.
+
+Because they're invisible to buyers who are actively searching right now.
+
+The buyer who needs what you sell is online today. Comparing. Requesting quotes from whoever shows up.
+
+If you're not in that conversation, a competitor wins it before you even knew it was happening.
+
+Visibility isn't marketing. It's the foundation of growth for any B2B company that can't rely on referrals alone.
+
+→ BOOK A REVENUE SCAN · RUTTENS.COM</div>
+        </div>
+      </div>
+    </div>
+    <div class="ci" onclick="tog(this)" data-key="i5_pub">
+      <div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div><div class="cl">Posted this week ✓</div></div>
+    </div>
+    <hr>
+    <div class="cta-sub">🔗 Free Tool CTA — Drop in Comments</div>
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label">GTM Quiz — ruttens.com/quiz</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`Ik heb een gratis quiz gemaakt die uw GTM-aanpak in kaart brengt in 3 minuten: ruttens.com/quiz`)">Copy</button></div>
+          <div class="msg-body">Ik heb een gratis quiz gemaakt die uw GTM-aanpak in kaart brengt in 3 minuten: ruttens.com/quiz</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`I made a free quiz that maps your GTM motion in 3 minutes — usually reveals exactly where new buyers aren't finding you: ruttens.com/quiz`)">Copy</button></div>
+          <div class="msg-body">I made a free quiz that maps your GTM motion in 3 minutes — usually reveals exactly where new buyers aren't finding you: ruttens.com/quiz</div>
+        </div>
+      </div>
+    </div>
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label">ICP Landing — ruttens.com/for-sme</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`Meer over hoe ik werk met industriële kmo's: ruttens.com/for-sme`)">Copy</button></div>
+          <div class="msg-body">Meer over hoe ik werk met industriële kmo's: ruttens.com/for-sme</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`More on how I work with industrial B2B companies: ruttens.com/for-sme`)">Copy</button></div>
+          <div class="msg-body">More on how I work with industrial B2B companies: ruttens.com/for-sme</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Message Scripts (send in Dutch for Flemish/NL targets)</div>
+
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label"><span class="opt-tag opt-a">A · Formal</span> Pre-warm comment</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`De meeste B2B-bedrijven denken dat ze een marketingprobleem hebben. Dat klopt niet. Ze hebben een 'niemand is verantwoordelijk voor de overdracht'-probleem. Marketing optimaliseert voor leads. Sales optimaliseert voor zijn cijfer. De kloof daartussen is waar omzet weglekt.`)">Copy</button></div>
+          <div class="msg-body">De meeste B2B-bedrijven denken dat ze een marketingprobleem hebben. Dat klopt niet. Ze hebben een 'niemand is verantwoordelijk voor de overdracht'-probleem. Marketing optimaliseert voor leads. Sales optimaliseert voor zijn cijfer. De kloof daartussen is waar omzet weglekt.</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`Most industrial B2B companies think they have a marketing problem. They don't. They have a 'nobody owns the handoff' problem. Marketing optimises for leads. Sales optimises for its number. The gap between them is where revenue leaks quietly — and no trade show, rebrand, or website rebuild fixes a gap that nobody owns.`)">Copy</button></div>
+          <div class="msg-body">Most industrial B2B companies think they have a marketing problem. They don't. They have a 'nobody owns the handoff' problem. Marketing optimises for leads. Sales optimises for its number. The gap between them is where revenue leaks quietly — and no trade show, rebrand, or website rebuild fixes a gap that nobody owns.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label"><span class="opt-tag opt-b">B · Dynamic</span> Pre-warm comment</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`Het beste B2B-product in uw sector verkoopt zichzelf — aan mensen die al weten dat u bestaat. Het probleem is de andere 90% van de markt. Kopers die uw naam nooit hebben gehoord. Die kopers zoeken vandaag online naar wat u verkoopt. Als u niet verschijnt, wint een concurrent dat gesprek zonder dat u het weet.`)">Copy</button></div>
+          <div class="msg-body">Het beste B2B-product in uw sector verkoopt zichzelf — aan mensen die al weten dat u bestaat. Het probleem is de andere 90% van de markt. Kopers die uw naam nooit hebben gehoord. Die kopers zoeken vandaag online naar wat u verkoopt. Als u niet verschijnt, wint een concurrent dat gesprek zonder dat u het weet.</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`The best B2B product in your sector sells itself — to people who already know you exist. The problem is the other 90% of the market: buyers who have never heard your name. They are searching online today for exactly what you sell. If you don't show up, a competitor wins that conversation before you even know it happened.`)">Copy</button></div>
+          <div class="msg-body">The best B2B product in your sector sells itself — to people who already know you exist. The problem is the other 90% of the market: buyers who have never heard your name. They are searching online today for exactly what you sell. If you don't show up, a competitor wins that conversation before you even know it happened.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr" style="margin-bottom:6px"><span class="msg-label"><span class="opt-tag opt-c">C · Contrarian</span> Pre-warm comment</span></div>
+      <div class="lang-pair">
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-nl">🇧🇪 NL</span><button class="cp" onclick="cp(this,`Eerlijke boodschap voor industriële kmo's: uw nieuwe website lost uw groeiproblemen niet op. Een mooie website zonder een systeem om nieuwe kopers te bereiken is een brochure die niemand leest. Het echte probleem is niet hoe u eruitziet online — het is dat de juiste kopers u simpelweg niet vinden.`)">Copy</button></div>
+          <div class="msg-body">Eerlijke boodschap voor industriële kmo's: uw nieuwe website lost uw groeiproblemen niet op. Een mooie website zonder een systeem om nieuwe kopers te bereiken is een brochure die niemand leest. Het echte probleem is niet hoe u eruitziet online — het is dat de juiste kopers u simpelweg niet vinden.</div>
+        </div>
+        <div class="lang-row">
+          <div class="lang-row-hdr"><span class="opt-tag opt-en">🇬🇧 EN</span><button class="cp" onclick="cp(this,`Honest message for industrial SMEs: your new website will not solve your growth problem. A beautiful website without a system for reaching new buyers is a brochure nobody reads. The real issue isn't how you look online — it's that the right buyers simply don't find you.`)">Copy</button></div>
+          <div class="msg-body">Honest message for industrial SMEs: your new website will not solve your growth problem. A beautiful website without a system for reaching new buyers is a brochure nobody reads. The real issue isn't how you look online — it's that the right buyers simply don't find you.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Connection Note (NL)</span><button class="cp" onclick="cp(this,`Dag [Naam] — ik help Belgische B2B-bedrijven nieuwe kopers vinden zonder afhankelijk te worden van een agentschap. Zag uw post over [X] — dat is exact het probleem waar ik mee werk. Graag verbonden.`)">Copy</button></div>
+      <div class="msg-body">Dag [Naam] — ik help Belgische B2B-bedrijven nieuwe kopers vinden zonder afhankelijk te worden van een agentschap. Zag uw post over [X] — dat is exact het probleem waar ik mee werk. Graag verbonden.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 1 (NL) — Send within 24h</span><button class="cp" onclick="cp(this,`Dag [Naam] — korte vraag.\n\nIk schrijf een kort stuk over hoe Belgische industriële kmo's nieuwe klanten vinden buiten het referralnetwerk — wat werkt, wat niet, en waar de meeste bedrijven in uw sector vastlopen.\n\nU heeft dat pad zelf al bewandeld. Zou u 20 minuten vrij hebben voor een gesprek dat ik kan aanhalen? Ik stuur u de tekst door voor publicatie. Geen verborgen agenda, alleen het eerlijke verhaal.`)">Copy</button></div>
+      <div class="msg-body">Dag [Naam] — korte vraag.
+
+Ik schrijf een kort stuk over hoe Belgische industriële kmo's nieuwe klanten vinden buiten het referralnetwerk — wat werkt, wat niet, en waar de meeste bedrijven in uw sector vastlopen.
+
+U heeft dat pad zelf al bewandeld. Zou u 20 minuten vrij hebben voor een gesprek dat ik kan aanhalen? Ik stuur u de tekst door voor publicatie. Geen verborgen agenda, alleen het eerlijke verhaal.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 2 (NL) — Follow-up (5–7 days)</span><button class="cp" onclick="cp(this,`Dag [Naam] — vorige week stuurde ik u een bericht over het industriële kmo-stuk. Geen druk als het moment er niet is — 15 minuten volstaat. Anders geen probleem.`)">Copy</button></div>
+      <div class="msg-body">Dag [Naam] — vorige week stuurde ik u een bericht over het industriële kmo-stuk. Geen druk als het moment er niet is — 15 minuten volstaat. Anders geen probleem.</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-hdr"><span class="msg-label">Message 3 (NL) — Close</span><button class="cp" onclick="cp(this,`Prima — hier is een link om in te plannen: [Calendly]. 20 minuten, ik stuur de vragen vooraf, u leest alles na voor publicatie.`)">Copy</button></div>
+      <div class="msg-body">Prima — hier is een link om in te plannen: [Calendly]. 20 minuten, ik stuur de vragen vooraf, u leest alles na voor publicatie.</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Weekly Action Pipeline</div>
+    <div class="checklist">
+      <div class="ci" onclick="tog(this)" data-key="i5_find"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Found 2–3 Industrial targets this week (NL priority)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i5_comment"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Commented in Dutch on 1+ target post</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i5_connect"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Connection request in Dutch (Phase 3+, or LH Persona 5 only)</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i5_m1"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Message 1 sent in Dutch</div></div></div>
+      <div class="ci" onclick="tog(this)" data-key="i5_m2"><div class="cb"><svg width="10" height="8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cl">Follow-up sent in Dutch (5–7 days)</div></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetICP(['i5_find','i5_comment','i5_connect','i5_m1','i5_m2'])">↺ Reset this week</button>
+  </div>
+
+</div>
+
+<script>
+// Tab switching
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pane-' + id).classList.add('active');
+  btn.classList.add('active');
+  updateStats();
+}
+
+// Copy to clipboard
+function cp(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+// Toggle checkbox with localStorage persistence
+function tog(el) {
+  const key = 'ruttens_hub_' + el.dataset.key;
+  const isDone = el.classList.toggle('done');
+  localStorage.setItem(key, isDone ? '1' : '0');
+  updateStats();
+}
+
+// Reset a set of ICP keys
+function resetICP(keys) {
+  if (!confirm('Reset all weekly actions for this ICP tab?')) return;
+  keys.forEach(k => {
+    localStorage.removeItem('ruttens_hub_' + k);
+    const el = document.querySelector('[data-key="' + k + '"]');
+    if (el) el.classList.remove('done');
+  });
+  updateStats();
+}
+
+// Load saved checkbox states
+function loadState() {
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = 'ruttens_hub_' + el.dataset.key;
+    if (localStorage.getItem(key) === '1') el.classList.add('done');
+  });
+}
+
+// Update stats on Daily HQ
+function updateStats() {
+  const all = document.querySelectorAll('.ci');
+  const done = document.querySelectorAll('.ci.done');
+  const d = done.length, t = all.length, pct = t ? Math.round(d/t*100) : 0;
+  const sd = document.getElementById('stat-done');
+  const st = document.getElementById('stat-total');
+  const sp = document.getElementById('stat-pct');
+  if (sd) sd.textContent = d;
+  if (st) st.textContent = t;
+  if (sp) sp.textContent = pct + '%';
+}
+
+// Init
+loadState();
+updateStats();
+</script>
+</body>
+</html>

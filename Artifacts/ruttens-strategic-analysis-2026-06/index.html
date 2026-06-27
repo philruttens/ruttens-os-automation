@@ -1,0 +1,564 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Strategic Analysis 2026 06",
+  "schemaVersion": 1,
+  "description": "RUTTENS+ Strategic Priorities for Jun 2026 — #1 B2B pain (pipeline invisibility + no-decision + CAC inflation), site gaps, top 3 services (SCAN €499 + Pipeline Sprint from €2,590 + MAX from €3,990/mo), 5 page rewrites, 10 LinkedIn topics mapped to W21+ scheduler, free-time path. Live artifact with persistent checkboxes."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+ Strategic Analysis · Jun 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #38B6FF;
+  --blue-tint: #EBF7FF;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --grey-50: #F7F7F8;
+  --grey-100: #EDEDEF;
+  --grey-200: #DCDCE0;
+  --grey-400: #8B8B92;
+  --grey-600: #4F4F55;
+  --grey-800: #1F1F23;
+  --red: #E55934;
+  --green: #2ECC71;
+  --gold: #D4A017;
+  --display: 'Oswald', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--white);
+  color: var(--black);
+  display: flex;
+  min-height: 100vh;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.sidebar {
+  width: 260px; min-width: 260px;
+  background: var(--black); color: var(--white);
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto;
+  padding: 28px 0;
+  display: flex; flex-direction: column;
+}
+.brand { padding: 0 24px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.brand-title { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--white); }
+.brand-title .plus { color: var(--blue); }
+.brand-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; letter-spacing: 0.3px; }
+.sidebar nav { padding: 14px 0; flex: 1; }
+.sidebar nav a { display: flex; align-items: center; gap: 10px; padding: 10px 24px; color: rgba(255,255,255,0.72); font-size: 12.5px; font-weight: 500; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar nav a:hover, .sidebar nav a.active { color: var(--white); background: rgba(56,182,255,0.08); border-left-color: var(--blue); text-decoration: none; }
+.sidebar nav a .num { font-family: var(--display); font-weight: 700; color: var(--blue); width: 22px; font-size: 13px; }
+.sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: rgba(255,255,255,0.4); }
+
+.main { flex: 1; overflow-y: auto; }
+.hero { background: var(--black); color: var(--white); padding: 48px 56px 56px; }
+.eyebrow { display: inline-block; font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
+.hero h1 { font-family: var(--display); font-size: 44px; font-weight: 700; line-height: 1.05; letter-spacing: -0.5px; color: var(--white); margin-bottom: 14px; }
+.hero h1 .blue { color: var(--blue); }
+.hero p.lede { font-size: 16px; color: rgba(255,255,255,0.78); max-width: 720px; line-height: 1.55; }
+.hero-meta { margin-top: 22px; display: flex; gap: 28px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,0.55); }
+.hero-meta span strong { color: var(--blue); font-weight: 600; }
+
+.section { padding: 52px 56px; border-bottom: 1px solid var(--grey-100); scroll-margin-top: 0; }
+.section:last-child { border-bottom: none; }
+.section-label { font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.section h2 { font-family: var(--display); font-size: 30px; font-weight: 700; line-height: 1.15; color: var(--black); margin-bottom: 10px; }
+.section .section-sub { font-size: 14.5px; color: var(--grey-600); margin-bottom: 28px; max-width: 760px; }
+
+h3 { font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--black); margin: 24px 0 10px; letter-spacing: 0.3px; }
+h4 { font-family: var(--body); font-size: 13.5px; font-weight: 600; color: var(--grey-600); text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 8px; }
+p { margin-bottom: 12px; max-width: 820px; }
+strong { color: var(--black); font-weight: 600; }
+em { color: var(--grey-600); }
+ul, ol { margin: 8px 0 14px 22px; }
+li { margin-bottom: 6px; }
+
+.pain-quote { background: var(--blue-tint); border-left: 4px solid var(--blue); padding: 18px 22px; margin: 18px 0 24px; font-family: var(--body); font-size: 15.5px; font-weight: 500; color: var(--black); max-width: 820px; line-height: 1.5; }
+.pain-quote .label { display: block; font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+
+.callout-dark { background: var(--black); color: var(--white); padding: 22px 26px; margin: 20px 0; border-radius: 4px; max-width: 820px; }
+.callout-dark .label { font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; display: block; }
+.callout-dark h3 { color: var(--white); margin: 0 0 8px; font-size: 22px; }
+.callout-dark p { color: rgba(255,255,255,0.85); margin: 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0 20px; font-size: 13px; background: var(--white); border: 1px solid var(--grey-100); }
+th { background: var(--grey-50); text-align: left; padding: 11px 14px; font-family: var(--display); font-size: 11px; font-weight: 700; color: var(--grey-600); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 2px solid var(--grey-200); }
+td { padding: 11px 14px; border-bottom: 1px solid var(--grey-100); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--grey-50); }
+
+.card-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 16px 0 24px; }
+.card { background: var(--white); border: 1px solid var(--grey-200); padding: 18px 18px 16px; border-radius: 4px; }
+.card.priority { border-top: 3px solid var(--blue); }
+.card-num { font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); text-transform: uppercase; margin-bottom: 6px; }
+.card h4 { font-family: var(--display); font-size: 16px; font-weight: 700; color: var(--black); text-transform: none; margin: 0 0 6px; letter-spacing: 0.2px; }
+.card p { font-size: 13px; color: var(--grey-600); margin: 0 0 10px; }
+.card .price { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--black); }
+.card .price .unit { color: var(--grey-400); font-size: 12px; font-weight: 400; }
+
+.stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 18px 0 24px; }
+.stat { background: var(--grey-50); border-left: 3px solid var(--blue); padding: 14px 16px; }
+.stat-val { font-family: var(--display); font-size: 26px; font-weight: 700; color: var(--black); line-height: 1; }
+.stat-label { font-size: 11.5px; color: var(--grey-600); margin-top: 6px; line-height: 1.35; }
+
+.checklist { margin: 16px 0 24px; }
+.check-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; border: 1px solid var(--grey-100); background: var(--white); margin-bottom: 6px; border-radius: 3px; transition: all 0.15s; }
+.check-item:hover { background: var(--grey-50); }
+.check-item input[type="checkbox"] { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; }
+.check-item label { flex: 1; cursor: pointer; font-size: 13.5px; color: var(--black); line-height: 1.5; }
+.check-item input[type="checkbox"]:checked + label { text-decoration: line-through; color: var(--grey-400); }
+
+.badge { display: inline-block; font-family: var(--display); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; margin-left: 6px; }
+.badge-high { background: var(--blue); color: var(--white); }
+.badge-med { background: var(--gold); color: var(--white); }
+.badge-low { background: var(--grey-200); color: var(--grey-600); }
+.badge-strength { background: #d1fae5; color: #065f46; }
+.badge-gap { background: #fee2e2; color: #991b1b; }
+
+.tldr { background: var(--black); color: var(--white); padding: 28px 32px; border-radius: 4px; margin-bottom: 28px; max-width: 860px; }
+.tldr .label { display: block; font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
+.tldr h3 { font-family: var(--display); font-size: 22px; color: var(--white); line-height: 1.25; font-weight: 600; margin-bottom: 14px; }
+.tldr p { color: rgba(255,255,255,0.85); margin-bottom: 10px; }
+.tldr strong { color: var(--blue); }
+
+.source-list { columns: 2; column-gap: 28px; margin: 12px 0 0; font-size: 12.5px; }
+.source-list li { break-inside: avoid; margin-bottom: 4px; }
+
+@media (max-width: 880px) {
+  body { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 100%; height: auto; position: relative; }
+  .section { padding: 32px 22px; }
+  .hero { padding: 30px 22px 36px; }
+  .hero h1 { font-size: 30px; }
+  .source-list { columns: 1; }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-title">RUTTENS<span class="plus">+</span></div>
+    <div class="brand-sub">Strategic Analysis · Jun 2026</div>
+  </div>
+  <nav>
+    <a href="#tldr"><span class="num">0</span>Executive TL;DR</a>
+    <a href="#pain"><span class="num">1</span>The #1 2026 Pain</a>
+    <a href="#audit"><span class="num">2</span>Site Strengths + Gaps</a>
+    <a href="#services"><span class="num">3</span>Top 3 Services</a>
+    <a href="#pages"><span class="num">4</span>5 Page Rewrites</a>
+    <a href="#linkedin"><span class="num">5</span>10 LinkedIn Posts</a>
+    <a href="#freetime"><span class="num">6</span>Path to Free Time</a>
+    <a href="#decisions"><span class="num">7</span>Open Decisions</a>
+    <a href="#zen"><span class="num">8</span>Zen Doc Status</a>
+    <a href="#sources"><span class="num">9</span>Sources</a>
+  </nav>
+  <div class="sidebar-footer">
+    Live artifact · refresh to re-pull<br>
+    Last built: 2026-05-26<br>
+    Synced: 2026-06-10
+  </div>
+</aside>
+
+<main class="main">
+
+<section class="hero">
+  <div class="eyebrow">RUTTENS+ Strategic Priorities</div>
+  <h1>Pipeline is invisible<br>and unpredictable.<br><span class="blue">The old playbook is making it worse.</span></h1>
+  <p class="lede">A 90-day priority map for ruttens.com — built from the last 10 days of your sessions, the live site, and what McKinsey · Gartner · HubSpot · Pavilion · Dunford · Walker are all saying about the 2026 B2B GTM stack.</p>
+  <div class="hero-meta">
+    <span>Date · <strong>2026-05-26</strong></span>
+    <span>Model · <strong>Opus 4.7 Cowork</strong></span>
+    <span>Companion doc · <strong>STRATEGY_2026-05-26_Ruttens-Priorities.md</strong></span>
+    <span>Status · <strong>v1 for Phil review Jun 2</strong></span>
+  </div>
+</section>
+
+<section class="section" id="update-29may" style="background:#0a0a0a;color:#fff;border-radius:14px;padding:22px 26px;margin:18px 0;">
+  <div style="font-size:11px;letter-spacing:.08em;color:#38B6FF;font-weight:700;text-transform:uppercase;">⟳ LIVE PRICING — source of truth: ruttens.com/pricing · synced 29 May 2026</div>
+  <h3 style="color:#fff;margin:6px 0 10px;">These are the live, confirmed prices. They supersede the v1 proposal figures in the sections below.</h3>
+  <table style="width:100%;border-collapse:collapse;margin:6px 0;color:#fff;font-size:13.5px;">
+    <tr style="border-bottom:1px solid rgba(255,255,255,.2);"><td style="padding:5px 8px;"><strong>SCAN</strong></td><td style="padding:5px 8px;"><strong>€499</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">1-hr call + written diagnosis, within a week (was €499 in v1)</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.2);"><td style="padding:5px 8px;"><strong>Pipeline Sprint</strong></td><td style="padding:5px 8px;"><strong>from €2,590</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">NEW middle rung, fixed scope (this is the v1 "€1,499 Sprint", now live at €2,590)</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.2);"><td style="padding:5px 8px;"><strong>LAB</strong></td><td style="padding:5px 8px;"><strong>€2,990</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">full 7-pillar audit, 2 weeks</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.2);"><td style="padding:5px 8px;"><strong>MAP</strong></td><td style="padding:5px 8px;"><strong>from €6,990</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">3-month strategy build + handover (most popular)</td></tr>
+    <tr style="border-bottom:1px solid rgba(255,255,255,.2);"><td style="padding:5px 8px;"><strong>SPRINT</strong></td><td style="padding:5px 8px;"><strong>from €15,900</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">90-day done-with-you execution</td></tr>
+    <tr><td style="padding:5px 8px;"><strong>MAX</strong></td><td style="padding:5px 8px;"><strong>from €3,990/mo</strong></td><td style="padding:5px 8px;color:rgba(255,255,255,.7);">fractional CMO, 6–12 mo (starting point — scope-based, not fixed bands)</td></tr>
+  </table>
+  <p style="margin:8px 0 0;line-height:1.55;">All prices are <strong>starting points</strong> (final = company size / complexity / scope; PE-VC & multi-co on request). The <strong>free 20-min Revenue Scan</strong> stays the free entry call — distinct from the paid €499 SCAN. Also done 30 May: prices removed from non-pricing pages, colour-coding added; homepage rewrite + proof points still gated on <strong>Phil's Netlify deploy (Jun 2)</strong>. ✅ Pricing decisions now resolved — proposal sections below are kept for the reasoning only.</p>
+</section>
+
+<section class="section" id="tldr">
+  <div class="section-label">Section 0 · The 60-second take</div>
+  <h2>Executive TL;DR</h2>
+
+  <div class="tldr">
+    <span class="label">The reframe</span>
+    <h3>You're 70% pointed at the right pain. But your homepage still answers the 2021 question.</h3>
+    <p>2026 B2B leaders don't want "more leads." They want <strong>a pipeline they can defend on Friday</strong> — predictable, visible, board-ready — that survives AI search, "no decision" stalls, and the death of volume marketing.</p>
+    <p>Your highest-leverage move: <strong>reframe the entire site around pipeline predictability, AI-search visibility, and the "no decision" killer.</strong> Almost no fractional CMO in Europe is talking about this clearly yet.</p>
+  </div>
+
+  <h4>The three moves for more revenue + more free time</h4>
+  <div class="card-grid-3">
+    <div class="card priority">
+      <div class="card-num">Move 1</div>
+      <h4>Add the missing rung</h4>
+      <p>Productize a new <strong>Pipeline Sprint</strong> between SCAN €499 and LAB. Fixed scope. Fixed timeline. No negotiation. <em>(Live: from €2,590.)</em></p>
+      <div class="price">from €2,590 <span class="unit">· fixed</span></div>
+    </div>
+    <div class="card priority">
+      <div class="card-num">Move 2</div>
+      <h4>Rewrite the front door</h4>
+      <p>Homepage + /pain-points around the 2026 pain trio: <strong>AI invisibility · No-decision stall · CAC + content rot</strong>. Single biggest conversion lever.</p>
+      <div class="price">~90 min <span class="unit">· Sonnet session</span></div>
+    </div>
+    <div class="card priority">
+      <div class="card-num">Move 3</div>
+      <h4>Drop + automate</h4>
+      <p>Kill free 20-min calls for unqualified leads. Pre-qualifier gates to €499 floor. Recover <strong>~14h/week</strong>.</p>
+      <div class="price">14h/wk <span class="unit">· recovered</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pain">
+  <div class="section-label">Section 1 · Hormozi rule — find what they WANT, not what they need</div>
+  <h2>The ONE biggest pain B2B SMB founders, CEOs and CMOs face in 2026.</h2>
+  <p class="section-sub">Convergent signal across McKinsey, Gartner, HubSpot State of Marketing 2026, Pavilion CRO Summit, Deloitte CMO Survey, Dunford, Walker, FounderOS and the AI-native GTM agency reports.</p>
+
+  <div class="pain-quote">
+    <span class="label">The pain, in Phil's voice</span>
+    "Pipeline is invisible and unpredictable — and the old playbook is making it worse."
+  </div>
+
+  <h3>The three sub-pains that ladder up to it</h3>
+  <div class="stat-strip">
+    <div class="stat"><div class="stat-val">48%</div><div class="stat-label">of B2B buyers use GenAI (ChatGPT, Claude, Perplexity) to discover vendors — and shortlist you before you know they exist.</div></div>
+    <div class="stat"><div class="stat-val">~50%</div><div class="stat-label">of stalled deals die in "no decision" — not lost to a competitor. The buyer just freezes.</div></div>
+    <div class="stat"><div class="stat-val">+60%</div><div class="stat-label">CAC inflation over 5 years. Performance marketing is commoditised. Volume is dead.</div></div>
+    <div class="stat"><div class="stat-val">81%</div><div class="stat-label">of B2B buyers decide on vendors BEFORE engaging sales. The funnel happens off your site.</div></div>
+    <div class="stat"><div class="stat-val">11</div><div class="stat-label">average stakeholders in a B2B buying committee. 77% research independently first.</div></div>
+    <div class="stat"><div class="stat-val">5x</div><div class="stat-label">AI-referred visitors convert at 14.2% vs 2.8% for Google organic. GEO is the new SEO.</div></div>
+    <div class="stat"><div class="stat-val">#1</div><div class="stat-label">Brand awareness just beat lead generation as CMO priority — first time in HubSpot history.</div></div>
+    <div class="stat"><div class="stat-val">94%</div><div class="stat-label">of CMOs report no meaningful AI integration. The integration gap is the moat.</div></div>
+  </div>
+
+  <div class="callout-dark">
+    <span class="label">What they say they need (and is now wrong)</span>
+    <h3>"We need more leads. We need better content. We need a new agency."</h3>
+    <p><strong>What they actually want:</strong> A pipeline they can defend on Friday — predictable, visible, board-ready — that doesn't depend on them, the CEO, the agency, or one channel.</p>
+  </div>
+</section>
+
+<section class="section" id="audit">
+  <div class="section-label">Section 2 · Site audit</div>
+  <h2>How ruttens.com maps to this pain.</h2>
+  <p class="section-sub">Live audit of homepage + nav + key pages, cross-referenced against the 2026 sector-leader research and your own May 2026 work.</p>
+
+  <h3>Strengths to keep and sharpen <span class="badge badge-strength">Keep</span></h3>
+  <ul>
+    <li><strong>5-ICP architecture (Startup / SME / Scale-up / PE-VC / Agency)</strong> — best-in-class for fractional CMO positioning in Europe. Nobody local is this clear.</li>
+    <li><strong>GTM Animal Quiz V2</strong> — addresses the 81% pre-engagement research pain. Strong front door + shared vocabulary.</li>
+    <li><strong>SCAN framing locked (free 20-min vs €499 paid)</strong> — most fractional CMOs blur this. Yours is now clean.</li>
+    <li><strong>5-pillar engine (Brand & ICP / Content / Pipeline / Campaigns / Team & AI)</strong> — covers the right surface area.</li>
+    <li><strong>"Senior-only, no juniors, no bloat"</strong> — direct rebuttal to "junior hire" and "agency burn" pains.</li>
+    <li><strong>"90 days"</strong> as the headline timeframe — concrete, defensible, board-ready.</li>
+  </ul>
+
+  <h3>Costly gaps <span class="badge badge-gap">Fix</span></h3>
+  <table>
+    <thead><tr><th style="width:30%">Gap</th><th>Why it costs you</th><th style="width:18%">Priority</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Homepage problems still in 2021 language</strong> ("we spend €5-15K/mo on agencies")</td><td>Answering an outdated question. The 2026 buyer is worried about AI shortlists + "no decision", not agency cost.</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td><strong>No AI-visibility offer / GEO page</strong></td><td>48% of buyers use GenAI to discover vendors. Single biggest white-space opportunity in Europe.</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td><strong>No "no decision" content anywhere</strong></td><td>Biggest pipeline killer in 2026. Zero coverage = zero conversion.</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td><strong>LAB vs MAP vs SPRINT — too similar from cold visitor POV</strong></td><td>All three say "you leave with a written plan." Confusing ladder = lost upsell.</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td><strong>/pain-points is underused</strong></td><td>Should be your highest-converting inbound page if rewritten to 2026 pain.</td><td><span class="badge badge-high">High</span></td></tr>
+      <tr><td><strong>MAX pricing not transparent on homepage</strong></td><td>EU fractional CMOs charge €4,500-€14,000/month with bands. PE/VC buyers shortlist on price visibility.</td><td><span class="badge badge-med">Med</span></td></tr>
+      <tr><td><strong>No "pipeline predictability" lens</strong></td><td>CRO Summit 2026 language (90%+ forecast accuracy) is the CFO/board frame you should own.</td><td><span class="badge badge-med">Med</span></td></tr>
+      <tr><td><strong>/for-pe-vc is the weakest of the 5 ICPs</strong></td><td>Highest LTV segment, lightest content. Mismatch.</td><td><span class="badge badge-med">Med</span></td></tr>
+      <tr><td><strong>Free pilots / "test client" work risks scope creep</strong></td><td>Low-signal leads. €499 SCAN is the floor that should never be undercut.</td><td><span class="badge badge-low">Low</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="services">
+  <div class="section-label">Section 3 · Revenue priority</div>
+  <h2>The 3 services to focus on for higher revenue.</h2>
+  <p class="section-sub">Current ladder has a 6x price jump between €499 SCAN and LAB. Most buyers fall off there. Fix the rung, anchor the top, productize the bottom.</p>
+
+  <div class="card-grid-3">
+    <div class="card priority">
+      <div class="card-num">Priority 1 · ENTRY</div>
+      <h4>SCAN €499</h4>
+      <p>Already built. Add deliverable thumbnail + testimonials + one-click upsell to SCAN + Sprint on the thank-you page. Reposition as a <em>product</em> with SKU, not a service.</p>
+      <div class="price">€499 <span class="unit">· 8/mo target</span></div>
+      <p style="margin-top:8px;font-size:12.5px;color:var(--grey-600);"><strong>Target:</strong> €3,200/mo passive floor</p>
+    </div>
+    <div class="card priority">
+      <div class="card-num">Priority 2 · NEW</div>
+      <h4>Pipeline Sprint · from €2,590</h4>
+      <p>The missing rung. Week 1 ICP lock + leak audit. Week 2-3 one motion executed (outbound OR LinkedIn OR CRM). Week 4 handover + 90-day plan. Hormozi-style fixed scope.</p>
+      <div class="price">from €2,590 <span class="unit">· 2/mo target</span></div>
+      <p style="margin-top:8px;font-size:12.5px;color:var(--grey-600);"><strong>Target:</strong> €3,000/mo · ≤15h delivery</p>
+    </div>
+    <div class="card priority">
+      <div class="card-num">Priority 3 · ANCHOR</div>
+      <h4>MAX Fractional CMO (tiered)</h4>
+      <p>Move from "6-month engagement" to a transparent monthly retainer. <strong>Live: from €3,990/mo</strong> (starting point, scope-based — min 6 months, team up to 5). Aligns with EU fractional CMO market (€4,500-€14,000). <em>(v1 had proposed fixed €2,990/€4,990/€7,990 tiers — superseded by the single "from €3,990/mo" live price.)</em></p>
+      <div class="price">from €3,990 <span class="unit">·/mo</span></div>
+      <p style="margin-top:8px;font-size:12.5px;color:var(--grey-600);"><strong>Target:</strong> €9,000/mo recurring</p>
+    </div>
+  </div>
+
+  <h4>Total revenue target — Sep 2026</h4>
+  <div class="stat-strip">
+    <div class="stat"><div class="stat-val">€15k</div><div class="stat-label">monthly recurring + passive once stabilized (8 SCANs + 2 Sprints + 2 MAX)</div></div>
+    <div class="stat"><div class="stat-val">≤30h</div><div class="stat-label">hours/week on RUTTENS+ (from ~50-60 today)</div></div>
+    <div class="stat"><div class="stat-val">≤6</div><div class="stat-label">active client calls per week (from ~10-15)</div></div>
+    <div class="stat"><div class="stat-val">2x</div><div class="stat-label">3-week holidays per year (from 0-1)</div></div>
+  </div>
+
+  <h4>What to drop / deprioritize</h4>
+  <ul>
+    <li><strong>LAB and SPRINT as separate offerings</strong> — too similar to MAP. Merge LAB into the new 30-Day Sprint. Reposition SPRINT as a 3-month MAX trial.</li>
+    <li><strong>Free 20-min scans for unqualified leads</strong> — add a 3-question pre-qualifier. Below threshold → €499 SCAN required.</li>
+    <li><strong>Pilot / free / "test" client work</strong> — kill entirely. €499 floor with no exceptions.</li>
+  </ul>
+</section>
+
+<section class="section" id="pages">
+  <div class="section-label">Section 4 · Site rewrite priorities</div>
+  <h2>5 pages to rewrite, ranked by revenue × current weakness.</h2>
+
+  <div class="checklist">
+    <div class="check-item">
+      <input type="checkbox" id="p1" data-key="rsa-page-1">
+      <label for="p1"><strong>1 · Homepage</strong> — new H1: <em>"Predictable pipeline. Defensible on Friday."</em> · Replace 2021 problems trio with AI invisibility + no-decision + CAC inflation. <span class="badge badge-high">High</span></label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="p2" data-key="rsa-page-2">
+      <label for="p2"><strong>2 · /pain-points</strong> — repurpose as <em>"The 3 B2B Pipeline Killers of 2026"</em>. Highest white-space, highest inbound potential. SCAN €499 CTA per section. <span class="badge badge-high">High</span></label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="p3" data-key="rsa-page-3">
+      <label for="p3"><strong>3 · /solutions</strong> — insert Pipeline Sprint (from €2,590) between SCAN and LAB. Collapse LAB/MAP/SPRINT into single "MAP · 3 months". Show MAX from €3,990/mo. <span class="badge badge-high">High</span></label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="p4" data-key="rsa-page-4">
+      <label for="p4"><strong>4 · /pricing</strong> — add MAX monthly band, side-by-side tier comparison, SCAN deliverable thumbnail, 3-question pre-qualifier above free scan CTA. <span class="badge badge-med">Med</span></label>
+    </div>
+    <div class="check-item">
+      <input type="checkbox" id="p5" data-key="rsa-page-5">
+      <label for="p5"><strong>5 · /for-pe-vc</strong> — full rewrite. Portfolio-level pricing, board-ready reporting, no-CMO bridge. Highest €/hr segment, weakest page today. <span class="badge badge-med">Med</span></label>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="linkedin">
+  <div class="section-label">Section 5 · Next-30-days content</div>
+  <h2>10 LinkedIn posts to prioritize.</h2>
+  <p class="section-sub">Mapped into your existing W21+ scheduler (Mon 10:30 / Tue 8:30 / Wed 13:00 / Thu 09:00 CET). Replace lowest-priority queued posts where strategic priority outranks.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Slot</th><th>Hook</th><th>CTA</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Wk22 Mon Jun 2</td><td>"48% of B2B buyers shortlist vendors inside ChatGPT before they ever visit your site."</td><td>SCAN €499</td></tr>
+      <tr><td>2</td><td>Wk22 Tue Jun 3</td><td>"Half your stalled deals didn't lose to a competitor. They lost to 'no decision'."</td><td>/pain-points</td></tr>
+      <tr><td>3</td><td>Wk22 Wed Jun 4</td><td>"Pipeline predictability is now a board-level KPI. Most CMOs can't deliver it."</td><td>MAX</td></tr>
+      <tr><td>4</td><td>Wk22 Thu Jun 5</td><td>"Your CAC is up 60% over 5 years. Your playbook is still from 2021."</td><td>SCAN €499</td></tr>
+      <tr><td>5</td><td>Wk23 Mon Jun 8</td><td>"Brand awareness just beat lead generation as the #1 CMO priority. First time in HubSpot's history."</td><td>/pain-points</td></tr>
+      <tr><td>6</td><td>Wk23 Tue Jun 9</td><td>"Stop hiring a junior marketer. Hire a system."</td><td>MAX</td></tr>
+      <tr><td>7</td><td>Wk23 Wed Jun 10</td><td>"The €499 SCAN: what 8 B2B leaders bought last month + what they did with it."</td><td>SCAN €499</td></tr>
+      <tr><td>8</td><td>Wk23 Thu Jun 11</td><td>"5 client requests I now decline. Why I say no." (anti-ICP)</td><td>/for-pe-vc</td></tr>
+      <tr><td>9</td><td>Wk24 Mon Jun 15</td><td>"The GTM Animal you don't want to be." (Bison anti-pattern)</td><td>/quiz</td></tr>
+      <tr><td>10</td><td>Wk24 Tue Jun 16</td><td>"We built a revenue engine for a 65-FTE SaaS. Lead-to-deal 12% → 19% in 8 weeks. Here's exactly what changed."</td><td>SCAN + MAX</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px;color:var(--grey-600);max-width:820px;"><strong>Pattern note:</strong> All 10 posts ladder back to the SAME 3 sub-pains — AI invisibility / no decision / CAC + content rot. That's how you build brand POV in the HubSpot 2026 sense: repetition with variation.</p>
+</section>
+
+<section class="section" id="freetime">
+  <div class="section-label">Section 6 · Free-time path</div>
+  <h2>Automate. Drop. Productize. Reduce.</h2>
+  <p class="section-sub">Concrete actions to recover ~14-18 hours per week and make revenue predictable enough to take two 3-week holidays per year.</p>
+
+  <h3>Automate <span class="badge badge-high">~8-10h/wk</span></h3>
+  <div class="checklist">
+    <div class="check-item"><input type="checkbox" id="a1" data-key="rsa-auto-1"><label for="a1">SCAN intake — Tally Form 1/2 → Calendar → automated confirmation + prep questionnaire (no human touch until call)</label></div>
+    <div class="check-item"><input type="checkbox" id="a2" data-key="rsa-auto-2"><label for="a2">GTM Animal Quiz follow-up via Make.com → archetype-specific email + 8-page PDF playbook</label></div>
+    <div class="check-item"><input type="checkbox" id="a3" data-key="rsa-auto-3"><label for="a3">LinkedHelper sequences for all 6 archetype-matched ICPs (already specced, activate Jun 4+)</label></div>
+    <div class="check-item"><input type="checkbox" id="a4" data-key="rsa-auto-4"><label for="a4">Content repurposing: 1 Substack → 4 LI posts → 4 IG captions → 1 PDF carousel (template + batch weekly)</label></div>
+    <div class="check-item"><input type="checkbox" id="a5" data-key="rsa-auto-5"><label for="a5">Apollo + LinkedHelper enrichment for P0 campaigns (built, activate Jun 4+)</label></div>
+    <div class="check-item"><input type="checkbox" id="a6" data-key="rsa-auto-6"><label for="a6">Friday EOD weekly dashboards (scheduled task already running — review only)</label></div>
+  </div>
+
+  <h3>Drop <span class="badge badge-high">~6-8h/wk</span></h3>
+  <div class="checklist">
+    <div class="check-item"><input type="checkbox" id="d1" data-key="rsa-drop-1"><label for="d1">Free 20-min scans for unqualified leads — 3-question pre-qualifier. Below threshold = €499 SCAN required.</label></div>
+    <div class="check-item"><input type="checkbox" id="d2" data-key="rsa-drop-2"><label for="d2">Pilot / free / "test client" work — kill entirely. €499 floor with no exceptions.</label></div>
+    <div class="check-item"><input type="checkbox" id="d3" data-key="rsa-drop-3"><label for="d3">Custom messaging per client — switch to template library + 1 personalization variable.</label></div>
+    <div class="check-item"><input type="checkbox" id="d4" data-key="rsa-drop-4"><label for="d4">Weekly 1:1 client calls — flip to bi-weekly with async Loom + dashboard between.</label></div>
+    <div class="check-item"><input type="checkbox" id="d5" data-key="rsa-drop-5"><label for="d5">Manual screenshot / Canva edits — reuse the May-20 productized brand pack, never rebuild from scratch.</label></div>
+    <div class="check-item"><input type="checkbox" id="d6" data-key="rsa-drop-6"><label for="d6">Mid-session memory saves — only /save at session close. Trust the system.</label></div>
+  </div>
+
+  <h3>Productize <span class="badge badge-high">Predictable scope + revenue</span></h3>
+  <div class="checklist">
+    <div class="check-item"><input type="checkbox" id="r1" data-key="rsa-prod-1"><label for="r1"><strong>✅ LIVE: Pipeline Sprint (from €2,590)</strong> — middle rung. Fixed scope, fixed timeline, no negotiation.</label></div>
+    <div class="check-item"><input type="checkbox" id="r2" data-key="rsa-prod-2"><label for="r2">€499 SCAN as a true product (SKU, fixed deliverable, no negotiation, deliverable thumbnail).</label></div>
+    <div class="check-item"><input type="checkbox" id="r3" data-key="rsa-prod-3"><label for="r3">✅ LIVE: MAX from €3,990/mo (starting point, scope-based — replaces invisible band).</label></div>
+    <div class="check-item"><input type="checkbox" id="r4" data-key="rsa-prod-4"><label for="r4">Playbook PDFs (5 ICPs) — ungated lead magnets. Replace email-gated downloads.</label></div>
+    <div class="check-item"><input type="checkbox" id="r5" data-key="rsa-prod-5"><label for="r5">Quarterly Revenue Audit (€2,499) — annual recurring add-on for MAX clients.</label></div>
+  </div>
+</section>
+
+<section class="section" id="decisions">
+  <div class="section-label">Section 7 · Phil action list</div>
+  <h2>Open decisions I need from you.</h2>
+  <p class="section-sub">Each one unblocks a downstream session. Tick when decided.</p>
+
+  <div class="checklist">
+    <div class="check-item"><input type="checkbox" id="dec1" data-key="rsa-dec-1"><label for="dec1"><strong>Run the holiday-reset session before Jun 10.</strong> Paste the existing HOLIDAY_RESET_SESSION_PROMPT_May2026.md into Opus Cowork. Without the outputs (Energy Protocol, Lifestyle Blueprint, etc.), every other RUTTENS+ decision is biased toward more work, not more freedom.</label></div>
+    <div class="check-item"><input type="checkbox" id="dec2" data-key="rsa-dec-2"><label for="dec2"><strong>Approve homepage rewrite scope</strong> — Sonnet session, ~90 min, post-Jun 2.</label></div>
+    <div class="check-item"><input type="checkbox" id="dec3" data-key="rsa-dec-3"><label for="dec3"><strong>✅ RESOLVED — Pipeline Sprint live at from €2,590</strong> (30 May session). Still to do: dedicated SKU page + ICP-matched landing.</label></div>
+    <div class="check-item"><input type="checkbox" id="dec4" data-key="rsa-dec-4"><label for="dec4"><strong>✅ RESOLVED — MAX live at from €3,990/mo</strong> (starting point, scope-based) — replaces the old invisible band.</label></div>
+    <div class="check-item"><input type="checkbox" id="dec5" data-key="rsa-dec-5"><label for="dec5"><strong>Pre-qualifier on free Revenue Scan</strong> — 3 questions, gates below-threshold to €499 SCAN.</label></div>
+    <div class="check-item"><input type="checkbox" id="dec6" data-key="rsa-dec-6"><label for="dec6"><strong>Drop pilot / free client work</strong> — explicit kill decision. Affects current Wayfina / EREA arrangements?</label></div>
+    <div class="check-item"><input type="checkbox" id="dec7" data-key="rsa-dec-7"><label for="dec7"><strong>Update /pain-points to the "3 Pipeline Killers of 2026"</strong> structure — single biggest white-space page.</label></div>
+  </div>
+</section>
+
+<section class="section" id="zen">
+  <div class="section-label">Section 8 · Part 1 status</div>
+  <h2>The Zen / Self-Growth document.</h2>
+  <p class="section-sub">Honest finding: not found as a completed output. I won't invent content. Here's what exists today and what to do about it.</p>
+
+  <div class="callout-dark">
+    <span class="label">What I searched</span>
+    <h3>5 folders × 17 keywords × 0 outputs</h3>
+    <p>Searched <strong>RUTTENS+OS</strong>, <strong>RUTTENS+OS/CLAUDE</strong>, <strong>RUTTENS+OS/00_MASTER</strong>, <strong>Claude Projects</strong>, <strong>Documents/Claude/Projects/RUTTENS+ SYSTEM</strong> with keywords: self-growth · Zen · lifestyle · calm · more time · slow down · balance · rest · wellbeing · burnout · habits · morning routine · essentialism · lifestyle blueprint · reflection audit · reading plan · energy protocol.</p>
+  </div>
+
+  <h4>What exists</h4>
+  <ul>
+    <li>✅ <strong>HOLIDAY_RESET_SESSION_PROMPT_May2026.md</strong> — the session prompt you drafted on May 14 (5 planned outputs: Energy Protocol, Self-Reflection Audit, Lifestyle Design Brief, Reading Plan, Vision Checkpoint).</li>
+    <li>✅ Both close-out handovers (May 14 + 15) explicitly mark this session as <strong>queued for post-holiday Jun 4+ (Phil returned Thu 4 Jun)</strong>.</li>
+    <li>✅ Memory entries on your annual themes (ENERGY → BALANCE → FOCUS → ESSENTIALISM → GROWING), biohacker profile, dual-lifestyle aspirations.</li>
+    <li>✅ Your 2022 LinkedIn article "Bye 2021 / Hello 2022" — personal year-in-stats.</li>
+  </ul>
+
+  <h4>What does NOT exist</h4>
+  <p>Any finished Energy Protocol, Lifestyle Blueprint, Self-Reflection Audit, or Reading Plan output. The session was deferred and never run.</p>
+
+  <h4>Source-material summary (NOT invented — synthesis of what's on file)</h4>
+  <table>
+    <thead><tr><th style="width:25%">Category</th><th>What's already documented</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Core principles</strong></td><td>Energy management not time management · Essentialism (McKeown) · Single-threaded execution · Dual-lifestyle (South + North Europe) · Track yourself like a business · No bloat, no juniors</td></tr>
+      <tr><td><strong>Habits in place</strong></td><td>WHOOP + Apple Watch (HRV/strain/recovery) · 87+ min daily exercise · Paleo + MyFitnessPal · Pre-scheduled OOO blocks · LinkedIn auto-pilot · /save skill at session close</td></tr>
+      <tr><td><strong>Anti-patterns flagged</strong></td><td>87% utilization rate (2021) = unsustainable · Sprints > 3 weeks = burnout signal · Solo client calls without artifact = scope creep · Mid-session memory saves without /save = handover loss</td></tr>
+      <tr><td><strong>Measurable outcomes</strong></td><td>Active FI tracker (MeDirect, Keytrade, Van Breda) · Min 3-week holiday/year · 4 LinkedIn posts/wk cap · 80% efficiency rule</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout-dark">
+    <span class="label">Recommendation</span>
+    <h3>Run the queued holiday-reset session before Jun 10.</h3>
+    <p>Paste <strong>HOLIDAY_RESET_SESSION_PROMPT_May2026.md</strong> into a fresh Opus Cowork session. 60-90 min. Returns the 5 deliverables (Energy Protocol, Self-Reflection Audit, Lifestyle Blueprint, Reading Plan, Vision Checkpoint). Without those, every other RUTTENS+ decision is biased toward more work, not more freedom.</p>
+  </div>
+</section>
+
+<section class="section" id="sources">
+  <div class="section-label">Section 9 · References</div>
+  <h2>Sources used.</h2>
+
+  <h4>Internal (RUTTENS+OS) — read in full</h4>
+  <ul class="source-list">
+    <li><code>CLAUDE/CLAUDE_SETUP.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HANDOVER_2026-05-26_Payments-Renewals.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HOLIDAY_RESET_SESSION_PROMPT_May2026.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HANDOVER_2026-05-19_Holiday-Reset.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HANDOVER_2026-05-19_Master-OOO-Sprint-Wrap.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HANDOVER_2026-05-25_Site-Visual-Upgrades.md</code></li>
+    <li><code>_HANDOVERS/2026-05/HANDOVER_2026-05-23_RuttensMessaging.md</code></li>
+    <li><code>04_Content_Engine/.../SCAN_FRAMING_SPEC_2026-05-22.md</code></li>
+    <li><code>04_Content_Engine/.../HANDOVER_2026-05-21_Website-Conversion-Campaign.md</code></li>
+    <li><code>02_Ruttens+/ruttens-site-v3/02_assets-design-briefs/BRIEF_02_Revenue_Playbook.md</code></li>
+    <li><code>02_Ruttens+/quiz/v2/GTM_Animal_Framework_v2.md</code></li>
+    <li><code>ruttens.com</code> (live fetch)</li>
+  </ul>
+
+  <h4>External (web research · May 2026)</h4>
+  <ul class="source-list">
+    <li><a href="https://www.hubspot.com/state-of-marketing" target="_blank">HubSpot State of Marketing 2026</a></li>
+    <li><a href="https://www.entrepreneur.com/building-a-business/marketing/branding-is-the-no-1-cmo-priority-for-2026-ai-search-is-no-17-heres-why-that-gap-should-worry-you" target="_blank">Entrepreneur — Brand #1 / AI Search #17 (2026)</a></li>
+    <li><a href="https://searchlab.nl/en/statistics/go-to-market-statistics-2026" target="_blank">Searchlab — 60+ GTM stats 2026</a></li>
+    <li><a href="https://www.gartner.com/en/articles/strategic-predictions-for-2026" target="_blank">Gartner — Strategic Predictions 2026</a></li>
+    <li><a href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/unlocking-profitable-b2b-growth-through-gen-ai" target="_blank">McKinsey — Profitable B2B Growth via Gen AI</a></li>
+    <li><a href="https://www.joinpavilion.com/the-cro-survival-guide" target="_blank">Pavilion CRO Survival Guide</a></li>
+    <li><a href="https://cmosurvey.org/results/" target="_blank">Deloitte CMO Survey Spring 2026</a></li>
+    <li><a href="https://www.mersel.ai/generative-engine-optimization" target="_blank">Mersel — GEO for B2B 2026</a></li>
+    <li><a href="https://www.innomakerpartners.com/how-much-does-a-fractional-cmo-cost-in-europe/" target="_blank">Innomaker — EU Fractional CMO Pricing 2026</a></li>
+    <li><a href="https://www.greenoughagency.com/news-insights/the-b2b-marketing-playbook-for-2026" target="_blank">Greenough — AI is Floor, Taste is Ceiling 2026</a></li>
+    <li><a href="https://therevenue.biz/blog/b2b-positioning-common-mistakes-2026/" target="_blank">5 B2B Positioning Mistakes 2026</a></li>
+    <li><a href="https://aprildunford.substack.com/p/announcement-obviously-awesome-the" target="_blank">April Dunford — Obviously Awesome 2026 edition</a></li>
+    <li><a href="https://landbot.io/ungated-conversations/measure-marketing-dark-funnel-chris-walker" target="_blank">Chris Walker — Dark Funnel / RefineLabs</a></li>
+    <li><a href="https://www.growthspreeofficial.com/blogs/top-6-ai-powered-b2b-saas-marketing-agencies-in-the-united-states-2026" target="_blank">AI-native B2B GTM agencies 2026</a></li>
+    <li><a href="https://www.acquisition.com/training/offers" target="_blank">Acquisition.com — Hormozi $100M Offers</a></li>
+  </ul>
+
+  <p style="margin-top:24px;font-size:12px;color:var(--grey-400);">Companion document: <strong>RUTTENS+OS/_HANDOVERS/2026-06/STRATEGY_2026-05-26_Ruttens-Priorities.md</strong> · Live artifact persists checkbox state across refreshes via localStorage.</p>
+</section>
+
+</main>
+
+<script>
+(function() {
+  const STORAGE_PREFIX = 'rsa-2026-06::';
+  const boxes = document.querySelectorAll('input[type="checkbox"][data-key]');
+  boxes.forEach(b => {
+    const k = STORAGE_PREFIX + b.dataset.key;
+    try { if (localStorage.getItem(k) === '1') b.checked = true; } catch(e){}
+    b.addEventListener('change', () => {
+      try { localStorage.setItem(k, b.checked ? '1' : '0'); } catch(e){}
+    });
+  });
+})();
+
+(function() {
+  const links = document.querySelectorAll('.sidebar nav a');
+  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+  const setActive = () => {
+    let i = sections.length - 1;
+    for (; i >= 0; i--) {
+      const s = sections[i];
+      if (!s) continue;
+      const r = s.getBoundingClientRect();
+      if (r.top <= 120) break;
+    }
+    links.forEach(a => a.classList.remove('active'));
+    if (i >= 0 && links[i]) links[i].classList.add('active');
+  };
+  document.querySelector('.main').addEventListener('scroll', setActive);
+  window.addEventListener('scroll', setActive);
+  setActive();
+})();
+</script>
+</body>
+</html>

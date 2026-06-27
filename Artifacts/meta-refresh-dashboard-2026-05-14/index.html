@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Meta Refresh Dashboard 2026 05 14",
+  "schemaVersion": 1,
+  "description": "RUTTENS+ Meta Dashboard — W24 Jun 9-13. Critical items, wins, shipped deliverables Jun 2-11, ICP Phase 1 status, LH Phase 0 gate, artifacts health board, deadlines timeline."
+}
+</script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUTTENS+ Meta Dashboard · W24</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #38B6FF;
+      --black: #0A0A0A;
+      --white: #FFFFFF;
+      --gray: #F4F4F4;
+      --gray2: #E8E8E8;
+      --gray3: #999;
+      --red: #FF4444;
+      --orange: #FF8800;
+      --green: #22C55E;
+      --yellow: #FFD700;
+      --sidebar: 220px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--gray);
+      color: var(--black);
+      display: flex;
+      min-height: 100vh;
+    }
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar);
+      min-height: 100vh;
+      background: var(--black);
+      color: var(--white);
+      padding: 24px 0;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue);
+      padding: 0 20px 24px;
+      border-bottom: 1px solid #222;
+      letter-spacing: 1px;
+    }
+    .sidebar-logo span { color: var(--white); font-weight: 400; font-size: 11px; display: block; letter-spacing: 0; margin-top: 2px; }
+    .nav-section { padding: 16px 0 4px 20px; font-size: 10px; font-weight: 600; color: var(--gray3); letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav-link {
+      display: block; padding: 8px 20px; font-size: 13px; color: #ccc;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--white); background: #1a1a1a; border-left: 3px solid var(--blue); padding-left: 17px; }
+    .nav-link .icon { margin-right: 8px; font-size: 14px; }
+    .sidebar-footer { margin-top: auto; padding: 16px 20px; font-size: 11px; color: var(--gray3); border-top: 1px solid #222; }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar); flex: 1; padding: 0; }
+
+    /* ── TOP BANNER ── */
+    .banner {
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .banner-week { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--blue); letter-spacing: 1px; }
+    .banner-alerts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .banner-chip {
+      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .chip-red { background: var(--red); color: white; }
+    .chip-green { background: var(--green); color: white; }
+    .chip-blue { background: var(--blue); color: var(--black); }
+    .chip-orange { background: var(--orange); color: white; }
+    .banner-date { font-size: 12px; color: #666; }
+
+    /* ── CONTENT ── */
+    .content { padding: 24px 28px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 20px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid var(--gray2);
+    }
+    .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray3);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .dot-red { background: var(--red); }
+    .dot-green { background: var(--green); }
+    .dot-blue { background: var(--blue); }
+    .dot-orange { background: var(--orange); }
+
+    /* KPI Cards */
+    .kpi-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 18px 20px;
+      border: 1px solid var(--gray2);
+      text-align: center;
+    }
+    .kpi-label { font-size: 11px; font-weight: 600; color: var(--gray3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .kpi-value { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--black); line-height: 1; }
+    .kpi-value.blue { color: var(--blue); }
+    .kpi-value.green { color: var(--green); }
+    .kpi-value.red { color: var(--red); }
+    .kpi-sub { font-size: 11px; color: var(--gray3); margin-top: 4px; }
+
+    /* Critical items */
+    .critical-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--gray2);
+    }
+    .critical-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .ci-status { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .ci-body { flex: 1; }
+    .ci-title { font-size: 14px; font-weight: 600; color: var(--black); line-height: 1.3; }
+    .ci-meta { font-size: 12px; color: var(--gray3); margin-top: 3px; }
+    .ci-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px;
+      white-space: nowrap; align-self: flex-start; margin-top: 2px;
+    }
+    .badge-overdue { background: #FFE5E5; color: var(--red); border: 1px solid #FFBBBB; }
+    .badge-urgent { background: #FFF3E0; color: var(--orange); border: 1px solid #FFD8A0; }
+    .badge-done { background: #E8F8EF; color: var(--green); border: 1px solid #B8E8CC; }
+    .badge-phil { background: #EEF6FF; color: var(--blue); border: 1px solid #BFE0FF; }
+
+    /* Wins */
+    .win-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--gray2);
+      font-size: 13px;
+    }
+    .win-item:last-child { border-bottom: none; }
+    .win-icon { font-size: 16px; flex-shrink: 0; }
+    .win-body { flex: 1; }
+    .win-title { font-weight: 600; color: var(--black); }
+    .win-detail { font-size: 11px; color: var(--gray3); margin-top: 2px; }
+
+    /* Deadlines */
+    .deadline-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 0; border-bottom: 1px solid var(--gray2);
+      font-size: 13px;
+    }
+    .deadline-item:last-child { border-bottom: none; }
+    .dl-date {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px; font-weight: 600;
+      min-width: 54px; color: var(--gray3);
+    }
+    .dl-date.today { color: var(--red); }
+    .dl-date.soon { color: var(--orange); }
+    .dl-text { flex: 1; }
+    .dl-owner { font-size: 11px; color: var(--gray3); }
+
+    /* Deliverables */
+    .del-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0; border-bottom: 1px solid var(--gray2);
+    }
+    .del-item:last-child { border-bottom: none; }
+    .del-date { font-size: 11px; color: var(--blue); font-weight: 600; min-width: 44px; margin-top: 2px; }
+    .del-text { font-size: 13px; color: var(--black); flex: 1; line-height: 1.4; }
+    .del-label {
+      font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; white-space: nowrap;
+    }
+    .label-client { background: #EEF6FF; color: var(--blue); }
+    .label-sys { background: #F3F0FF; color: #7C5CFC; }
+    .label-content { background: #FFF9E0; color: #A07800; }
+    .label-site { background: #E8F8EF; color: #15803D; }
+
+    /* Artifacts */
+    .artifact-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--gray2);
+      font-size: 13px;
+    }
+    .artifact-item:last-child { border-bottom: none; }
+    .art-status { font-size: 14px; flex-shrink: 0; }
+    .art-name { flex: 1; font-weight: 500; }
+    .art-date { font-size: 11px; color: var(--gray3); white-space: nowrap; }
+    .art-tag {
+      font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600;
+    }
+    .tag-new { background: #E8F8EF; color: #15803D; }
+    .tag-stale { background: #FFE5E5; color: var(--red); }
+    .tag-ok { background: var(--gray); color: var(--gray3); }
+
+    /* ICP grid */
+    .icp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .icp-card {
+      background: var(--gray); border-radius: 6px; padding: 12px 14px;
+      border-left: 3px solid var(--blue);
+    }
+    .icp-name { font-size: 13px; font-weight: 600; color: var(--black); }
+    .icp-meta { font-size: 11px; color: var(--gray3); margin-top: 3px; }
+    .icp-card.active { border-left-color: var(--green); background: #F0FAF4; }
+
+    /* Routines */
+    .routine-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--gray2); font-size: 13px;
+    }
+    .routine-item:last-child { border-bottom: none; }
+    .routine-time { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; min-width: 60px; color: var(--blue); }
+    .routine-day { font-size: 11px; color: var(--gray3); min-width: 50px; }
+    .routine-task { flex: 1; }
+
+    /* Section header */
+    .section-header {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--gray3);
+      margin: 24px 0 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-header::after { content: ''; flex: 1; height: 1px; background: var(--gray2); }
+
+    /* Full width card */
+    .card.full { margin-bottom: 20px; }
+
+    /* Checkbox items */
+    .cb-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--gray2); font-size: 13px; cursor: pointer; }
+    .cb-item:last-child { border-bottom: none; }
+    .cb-item input[type=checkbox] { margin-top: 2px; flex-shrink: 0; accent-color: var(--blue); width: 14px; height: 14px; }
+    .cb-item label { cursor: pointer; flex: 1; line-height: 1.4; }
+    .cb-item.done label { text-decoration: line-through; color: var(--gray3); }
+
+    /* CTA bar */
+    .cta-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .cta-btn {
+      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 10px 18px; border-radius: 6px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: opacity 0.15s;
+    }
+    .cta-btn:hover { opacity: 0.8; }
+    .btn-primary { background: var(--blue); color: var(--black); }
+    .btn-dark { background: var(--black); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--black); border: 2px solid var(--black); }
+    .btn-red { background: var(--red); color: var(--white); }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">RUTTENS+<span>Meta Dashboard · W24 Jun 9-13</span></div>
+  <div class="nav-section">Urgent</div>
+  <a href="#critical" class="nav-link active"><span class="icon">🔴</span>Critical / Today</a>
+  <a href="#deadlines" class="nav-link"><span class="icon">📅</span>Deadlines</a>
+  <div class="nav-section">W24 Status</div>
+  <a href="#wins" class="nav-link"><span class="icon">🏆</span>Wins Jun 2-11</a>
+  <a href="#shipped" class="nav-link"><span class="icon">📦</span>Shipped</a>
+  <a href="#icp" class="nav-link"><span class="icon">🎯</span>ICP Phase 1</a>
+  <div class="nav-section">System</div>
+  <a href="#artifacts" class="nav-link"><span class="icon">🔲</span>Artifacts</a>
+  <a href="#routines" class="nav-link"><span class="icon">📆</span>Routines</a>
+  <a href="#actions" class="nav-link"><span class="icon">🚀</span>Quick Actions</a>
+  <div class="sidebar-footer">Updated Jun 11, 2026 · W24</div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-week">W24 · JUN 9–13</div>
+    <div class="banner-alerts">
+      <span class="banner-chip chip-red">3 OVERDUE ITEMS</span>
+      <span class="banner-chip chip-green">EREA D1 APPROVED ✅</span>
+      <span class="banner-chip chip-green">AYA INVOICES PAID ✅</span>
+      <span class="banner-chip chip-blue">LH PHASE 1 ACTIVE</span>
+    </div>
+    <div class="banner-date">Thu 11 Jun 2026</div>
+  </div>
+
+  <div class="content">
+
+    <!-- CTAs -->
+    <div class="cta-bar">
+      <a href="https://docs.google.com/spreadsheets/d/1MR_Tjr_dCceyooNAeV25jvKrbqS453PLd5cS_423Qf0/edit" target="_blank" class="cta-btn btn-primary">🎤 Speaker Pipeline</a>
+      <a href="https://app.linkedhelper.com" target="_blank" class="cta-btn btn-dark">🔗 LinkedHelper</a>
+      <a href="https://app.hubspot.com/contacts/148176566" target="_blank" class="cta-btn btn-outline">📊 HubSpot AYA</a>
+      <a href="https://ruttens.com/quiz" target="_blank" class="cta-btn btn-outline">🧭 Quiz</a>
+      <a href="https://ruttens.com/playbook" target="_blank" class="cta-btn btn-outline">📖 Playbook</a>
+    </div>
+
+    <!-- KPIs -->
+    <div class="grid-4">
+      <div class="kpi-card">
+        <div class="kpi-label">EREA D1 Revenue</div>
+        <div class="kpi-value green">+35.4%</div>
+        <div class="kpi-sub">€2,736,528 · D1 APPROVED</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">EREA D1 AOV</div>
+        <div class="kpi-value green">+44.6%</div>
+        <div class="kpi-sub">Orders -6.4% (854 orders)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">AYA Cash In</div>
+        <div class="kpi-value blue">€6,667</div>
+        <div class="kpi-sub">010 €6,485 + 013 €181 · PAID</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Deliverables W24</div>
+        <div class="kpi-value">13</div>
+        <div class="kpi-sub">Jun 2-11 · 3 overdue</div>
+      </div>
+    </div>
+
+    <!-- CRITICAL / TODAY -->
+    <div id="critical"></div>
+    <div class="section-header"><span class="dot dot-red"></span>Critical & Today</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-red"></span>Overdue — Action Required</div>
+
+        <div class="critical-item">
+          <div class="ci-status">🔴</div>
+          <div class="ci-body">
+            <div class="ci-title">Tally Forms 1 / 2 / 3</div>
+            <div class="ci-meta">Prospect intel form + 2 others · was due Jun 10</div>
+          </div>
+          <div class="ci-badge badge-overdue">OVERDUE</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🔴</div>
+          <div class="ci-body">
+            <div class="ci-title">Pipeline Sprint LP — sprint.html</div>
+            <div class="ci-meta">Session B: Sprint LP + Substack S3 teaser · was due Jun 10</div>
+          </div>
+          <div class="ci-badge badge-overdue">OVERDUE</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🟡</div>
+          <div class="ci-body">
+            <div class="ci-title">Zen Document — Session D</div>
+            <div class="ci-meta">Phil uploads files first · due Jun 15</div>
+          </div>
+          <div class="ci-badge badge-urgent">DUE JUN 15</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🟡</div>
+          <div class="ci-body">
+            <div class="ci-title">AYA Phase 2 Email → Louis</div>
+            <div class="ci-meta">5 qualification questions · AYA_PHASE2_QUALIFICATION_EMAIL_2026-06-11.md</div>
+          </div>
+          <div class="ci-badge badge-urgent">SEND BY JUN 13</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🔵</div>
+          <div class="ci-body">
+            <div class="ci-title">EREA D2 Go/No-Go</div>
+            <div class="ci-meta">Decision call · Phase 2 mid-July if green · Zita OOO Jul 13–Aug 2</div>
+          </div>
+          <div class="ci-badge badge-urgent">JUN 15</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Phil Deploy Queue</div>
+
+        <div class="critical-item">
+          <div class="ci-status">🚀</div>
+          <div class="ci-body">
+            <div class="ci-title">pricing.html → Netlify</div>
+            <div class="ci-meta">Built Jun 10 · ruttens.com/pricing</div>
+          </div>
+          <div class="ci-badge badge-phil">PHIL ACTION</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🚀</div>
+          <div class="ci-body">
+            <div class="ci-title">for-pe-vc.html → Netlify</div>
+            <div class="ci-meta">Built Jun 10 · ruttens.com/for-pe-vc</div>
+          </div>
+          <div class="ci-badge badge-phil">PHIL ACTION</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🚀</div>
+          <div class="ci-body">
+            <div class="ci-title">speaker.html → Netlify</div>
+            <div class="ci-meta">Built Jun 11 · ruttens.com/speaker</div>
+          </div>
+          <div class="ci-badge badge-phil">PHIL ACTION</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">🔧</div>
+          <div class="ci-body">
+            <div class="ci-title">Fix Speaker Pipeline rows 21–35</div>
+            <div class="ci-meta">Clear E21:F35 · verify cols O (Priority) + P (Tier)</div>
+          </div>
+          <div class="ci-badge badge-phil">5 MIN</div>
+        </div>
+
+        <div class="critical-item">
+          <div class="ci-status">✅</div>
+          <div class="ci-body">
+            <div class="ci-title">LH Phase 1 — Engagement Only</div>
+            <div class="ci-meta">Jun 10–21: likes / comments only · NO connection requests · Phase 2 starts Jun 22</div>
+          </div>
+          <div class="ci-badge badge-done">ACTIVE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEADLINES -->
+    <div id="deadlines"></div>
+    <div class="section-header"><span class="dot dot-orange"></span>Upcoming Deadlines</div>
+    <div class="card full">
+      <div class="card-title"><span class="dot dot-orange"></span>Jun 11–22 Timeline</div>
+      <div class="deadline-item">
+        <div class="dl-date today">Jun 11</div>
+        <div class="dl-text">speaker.html built ✅ · LI Algo Rules + Prospecting Rules created ✅</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date soon">Jun 13</div>
+        <div class="dl-text">AYA Phase 2 email → Louis · expect decision by Jun 15</div>
+        <div class="dl-owner">🟡 Phil</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date soon">Jun 15</div>
+        <div class="dl-text">EREA D2 go/no-go decision · Zen Document (Session D) · Substack S3 schedule</div>
+        <div class="dl-owner">🔴 Critical</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date">Jun 16</div>
+        <div class="dl-text">S3 teaser LI post · Substack Season 3 launch</div>
+        <div class="dl-owner">Content</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date">Jun 19</div>
+        <div class="dl-text">Acerta payment €2,240.73 · Leuven coffee event ☕</div>
+        <div class="dl-owner">Finance + Biz</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date">Jun 21</div>
+        <div class="dl-text">GoDaddy renewal (domain) · LH Phase 1 ends</div>
+        <div class="dl-owner">Admin</div>
+      </div>
+      <div class="deadline-item">
+        <div class="dl-date">Jun 22</div>
+        <div class="dl-text">LH Phase 2 starts — connection requests LIVE · run Phase 0 gate first (6 checks)</div>
+        <div class="dl-owner">🔴 System</div>
+      </div>
+    </div>
+
+    <!-- WINS -->
+    <div id="wins"></div>
+    <div class="section-header"><span class="dot dot-green"></span>W24 Key Wins — Jun 2-11</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>Client Wins</div>
+        <div class="win-item">
+          <div class="win-icon">🏆</div>
+          <div class="win-body">
+            <div class="win-title">EREA D1 APPROVED</div>
+            <div class="win-detail">Revenue +35.4% (€2,736,528) · Orders -6.4% (854) · AOV +44.6% · Jun 9</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">💰</div>
+          <div class="win-body">
+            <div class="win-title">AYA Invoices PAID</div>
+            <div class="win-detail">€6,485.60 (2026-010) + €181.50 (2026-013) · confirmed</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">📞</div>
+          <div class="win-body">
+            <div class="win-title">Vlad Call Done</div>
+            <div class="win-detail">ICP cluster validation + outreach signal</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">🎯</div>
+          <div class="win-body">
+            <div class="win-title">ICP Strategy Locked</div>
+            <div class="win-detail">5 clusters: Stuck Founder · AI-Disrupted Scale-up · Leaderless Team · Portfolio Operator · Industrial Invisible</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>System & Content Wins</div>
+        <div class="win-item">
+          <div class="win-icon">📱</div>
+          <div class="win-body">
+            <div class="win-title">SP Series Launched</div>
+            <div class="win-detail">SP-1 live Jun 10 · Series: "Solo Revenue Engine" content engine</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">⚙️</div>
+          <div class="win-body">
+            <div class="win-title">LI Scheduler Rebuilt</div>
+            <div class="win-detail">5×/week cadence · Sun + Sat peak reach days · algo-optimized</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">🛠️</div>
+          <div class="win-body">
+            <div class="win-title">/comms Skill Built</div>
+            <div class="win-detail">Haiku ONLY · 5 templates · ~80% token saving on all comms</div>
+          </div>
+        </div>
+        <div class="win-item">
+          <div class="win-icon">📋</div>
+          <div class="win-body">
+            <div class="win-title">LI Algo Rules + Prospecting Rules</div>
+            <div class="win-detail">LI_ALGO_RULES_2026.md · PROSPECTING_RULES_2026.md · LH Anti-Spam Supplement · Jun 11</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHIPPED -->
+    <div id="shipped"></div>
+    <div class="section-header"><span class="dot dot-blue"></span>Shipped Jun 2–11</div>
+    <div class="card full">
+      <div class="card-title"><span class="dot dot-blue"></span>All Deliverables</div>
+      <div class="del-item"><div class="del-date">Jun 2</div><div class="del-text">Return from OOO · EREA + AYA sync · backlog triage</div><div class="del-label label-client">Client</div></div>
+      <div class="del-item"><div class="del-date">Jun 5</div><div class="del-text">ICP strategy defined · 5 clusters locked · strategic analysis doc</div><div class="del-label label-sys">Strategy</div></div>
+      <div class="del-item"><div class="del-date">Jun 9</div><div class="del-text">EREA D1 submitted + APPROVED · Revenue +35.4% · LH campaigns setup</div><div class="del-label label-client">EREA ✅</div></div>
+      <div class="del-item"><div class="del-date">Jun 9</div><div class="del-text">LI Scheduler rebuilt · icp-action-hub artifact built · Fable 5 confirmed prod-ready</div><div class="del-label label-sys">System</div></div>
+      <div class="del-item"><div class="del-date">Jun 10</div><div class="del-text">pricing.html built (SCAN €499 · Pipeline Sprint €2,590 · LAB · MAP · SPRINT · MAX)</div><div class="del-label label-site">Site ⏳ Deploy</div></div>
+      <div class="del-item"><div class="del-date">Jun 10</div><div class="del-text">for-pe-vc.html built · PE/VC audience LP</div><div class="del-label label-site">Site ⏳ Deploy</div></div>
+      <div class="del-item"><div class="del-date">Jun 10</div><div class="del-text">SP-1 LinkedIn post live · "Solo Revenue Engine" series launch</div><div class="del-label label-content">Content</div></div>
+      <div class="del-item"><div class="del-date">Jun 10</div><div class="del-text">LH Phase 1 activated · engagement only (likes/comments, no connects)</div><div class="del-label label-sys">LH</div></div>
+      <div class="del-item"><div class="del-date">Jun 11</div><div class="del-text">Speaker Kit v2 system · 35 targets · 10 topics · MASTER Pipeline Google Sheet</div><div class="del-label label-sys">Speaker</div></div>
+      <div class="del-item"><div class="del-date">Jun 11</div><div class="del-text">speaker.html landing page built · ready for Netlify deploy</div><div class="del-label label-site">Site ⏳ Deploy</div></div>
+      <div class="del-item"><div class="del-date">Jun 11</div><div class="del-text">Leuven coffee outreach artifact · 5 ICP cards × EN Full / EN↓ / NL · Jun 19 event</div><div class="del-label label-sys">Artifact</div></div>
+      <div class="del-item"><div class="del-date">Jun 11</div><div class="del-text">/comms skill (Haiku ONLY) · AYA Phase 2 qualification email drafted</div><div class="del-label label-sys">System</div></div>
+      <div class="del-item"><div class="del-date">Jun 11</div><div class="del-text">LI_ALGO_RULES_2026.md · PROSPECTING_RULES_2026.md · LH_ANTISPAM_SUPPLEMENT created</div><div class="del-label label-sys">Rules</div></div>
+    </div>
+
+    <!-- ICP PHASE 1 -->
+    <div id="icp"></div>
+    <div class="section-header"><span class="dot dot-blue"></span>ICP Phase 1 — LH Status</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>5 Locked ICP Clusters</div>
+        <div class="icp-grid">
+          <div class="icp-card active">
+            <div class="icp-name">Stuck Founder</div>
+            <div class="icp-meta">€1M–€5M stalled · needs pipeline injection</div>
+          </div>
+          <div class="icp-card active">
+            <div class="icp-name">AI-Disrupted Scale-up</div>
+            <div class="icp-meta">€5M–€15M · GTM system overhaul</div>
+          </div>
+          <div class="icp-card active">
+            <div class="icp-name">Leaderless Team</div>
+            <div class="icp-meta">No senior marketing · fractional CMO signal</div>
+          </div>
+          <div class="icp-card active">
+            <div class="icp-name">Portfolio Operator</div>
+            <div class="icp-meta">PE/VC portfolio company · GTM at scale</div>
+          </div>
+          <div class="icp-card active" style="grid-column: span 2;">
+            <div class="icp-name">Industrial Invisible</div>
+            <div class="icp-meta">B2B industrial / manufacturing · zero digital presence</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="dot dot-orange"></span>LH Phase Timeline</div>
+        <div class="deadline-item"><div class="dl-date" style="color:var(--green)">Jun 10</div><div class="dl-text">Phase 1 starts · engagement only (likes, comments)</div></div>
+        <div class="deadline-item"><div class="dl-date soon">Jun 21</div><div class="dl-text">Phase 1 ends · NO connection requests before this</div></div>
+        <div class="deadline-item"><div class="dl-date">Jun 22</div><div class="dl-text">Phase 2 starts · connections LIVE · run Phase 0 gate first</div></div>
+        <div style="margin-top:16px; padding: 12px; background: #FFF9E0; border-radius: 6px; border-left: 3px solid var(--orange);">
+          <div style="font-size:12px; font-weight:600; margin-bottom:6px;">⚠️ Phase 0 Gate (before Phase 2)</div>
+          <div style="font-size:12px; color:#555; line-height:1.6;">
+            1. Spotlight filter applied to each list?<br>
+            2. Boolean NOT clause in Sales Nav?<br>
+            3. ICP Scorecard: &lt;30% red flags?<br>
+            4. Connection notes &lt;200 chars + specific?<br>
+            5. Withdrawal set at Day 21?<br>
+            6. Daily limits: 15-20/day ✅
+          </div>
+        </div>
+        <div style="margin-top:12px; font-size:12px; color:var(--gray3);">Activation: 1 campaign → 7 days → if &gt;10% reply → next campaign</div>
+      </div>
+    </div>
+
+    <!-- ARTIFACTS -->
+    <div id="artifacts"></div>
+    <div class="section-header"><span class="dot dot-blue"></span>Artifacts Health Board</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>Active / Updated (Jun 9-11)</div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">ruttens-weekly-refresh</div><div class="art-tag tag-ok">W24</div><div class="art-date">Jun 9</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">linkedin-scheduler-w20-w23</div><div class="art-tag tag-ok">rebuilt</div><div class="art-date">Jun 9</div></div>
+        <div class="artifact-item"><div class="art-status">🆕</div><div class="art-name">icp-action-hub-jun2026</div><div class="art-tag tag-new">new Jun 9</div><div class="art-date">Jun 9</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">ruttens-client-weekly-aya</div><div class="art-tag tag-ok">synced</div><div class="art-date">Jun 10</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">ruttens-client-weekly-erea</div><div class="art-tag tag-ok">D1 data</div><div class="art-date">Jun 9</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">ruttens-strategic-analysis-2026-06</div><div class="art-tag tag-ok">synced</div><div class="art-date">Jun 10</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">payments-renewals-2026-05-26</div><div class="art-tag tag-ok">synced</div><div class="art-date">Jun 10</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">admin-finances</div><div class="art-tag tag-ok">synced</div><div class="art-date">Jun 10</div></div>
+        <div class="artifact-item"><div class="art-status">🆕</div><div class="art-name">leuven (Leuven Coffee Outreach)</div><div class="art-tag tag-new">new Jun 11</div><div class="art-date">Jun 11</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">meta-refresh-dashboard (this)</div><div class="art-tag tag-new">W24 update</div><div class="art-date">Jun 11</div></div>
+        <div class="artifact-item"><div class="art-status">✅</div><div class="art-name">erea-handover-2026</div><div class="art-tag tag-new">D1 update</div><div class="art-date">Jun 11</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="dot dot-red"></span>Stale / Needs Review</div>
+        <div class="artifact-item"><div class="art-status">⚠️</div><div class="art-name">inbox-monitor</div><div class="art-tag tag-stale">stale</div><div class="art-date">May 29</div></div>
+        <div class="artifact-item"><div class="art-status">⚠️</div><div class="art-name">ruttens-personal-weekly-dashboard</div><div class="art-tag tag-stale">stale</div><div class="art-date">May 29</div></div>
+        <div style="margin-top: 16px;">
+          <div class="card-title"><span class="dot dot-orange"></span>Key External References</div>
+          <div class="artifact-item"><div class="art-status">📊</div><div class="art-name">Speaker MASTER Pipeline</div><div class="art-tag tag-new">35 targets</div><div class="art-date">Sheets</div></div>
+          <div class="artifact-item"><div class="art-status">🌐</div><div class="art-name">ruttens.com/pricing</div><div class="art-tag tag-stale">deploy!</div><div class="art-date">Built</div></div>
+          <div class="artifact-item"><div class="art-status">🌐</div><div class="art-name">ruttens.com/speaker</div><div class="art-tag tag-stale">deploy!</div><div class="art-date">Built</div></div>
+          <div class="artifact-item"><div class="art-status">🌐</div><div class="art-name">ruttens.com/for-pe-vc</div><div class="art-tag tag-stale">deploy!</div><div class="art-date">Built</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTINES -->
+    <div id="routines"></div>
+    <div class="section-header"><span class="dot dot-blue"></span>Scheduled Routines</div>
+    <div class="card full">
+      <div class="card-title"><span class="dot dot-blue"></span>Active Weekly Schedule</div>
+      <div class="routine-item"><div class="routine-time">Daily</div><div class="routine-day">Mon–Fri</div><div class="routine-task">LH engagement run · likes + comments (10–20/day) · Phase 1 only</div></div>
+      <div class="routine-item"><div class="routine-time">09:00</div><div class="routine-day">Mon</div><div class="routine-task">Weekly brief · priorities · client check-in</div></div>
+      <div class="routine-item"><div class="routine-time">AM</div><div class="routine-day">Tue</div><div class="routine-task">LI post publish · SP Series / topic rotation · send 5 speaker connects (Tue PM)</div></div>
+      <div class="routine-item"><div class="routine-time">AM</div><div class="routine-day">Wed</div><div class="routine-task">Speaker pipeline follow-ups · LI algo: post must be 1,242–3,000 chars, portrait images 1200×1500</div></div>
+      <div class="routine-item"><div class="routine-time">09:00</div><div class="routine-day">Thu</div><div class="routine-task">Speaker pipeline: Claude researches 5 targets, recommends outreach actions</div></div>
+      <div class="routine-item"><div class="routine-time">EOW</div><div class="routine-day">Fri</div><div class="routine-task">WEEKLY_DASHBOARD_EOW snapshot · HANDOVER + /save</div></div>
+      <div class="routine-item"><div class="routine-time">Peak</div><div class="routine-day">Sat/Sun</div><div class="routine-task">LI post reach peak days (Sun 1,522 median, Sat 1,320) · Schedule 5–7 AM or 11–1 PM GMT</div></div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div id="actions"></div>
+    <div class="section-header"><span class="dot dot-orange"></span>This Week Checklist</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-red"></span>Overdue + Urgent</div>
+        <div class="cb-item" id="cb1"><input type="checkbox" id="c1" onchange="saveCb()"><label for="c1">Tally Forms 1/2/3 — build and publish</label></div>
+        <div class="cb-item" id="cb2"><input type="checkbox" id="c2" onchange="saveCb()"><label for="c2">Sprint LP (sprint.html) — build Session B</label></div>
+        <div class="cb-item" id="cb3"><input type="checkbox" id="c3" onchange="saveCb()"><label for="c3">AYA Phase 2 email → Louis (before Jun 13)</label></div>
+        <div class="cb-item" id="cb4"><input type="checkbox" id="c4" onchange="saveCb()"><label for="c4">Substack S3 teaser post (due Jun 15)</label></div>
+        <div class="cb-item" id="cb5"><input type="checkbox" id="c5" onchange="saveCb()"><label for="c5">Zen Document — Session D (upload files first)</label></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Phil Actions (Deploy + Fix)</div>
+        <div class="cb-item" id="cb6"><input type="checkbox" id="c6" onchange="saveCb()"><label for="c6">Deploy pricing.html to Netlify (ruttens.com/pricing)</label></div>
+        <div class="cb-item" id="cb7"><input type="checkbox" id="c7" onchange="saveCb()"><label for="c7">Deploy for-pe-vc.html to Netlify</label></div>
+        <div class="cb-item" id="cb8"><input type="checkbox" id="c8" onchange="saveCb()"><label for="c8">Deploy speaker.html to Netlify</label></div>
+        <div class="cb-item" id="cb9"><input type="checkbox" id="c9" onchange="saveCb()"><label for="c9">Fix Speaker Pipeline rows 21–35 (clear E/F, verify O/P)</label></div>
+        <div class="cb-item" id="cb10"><input type="checkbox" id="c10" onchange="saveCb()"><label for="c10">Send first 5 speaker outreach (Tier A targets)</label></div>
+      </div>
+    </div>
+
+    <!-- OFFER LADDER -->
+    <div class="section-header"><span class="dot dot-black" style="background:var(--black)"></span>Offer Ladder (Live Pricing)</div>
+    <div class="card full">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div style="background:var(--blue); color:var(--black); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">SCAN<br><span style="font-size:16px;">€499</span></div>
+        <div style="background:var(--black); color:var(--white); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">PIPELINE SPRINT<br><span style="font-size:16px;">from €2,590</span></div>
+        <div style="background:var(--gray2); color:var(--black); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">LAB<br><span style="font-size:16px;">€2,990</span></div>
+        <div style="background:var(--gray2); color:var(--black); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">MAP<br><span style="font-size:16px;">€6,990+</span></div>
+        <div style="background:var(--gray2); color:var(--black); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">SPRINT<br><span style="font-size:16px;">€15,900+</span></div>
+        <div style="background:var(--gray2); color:var(--black); padding:10px 16px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;">MAX<br><span style="font-size:16px;">€3,990+/mo</span></div>
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:var(--gray3);">SCAN €499 everywhere · Speaker funnel: Speaker → SCAN → LAB/SPRINT · AYA HubSpot: 148176566 (EU1 — never use 148163851)</div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+  const NS = 'ruttens-meta-cb-2026-05-25'; // preserve existing ticks
+  function saveCb() {
+    const state = {};
+    document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      state[cb.id] = cb.checked;
+    });
+    try { localStorage.setItem(NS, JSON.stringify(state)); } catch(e) {}
+    renderDone();
+  }
+  function loadCb() {
+    try {
+      const state = JSON.parse(localStorage.getItem(NS) || '{}');
+      document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        if (state[cb.id]) { cb.checked = true; }
+      });
+      renderDone();
+    } catch(e) {}
+  }
+  function renderDone() {
+    document.querySelectorAll('.cb-item').forEach(item => {
+      const cb = item.querySelector('input[type=checkbox]');
+      if (cb && cb.checked) { item.classList.add('done'); }
+      else { item.classList.remove('done'); }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', loadCb);
+</script>
+</body>
+</html>

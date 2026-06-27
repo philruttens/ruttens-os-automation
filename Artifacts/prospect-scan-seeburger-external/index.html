@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Prospect Scan Seeburger External",
+  "schemaVersion": 1,
+  "description": "PROSPECT-FACING (share-safe) GTM snapshot for SEEBURGER, tilted to a sales persona (Dirk Geerts). No internal deal-fit or sales angles. RUTTENS+ branded; links to quiz, pipeline-leak tool, tech playbook."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEEBURGER — GTM snapshot by RUTTENS+</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root{ color-scheme: light;
+    --r-blue:#38B6FF; --r-blue-deep:#1F8BC9; --r-navy:#123044; --r-ink-2:#4A5B6B; --r-ink-3:#7A8898;
+    --r-fog:#E2E6EE; --r-paper:#F7F8FA; --radius:2px;
+    --font-display:"Oswald",Impact,sans-serif; --font-body:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",monospace;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-body);color:#0A0A0A;background:var(--r-paper);line-height:1.55;padding:24px}
+  .wrap{max-width:900px;margin:0 auto;background:#fff;border:1px solid var(--r-fog);border-radius:var(--radius);overflow:hidden}
+  .ribbon{background:var(--r-paper);color:var(--r-ink-2);font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;text-align:center;padding:8px 14px;border-bottom:1px solid var(--r-fog)}
+  .hd{display:flex;align-items:center;gap:18px;padding:26px 32px;background:var(--r-navy);color:#fff}
+  .hd .logo{width:58px;height:58px;border-radius:var(--radius);background:#fff;object-fit:contain;flex:0 0 58px;padding:4px}
+  .hd .mono{width:58px;height:58px;border-radius:var(--radius);background:var(--r-blue);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:26px;color:#fff;flex:0 0 58px}
+  .hd h1{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(1.3rem,4vw,2rem);line-height:1.05}
+  .hd .who{color:#cfe6f6;font-size:.9rem;margin-top:4px}
+  .hd .date{margin-left:auto;text-align:right;font-family:var(--font-mono);font-size:.7rem;color:#9fc4dc;text-transform:uppercase;letter-spacing:.08em}
+  .brand{font-family:var(--font-display);font-weight:700;letter-spacing:.04em}.brand .plus{color:var(--r-blue)}
+  section{padding:24px 32px;border-bottom:1px solid var(--r-fog)}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--r-blue-deep);margin-bottom:6px}
+  h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:1.2rem;color:#0A0A0A;margin-bottom:14px}
+  .chartbox{position:relative;height:300px;max-width:500px;margin:0 auto}
+  ul{list-style:none}
+  .sig li{padding:10px 0 10px 26px;border-bottom:1px solid var(--r-fog);font-size:.94rem;position:relative}
+  .sig li:last-child{border:0}
+  .sig li::before{content:"▸";position:absolute;left:4px;color:var(--r-blue)}
+  ol{counter-reset:q;list-style:none}
+  ol li{counter-increment:q;padding:11px 0 11px 38px;border-bottom:1px solid var(--r-fog);font-size:.94rem;position:relative}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(q);position:absolute;left:0;top:9px;width:24px;height:24px;background:var(--r-navy);color:#fff;border-radius:var(--radius);font-family:var(--font-display);font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center}
+  .help{background:var(--r-navy);color:#fff}
+  .help h2{color:#fff}.help .lbl{color:var(--r-blue)}
+  .help p{color:#cfe6f6;font-size:.92rem;margin-bottom:16px;max-width:560px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--r-blue);color:#fff;font-family:var(--font-body);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;padding:11px 18px;border-radius:var(--radius);text-decoration:none}
+  .btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff}
+  .cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .cta .big{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:1.05rem;color:var(--r-navy)}
+  .cta .sub{flex:1;min-width:240px;font-size:.92rem;color:var(--r-ink-2)}
+  .conf{font-family:var(--font-mono);font-size:.68rem;color:var(--r-ink-3);text-transform:uppercase;letter-spacing:.05em;margin-top:10px}
+  .ft{padding:16px 32px;font-family:var(--font-mono);font-size:.7rem;color:var(--r-ink-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  a{color:var(--r-blue-deep)}
+  @media(max-width:640px){.hd{flex-wrap:wrap}.hd .date{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ribbon">A quick public-data snapshot from RUTTENS+ — a taster ahead of our conversation, not a full audit.</div>
+  <div class="hd">
+    <img class="logo" src="https://logo.clearbit.com/seeburger.com" alt="" onerror="this.outerHTML='<div class=\'mono\'>S</div>'">
+    <div><h1>SEEBURGER</h1><div class="who">Business integration software — connecting apps, partners &amp; data across cloud and on-prem.</div></div>
+    <div class="date"><span class="brand">RUTTENS<span class="plus">+</span></span><br>Snapshot · 14 Jun 2026</div>
+  </div>
+
+  <section>
+    <div class="lbl">What stood out</div>
+    <h2>A few public signals</h2>
+    <ul class="sig">
+      <li>A clear investment in content — analyst reports, case studies, webcasts and a strong organic presence.</li>
+      <li>An emerging gap worth watching: visibility in <strong>AI search answers</strong> (ChatGPT/Perplexity) for core integration questions, where buyers increasingly start.</li>
+      <li>The homepage offers many strong next steps at once — an opportunity to sharpen a single, primary conversion path.</li>
+      <li>Proof is heavily enterprise; a lighter mid-market on-ramp could widen the top of the funnel.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="lbl">First-glance read</div>
+    <h2>GTM signals (1–5)</h2>
+    <div class="chartbox"><canvas id="radar"></canvas></div>
+    <div class="conf">First impression from public data only — directional, meant to spark the conversation, not grade you.</div>
+  </section>
+
+  <section>
+    <div class="lbl">Agenda for our call</div>
+    <h2>5 questions worth covering</h2>
+    <ol>
+      <li>When buyers research integration platforms via AI assistants, where does SEEBURGER show up — and who owns that internally?</li>
+      <li>If you had to pick one primary conversion path on the site, what would it be?</li>
+      <li>Where does the next wave of Benelux growth come from — deeper enterprise, or a lighter mid-market motion?</li>
+      <li>How well do inbound and marketing-sourced leads convert into pipeline today — and where do they stall before sales?</li>
+      <li>What would help your number most right now: more inbound, better-qualified leads, or faster conversion?</li>
+    </ol>
+  </section>
+
+  <section class="help">
+    <div class="lbl">How I help</div>
+    <h2>Boosting pipeline health</h2>
+    <p>I help B2B teams turn marketing activity into pipeline — tightening the path from lead to deal. Here are three free tasters of how I work:</p>
+    <div class="btns">
+      <a class="btn" href="https://ruttens.com/quiz/" target="_blank" rel="noopener">60-sec GTM quiz</a>
+      <a class="btn ghost" href="https://ruttens.com/pipeline-leaks.html" target="_blank" rel="noopener">Pipeline-leak fix sheet</a>
+      <a class="btn ghost" href="https://ruttens.com/playbook/tech" target="_blank" rel="noopener">Sample playbook (tech)</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Next step</div>
+    <h2>The full SCAN</h2>
+    <div class="cta">
+      <div class="big">A deeper, data-backed pipeline-health read</div>
+      <div class="sub">This snapshot is the surface. The full SCAN uses your real data to pinpoint where pipeline leaks and where the quick wins are. Happy to cover it live — see <a href="https://ruttens.com/for-tech-scaleups.html" target="_blank" rel="noopener">how I work with tech firms</a>.</div>
+    </div>
+  </section>
+
+  <div class="ft"><span class="brand">RUTTENS<span class="plus">+</span> · ruttens.com</span><span>Prepared for our conversation · 14 Jun 2026</span></div>
+</div>
+<script>
+const EUR='€';
+new Chart(document.getElementById('radar'),{type:'radar',
+ data:{labels:["Positioning","SEO / Organic","AI Visibility","Demand-gen","Martech","Conversion / CTA"],
+  datasets:[{label:'GTM signals',data:[4,4,2,3,4,3],backgroundColor:'rgba(56,182,255,.18)',borderColor:'#38B6FF',borderWidth:2,pointBackgroundColor:'#1F8BC9'}]},
+ options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:5,ticks:{stepSize:1,backdropColor:'transparent'},grid:{color:'#E2E6EE'},angleLines:{color:'#E2E6EE'},pointLabels:{font:{family:'IBM Plex Sans',size:11,weight:'600'},color:'#123044'}}},plugins:{legend:{display:false}}}});
+</script>
+</body>
+</html>

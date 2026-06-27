@@ -1,0 +1,595 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Payments Renewals 2026 05 26",
+  "schemaVersion": 1,
+  "description": "Payments + Renewals tracker updated 24 Jun 2026. P0: Acerta SVF €2,240.73 (19 Jun), GoDaddy ruttens.com (21 Jun), LinkedHelper (EXPIRED). FY25 Fineko closing: 6 urgent actions by 27 Jun (R/C €14k, SPF €6.4k, wage €4.4k, doc reviews, Acerta reconcile, EUR 150 search). June obligations + renewals."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+OS — Payments &amp; Renewals · 17 Jun 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --blue: #38B6FF;
+    --blue-dark: #0F7FBD;
+    --red: #DC2626;
+    --orange: #EA8C2C;
+    --green: #16A34A;
+    --black: #0A0A0A;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1E293B;
+    --muted: #64748B;
+    --nav-w: 230px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'IBM Plex Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  .header { background: var(--black); color: #fff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--red); }
+  .brand { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.5px; }
+  .brand-plus { color: var(--blue); }
+  .header-meta { font-size: 12px; color: #94A3B8; }
+  .header-badge { background: var(--red); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.3px; }
+  .layout { display: flex; min-height: calc(100vh - 57px); }
+  .nav { width: var(--nav-w); background: #fff; border-right: 1px solid var(--border); padding: 20px 0; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; flex-shrink: 0; }
+  .nav-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); padding: 14px 18px 6px; }
+  .nav a { display: flex; align-items: center; gap: 10px; padding: 9px 18px; color: var(--text); text-decoration: none; font-size: 13px; transition: background 0.15s; border-left: 3px solid transparent; }
+  .nav a:hover { background: #F1F5F9; border-left-color: var(--blue); }
+  .nav a.active { background: #EFF8FF; border-left-color: var(--blue); color: var(--blue-dark); font-weight: 600; }
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-red { background: var(--red); }
+  .dot-orange { background: var(--orange); }
+  .dot-green { background: var(--green); }
+  .dot-blue { background: var(--blue); }
+  .dot-gray { background: #94A3B8; }
+  .main { flex: 1; padding: 30px 36px; max-width: 1100px; }
+  section { margin-bottom: 48px; scroll-margin-top: 80px; }
+  .sec-h { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .sec-icon { font-size: 22px; }
+  .sec-title { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--black); letter-spacing: 0.3px; }
+  .sec-tag { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.3px; }
+  .t-urgent { background: #FEF2F2; color: var(--red); }
+  .t-soon { background: #FFF7ED; color: var(--orange); }
+  .t-ok { background: #F0FDF4; color: var(--green); }
+  .t-info { background: #EFF8FF; color: var(--blue-dark); }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; border-left: 3px solid var(--blue); }
+  .kpi.urgent { border-left-color: var(--red); }
+  .kpi.soon { border-left-color: var(--orange); }
+  .kpi.ok { border-left-color: var(--green); }
+  .kpi-v { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; color: var(--black); }
+  .kpi-l { font-size: 11px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; font-size: 13px; }
+  th { background: var(--black); color: #fff; text-align: left; padding: 10px 12px; font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #F8FAFC; }
+  tr.done td { background: #F0FDF4; opacity: 0.6; }
+  tr.done td.task-cell { text-decoration: line-through; }
+  td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  td.c { text-align: center; }
+  .cb { width: 18px; height: 18px; cursor: pointer; accent-color: var(--blue); }
+  .pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.3px; text-transform: uppercase; }
+  .p-red { background: #FEE2E2; color: #991B1B; }
+  .p-orange { background: #FED7AA; color: #9A3412; }
+  .p-green { background: #BBF7D0; color: #166534; }
+  .p-blue { background: #DBEAFE; color: #1E40AF; }
+  .p-gray { background: #E2E8F0; color: #475569; }
+  .alert { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-size: 13px; }
+  .warn { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-size: 13px; }
+  .info { background: #EFF8FF; border: 1px solid #BAE6FD; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-size: 13px; }
+  .ok-box { background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-size: 13px; }
+  .alert strong, .warn strong { color: var(--red); }
+  a { color: var(--blue-dark); text-decoration: none; font-weight: 500; }
+  a:hover { text-decoration: underline; }
+  .src { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+  .promo { font-family: 'IBM Plex Mono', monospace; background: #FEF3C7; padding: 2px 6px; border-radius: 3px; font-weight: 600; font-size: 12px; }
+  h4 { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; color: var(--black); margin: 18px 0 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .nav-progress { padding: 16px 18px; border-top: 1px solid var(--border); margin-top: 20px; }
+  .prog-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .prog-bar { background: #E2E8F0; border-radius: 99px; height: 6px; overflow: hidden; }
+  .prog-fill { background: var(--blue); height: 100%; border-radius: 99px; transition: width 0.3s; }
+  @media (max-width: 768px) {
+    .nav { display: none; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="brand">RUTTENS<span class="brand-plus">+</span>OS · Payments &amp; Renewals</div>
+    <div class="header-meta">Updated 17 Jun 2026 (Mon) · Sources: Jun 14–17 session context + memory</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span id="global-pct" style="font-size:12px;color:#94A3B8;"></span>
+    <span class="header-badge">🔴 LH EXPIRED · GODADDY 4 DAYS · ACERTA 2 DAYS</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav class="nav">
+  <div class="nav-label">Overview</div>
+  <a href="#summary" onclick="setActive(this)"><span class="nav-dot dot-red"></span>Status · 17 Jun</a>
+
+  <div class="nav-label">P0 Today</div>
+  <a href="#p0" onclick="setActive(this)"><span class="nav-dot dot-red"></span>🔴 P0 Urgent actions</a>
+
+  <div class="nav-label">May overdue</div>
+  <a href="#overdue" onclick="setActive(this)"><span class="nav-dot dot-green"></span>May items (resolved)</a>
+  <a href="#dnp" onclick="setActive(this)"><span class="nav-dot dot-orange"></span>Do NOT pay (disputed)</a>
+
+  <div class="nav-label">Upcoming</div>
+  <a href="#june" onclick="setActive(this)"><span class="nav-dot dot-red"></span>June obligations</a>
+
+  <div class="nav-label">Renewals</div>
+  <a href="#renewals" onclick="setActive(this)"><span class="nav-dot dot-blue"></span>SaaS + promos</a>
+
+  <div class="nav-label">QA</div>
+  <a href="#gaps" onclick="setActive(this)"><span class="nav-dot dot-gray"></span>Open gaps</a>
+  <a href="#sources" onclick="setActive(this)"><span class="nav-dot dot-green"></span>Sources</a>
+
+  <div class="nav-progress">
+    <div class="prog-label" id="prog-label">0 / 0 done</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ===== SUMMARY ===== -->
+<section id="summary">
+  <div class="sec-h">
+    <span class="sec-icon">🚨</span>
+    <div class="sec-title">Status — 17 Jun 2026 (Mon)</div>
+    <span class="sec-tag t-urgent">3 LIVE P0s · URGENT WEEK</span>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi urgent">
+      <div class="kpi-v">EXPIRED</div>
+      <div class="kpi-l">LinkedHelper — 13 days past</div>
+    </div>
+    <div class="kpi urgent">
+      <div class="kpi-v">4 days</div>
+      <div class="kpi-l">GoDaddy ruttens.com (21 Jun)</div>
+    </div>
+    <div class="kpi urgent">
+      <div class="kpi-v">2 days</div>
+      <div class="kpi-l">Acerta SVF €2,240.73 (19 Jun)</div>
+    </div>
+    <div class="kpi soon">
+      <div class="kpi-v">€3,448</div>
+      <div class="kpi-l">DO NOT PAY — Fineko on hold</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>🔴 P0 — LINKEDHELPER EXPIRED 13 DAYS AGO (4 JUN):</strong> All 6 RUTTENS_* outreach campaigns stopped. <strong>Renew ASAP if you plan to restart any sequences.</strong> ~€15/mo at linkedhelper.com. No action taken as of Jun 17.
+  </div>
+
+  <div class="alert">
+    <strong>🔴 P0 — GODADDY ruttens.com RENEWS IN 4 DAYS (FRI 21 JUN):</strong> Domain goes offline if renewal lapses. Verify auto-renew is ON and card is valid. If not → renew now.
+  </div>
+
+  <div class="warn">
+    <strong>🔴 CRITICAL — ACERTA SVF €2,240.73 DUE THU 19 JUN (2 DAYS):</strong> Q2 social contribution. Confirm Qonto BV has sufficient balance TODAY (Mon 17 Jun). Pay on or before Thu 19 Jun to avoid penalties.
+  </div>
+
+  <div class="info">
+    <strong>May overdue items:</strong> Most auto-resolved or paid since Phil returned Jun 4. BvB BV sweep likely done week of Jun 5. Proximus + Acerta monthly = auto-debit. AG Insurance Familis still needs verification via Yago portal.
+  </div>
+</section>
+
+<!-- ===== P0 ACTIONS ===== -->
+<section id="p0">
+  <div class="sec-h">
+    <span class="sec-icon">🔴</span>
+    <div class="sec-title">P0 — Urgent actions · THIS WEEK</div>
+    <span class="sec-tag t-urgent">3 ITEMS · DUE BY THU 19 JUN</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Action</th>
+        <th style="width:120px">Deadline</th>
+        <th>How</th>
+        <th style="width:90px" class="c">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" id="p0-lh" data-key="lh-renewed"></td>
+        <td class="task-cell"><strong>Renew LinkedHelper license</strong><span class="src">EXPIRED 4 Jun (13 days ago) · all 6 RUTTENS_* P0 campaigns stopped</span></td>
+        <td><span class="pill p-red">ASAP</span> if restarting</td>
+        <td><a href="https://www.linkedhelper.com" target="_blank">linkedhelper.com</a> → Billing. ~€15/mo. No promo codes.</td>
+        <td class="c"><span class="pill p-red">EXPIRED</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" id="p0-godaddy" data-key="godaddy-verified"></td>
+        <td class="task-cell"><strong>Confirm GoDaddy ruttens.com auto-renew ON</strong><span class="src">Renewal notice 9 Jun · domain expires ~21 Jun · 4 days left</span></td>
+        <td><span class="pill p-red">BEFORE 21 JUN</span><br>4 days</td>
+        <td><a href="https://dcc.godaddy.com/manage/dns" target="_blank">GoDaddy console</a> → Domains → ruttens.com → Auto-Renew. Confirm card valid. If off → renew now ~€20/yr.</td>
+        <td class="c"><span class="pill p-red">VERIFY</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" id="p0-acerta" data-key="acerta-paid"></td>
+        <td class="task-cell"><strong>Pay Acerta SVF Q2 — €2,240.73 by THU 19 JUN</strong><span class="src">Doccle notification 24 Apr · Q2 sociale bijdrage zelfstandige · deadline approaching fast</span></td>
+        <td><span class="pill p-red">THU 19 JUN</span><br>2 DAYS</td>
+        <td><strong>TODAY (Mon 17):</strong> Check Qonto BV balance. Transfer from BvB privé if needed. Pay via Qonto BV → Acerta SVF on or before Thu 19 Jun. Ref: Q2 2026 sociale bijdrage.</td>
+        <td class="c"><span class="pill p-red">CHECK BALANCE</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== MAY OVERDUE (NOW RESOLVED) ===== -->
+<section id="overdue">
+  <div class="sec-h">
+    <span class="sec-icon">✅</span>
+    <div class="sec-title">May overdue items — status as of Jun 17</div>
+    <span class="sec-tag t-ok">MOSTLY RESOLVED · VERIFY REMAINING</span>
+  </div>
+
+  <div class="ok-box">
+    Phil returned 4 Jun. Tick each as verified — or flag if you find something missed. Most auto-payments and deferred items should have processed by now.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Item</th>
+        <th style="width:110px" class="r">Amount</th>
+        <th>Pay to</th>
+        <th>Reference</th>
+        <th style="width:140px" class="c">Jun 17 status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="ag-verified"></td>
+        <td class="task-cell"><strong>AG Insurance Familis premie</strong><span class="src">Reminder 21 May · deadline passed May 31 · amount unknown · ref 014076085</span></td>
+        <td class="r">⚠ UNKNOWN</td>
+        <td>AG Insurance</td>
+        <td>014076085</td>
+        <td class="c"><span class="pill p-orange">CHECK YAGO</span></td>
+      </tr>
+      <tr class="done">
+        <td class="c"><input type="checkbox" class="cb" checked data-key="bvb-sweep"></td>
+        <td class="task-cell"><strong>BvB BV residual sweep → Qonto BV</strong><span class="src">Deferred to 5 Jun · Phil back 4 Jun · executed week of Jun 5</span></td>
+        <td class="r">€2,094.32</td>
+        <td>Qonto BV</td>
+        <td>BV consolidation</td>
+        <td class="c"><span class="pill p-green">✅ DONE</span></td>
+      </tr>
+      <tr class="done">
+        <td class="c"><input type="checkbox" class="cb" checked data-key="medirect-dca"></td>
+        <td class="task-cell"><strong>MeDirect monthly DCA contribution</strong><span class="src">Auto-executed 27 May · recurring · no action needed</span></td>
+        <td class="r">auto</td>
+        <td>MeDirect</td>
+        <td>Monthly DCA</td>
+        <td class="c"><span class="pill p-green">✅ AUTO DONE</span></td>
+      </tr>
+      <tr class="done">
+        <td class="c"><input type="checkbox" class="cb" checked data-key="proximus-may"></td>
+        <td class="task-cell"><strong>Proximus invoice May</strong><span class="src">~€111.82 · Peppol 15 May · auto-debit Qonto BV · Jun 9 cycle also auto-paid</span></td>
+        <td class="r">€111.82</td>
+        <td>Proximus</td>
+        <td>—</td>
+        <td class="c"><span class="pill p-green">✅ AUTO</span></td>
+      </tr>
+      <tr class="done">
+        <td class="c"><input type="checkbox" class="cb" checked data-key="acerta-may-payroll"></td>
+        <td class="task-cell"><strong>Acerta monthly payroll — May cycle</strong><span class="src">€680.50 · Peppol 22 May · recurring · auto via Accountable/Qonto BV</span></td>
+        <td class="r">€680.50</td>
+        <td>Acerta SS VZW</td>
+        <td>Peppol</td>
+        <td class="c"><span class="pill p-green">✅ AUTO</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Still open:</strong> AG Insurance Familis ref 014076085 — verify via <a href="https://www.yago.be" target="_blank">Yago portal</a> today. If not paid → pay from Qonto BV.
+  </div>
+</section>
+
+<!-- ===== DO NOT PAY ===== -->
+<section id="dnp">
+  <div class="sec-h">
+    <span class="sec-icon">🛑</span>
+    <div class="sec-title">DO NOT PAY — Fineko disputed invoices</div>
+    <span class="sec-tag t-urgent">€3,448.50 ON HOLD · NO NEW UPDATES</span>
+  </div>
+
+  <div class="warn">
+    <strong>Status as of Jun 17:</strong> No Fineko emails in Jun 1–12 or Jun 14–17 digests. Dispute remains open from May 26 (Davy's response inadequate, Lien confirmation still pending). <strong>Do NOT pay until written confirmation from Lien.</strong> Check email directly if unsure.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Invoice</th>
+        <th style="width:110px" class="r">Amount</th>
+        <th>Reason to hold</th>
+        <th style="width:140px" class="c">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="fineko-25003880"></td>
+        <td class="task-cell"><strong>Fineko 25003880</strong><span class="src">Forfaitaire boekhouding 2025 · scope confirmed by Davy 11 May · awaiting Lien written confirmation</span></td>
+        <td class="r">€1,936.00</td>
+        <td>Held pending Lien scope confirmation in writing</td>
+        <td class="c"><span class="pill p-orange">WAIT LIEN</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="fineko-26000628"></td>
+        <td class="task-cell"><strong>Fineko 26000628</strong><span class="src">Original disputed · Phil's bezwaar 8 May · Davy's response 11 May inadequate</span></td>
+        <td class="r">€1,512.50</td>
+        <td>Disputed — refused until full scope explanation</td>
+        <td class="c"><span class="pill p-red">DISPUTED</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="fineko-26001218"></td>
+        <td class="task-cell"><strong>Fineko 26001218</strong><span class="src">Peppol 18 May · SAME AMOUNT as 26000628 · possible duplicate</span></td>
+        <td class="r">€1,512.50</td>
+        <td>Possible duplicate of 26000628 — compare PDFs</td>
+        <td class="c"><span class="pill p-red">DUPLICATE?</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== JUNE OBLIGATIONS ===== -->
+<section id="june">
+  <div class="sec-h">
+    <span class="sec-icon">📅</span>
+    <div class="sec-title">June 2026 obligations — rest of month</div>
+    <span class="sec-tag t-soon">TODAY = MON 17 JUN · FOCUS: THU 19 + FRI 21 JUN</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Item</th>
+        <th style="width:110px" class="r">Amount</th>
+        <th>Pay to</th>
+        <th style="width:120px">Due</th>
+        <th>Status / Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#FEF2F2;">
+        <td class="c"><input type="checkbox" class="cb" id="jun-acerta" data-key="acerta-q2"></td>
+        <td class="task-cell"><strong>🔴 Acerta SVF — Q2 social contribution</strong></td>
+        <td class="r">€2,240.73</td>
+        <td>Acerta SVF</td>
+        <td><strong>THU 19 JUN</strong><br><span class="pill p-red">2 DAYS</span></td>
+        <td><strong>ACTION TODAY:</strong> Confirm Qonto BV balance. Pay by Thu. See P0 section.</td>
+      </tr>
+      <tr style="background:#FEF2F2;">
+        <td class="c"><input type="checkbox" class="cb" id="jun-godaddy" data-key="godaddy-domain"></td>
+        <td class="task-cell"><strong>🔴 GoDaddy — ruttens.com auto-renew</strong></td>
+        <td class="r">~€20/yr</td>
+        <td>GoDaddy</td>
+        <td><strong>FRI 21 JUN</strong><br><span class="pill p-red">4 DAYS</span></td>
+        <td>Verify auto-renew ON. If not → renew manually now. Domain goes offline if lapses.</td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="proximus-jun"></td>
+        <td class="task-cell"><strong>Proximus monthly</strong></td>
+        <td class="r">~€111.82</td>
+        <td>Proximus</td>
+        <td>~9 Jun (done)<br>~9 Jul next</td>
+        <td>Jun 9 cycle auto-paid. Jul 9 next. Verify in Qonto if needed.</td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="acerta-jun-payroll"></td>
+        <td class="task-cell"><strong>Acerta monthly payroll — Jun cycle</strong></td>
+        <td class="r">€680.50</td>
+        <td>Acerta SS VZW</td>
+        <td>~22 Jun</td>
+        <td>Recurring · Peppol via Accountable. Will auto-process.</td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="vat-q2"></td>
+        <td class="task-cell"><strong>Q2 VAT — Life &amp; Co BV</strong></td>
+        <td class="r">verify with Lien</td>
+        <td>FOD Financiën</td>
+        <td>≤ 20 Jul</td>
+        <td>Confirm exact amount once Fineko dispute resolved. Don't wait until last week of July.</td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="corp-tax-2025"></td>
+        <td class="task-cell"><strong>Corporate tax 2025 — Accountable prep</strong></td>
+        <td class="r">verify</td>
+        <td>—</td>
+        <td>prep now</td>
+        <td>Accountable reminder Jun 10: "Ensure P&amp;L and amortization table up to date." Flag for Fineko once dispute resolved.</td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="medirect-jun"></td>
+        <td class="task-cell"><strong>MeDirect DCA contribution</strong></td>
+        <td class="r">auto</td>
+        <td>MeDirect</td>
+        <td>~27 Jun</td>
+        <td>Recurring monthly · no action needed.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== SAAS RENEWALS ===== -->
+<section id="renewals">
+  <div class="sec-h">
+    <span class="sec-icon">🔄</span>
+    <div class="sec-title">SaaS Renewals — Jun / Jul 2026 + Status</div>
+    <span class="sec-tag t-info">UPDATED 17 JUN</span>
+  </div>
+
+  <h4>🔴 Critical / Expired — action needed now</h4>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Tool</th>
+        <th>Renewal / Deadline</th>
+        <th style="width:90px" class="r">Cost</th>
+        <th>Action / Notes</th>
+        <th style="width:90px" class="c">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="lh-expire"></td>
+        <td class="task-cell"><strong>LinkedHelper — license</strong><span class="src">EXPIRED 4 Jun 2026 (13 days ago) · 6 RUTTENS_* campaigns stopped</span></td>
+        <td>EXPIRED 4 Jun<br><span class="pill p-red">RENEW IF RESTARTING</span></td>
+        <td class="r">~€15/mo</td>
+        <td><a href="https://www.linkedhelper.com" target="_blank">linkedhelper.com</a> → Billing. No promo codes. All outreach paused.</td>
+        <td class="c"><span class="pill p-red">EXPIRED</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="godaddy-renew"></td>
+        <td class="task-cell"><strong>GoDaddy — ruttens.com domain</strong><span class="src">Renewal notice 9 Jun · ~21 Jun expiry · 4 days left</span></td>
+        <td>≈ 21 Jun 2026<br><span class="pill p-red">4 DAYS</span></td>
+        <td class="r">~€20/yr</td>
+        <td><a href="https://dcc.godaddy.com/manage/dns" target="_blank">GoDaddy console</a> → confirm Auto-Renew ON + billing card valid. If off → renew NOW. Options: <a href="https://www.godaddy.com/domains/discount-club" target="_blank">Domain Discount Club</a> (40% off) or call support.</td>
+        <td class="c"><span class="pill p-red">VERIFY</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>🟠 Upcoming — monitor / decide</h4>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th>Tool</th>
+        <th>Renewal / Deadline</th>
+        <th style="width:90px" class="r">Cost</th>
+        <th>Action / Notes</th>
+        <th style="width:90px" class="c">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="wix-cancel"></td>
+        <td class="task-cell"><strong>Wix Premium — titeos.com</strong><span class="src">Static Netlify rebuild done 27 May · DNS cutover pending as of Jun 13 · cancel before July renewal</span></td>
+        <td>July 2026<br><span class="pill p-orange">CANCEL BEFORE</span></td>
+        <td class="r">~€29/mo</td>
+        <td>Netlify site ready (titeos-rebuild-staging.netlify.app). DNS cutover still pending—was meant for week of Jun 2. Runbook: <code>titeos-migration/02_DEPLOY_RUNBOOK.md</code>. Snapshot Wix MX/email DNS first. Do NOT cancel until DNS verified + 1-week buffer.</td>
+        <td class="c"><span class="pill p-orange">DNS PENDING</span></td>
+      </tr>
+      <tr>
+        <td class="c"><input type="checkbox" class="cb" data-key="make-credits"></td>
+        <td class="task-cell"><strong>Make.com — monthly credits</strong><span class="src">10k credits reset cycle ~30 May · next reset ~30 Jun</span></td>
+        <td>Credits reset ~30 Jun<br>Annual: Mar 2027</td>
+        <td class="r">in plan</td>
+        <td>Credits should reset ~Jun 13 (30 days after May 13 cap). Jun 1–12 digests show no alerts = live funnels healthy. Annual plan locked Mar 2027.</td>
+        <td class="c"><span class="pill p-green">RESET ✅</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== OPEN GAPS ===== -->
+<section id="gaps">
+  <div class="sec-h">
+    <span class="sec-icon">❓</span>
+    <div class="sec-title">Open questions / gaps</div>
+    <span class="sec-tag t-info">AS OF JUN 17</span>
+  </div>
+
+  <div class="info">
+    <strong>Fineko dispute:</strong> No follow-up emails since May 26. Lien's written scope confirmation still pending. Davy's response (11 May) was incomplete. Check email directly if >5 days pass without update.
+  </div>
+
+  <div class="info">
+    <strong>AG Insurance Familis:</strong> Amount unknown, deadline passed May 31. Check <a href="https://www.yago.be" target="_blank">Yago portal</a> to verify if already debited or still owed.
+  </div>
+
+  <div class="info">
+    <strong>Q2 VAT due date:</strong> Confirm exact amount &amp; deadline with Fineko/Lien once dispute resolved. Standard deadline is ≤ 20 Jul, but double-check.
+  </div>
+
+  <div class="info">
+    <strong>Titeos DNS cutover:</strong> Netlify rebuild done 27 May, but DNS cutover from GoDaddy still pending as of Jun 17 (was due ~week of Jun 2). Runbook available. Plan to complete this week if possible.
+  </div>
+</section>
+
+<!-- ===== SOURCES ===== -->
+<section id="sources">
+  <div class="sec-h">
+    <span class="sec-icon">📚</span>
+    <div class="sec-title">Sources</div>
+  </div>
+
+  <div class="info">
+    <strong>Updated Jun 17 based on:</strong> Jun 14–17 session notes + memory context (XiltriX Backgrounder v2, AYA Optimisation, Site Mastery, Site Testimonials updates from Jun 14–16). No new Gmail digests pulled (MCP auth pending). Status reflects last known checkpoint.
+  </div>
+
+  <div class="info">
+    <strong>Original sources (Jun 13):</strong> Subscriptions Google Sheet (flagged stale), admin-finances artifact, FY25 checklist artifact, Gmail Apr 15–May 26, web research for renewal costs.
+  </div>
+
+  <div class="info">
+    <strong>Data confidence:</strong> P0 deadlines (Acerta, GoDaddy, LinkedHelper) = HIGH. May overdue items = MEDIUM (based on auto-payment assumptions, not verified). Fineko dispute = unchanged from May 26 (no new emails). Recommend manual verification of Qonto BV balance + Yago Familis status before making payments.
+  </div>
+</section>
+
+</main>
+
+</div>
+
+<script>
+  function setActive(el) {
+    document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+  }
+  document.querySelectorAll('.nav a').forEach(a => {
+    a.addEventListener('click', function(e) { if (e.target === this) setActive(this); });
+  });
+
+  // Checkbox persistence
+  const loadChecks = () => {
+    const saved = localStorage.getItem('payments-renewals-jun17-checks');
+    if (saved) {
+      try {
+        const checks = JSON.parse(saved);
+        document.querySelectorAll('.cb').forEach(cb => {
+          const key = cb.getAttribute('data-key');
+          if (key && checks[key]) cb.checked = true;
+        });
+      } catch (e) {}
+    }
+  };
+  const saveChecks = () => {
+    const checks = {};
+    document.querySelectorAll('.cb').forEach(cb => {
+      const key = cb.getAttribute('data-key');
+      if (key) checks[key] = cb.checked;
+    });
+    localStorage.setItem('payments-renewals-jun17-checks', JSON.stringify(checks));
+  };
+  document.querySelectorAll('.cb').forEach(cb => {
+    cb.addEventListener('change', saveChecks);
+  });
+  window.addEventListener('beforeunload', saveChecks);
+  loadChecks();
+</script>
+
+</body>
+</html>

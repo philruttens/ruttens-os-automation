@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Prospect Scan Seeburger",
+  "schemaVersion": 1,
+  "description": "SAMPLE prospect-scan one-pager for SEEBURGER AG — RUTTENS+ branded GTM maturity scorecard, quick-win angles, competitive read, talking points. Public-data sample, not a full audit."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospect Scan — SEEBURGER · RUTTENS+ (SAMPLE)</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root{ color-scheme: light;
+    --r-blue:#38B6FF; --r-blue-deep:#1F8BC9; --r-navy:#123044; --r-ink-2:#4A5B6B; --r-ink-3:#7A8898;
+    --r-fog:#E2E6EE; --r-paper:#F7F8FA; --radius:2px;
+    --font-display:"Oswald",Impact,sans-serif; --font-body:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",monospace;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-body);color:#0A0A0A;background:var(--r-paper);line-height:1.5;padding:24px}
+  .wrap{max-width:980px;margin:0 auto;background:#fff;border:1px solid var(--r-fog);border-radius:var(--radius);overflow:hidden}
+  .sample{background:#E0A106;color:#1a1300;font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:7px}
+  .hd{display:flex;align-items:center;gap:20px;padding:26px 32px;background:var(--r-navy);color:#fff}
+  .hd .logo{width:60px;height:60px;border-radius:var(--radius);background:#fff;object-fit:contain;flex:0 0 60px;padding:4px}
+  .hd .mono{width:60px;height:60px;border-radius:var(--radius);background:var(--r-blue);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:28px;color:#fff;flex:0 0 60px}
+  .hd h1{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:clamp(1.4rem,4vw,2.1rem);line-height:1.05}
+  .hd .who{color:#cfe6f6;font-size:.92rem;margin-top:4px}
+  .hd .date{margin-left:auto;text-align:right;font-family:var(--font-mono);font-size:.7rem;color:#9fc4dc;text-transform:uppercase;letter-spacing:.1em}
+  .brand{font-family:var(--font-display);font-weight:700;letter-spacing:.04em}.brand .plus{color:var(--r-blue)}
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--r-fog)}
+  .strip div{padding:14px 16px;border-right:1px solid var(--r-fog)}.strip div:last-child{border-right:0}
+  .strip .k{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--r-blue-deep)}
+  .strip .v{font-size:.92rem;margin-top:4px;color:var(--r-navy);font-weight:600}
+  section{padding:26px 32px;border-bottom:1px solid var(--r-fog)}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--r-blue-deep);margin-bottom:6px}
+  h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:1.25rem;color:#0A0A0A;margin-bottom:14px}
+  .na{color:var(--r-ink-3);font-style:italic;font-size:.88rem;background:var(--r-paper);border:1px dashed var(--r-fog);padding:11px 13px;border-radius:var(--radius)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{border:1px solid var(--r-fog);border-radius:var(--radius);padding:16px}
+  .card h3{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:.98rem;margin-bottom:6px;color:var(--r-navy)}
+  .card .angle{font-size:.88rem;color:var(--r-ink-2);margin-bottom:8px}
+  .card .roi{font-family:var(--font-mono);font-size:.76rem;color:var(--r-blue-deep);font-weight:500}
+  ul{list-style:none}li{padding:8px 0;border-bottom:1px solid var(--r-fog);font-size:.9rem}li:last-child{border:0}
+  table{width:100%;border-collapse:collapse;font-size:.86rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--r-fog);vertical-align:top}
+  th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--r-ink-3)}
+  .nextstep{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .badge{padding:13px 18px;border-radius:var(--radius);font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:.95rem;color:#fff;background:#E0A106}
+  .nextstep .rec{flex:1;min-width:240px;font-size:.92rem;color:var(--r-ink-2)}
+  .chartbox{position:relative;height:320px;max-width:520px;margin:0 auto}
+  .conf{font-family:var(--font-mono);font-size:.68rem;color:var(--r-ink-3);text-transform:uppercase;letter-spacing:.06em;margin-top:10px}
+  .ft{padding:16px 32px;font-family:var(--font-mono);font-size:.7rem;color:var(--r-ink-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  a{color:var(--r-blue-deep)}
+  @media(max-width:720px){.strip{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const EUR = '€'; // '€' as a JS string entity — never a literal € in JS
+const DATA = {
+  company:"SEEBURGER AG", domain:"seeburger.com",
+  who:"Family-owned German B2B integration-software vendor — the BIS platform (EDI, API, MFT, iPaaS, e-invoicing). ~40 yrs, 14,000+ customers.",
+  scanDate:"14 Jun 2026",
+  snapshot:{size:"~1,200 staff",sector:"B2B integration software",hq:"Bretten, DE",funding:"Family-owned",headcount:"Stable / enterprise"},
+  scorecard:{Positioning:4,"SEO/Organic":4,"AI Visibility":2,"Demand-gen":3,Martech:4,"Conversion/CTA":3},
+  quickWins:[
+    {title:"AI-visibility (GEO) gap",angle:"Strong Google rankings for EDI/iPaaS — but likely under-cited when a CIO asks ChatGPT/Perplexity 'best B2B integration platform'.",roi:"GEO content pass → capture AI share-of-voice in a high-intent category"},
+    {title:"Homepage CTA overload",angle:"~8 competing CTAs above the fold (reports, briefs, webcasts, contact). Attention is split.",roi:"One primary path → measurable lift in demo / contact conversion"},
+    {title:"Mid-market on-ramp",angle:"Proof is heavily enterprise (thyssenkrupp, banks). Lighter self-serve path could open mid-market BIS demand.",roi:"Productised entry offer → shorter sales cycles below enterprise"}
+  ],
+  competitors:[
+    {name:"Boomi",behindOn:"Self-serve / PLG motion & developer-led adoption — Boomi's funnel is lighter-touch."},
+    {name:"MuleSoft (Salesforce)",behindOn:"Brand share-of-voice & AI-answer presence for 'iPaaS' queries."},
+    {name:"Cleo",behindOn:"Sharp single-narrative positioning vs SEEBURGER's broad multi-capability message."}
+  ],
+  decisionMakers:null, // honest: not fabricated — full SCAN pulls these via Apollo
+  talkingPoints:[
+    "When a buyer researches integration platforms via AI assistants today, where does SEEBURGER show up — and who owns that internally?",
+    "Your homepage carries many strong assets. If you had to pick ONE conversion path, what would it be?",
+    "Where does growth come from next — deeper enterprise, or a lighter mid-market motion?",
+    "How is the 40-years / family-owned trust story showing up in demand-gen, not just brand?",
+    "What does your marketing team most want to move in the next two quarters?"
+  ],
+  dealFit:{label:"SAMPLE · FIT TBD",rec:"This is a public-data sample, not a qualified deal. SEEBURGER is a ~1,200-person enterprise (outside RUTTENS+ small-company core ICP) — fit depends on the meeting context. Confirm intent on the call; a focused SCAN would replace these estimates with real data."},
+  conf:"Source: SEEBURGER public website + web (14 Jun 2026). SEO/AI-visibility/martech scores are directional sample estimates — a full SCAN verifies with Ahrefs + GEO probes + Apollo."
+};
+const naBlock=l=>`<div class="na">${l}</div>`;
+function header(){const m=(DATA.company||"?").trim().charAt(0).toUpperCase();
+ return `<div class="hd">
+  <img class="logo" src="https://logo.clearbit.com/${DATA.domain}" alt="" onerror="this.outerHTML='<div class=\\'mono\\'>${m}</div>'">
+  <div><h1>${DATA.company}</h1><div class="who">${DATA.who}</div></div>
+  <div class="date"><span class="brand">RUTTENS<span class="plus">+</span></span><br>Sample scan · ${DATA.scanDate}</div></div>`;}
+function strip(){const s=DATA.snapshot,c=(k,v)=>`<div><div class="k">${k}</div><div class="v">${v||"—"}</div></div>`;
+ return `<div class="strip">${c("Size",s.size)}${c("Sector",s.sector)}${c("HQ",s.hq)}${c("Ownership",s.funding)}${c("Trend",s.headcount)}</div>`;}
+function scorecard(){return `<section><div class="lbl">GTM Maturity</div><h2>Scorecard (1–5)</h2><div class="chartbox"><canvas id="radar"></canvas></div><div class="conf">${DATA.conf}</div></section>`;}
+function quickWins(){const c=DATA.quickWins.map(q=>`<div class="card"><h3>${q.title}</h3><div class="angle">${q.angle}</div><div class="roi">▲ ${q.roi}</div></div>`).join("");
+ return `<section><div class="lbl">Opportunity</div><h2>Top 3 quick wins · RUTTENS+ angle</h2><div class="grid3">${c}</div></section>`;}
+function competitors(){const i=`<table><tr><th>Competitor</th><th>Where there may be whitespace → RUTTENS+ entry</th></tr>${DATA.competitors.map(c=>`<tr><td><strong>${c.name}</strong></td><td>${c.behindOn}</td></tr>`).join("")}</table>`;
+ return `<section><div class="lbl">Competitive</div><h2>Position vs named players</h2>${i}<div class="conf">Sample comparison from public positioning — not a benchmarked audit.</div></section>`;}
+function dms(){return `<section><div class="lbl">People</div><h2>Decision-makers</h2>${naBlock("Not shown in sample — a full SCAN pulls named decision-makers + titles via Apollo. (No names invented.)")}</section>`;}
+function tps(){return `<section><div class="lbl">Discovery call</div><h2>5 talking points</h2><ul>${DATA.talkingPoints.map(t=>`<li>${t}</li>`).join("")}</ul></section>`;}
+function next(){return `<section><div class="lbl">Recommendation</div><h2>Next step + deal-fit</h2><div class="nextstep"><div class="badge">${DATA.dealFit.label}</div><div class="rec">${DATA.dealFit.rec}</div></div></section>`;}
+document.getElementById('app').innerHTML =
+ `<div class="sample">⚠ Sample — public data only, not a full audit · built by RUTTENS+ as a taster</div>`+
+ header()+strip()+scorecard()+quickWins()+competitors()+dms()+tps()+next()+
+ `<div class="ft"><span class="brand">RUTTENS<span class="plus">+</span> · prospect-scan sample</span><span>ruttens.com · ${DATA.scanDate}</span></div>`;
+(function(){const sc=DATA.scorecard;new Chart(document.getElementById('radar'),{type:'radar',
+ data:{labels:Object.keys(sc),datasets:[{label:'GTM maturity',data:Object.values(sc),backgroundColor:'rgba(56,182,255,.18)',borderColor:'#38B6FF',borderWidth:2,pointBackgroundColor:'#1F8BC9'}]},
+ options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:5,ticks:{stepSize:1,backdropColor:'transparent'},grid:{color:'#E2E6EE'},angleLines:{color:'#E2E6EE'},pointLabels:{font:{family:'IBM Plex Sans',size:11,weight:'600'},color:'#123044'}}},plugins:{legend:{display:false}}}});})();
+</script>
+</body>
+</html>

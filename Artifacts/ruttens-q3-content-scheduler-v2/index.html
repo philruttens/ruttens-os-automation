@@ -1,0 +1,2648 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Q3 Content Scheduler V2",
+  "schemaVersion": 1,
+  "description": "RUTTENS+ Q3 Content Scheduler v2 — 13 category tabs, 120+ posts, amber CTA buttons, MALT campaign, free-value-first APA posts, all caption URLs clickable",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+ Q3 Content Scheduler v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amber: #F5A623;
+  --navy: #0D1B2A;
+  --navy-light: #1a2d42;
+  --blue: #38B6FF;
+  --sub: #FF6719;
+  --ig: #C13584;
+  --black: #0A0A0A;
+  --green: #22c55e;
+  --white: #ffffff;
+  --gray: #94a3b8;
+  --gray-dark: #334155;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #0a0f1a;
+  color: var(--white);
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--navy);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--navy-light);
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-logo {
+  padding: 18px 16px 12px;
+  border-bottom: 1px solid var(--navy-light);
+}
+.sidebar-logo h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.sidebar-logo p { font-size: 11px; color: var(--gray); margin-top: 2px; }
+.sidebar-stats {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--navy-light);
+  display: flex;
+  gap: 12px;
+}
+.stat-item { text-align: center; flex: 1; }
+.stat-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+}
+.stat-label { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar-nav { flex: 1; padding: 6px 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--gray);
+  border-left: 3px solid transparent;
+  transition: all 0.12s;
+}
+.nav-item:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+.nav-item.active { color: var(--white); border-left-color: var(--amber); background: rgba(245,166,35,0.07); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+.nav-label { flex: 1; }
+.nav-count {
+  background: var(--navy-light);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: var(--gray);
+  min-width: 20px;
+  text-align: center;
+}
+.nav-item.active .nav-count { background: var(--amber); color: var(--black); }
+.nav-published-active .nav-count { background: var(--green) !important; color: var(--black) !important; }
+.main { margin-left: 240px; flex: 1; padding: 24px 28px; min-height: 100vh; }
+.tab-header { margin-bottom: 20px; border-bottom: 1px solid var(--navy-light); padding-bottom: 14px; }
+.tab-header h2 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; }
+.tab-header p { color: var(--gray); font-size: 12px; margin-top: 4px; }
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+  gap: 14px;
+}
+.post-card {
+  background: var(--navy);
+  border-radius: 10px;
+  border: 1px solid var(--navy-light);
+  padding: 14px;
+  transition: border-color 0.12s;
+}
+.post-card:hover { border-color: rgba(245,166,35,0.4); }
+.post-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.post-checkbox {
+  width: 19px; height: 19px;
+  border-radius: 4px;
+  border: 2px solid var(--gray-dark);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  margin-top: 1px;
+  user-select: none;
+}
+.post-checkbox:hover { border-color: var(--green); }
+.post-checkbox.checked { background: var(--green); border-color: var(--green); }
+.post-checkbox.checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
+.post-meta { flex: 1; min-width: 0; }
+.post-type-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; flex-wrap: wrap; }
+.post-type-badge {
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 2px 7px; border-radius: 3px;
+}
+.type-text { background: rgba(56,182,255,0.12); color: #7dd3fc; }
+.type-image { background: rgba(245,166,35,0.12); color: var(--amber); }
+.type-carousel { background: rgba(167,139,250,0.12); color: #a78bfa; }
+.type-sub { background: rgba(255,103,25,0.12); color: var(--sub); }
+.type-ig { background: rgba(193,53,132,0.12); color: #e879a3; }
+.post-date { font-size: 10px; color: var(--gray); opacity: 0.65; }
+.icp-badge {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 3px;
+}
+.post-hook {
+  font-size: 13.5px; font-weight: 600;
+  color: var(--white); line-height: 1.4;
+  margin-bottom: 8px;
+}
+.post-caption {
+  font-size: 11.5px; color: #8899aa;
+  line-height: 1.6; margin-bottom: 6px;
+  white-space: pre-wrap;
+  max-height: 100px; overflow: hidden;
+  position: relative;
+  transition: max-height 0.2s ease;
+}
+.post-caption::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 28px;
+  background: linear-gradient(transparent, var(--navy));
+  pointer-events: none;
+}
+.post-caption.expanded { max-height: 9999px; }
+.post-caption.expanded::after { display: none; }
+.copy-btn {
+  font-size: 10.5px; color: var(--gray);
+  background: none; border: 1px solid var(--gray-dark);
+  border-radius: 3px; padding: 2px 8px;
+  cursor: pointer; transition: all 0.12s;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.copy-btn:hover { border-color: var(--amber); color: var(--amber); }
+.copy-btn.copied { border-color: var(--green); color: var(--green); }
+.caption-toggle {
+  font-size: 11px; color: var(--amber);
+  cursor: pointer; background: none; border: none;
+  padding: 0; margin-bottom: 10px; display: block;
+}
+.visual-note {
+  background: rgba(245,166,35,0.07);
+  border: 1px solid rgba(245,166,35,0.18);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 11px; color: #fbbf24;
+  line-height: 1.5; margin-bottom: 8px;
+}
+.post-footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--navy-light);
+  padding-top: 8px;
+}
+.post-cta { font-size: 10.5px; color: var(--gray); }
+.post-cta a { color: var(--amber); text-decoration: none; }
+.post-cta a:hover { text-decoration: underline; }
+.post-id { font-size: 10px; color: var(--gray); opacity: 0.4; font-family: monospace; }
+.uncheck-btn {
+  font-size: 10px; color: var(--gray);
+  background: none; border: 1px solid var(--gray-dark);
+  border-radius: 3px; padding: 2px 7px;
+  cursor: pointer; transition: all 0.12s;
+}
+.uncheck-btn:hover { border-color: #ef4444; color: #ef4444; }
+.cta-btn {
+  display: inline-block;
+  background: var(--amber); color: var(--black);
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 5px 12px; border-radius: 4px;
+  text-decoration: none; margin-bottom: 8px;
+  cursor: pointer; border: none; transition: opacity 0.12s;
+}
+.cta-btn:hover { opacity: 0.82; }
+.published-empty { text-align: center; padding: 60px 20px; color: var(--gray); }
+.published-empty .icon { font-size: 44px; margin-bottom: 14px; }
+.published-empty h3 { font-family: 'Oswald', sans-serif; font-size: 17px; margin-bottom: 6px; color: var(--white); }
+.section-label {
+  font-family: 'Oswald', sans-serif; font-size: 11px;
+  color: var(--gray); text-transform: uppercase;
+  letter-spacing: 1.2px; margin: 22px 0 10px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--navy-light);
+}
+.placeholder-card {
+  background: var(--navy); border-radius: 10px;
+  border: 2px dashed var(--gray-dark);
+  padding: 48px; text-align: center; color: var(--gray);
+}
+.placeholder-card .ph-icon { font-size: 40px; margin-bottom: 12px; }
+.placeholder-card h3 { font-family: 'Oswald', sans-serif; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+.empty-tab { color: var(--gray); text-align: center; padding: 48px; grid-column: 1/-1; font-size: 13px; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 3px; }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>RUTTENS+ Q3 Scheduler</h1>
+    <p>v2 · Jun–Jul 2026 · sched_v2_published_v1</p>
+  </div>
+  <div class="sidebar-stats">
+    <div class="stat-item">
+      <div class="stat-num" id="total-count">0</div>
+      <div class="stat-label">Total</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="published-count" style="color:var(--green)">0</div>
+      <div class="stat-label">Done</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="pending-count" style="color:var(--amber)">0</div>
+      <div class="stat-label">Pending</div>
+    </div>
+  </div>
+  <div class="sidebar-nav" id="sidebar-nav"></div>
+</nav>
+<main class="main" id="main-content"></main>
+
+<script>
+const LS_KEY = 'sched_v2_published_v1';
+let PUBLISHED = {};
+
+const ICP_MAP = {
+  'Founder':'#38B6FF','Founder/Startup':'#38B6FF','Founder/CMO':'#38B6FF',
+  'CEO/Founder':'#38B6FF','CMO/Founder':'#38B6FF',
+  'Industrial SME':'#16a34a','Belgian Industrial SME':'#16a34a',
+  'Industrial/General':'#16a34a','Industrial/PE':'#1d7a40',
+  'Tech Scale-up':'#F5A623','Tech/Founder':'#d4911f',
+  'PE/VC':'#7c3aed','PE/VC Investors':'#7c3aed',
+  'Agency':'#ec4899',
+  'All ICPs':'#6b7280',
+  'CEO/CMO/CRO':'#6b7280','CEO/CTO/CMO':'#6b7280','CRO/CEO':'#6b7280',
+  'CMO/CEO':'#6b7280','CMO/CEO/CRO':'#6b7280','CFO/CMO/Board':'#6b7280',
+  'CFO/CEO/CRO':'#6b7280','CMO/CRO':'#6b7280','CMO/CRO/CEO':'#6b7280',
+  'CMO/Marketing':'#6b7280','CEO/CFO/CCO/CRO':'#6b7280',
+};
+function icpColor(icp) {
+  if (!icp) return '#6b7280';
+  for (const k of Object.keys(ICP_MAP)) { if (icp.includes(k)) return ICP_MAP[k]; }
+  return '#6b7280';
+}
+
+const ALL_POSTS = [
+/* ── GTM CAMPAIGN ── */
+{id:'gtm1',tab:'gtm-campaign',type:'text',date:'Mon Jun 23',icp:'All ICPs',
+hook:'Most B2B teams leave for summer with the same 3 gaps they had in January.',
+caption:`Most B2B teams leave for summer with the same 3 gaps they had in January.
+
+No clear ICP.
+No repeatable outbound.
+No content that converts.
+
+They call it a slow summer.
+I call it a structural problem.
+
+We've been scanning GTM setups for 3 weeks.
+Here's what we keep finding...
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "3 gaps. Same every year." — bold stat card, navy/amber 1080×1080',cta:'ruttens.com'},
+
+{id:'gtm2',tab:'gtm-campaign',type:'image',date:'Tue Jun 24',icp:'Tech/Founder',
+hook:'I just ran a GTM scan on Anthropic. Here\'s what I found.',
+caption:`I just ran a GTM scan on Anthropic.
+
+Not as a customer. As a GTM operator.
+
+Here's what the scan reveals:
+→ ICP clarity: strong in enterprise, blurry in SMB
+→ Outbound infrastructure: underbuilt vs. inbound strength
+→ Content-to-pipeline attribution: almost non-existent
+
+The lesson? Even the best product companies have GTM gaps.
+
+Full scan available on request.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'⚠️ Screenshot PENDING — open SCAN_Anthropic_INTERNAL_2026-06-20.html and capture full-page screenshot at 1200px width. Save as PNG before posting.',cta:'ruttens.com'},
+
+{id:'gtm3',tab:'gtm-campaign',type:'image',date:'Wed Jun 25',icp:'Industrial/General',
+hook:'I ran a GTM scan on SpaceX. Here\'s what stood out.',
+caption:`I ran a GTM scan on SpaceX.
+
+Different industry. Same GTM patterns.
+
+→ B2B GTM almost entirely relationship-driven
+→ No repeatable mid-market motion visible
+→ Brand does heavy lifting that pipeline should
+
+The biggest companies in the world still have GTM gaps.
+
+Full scan on request.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'⚠️ Screenshot PENDING — open SCAN_SpaceX_INTERNAL_2026-06-20.html and capture full-page screenshot at 1200px width. Save as PNG before posting.',cta:'ruttens.com'},
+
+{id:'gtm4',tab:'gtm-campaign',type:'carousel',date:'Thu Jun 26',icp:'All ICPs',
+hook:'I scanned Anthropic and SpaceX. Here\'s what both GTMs have in common.',
+caption:`I scanned Anthropic and SpaceX.
+
+Two companies. Different sectors. Same 3 GTM gaps.
+
+[Slide 1: Cover — "Same 3 gaps. Every company."]
+[Slides 2–4: Gap 1/2/3 with data from both scans]
+[Slide 5: What fixing each gap looks like]
+[Slide 6–7: RUTTENS+ scan methodology]
+[Slide 8: CTA — Book a Revenue Scan]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'⚠️ 8-SLIDE CAROUSEL NOT YET BUILT — produce in Canva: Slide 1 cover, Slides 2–7 gap breakdowns, Slide 8 CTA. Amber/navy RUTTENS+ brand.',cta:'ruttens.com'},
+
+{id:'gtm5',tab:'gtm-campaign',type:'text',date:'Mon Jun 30',icp:'All ICPs',
+hook:'The Prospect Scan is now live. Here\'s what it does.',
+caption:`The Prospect Scan is now live.
+
+In 20 minutes, I can tell you:
+→ Where your GTM is leaking
+→ What your competitors are doing that you're not
+→ The 3 fastest fixes specific to your business
+
+It's free. It's fast. And it's specific.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📸 Screenshot after posting — no pre-post visual needed',cta:'ruttens.com'},
+
+{id:'gtm-ba',tab:'gtm-campaign',type:'text',date:'Tue Jul 1',icp:'CEO/CFO/CCO/CRO',
+hook:'Quick question: what\'s your biggest GTM gap right now?',
+caption:`Quick question for CEOs, CFOs, CCOs and CROs in my network:
+
+What's the biggest GTM gap costing you deals right now?
+
+A) Weak ICP — we're selling to everyone
+B) No repeatable outbound motion
+C) Marketing ≠ Sales alignment
+D) Content that doesn't convert to pipeline
+
+Comment below 👇
+
+(I'll reply to every answer with a specific fix)`,
+visualNote:'💛 Poll-style card: 4 options A/B/C/D, bold question, navy/amber 1080×1080',cta:'ruttens.com'},
+
+{id:'gtm-bb',tab:'gtm-campaign',type:'text',date:'Thu Jul 3',icp:'CEO/CFO/CCO/CRO',
+hook:'5 free Revenue Scans left before summer. Here\'s who they\'re for.',
+caption:`5 free Revenue Scans left before the summer break.
+
+They're for companies that:
+→ Have a real B2B product or service
+→ Are doing €500K+ revenue
+→ Have a sales or marketing team of 2+
+→ Are genuinely wondering why growth has plateaued
+
+20 minutes. Specific to your company. Free.
+
+Book in the link below.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Countdown card: "5 spots left" — bold amber/navy urgency format',cta:'ruttens.com/free-tools.html'},
+
+{id:'gtm-bc',tab:'gtm-campaign',type:'text',date:'Wed Jul 9',icp:'CEO/CFO/CCO/CRO',
+hook:'GTM gaps don\'t go on holiday.',
+caption:`GTM gaps don't go on holiday.
+
+Your competitors are scanning, fixing, and preparing Q4 right now.
+
+The companies that come back in September with momentum are the ones who did the work in July.
+
+Is your GTM summer-ready?
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "GTM gaps don\'t go on holiday." — clean bold typography, navy/amber',cta:'ruttens.com'},
+
+/* ── GTM ANIMAL ── */
+{id:'gtm-li-cheetah',tab:'gtm-animal',type:'image',date:'Unscheduled',icp:'Founder/Startup',
+hook:'🐆 The fastest B2B founders build the slowest pipeline systems.',
+caption:`The fastest B2B founders build the slowest pipeline systems.
+
+They move fast on product. Fast on hiring. Fast on closing the first 10 deals.
+
+Then they hit a wall.
+
+Because speed without system means every new deal depends on the founder. Every new quarter resets from zero. Every new hire takes 6 months to ramp.
+
+That's the Cheetah problem.
+
+Fast enough to win early. Too fast to build what lasts.
+
+The fix isn't to slow down. It's to build the pipeline system that runs without you.
+
+→ Find your GTM Animal: https://ruttens.com/quiz
+→ Fix the leak: https://ruttens.com/free-tools.html
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'🖼️ Cheetah silhouette visual — path: 04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/',cta:'ruttens.com/quiz'},
+
+{id:'gtm-li-zebra',tab:'gtm-animal',type:'image',date:'Unscheduled',icp:'Industrial SME',
+hook:'🦓 Industrial B2B companies don\'t lose deals because the product is wrong.',
+caption:`Industrial B2B companies don't lose deals because the product is wrong.
+
+They lose them because they look identical to every other supplier.
+
+Same website. Same brochure. Same pitch.
+
+The Zebra problem: everyone sees stripes. Nobody sees you.
+
+In industrial B2B, differentiation isn't a marketing nice-to-have. It's a commercial survival requirement.
+
+The companies that win make their difference visible. Not louder. Clearer.
+
+→ Find your GTM Animal: https://ruttens.com/quiz
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'🖼️ Zebra silhouette visual — path: 04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/',cta:'ruttens.com/quiz'},
+
+{id:'gtm-li-bison',tab:'gtm-animal',type:'image',date:'Unscheduled',icp:'Tech Scale-up',
+hook:'🦬 Past €1M ARR, most B2B scale-ups have the same quiet problem.',
+caption:`Past €1M ARR, most B2B scale-ups have the same quiet problem.
+
+The GTM that got you here won't get you there.
+
+What worked at €500K:
+→ Founder-led sales
+→ Warm network deals
+→ Product that sold itself
+
+What breaks at €2M+:
+→ Founder can't close everything
+→ Network is tapped
+→ Product needs positioning
+
+That's the Bison problem. Massive momentum. But moving in one direction. Hard to turn. Hard to scale sideways.
+
+The fix: build the GTM infrastructure before you need it.
+
+→ Find your GTM Animal: https://ruttens.com/quiz
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'🖼️ Bison silhouette visual — path: 04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/',cta:'ruttens.com/quiz'},
+
+{id:'gtm-li-leopard',tab:'gtm-animal',type:'image',date:'Unscheduled',icp:'PE/VC',
+hook:'🐅 Every PE portfolio has 2–3 companies with an invisible GTM problem.',
+caption:`Every PE portfolio has 2–3 companies with an invisible GTM problem.
+
+The numbers look fine. EBITDA is holding. The management team is solid.
+
+But the pipeline is founder-dependent. The messaging is generic. And the commercial team is running on relationships, not a system.
+
+That's the Leopard problem.
+
+Powerful. Effective. But operating alone. No pack. No process. No scale.
+
+When you try to grow through a buy-and-build or add a country, it breaks. Because the GTM was never built for scale.
+
+→ Find your GTM Animal: https://ruttens.com/quiz
+→ PE/VC specific: https://ruttens.com/pe-vc
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'🖼️ Leopard silhouette visual — path: 04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/',cta:'ruttens.com/pe-vc'},
+
+{id:'gtm-li-raccoon',tab:'gtm-animal',type:'image',date:'Unscheduled',icp:'Agency',
+hook:'🦝 The hardest conversation in B2B agency retention.',
+caption:`The hardest conversation in B2B agency retention.
+
+"We're not seeing the ROI."
+
+It's rarely about the work. It's almost always about the expectation gap.
+
+The Raccoon problem: brilliant at finding value everywhere. But hard to explain what you do and why it matters.
+
+Agencies that lose clients don't lose on quality. They lose on narrative.
+
+→ "Why did we win this account?"
+→ "What specifically is driving results?"
+→ "How do we prove it?"
+
+If you can't answer those in 30 seconds, you're at risk.
+
+→ Find your GTM Animal: https://ruttens.com/quiz
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'🖼️ Raccoon silhouette visual — path: 04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/',cta:'ruttens.com/quiz'},
+
+{id:'gtm-ig-cheetah',tab:'gtm-animal',type:'ig',date:'Unscheduled',icp:'Founder/Startup',
+hook:'🐆 Speed isn\'t the problem. No system behind it is.',
+caption:`Speed isn't the problem. No system behind it is.
+
+Find your GTM Animal → https://ruttens.com/quiz
+
+#B2B #GTM #StartupGrowth #FounderLife #SalesStrategy`,
+visualNote:'🖼️ Cheetah IG square 1080×1080 — silhouette + hook text overlay. Same visuals folder.',cta:'ruttens.com/quiz'},
+
+{id:'gtm-ig-zebra',tab:'gtm-animal',type:'ig',date:'Unscheduled',icp:'Industrial SME',
+hook:'🦓 Strong product. Capable team. But every supplier looks the same from the outside.',
+caption:`Strong product. Capable team. But every supplier looks the same from the outside.
+
+Find your GTM Animal → https://ruttens.com/quiz
+
+#IndustrialB2B #B2BSales #GTM #Marketing`,
+visualNote:'🖼️ Zebra IG square 1080×1080 — silhouette + hook text overlay.',cta:'ruttens.com/quiz'},
+
+{id:'gtm-ig-bison',tab:'gtm-animal',type:'ig',date:'Unscheduled',icp:'Tech Scale-up',
+hook:'🦬 Past €1M ARR, most B2B GTMs start quietly breaking.',
+caption:`Past €1M ARR, most B2B GTMs start quietly breaking.
+
+Find your GTM Animal → https://ruttens.com/quiz
+
+#SaaS #B2BGrowth #ScaleUp #GTM #Revenue`,
+visualNote:'🖼️ Bison IG square 1080×1080 — silhouette + hook text overlay.',cta:'ruttens.com/quiz'},
+
+{id:'gtm-ig-leopard',tab:'gtm-animal',type:'ig',date:'Unscheduled',icp:'PE/VC',
+hook:'🐅 Every PE portfolio has 2–3 companies with an invisible GTM problem.',
+caption:`Every PE portfolio has 2–3 companies with an invisible GTM problem.
+
+Find your GTM Animal → https://ruttens.com/quiz
+
+#PrivateEquity #PortfolioCompanies #GTM #B2B`,
+visualNote:'🖼️ Leopard IG square 1080×1080 — silhouette + hook text overlay.',cta:'ruttens.com/quiz'},
+
+{id:'gtm-ig-raccoon',tab:'gtm-animal',type:'ig',date:'Unscheduled',icp:'Agency',
+hook:'🦝 The hardest agency conversation: "We\'re not seeing the ROI."',
+caption:`The hardest agency conversation is "We're not seeing the ROI."
+
+Find your GTM Animal → https://ruttens.com/quiz
+
+#AgencyLife #B2BMarketing #ClientRetention #GTM`,
+visualNote:'🖼️ Raccoon IG square 1080×1080 — silhouette + hook text overlay.',cta:'ruttens.com/quiz'},
+
+/* ── APA POSTS ── */
+{id:'apa-01',tab:'apa',type:'text',date:'Tue Jun 23 · 08:30 CET',icp:'CEO/CMO/CRO',
+hook:'"We try to sell to everyone."',
+caption:`"We try to sell to everyone."
+
+Every founder says this in the first 3 years. Most never stop.
+
+The math:
+→ 100 prospects, 3% conversion = 3 clients
+→ 30 perfect-fit prospects, 20% conversion = 6 clients
+
+Same effort. Double the result.
+
+The problem isn't your product. It's your ICP.
+
+Narrow it. Own it. Win more.
+
+→ DM me "ICP" for the free ICP Scoring Template I use with every client.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Selling to everyone means owning no one." — navy/amber 1080×1080',cta:'ruttens.com'},
+
+{id:'apa-02',tab:'apa',type:'text',date:'Tue Jun 30 · 08:30 CET',icp:'CRO/CEO',
+hook:'"Your best pipeline recovery isn\'t new leads."',
+caption:`"Your best pipeline recovery isn't new leads."
+
+It's the 40 deals you closed last year.
+
+Most B2B companies spend 90% of their budget chasing new logos. And 0% re-engaging the ones who already said yes.
+
+Expansion. Referral. Reactivation.
+
+These are your fastest, cheapest, most predictable revenue channels. Are you using them?
+
+→ DM me "EXPAND" for the free Pipeline Recovery Checklist (expansion, referral + reactivation plays).
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Your best new lead is a happy old client." — stat-style, navy/amber',cta:'ruttens.com'},
+
+{id:'apa-03',tab:'apa',type:'text',date:'Tue Jul 7 · 08:30 CET',icp:'CMO/CEO',
+hook:'"Your messaging sounds like everyone else\'s."',
+caption:`"Your messaging sounds like everyone else's."
+
+Here's the test:
+
+Remove your logo from your homepage. Can anyone tell it's you?
+
+If the answer is no, you have a messaging problem.
+
+"Results-driven." "Client-focused." "Innovative solutions."
+
+These are not differentiators. They're defaults.
+
+The companies that win tell a story no one else can tell. What's yours?
+
+→ DM me "MESSAGING" for the free Messaging Audit Template — 10 questions that reveal your positioning gaps.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Remove your logo. Can they still tell it\'s you?" — bold challenge format',cta:'ruttens.com'},
+
+{id:'apa-04',tab:'apa',type:'text',date:'Tue Jul 14 · 08:30 CET',icp:'CFO/CMO/Board',
+hook:'"The board asks me to justify every euro."',
+caption:`"The board asks me to justify every euro."
+
+Every CMO has this problem.
+
+The issue isn't the spend. It's the attribution.
+
+When you can't show pipeline impact, marketing looks like cost. Not investment.
+
+The fix: connect your content and campaigns to revenue metrics. Not vanity metrics.
+
+→ Impressions don't pay salaries.
+→ MQLs aren't deals.
+→ Pipeline is.
+
+→ DM me "ATTRIBUTION" for the free Marketing ROI Framework I share with every CMO I work with.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Impressions don\'t pay salaries." — bold CFO/board framing, navy/amber',cta:'ruttens.com'},
+
+{id:'apa-05',tab:'apa',type:'text',date:'Tue Jul 21 · 08:30 CET',icp:'CEO/CRO/CMO',
+hook:'"Marketing and Sales are fighting."',
+caption:`"Marketing and Sales are fighting."
+
+This is never about personality. It's always about process.
+
+Sales says marketing sends bad leads. Marketing says sales doesn't follow up.
+
+Both are right.
+
+The root cause: no shared definition of a qualified lead. No agreed handoff process. No feedback loop.
+
+Fix the process. The fight disappears.
+
+→ DM me "HANDOFF" for the free Sales-Marketing Alignment Guide — includes the SLA template we use on day 1.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Fix the process. The fight disappears." — tension/resolution format',cta:'ruttens.com'},
+
+/* ── SOCIAL PROOF ── */
+{id:'li1-2',tab:'social-proof',type:'carousel',date:'Tue Jun 10',icp:'All ICPs',
+hook:'What B2B leaders say after a Revenue Scan.',
+caption:`What B2B leaders say after a Revenue Scan.
+
+[Carousel: 6–8 slides with client quotes + context]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Carousel PDF ready: SocialProof/SP-1_Carousel_LeadersSay.pdf — upload to LinkedIn carousel post',cta:'ruttens.com'},
+
+{id:'li1-4',tab:'social-proof',type:'image',date:'Thu Jun 12',icp:'Founder/Tech',
+hook:'"Phil helped us find the leak in our pipeline in one session."',
+caption:`"Phil helped us find the leak in our pipeline in one session."
+— James Hirst
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Quote card ready: SocialProof/SP-2_QuoteCard_JamesHirst.png',cta:'ruttens.com'},
+
+{id:'li2-2',tab:'social-proof',type:'image',date:'Tue Jun 17',icp:'Industrial SME',
+hook:'"The GTM scan gave us clarity we didn\'t have after 18 months of trying."',
+caption:`"The GTM scan gave us clarity we didn't have after 18 months of trying."
+— Nitin Kartik
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Quote card ready: SocialProof/SP-3_QuoteCard_NitinKartik.png',cta:'ruttens.com'},
+
+{id:'li2-4',tab:'social-proof',type:'carousel',date:'Thu Jun 19',icp:'CFO/CEO/CRO',
+hook:'The revenue data from our last 12 engagements.',
+caption:`The revenue data from our last 12 engagements.
+
+[Carousel: pipeline results, deal metrics, ROI data across engagements]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Carousel PDF ready: SocialProof/SP-4_Carousel_RevenueData.pdf',cta:'ruttens.com'},
+
+{id:'li3-2',tab:'social-proof',type:'image',date:'Tue Jun 24',icp:'CMO/Marketing',
+hook:'"Finally, a fractional CMO who speaks revenue, not just marketing."',
+caption:`"Finally, a fractional CMO who speaks revenue, not just marketing."
+— Paul Cooper
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Quote card ready: SocialProof/SP-5_QuoteCard_PaulCooper.png',cta:'ruttens.com'},
+
+{id:'li3-4',tab:'social-proof',type:'image',date:'Thu Jun 26',icp:'All ICPs',
+hook:'"The scan identified our ICP problem in 20 minutes. We\'d been stuck on it for a year."',
+caption:`"The scan identified our ICP problem in 20 minutes. We'd been stuck on it for a year."
+— Arne Pohlman
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Quote card ready: SocialProof/SP-6_QuoteCard_ArnePohlman.png',cta:'ruttens.com'},
+
+{id:'li3-erea',tab:'social-proof',type:'text',date:'Mon Jun 23',icp:'Industrial/PE',
+hook:'EREA result: +35.4% revenue in one quarter.',
+caption:`EREA result: +35.4% revenue in one quarter.
+
+When Herman Nollet and the EREA team started the Pipeline Sprint, the target was ambitious.
+
+Three months later, the numbers told a clear story.
+
+[Add full EREA case story: context → key actions → results]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card NEEDED (no PDF): Herman Nollet attribution + "+35.4% revenue" headline — build in Canva, navy/amber 1080×1080',cta:'ruttens.com'},
+
+{id:'li4-2',tab:'social-proof',type:'carousel',date:'Tue Jul 1',icp:'CMO/CEO/CRO',
+hook:'The demand engines we\'ve built. The results they\'ve generated.',
+caption:`The demand engines we've built. The results they've generated.
+
+[Carousel: pipeline engine case studies with metrics]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Carousel PDF ready: SocialProof/SP-7_Carousel_DemandEngines.pdf',cta:'ruttens.com'},
+
+{id:'li4-4',tab:'social-proof',type:'image',date:'Thu Jul 3',icp:'CEO/Founder',
+hook:'"Phil doesn\'t just audit. He fixes."',
+caption:`"Phil doesn't just audit. He fixes."
+— Richard Washington
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Quote card ready: SocialProof/SP-8_QuoteCard_RichardWashington.png',cta:'ruttens.com'},
+
+{id:'li5-2',tab:'social-proof',type:'image',date:'Tue Jul 8',icp:'CMO/CEO/CRO',
+hook:'Latest client win · July 2026.',
+caption:`Latest client win.
+
+[Add specific result and client context once available — Jul 2026]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Path: SocialProof/SP-ClientWin_Jul2026.png — ⚠️ PENDING: create once result confirmed',cta:'ruttens.com'},
+
+/* ── EDUCATION ── */
+{id:'li1-1',tab:'education',type:'text',date:'Mon Jun 9',icp:'All ICPs',
+hook:'Most companies think they have a marketing problem. They have a handoff problem.',
+caption:`Most companies think they have a marketing problem.
+
+They don't.
+
+They have a handoff problem.
+
+Marketing generates interest. Sales gets the call. And somewhere in between, the momentum dies.
+
+"Nobody owns the handoff."
+
+That's the sentence I hear in 80% of first calls.
+
+Fix the handoff. The pipeline follows.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Nobody owns the handoff." — navy/amber 1080×1080, single bold sentence',cta:'ruttens.com'},
+
+{id:'li1-3',tab:'education',type:'image',date:'Wed Jun 11',icp:'CMO/CFO',
+hook:'CAC teardown: why your cost per acquisition keeps rising.',
+caption:`CAC teardown: why your cost per acquisition keeps rising.
+
+[Teardown visual: CAC component breakdown + fix recommendations]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Teardown visual ready: Teardowns/Teardown_CAC.png',cta:'ruttens.com'},
+
+{id:'li2-1',tab:'education',type:'text',date:'Mon Jun 16',icp:'Founder/CEO',
+hook:'The moment a founder stops being the best closer in the room.',
+caption:`The moment a founder stops being the best closer in the room.
+
+It happens around deal #30.
+
+Suddenly, the startup isn't growing as fast. The pipeline feels thin. And every important deal still needs the founder's involvement.
+
+"The ceiling isn't market size. It's the founder's calendar."
+
+That's when you need a GTM system. Not a better founder.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "The ceiling isn\'t market size. It\'s the founder\'s calendar." — bold, navy/amber',cta:'ruttens.com'},
+
+{id:'li2-3',tab:'education',type:'image',date:'Wed Jun 18',icp:'CMO/CRO',
+hook:'Pipeline teardown: why deals stall in the middle of your funnel.',
+caption:`Pipeline teardown: why deals stall in the middle of your funnel.
+
+[Teardown visual: mid-funnel stall pattern breakdown]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Teardown visual ready: Teardowns/Teardown_Pipeline.png',cta:'ruttens.com'},
+
+{id:'li2-dutch',tab:'education',type:'text',date:'Mon Jun 16',icp:'Belgian Industrial SME',
+hook:'De meeste bedrijven denken dat ze een marketingprobleem hebben.',
+caption:`De meeste bedrijven denken dat ze een marketingprobleem hebben.
+
+Dat klopt niet.
+
+Ze hebben een overdracht probleem.
+
+Marketing genereert interesse. Sales krijgt het gesprek. En ergens daartussenin sterft het momentum.
+
+Niemand heeft de overdracht.
+
+Fix de handoff. De pipeline volgt.
+
+BOEK EEN REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Dutch quote card — "Niemand heeft de overdracht." — zelfde navy/amber formaat als li1-1, NL tekst',cta:'ruttens.com'},
+
+{id:'li3-1',tab:'education',type:'text',date:'Mon Jun 23',icp:'CMO/Founder',
+hook:'"Brand is soft. Pipeline is hard." The companies saying this are losing.',
+caption:`"Brand is soft. Pipeline is hard."
+
+The companies saying this are losing.
+
+Brand doesn't replace pipeline. But pipeline without brand is the most expensive way to sell.
+
+Every cold call that starts with "never heard of you" costs more.
+Every deal where you have to explain who you are costs more.
+Every quarter where trust has to be rebuilt from scratch costs more.
+
+Brand compounds. Pipeline spends.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Brand doesn\'t replace pipeline." — stat-style, navy/amber',cta:'ruttens.com'},
+
+{id:'li3-3',tab:'education',type:'image',date:'Wed Jun 25',icp:'CMO/CEO',
+hook:'Rebrand teardown: why most rebrands fail to generate pipeline.',
+caption:`Rebrand teardown: why most rebrands fail to generate pipeline.
+
+[Teardown visual: rebrand vs pipeline impact analysis]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Teardown visual ready: Teardowns/Teardown_Rebrand.png',cta:'ruttens.com'},
+
+{id:'li4-1',tab:'education',type:'text',date:'Mon Jun 30',icp:'CEO/CTO/CMO',
+hook:'AI on top of a broken GTM doesn\'t fix the GTM.',
+caption:`AI on top of a broken GTM doesn't fix the GTM.
+
+I've seen 3 companies this month add AI to their sales process.
+
+All 3 had the same problem: they automated a broken process.
+
+AI on a bad ICP = faster bad targeting.
+AI on weak messaging = faster-sent messages nobody responds to.
+AI on a broken handoff = faster hand-off to nowhere.
+
+"AI on top of a broken process doesn't fix the process."
+
+Fix the foundation. Then automate.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "AI on top of a broken process doesn\'t fix the process." — tech-dark aesthetic, amber accent',cta:'ruttens.com'},
+
+{id:'li4-3',tab:'education',type:'image',date:'Wed Jul 2',icp:'CRO/CMO',
+hook:'Funnel leak teardown: where you\'re actually losing deals.',
+caption:`Funnel leak teardown: where you're actually losing deals.
+
+[Teardown visual: funnel leak visualization + fix recommendations]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Teardown visual ready: Teardowns/Teardown_FunnelLeak.png',cta:'ruttens.com'},
+
+{id:'li5-1',tab:'education',type:'text',date:'Mon Jul 7',icp:'CEO/Founder',
+hook:'The B2B companies that win in 2026 started compounding in 2025.',
+caption:`The B2B companies that win in 2026 started compounding in 2025.
+
+Consistency compounds.
+
+One good LinkedIn post a week beats five bursts of activity a year.
+One consistent outbound sequence beats three quarterly pushes.
+One quarterly scan beats an annual strategy review.
+
+The math works. The discipline is the problem.
+
+"Consistency compounds."
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "Consistency compounds." — bold single stat, amber/navy',cta:'ruttens.com'},
+
+{id:'li5-3',tab:'education',type:'image',date:'Wed Jul 9',icp:'CMO/CEO',
+hook:'Messaging teardown: why your positioning isn\'t working.',
+caption:`Messaging teardown: why your positioning isn't working.
+
+[Teardown visual: messaging/positioning analysis breakdown]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Teardown visual ready: Teardowns/Teardown_Messaging.png',cta:'ruttens.com'},
+
+{id:'li5-4',tab:'education',type:'carousel',date:'Thu Jul 10',icp:'CMO/CRO/CEO',
+hook:'The 7 pipeline leaks killing your B2B growth.',
+caption:`The 7 pipeline leaks killing your B2B growth.
+
+[Carousel: Pipeline Leaks framework, 8–10 slides, each leak + fix]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📎 Carousel PDF ready: Teaching/PipelineLeaks_Carousel.pdf',cta:'ruttens.com/free-tools.html'},
+
+/* ── STORIES ── */
+{id:'li1-5',tab:'stories',type:'text',date:'Fri Jun 13',icp:'Founder/CMO',
+hook:'I almost said yes to a full-time CMO role last month.',
+caption:`I almost said yes to a full-time CMO role last month.
+
+The company was good. The package was better. The team was excellent.
+
+But I said no.
+
+Because I've learned what happens when I trade depth for salary.
+
+I do better work when I choose my clients. My clients get better results when I'm not distracted by org politics.
+
+The fractional model works because of the freedom, not despite it.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📸 Screenshot after posting — no pre-post visual needed',cta:'ruttens.com'},
+
+{id:'li2-5',tab:'stories',type:'text',date:'Fri Jun 20',icp:'Founder/CMO',
+hook:'The biggest lie I told myself in my corporate career.',
+caption:`The biggest lie I told myself in my corporate career.
+
+"I just need one more year."
+
+One more year at the same company.
+One more year building someone else's brand.
+One more year waiting for the right moment.
+
+The right moment doesn't come. You make it.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📸 Screenshot after posting — no pre-post visual needed',cta:'ruttens.com'},
+
+{id:'li3-5',tab:'stories',type:'text',date:'Fri Jun 27',icp:'CMO/Founder',
+hook:'Last Saturday I did something completely useless. It was exactly what I needed.',
+caption:`Last Saturday I did something completely useless.
+
+I hiked for 4 hours. No agenda. No calls. No content ideas.
+
+Just walking.
+
+By hour 3, I'd solved a client problem I'd been stuck on for a week.
+
+The work we do at our desks isn't the only work.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📸 Screenshot after posting — no pre-post visual needed',cta:'ruttens.com'},
+
+{id:'li4-5',tab:'stories',type:'text',date:'Fri Jul 4',icp:'Founder/CMO',
+hook:'I turned down a €180,000 CMO offer. Here\'s what happened next.',
+caption:`I turned down a €180,000 CMO offer.
+
+€180K. 48 hours. I said no.
+
+Not because the money wasn't right. Because the work was wrong.
+
+Full-time CMO meant one company, one set of problems, one playbook.
+
+I'd built something different: access to 10 companies, 10 different GTM challenges, and the ability to learn faster than any in-house team.
+
+The €180K would have cost me more than it paid.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'💛 Quote card: "€180K. 48 hours. I said no." — bold amber/navy OR use screenshot post-publish',cta:'ruttens.com'},
+
+{id:'li5-5',tab:'stories',type:'text',date:'Fri Jul 11',icp:'Founder/CMO',
+hook:'Two years ago I had 0 followers and 0 clients from LinkedIn.',
+caption:`Two years ago I had 0 followers and 0 clients from LinkedIn.
+
+Today it's my #1 source of inbound.
+
+What changed:
+
+1. I stopped writing for engagement. Started writing for my ideal client.
+2. I stopped hiding behind polish. Started sharing real client work.
+3. I stopped posting randomly. Started building a system.
+
+LinkedIn isn't luck. It's compounding.
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'📸 Screenshot after posting — no pre-post visual needed',cta:'ruttens.com'},
+
+/* ── DIALOGUE ── */
+{id:'dp1',tab:'dialogue',type:'text',date:'Unscheduled',icp:'Founder/Startup',
+hook:'First call. He talked for 22 minutes. I said three sentences.',
+caption:`First call. He talked for 22 minutes. I said three sentences.
+
+"Our pipeline is inconsistent."
+"We can't figure out why."
+"We've tried everything."
+
+He had a great product. A clear market. A team that believed in what they were building.
+
+But no system.
+
+Every deal was different. Every close was founder-driven. Every quarter started from zero.
+
+That's not a sales problem. That's a GTM infrastructure problem.
+
+💬 If this sounds familiar — the free GTM Animal quiz shows you exactly which animal you are and what it means for your pipeline: https://ruttens.com/quiz`,
+visualNote:'📸 Screenshot after posting OR 💛 "First Call." series card: "Founder — Inconsistent Pipeline" headline, navy/amber 1080×1080',cta:'ruttens.com/quiz'},
+
+{id:'dp2',tab:'dialogue',type:'text',date:'Unscheduled',icp:'Tech Scale-up',
+hook:'First call. Their product hadn\'t changed. Their buyers had.',
+caption:`First call. Their product hadn't changed. Their buyers had.
+
+SaaS company. €1.2M ARR. Growing, but slower than expected.
+
+The CEO said: "We haven't changed anything. Why are close rates dropping?"
+
+Turns out, the buyers had changed. The category had matured. The competition had gotten smarter.
+
+Same product. New battle. No updated GTM.
+
+💬 If your pipeline is full but close rate is dropping — this is the exact problem a Revenue Scan diagnoses: https://ruttens.com/free-tools.html`,
+visualNote:'📸 Screenshot after posting OR 💛 "First Call." series card: "Scale-up — Dropping Close Rate"',cta:'ruttens.com/free-tools.html'},
+
+{id:'dp3',tab:'dialogue',type:'text',date:'Unscheduled',icp:'CMO/Founder',
+hook:'First call. Three marketers. No CMO. Board meeting on Friday.',
+caption:`First call. Three marketers. No CMO. Board meeting on Friday.
+
+"We need a strategy. Fast."
+
+The team was talented. The ideas were good. But there was no commercial anchor.
+
+Marketing was producing. Sales wasn't converting. And the board wanted numbers.
+
+We had 4 days.
+
+💬 The Revenue Scan starts exactly here — in the gap between marketing activity and commercial results: https://ruttens.com`,
+visualNote:'📸 Screenshot after posting OR 💛 "First Call." series card: "Leaderless Marketing — Board Meeting Friday"',cta:'ruttens.com'},
+
+{id:'dp4en',tab:'dialogue',type:'text',date:'Unscheduled',icp:'Industrial SME',
+hook:'First call. Twelve years in business. Not one client had ever found him online.',
+caption:`First call. Twelve years in business. Not one client had ever found him online.
+
+All referrals. All relationship-driven. All word of mouth.
+
+He said: "I don't need marketing. I need more referrals."
+
+I said: "What happens when your best referrer retires?"
+
+Silence.
+
+That's the Industrial SME vulnerability. Every deal depends on a relationship. No relationship, no deal.
+
+💬 This is exactly the problem a free Revenue Scan names in 20 minutes: https://ruttens.com/free-tools.html`,
+visualNote:'📸 Screenshot after posting OR 💛 "First Call." series card: "Industrial — 12 Years, No Inbound" with 🇧🇪 variant',cta:'ruttens.com/free-tools.html'},
+
+{id:'dp4nl',tab:'dialogue',type:'text',date:'Unscheduled',icp:'Belgian Industrial SME',
+hook:'Eerste gesprek. Twaalf jaar in business. Nog nooit een klant online gevonden.',
+caption:`Eerste gesprek. Twaalf jaar in business. Nog nooit een klant online gevonden.
+
+Alles via referenties. Alles via relaties. Alles via mond-tot-mond.
+
+Hij zei: "Ik heb geen marketing nodig. Ik heb meer referenties nodig."
+
+Ik zei: "Wat gebeurt er als je beste referent met pensioen gaat?"
+
+Stilte.
+
+Dat is de kwetsbaarheid van industriële KMO's. Elke deal hangt af van een relatie. Geen relatie, geen deal.
+
+💬 Dit is precies het probleem dat een gratis Revenue Scan in 20 minuten benoemt: https://ruttens.com/free-tools.html`,
+visualNote:'📸 Screenshot na plaatsing OF 💛 "Eerste Gesprek." kaart: NL tekst, zelfde navy/amber formaat',cta:'ruttens.com/free-tools.html'},
+
+{id:'dp5',tab:'dialogue',type:'text',date:'Unscheduled',icp:'PE/VC',
+hook:'First call. Five companies. Five agencies. One very quiet board meeting.',
+caption:`First call. Five companies. Five agencies. One very quiet board meeting.
+
+PE operator. €200M fund. Five portfolio companies.
+
+Each with a different agency. Each with a different strategy. Each with no shared metrics.
+
+The board wanted a consolidated GTM view. Nobody had one.
+
+That's the PE portfolio problem: lots of GTM activity, no GTM visibility.
+
+💬 This is exactly why I work with PE/VC operators directly — https://ruttens.com/pe-vc`,
+visualNote:'📸 Screenshot after posting OR 💛 "First Call." series card: "PE Operator — 5 Companies, 5 Agencies, 0 Visibility"',cta:'ruttens.com/pe-vc'},
+
+/* ── PE SERIES ── */
+{id:'pe1',tab:'pe-series',type:'text',date:'Thu Jun 12 · 09:00 CET',icp:'PE/VC Investors',
+hook:'I walked into a meeting expecting to talk AI. They wanted to talk GTM.',
+caption:`I walked into a meeting expecting to talk AI.
+
+They wanted to talk GTM.
+
+PE firm. 3 portfolio companies. All mid-market B2B.
+
+They'd invested in AI tools for 2 of the 3. The third was outperforming both.
+
+"Why is Site 3 growing faster?"
+
+Because Site 3 had a system before they added the tools.
+
+AI accelerates what works. It doesn't fix what doesn't.
+
+BOOK A REVENUE SCAN · tally.so/r/0Qj0b0`,
+visualNote:'💛 PE series card: "AI accelerates what works." — dark institutional tone, amber accent',cta:'tally.so/r/0Qj0b0'},
+
+{id:'pe2',tab:'pe-series',type:'text',date:'Thu Jun 19 · 09:00 CET',icp:'PE/VC Investors',
+hook:'7 AI tools. 5 locations. Zero shared process.',
+caption:`7 AI tools. 5 locations. Zero shared process.
+
+Portfolio audit. 5 companies. 3 countries.
+
+Every team had adopted AI for something — HubSpot Breeze, ChatGPT, Otter.ai, Clay, Lavender.
+
+None of it connected. None of it was measured. None of it was producing pipeline.
+
+Technology without process is expensive noise.
+
+BOOK A REVENUE SCAN · tally.so/r/0Qj0b0`,
+visualNote:'💛 PE series card: "Technology without process is expensive noise." — bold stat-style',cta:'tally.so/r/0Qj0b0'},
+
+{id:'pe3',tab:'pe-series',type:'text',date:'Thu Jun 26 · 09:00 CET ✅ APPROVED',icp:'PE/VC',
+hook:'Most PE firms send capital. The smart ones send people.',
+caption:`Most PE firms send capital.
+
+The smart ones send people.
+
+Capital solves cash problems. People solve system problems.
+
+The companies that scale fastest post-investment are the ones that get:
+→ Commercial leadership (not just more sales reps)
+→ GTM infrastructure (not just more budget)
+→ Operational clarity (not just more tools)
+
+Capital without GTM infrastructure is the most common PE mistake I see.
+
+BOOK A REVENUE SCAN · tally.so/r/0Qj0b0`,
+visualNote:'💛 PE series card: "Most PE firms send capital. The smart ones send people." — bold, authoritative institutional look',cta:'tally.so/r/0Qj0b0'},
+
+{id:'pe4',tab:'pe-series',type:'text',date:'Thu Jul 3 · 09:00 CET',icp:'PE/VC',
+hook:'Most PE portfolio companies fail not at Site 1. At Site 3.',
+caption:`Most PE portfolio companies fail not at Site 1. At Site 3.
+
+Site 1: the flagship. Close to HQ. The founders still there. The playbook obvious.
+
+Site 3: 200km away. New market. New team. New language.
+
+The GTM that worked at Site 1 doesn't copy-paste.
+
+Because the relationships don't copy-paste. The brand awareness doesn't copy-paste. The sales culture doesn't copy-paste.
+
+Scale needs a system, not a transplant.
+
+BOOK A REVENUE SCAN · tally.so/r/0Qj0b0`,
+visualNote:'💛 PE series card: "The GTM that worked at Site 1 doesn\'t copy-paste." — institutional PE tone',cta:'tally.so/r/0Qj0b0'},
+
+{id:'pe5',tab:'pe-series',type:'text',date:'Thu Jul 10 · 09:00 CET',icp:'PE/VC',
+hook:'Proof before scale. The rule every PE portfolio operator needs.',
+caption:`Proof before scale.
+
+The rule every PE portfolio operator needs.
+
+Don't add headcount until the system works.
+Don't add markets until the first one is predictable.
+Don't add tools until the process is documented.
+
+Scaling a broken GTM is expensive. Proving the model first is cheap.
+
+The best PE operators I work with ask one question before any growth investment:
+
+"What proof do we have that this works?"
+
+BOOK A REVENUE SCAN · tally.so/r/0Qj0b0`,
+visualNote:'💛 PE series card: "Proof before scale." — clean bold statement, authoritative PE style',cta:'tally.so/r/0Qj0b0'},
+
+/* ── SUBSTACK ── */
+{id:'sub1',tab:'substack',type:'sub',date:'Thu Jun 12',icp:'All ICPs',
+hook:'S1 · Find Your GTM Animal',
+caption:`SUBSTACK ARTICLE · ~900 words
+
+Title: Find Your GTM Animal
+
+Introduction to the GTM Animal framework.
+The 6 animals: Cheetah 🐆 · Raccoon 🦝 · Zebra 🦓 · Elephant 🐘 · Bison 🦬 · Leopard 🐅
+What each animal means for your GTM.
+How to find yours.
+
+CTA: Take the quiz → https://ruttens.com/quiz
+
+NOTE: Update [S2 link] placeholder in post li-maybe-s2 once published.`,
+visualNote:'📝 Write and publish directly in Substack. Embed quiz CTA mid-article. Share URL in li-maybe-s2 teaser.',cta:'ruttens.com/quiz'},
+
+{id:'sub2',tab:'substack',type:'sub',date:'Thu Jun 26',icp:'All ICPs',
+hook:'S2 · Your €60K on Marketing Should Make €600K',
+caption:`SUBSTACK ARTICLE · ~1000 words
+
+Title: Your €60K on Marketing Should Make €600K
+
+The ROI problem in B2B marketing.
+Why most marketing spend can't be attributed.
+The 3 metrics that actually matter.
+How to build a marketing system that compounds.
+
+CTA: Book a Revenue Scan → https://ruttens.com
+
+⚠️ Once published: update [S2 link] placeholder in post li-maybe-s2`,
+visualNote:'📝 Write and publish in Substack. Share URL back to update li-maybe-s2 teaser post.',cta:'ruttens.com'},
+
+{id:'sub3',tab:'substack',type:'sub',date:'Thu Jul 10',icp:'All ICPs',
+hook:'S3 · Hire a CMO, Hire a Fractional, or Boost In-House?',
+caption:`SUBSTACK ARTICLE · ~1100 words
+
+Title: Hire a CMO, Hire a Fractional, or Boost In-House?
+
+The 3 paths to commercial leadership.
+When each one makes sense.
+Cost comparison at different revenue stages.
+Questions to ask before deciding.
+
+CTA: Book a Revenue Scan → https://ruttens.com
+
+⚠️ Once published: update [S3 link] placeholder in post li-maybe-s3`,
+visualNote:'📝 Write and publish in Substack. Share URL back to update li-maybe-s3 teaser post.',cta:'ruttens.com'},
+
+/* ── INSTAGRAM ── */
+{id:'wc-01',tab:'instagram',type:'ig',date:'Jun 2026',icp:'All ICPs',
+hook:'WC-01: Your pipeline isn\'t leaking. It\'s hemorrhaging.',
+caption:`Your pipeline isn't leaking. It's hemorrhaging.
+
+Find the 7 leaks: https://ruttens.com/free-tools.html
+
+#B2Bmarketing #Pipeline #GTM #Revenue`,
+visualNote:'🖼️ WC-01 visual ready: VIS_BASE/wc-01.png (04_Content_Engine/website-conversion-campaign-2026-05/visuals/png/)',cta:'ruttens.com/free-tools.html'},
+
+{id:'wc-02',tab:'instagram',type:'ig',date:'Jun 2026',icp:'All ICPs',
+hook:'WC-02: The audit every B2B company needs before Q3.',
+caption:`The audit every B2B company needs before Q3.
+
+Fix the leaks: https://ruttens.com/free-tools.html
+
+#B2BSales #GTMAudit #Revenue #Pipeline`,
+visualNote:'🖼️ WC-02 visual ready: VIS_BASE/wc-02.png',cta:'ruttens.com/free-tools.html'},
+
+{id:'wc-03',tab:'instagram',type:'ig',date:'Jun 2026',icp:'Founder/CEO',
+hook:'WC-03: When the founder is the GTM, there is no GTM.',
+caption:`When the founder is the GTM, there is no GTM.
+
+Build the system: ruttens.com
+
+#FounderLife #B2B #GTM #Startup`,
+visualNote:'🖼️ WC-03 visual ready: VIS_BASE/wc-03.png',cta:'ruttens.com'},
+
+{id:'wc-04',tab:'instagram',type:'ig',date:'Jun 2026',icp:'CMO/CRO',
+hook:'WC-04: Marketing and Sales are not enemies. Your process is.',
+caption:`Marketing and Sales are not enemies. Your process is.
+
+Fix the handoff: ruttens.com
+
+#SalesMarketing #B2B #RevOps #GTM`,
+visualNote:'🖼️ WC-04 visual ready: VIS_BASE/wc-04.png',cta:'ruttens.com'},
+
+{id:'wc-05',tab:'instagram',type:'ig',date:'Jun 2026',icp:'All ICPs',
+hook:'WC-05: 3 questions that reveal your GTM health.',
+caption:`3 questions that reveal your GTM health.
+
+Get the scan: ruttens.com/free-tools.html
+
+#B2B #GTMHealth #Revenue #SalesStrategy`,
+visualNote:'🖼️ WC-05 visual ready: VIS_BASE/wc-05.png',cta:'ruttens.com/free-tools.html'},
+
+{id:'wc-06',tab:'instagram',type:'ig',date:'Jun 2026',icp:'All ICPs',
+hook:'WC-06: [Visual TBD — caption pending]',
+caption:`[Caption TBD — visual not yet confirmed]
+
+#B2B #GTM #RUTTENS`,
+visualNote:'⚠️ WC-06 visual TBD — no confirmed file yet. Add visual + caption before scheduling.',cta:'ruttens.com'},
+
+{id:'wc-07',tab:'instagram',type:'ig',date:'Jun/Jul 2026',icp:'Industrial SME',
+hook:'WC-07: Your buyers can\'t find you. That\'s the whole problem.',
+caption:`Your buyers can't find you. That's the whole problem.
+
+Fix your visibility: https://ruttens.com
+
+#IndustrialB2B #Visibility #GTM #B2BMarketing`,
+visualNote:'🖼️ WC-07 visual ready: VIS_BASE/wc-07.png',cta:'ruttens.com'},
+
+{id:'wc-08',tab:'instagram',type:'ig',date:'Jun/Jul 2026',icp:'All ICPs',
+hook:'WC-08: The only B2B metric that matters at the end of the quarter.',
+caption:`The only B2B metric that matters at the end of the quarter.
+
+Book a Revenue Scan: https://ruttens.com
+
+#B2B #Revenue #Metrics #Pipeline`,
+visualNote:'🖼️ WC-08 visual ready: VIS_BASE/wc-08.png',cta:'ruttens.com'},
+
+{id:'wc-09',tab:'instagram',type:'ig',date:'Jun/Jul 2026',icp:'Tech Scale-up',
+hook:'WC-09: Why €1M ARR is where most SaaS GTMs start breaking.',
+caption:`Why €1M ARR is where most SaaS GTMs start breaking.
+
+Fix it before it breaks: https://ruttens.com
+
+#SaaS #B2B #ScaleUp #GTM #Revenue`,
+visualNote:'🖼️ WC-09 visual ready: VIS_BASE/wc-09.png',cta:'ruttens.com'},
+
+{id:'wc-10',tab:'instagram',type:'ig',date:'Jun/Jul 2026',icp:'All ICPs',
+hook:'WC-10: 5 signs your B2B company has a GTM problem, not a product problem.',
+caption:`5 signs your B2B company has a GTM problem (not a product problem).
+
+Get diagnosed: https://ruttens.com/free-tools.html
+
+#B2B #GTM #ProductMarketFit #Revenue`,
+visualNote:'🖼️ WC-10 visual ready: VIS_BASE/wc-10.png',cta:'ruttens.com/free-tools.html'},
+
+{id:'wc-11',tab:'instagram',type:'ig',date:'Jul 2026',icp:'CMO/Founder',
+hook:'WC-11: The fractional CMO model explained in 60 seconds.',
+caption:`The fractional CMO model explained in 60 seconds.
+
+Work with me: https://ruttens.com
+
+#FractionalCMO #B2B #Marketing #Leadership`,
+visualNote:'🖼️ WC-11 visual ready: VIS_BASE/wc-11.png',cta:'ruttens.com'},
+
+{id:'wc-12',tab:'instagram',type:'ig',date:'Jul 2026',icp:'PE/VC',
+hook:'WC-12: What PE firms get wrong about portfolio GTM.',
+caption:`What PE firms get wrong about portfolio GTM.
+
+Book a portfolio scan: https://ruttens.com/pe-vc
+
+#PrivateEquity #PortfolioCompanies #GTM #B2B`,
+visualNote:'🖼️ WC-12 visual ready: VIS_BASE/wc-12.png',cta:'ruttens.com/pe-vc'},
+
+{id:'wc-13',tab:'instagram',type:'ig',date:'Jul 2026',icp:'All ICPs',
+hook:'WC-13: The Revenue Scan. Free. 20 minutes. Specific.',
+caption:`The Revenue Scan. Free. 20 minutes. Specific.
+
+Book yours: https://ruttens.com/free-tools.html
+
+#RevenueScan #B2B #GTM #FreeConsult`,
+visualNote:'🖼️ WC-13 visual ready: VIS_BASE/wc-13.png',cta:'ruttens.com/free-tools.html'},
+
+{id:'wc-14',tab:'instagram',type:'ig',date:'Jul 2026',icp:'All ICPs',
+hook:'WC-14: B2B marketing that doesn\'t generate pipeline is a hobby.',
+caption:`B2B marketing that doesn't generate pipeline is a hobby.
+
+Build the machine: https://ruttens.com
+
+#B2BMarketing #Pipeline #GTM #Revenue`,
+visualNote:'🖼️ WC-14 visual ready: VIS_BASE/wc-14.png',cta:'ruttens.com'},
+
+{id:'wc-15',tab:'instagram',type:'ig',date:'Jul 2026',icp:'All ICPs',
+hook:'WC-15: RUTTENS+. B2B GTM that generates revenue.',
+caption:`RUTTENS+. B2B GTM that generates revenue.
+
+Work with us: https://ruttens.com
+
+#RUTTENS #B2B #GTM #Revenue #BelgianMarketing`,
+visualNote:'🖼️ WC-15 visual ready: VIS_BASE/wc-15.png',cta:'ruttens.com'},
+
+/* ── MALT CAMPAIGN ── */
+{id:'malt-1',tab:'malt',type:'text',date:'Unscheduled',icp:'CEO/CMO/CRO',
+hook:'300% surge in AI demand on Malt. Most companies hiring for it are solving the wrong problem.',
+caption:`300% surge in AI demand on Malt.
+31% supply growth gap.
+
+Every company is racing to hire AI skills. Most are hiring the wrong profile.
+
+They want someone who can use AI tools.
+What they actually need is someone who knows which GTM problems AI should solve first.
+
+Junior AI operators + broken GTM process = faster broken process.
+
+Senior AI-augmented experts + clear commercial brief = measurable pipeline impact.
+
+The companies winning with flexible workforce models in 2026 aren't hiring cheaper. They're hiring sharper.
+
+→ DM me "MALT" and I'll send you the free brief on what the best AI-ready GTM hires look like.
+
+#B2B #FutureOfWork #Malt #GTM #FlexibleWorkforce`,
+visualNote:'💛 Stat card: "300% AI demand surge — but most companies are hiring wrong" — amber/navy 1080×1080',cta:'ruttens.com'},
+
+{id:'malt-2',tab:'malt',type:'text',date:'Unscheduled',icp:'CEO/Founder',
+hook:'The hybrid workforce model only works if the senior layer is genuinely senior.',
+caption:`The hybrid workforce model only works if the senior layer is genuinely senior.
+
+I see the same mistake across mid-market B2B companies right now:
+
+→ They shift GTM headcount to a flexible model (good)
+→ They fill the senior slots with cheaper generalists (expensive mistake)
+
+A senior fractional CMO or GTM expert via Malt costs more per day.
+They also compress a 6-month hiring process into a 2-week start.
+And they bring the AI fluency and commercial pattern recognition your in-house team is still building.
+
+The ROI isn't in the day rate. It's in the speed and quality of the output.
+
+This is what RUTTENS+ × Malt is built around: connecting companies with the senior GTM expertise that moves pipeline, not just headcount.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #Malt #FractionalCMO #HybridWork #GTM`,
+visualNote:'💛 Co-brand card: RUTTENS+ × Malt — "Senior layer. Flexible model." partnership framing, navy/amber',cta:'ruttens.com'},
+
+{id:'malt-3',tab:'malt',type:'text',date:'Unscheduled',icp:'CMO/CEO/CRO',
+hook:'Your GTM workforce is about to split into two tiers. Which one are you building?',
+caption:`Your GTM workforce is about to split into two tiers.
+
+Tier 1: AI-augmented senior experts.
+Strategic judgment + commercial pattern recognition + AI as a force multiplier.
+Output: 30–40% faster, higher quality, immediately deployable.
+
+Tier 2: Execution-layer generalists.
+Increasingly commoditised. Increasingly replaceable.
+
+The companies that win in the next 3 years will have a small, sharp Tier 1 layer — often flexible, often fractional — and a lean Tier 2.
+
+The mistake: hiring more Tier 2 because it feels safer.
+The cost: slower GTM, weaker positioning, pipeline that stalls.
+
+This is exactly the workforce model we help companies build — through Malt and directly.
+
+→ DM me "WORKFORCE" for the free AI-Ready GTM Team framework.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #FutureOfWork #Malt #AIAugmented #FlexibleWorkforce`,
+visualNote:'💛 Two-tier framework card: Tier 1 vs Tier 2 visual — clean comparison format, navy/amber',cta:'ruttens.com'},
+
+{id:'malt-4',tab:'malt',type:'text',date:'⚠️ Unscheduled — awaiting Malt event confirmation',icp:'CEO/CMO/CRO',
+hook:'[MALT EVENT PLACEHOLDER] — The AI-Ready GTM Workforce: live session with RUTTENS+ × Malt.',
+caption:`[PLACEHOLDER — update with confirmed event date, format and registration link]
+
+We're bringing this live with Malt.
+
+One session for B2B companies building a GTM workforce for 2026–2027:
+
+→ How to structure a senior/flexible hybrid team that actually moves pipeline
+→ What AI-augmented GTM expertise looks like in practice
+→ How to brief and onboard senior freelancers for speed, not ramp time
+→ The 3 mistakes that make flexible workforce models fail commercially
+
+[Add event date, location or online link once confirmed with Laurane Colignon]
+
+→ DM me "EVENT" to be added to the priority list.
+
+#Malt #B2B #GTM #FutureOfWork #AIAugmented #RUTTENS`,
+visualNote:'⚠️ PENDING — confirm event date, format and co-host with Laurane Colignon (Malt BE/NL) before scheduling.',cta:'ruttens.com'},
+
+/* ── MALT CAMPAIGN — FREELANCER ANGLE (originals, kept for reference) ── */
+{id:'malt-fr-1',tab:'malt',type:'text',date:'Unscheduled — Freelancer Angle',icp:'Freelancer/Independent',
+hook:'300% surge in AI demand on Malt. 31% supply growth gap. Here\'s what that actually means for senior freelancers.',
+caption:`300% surge in AI demand on Malt.
+31% supply growth gap.
+
+That's not a trend. That's a commercial window.
+
+Senior freelancers who position themselves as AI-augmented — not AI-replaced — are winning more projects, at higher day rates, with faster closes.
+
+Those who don't are competing on price with a market that's growing faster than they can adapt.
+
+I've distilled this into 26 concrete actions for freelancers who want to stay irreplaceable.
+
+→ DM me "26 ACTIONS" and I'll send you the free article directly.
+
+#FreelanceLife #AIAugmented #B2B #Malt #FutureOfWork`,
+visualNote:'💛 Stat card: "300% AI demand surge" — amber/navy 1080×1080, bold numbers',cta:'ruttens.com'},
+
+{id:'malt-fr-2',tab:'malt',type:'text',date:'Unscheduled — Freelancer Angle',icp:'Freelancer/Independent',
+hook:'RUTTENS+ × Malt: a partnership for AI-augmented freelancers.',
+caption:`RUTTENS+ × Malt.
+
+We've been working with Malt's community across Belgium and the Netherlands for over a year.
+
+MTT Brussels + Amsterdam. A 5-part webinar with TITEOS. The "26 Tech Actions" article.
+
+Now we're building something bigger: a full programme for senior freelancers who want to use AI to position better, pitch sharper, and deliver faster.
+
+3 pillars:
+→ Position — how to stand out in an AI-saturated market
+→ Pitch — how to win projects against lower-cost alternatives
+→ Perform — how to deliver 30–40% faster with AI tools
+
+Details coming. If you want to be first: DM me "MALT" and I'll add you to the list.
+
+#Malt #Freelance #AIAugmented #RUTTENS`,
+visualNote:'💛 Co-brand card: RUTTENS+ × Malt logos — partnership announcement format, navy/amber',cta:'ruttens.com'},
+
+{id:'malt-fr-3',tab:'malt',type:'text',date:'Unscheduled — Freelancer Angle',icp:'Freelancer/Independent',
+hook:'The freelancers winning in 2026 aren\'t replacing themselves with AI. They\'re amplifying what makes them irreplaceable.',
+caption:`The freelancers winning in 2026 aren't replacing themselves with AI.
+
+They're amplifying what makes them irreplaceable.
+
+Here's what I'm seeing across Malt's 850K freelancer sample:
+
+The ones losing work → competing on delivery speed, price, or volume
+The ones winning work → competing on strategic judgment, context, and outcomes
+
+AI levels the execution floor. It doesn't replace the senior layer.
+
+So the question isn't "Will AI take my projects?"
+
+It's "Am I positioning myself above the execution floor?"
+
+Pillar 1 of the AI-Augmented Freelancer programme: how to own the position AI can't reach.
+
+→ DM me "POSITION" for the free positioning framework.
+
+#Freelance #Malt #AISkills #FutureOfWork #B2B`,
+visualNote:'💛 Quote card: "AI levels the execution floor. It doesn\'t replace the senior layer." — bold, navy/amber',cta:'ruttens.com'},
+
+{id:'malt-fr-4',tab:'malt',type:'text',date:'Unscheduled — Freelancer Angle',icp:'Freelancer/Independent',
+hook:'[MALT EVENT PLACEHOLDER — Freelancer] AI-Augmented Freelancer: the live session.',
+caption:`[PLACEHOLDER — update with confirmed event date and format]
+
+We're bringing the AI-Augmented Freelancer programme live.
+
+One session. Practical. No theory.
+
+You'll leave with:
+→ Your AI positioning statement (done in the room)
+→ The 5 tools that are already changing how top freelancers win
+→ A 90-day action plan to increase your day rate and win rate
+
+[Add event date, location or online link once confirmed with Malt]
+
+→ DM me "EVENT" to be added to the waitlist.
+
+#Malt #AIAugmented #Freelance #Event #RUTTENS`,
+visualNote:'⚠️ PENDING — confirm event date with Laurane Colignon (Malt BE/NL). Freelancer-angle variant.',cta:'ruttens.com'},
+
+/* ── BEST OF — TEARDOWN / SHOW & TELL ── */
+{id:'bestof-1',tab:'bestof',type:'image',date:'Unscheduled',icp:'CEO/Founder',
+hook:'Here\'s what I build before every discovery call. A full GTM radar. In 20 minutes.',
+caption:`Here's what I build before every discovery call.
+
+A full GTM radar. In 20 minutes.
+
+Before I speak to a prospect, I know:
+→ Their ICP coverage gaps
+→ Which channels are underperforming vs. competitors
+→ The 3 quick wins they're leaving on the table
+→ The GTM animal profile that fits their stage
+
+This is the Anthropic scan I built as an example.
+→ Radar score: 62/100
+→ Biggest gap: Content → Pipeline conversion
+→ Quick win 1: ICP sharpening + paid retargeting
+
+You can get one for free.
+
+→ DM me "SCAN" and I'll show you what this looks like for your company.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #ProspectScan #RevenueScan #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF A1: SCAN_Anthropic_INTERNAL_2026-06-20.html — 1200×1500px portrait. Save as BESTOF_A1_Anthropic-Scan_1200x1500.png',cta:'ruttens.com'},
+
+{id:'bestof-2',tab:'bestof',type:'image',date:'Unscheduled',icp:'Industrial/PE/Founder',
+hook:'I built a 10-tab command centre for a new client. Here\'s what it looks like on day 1.',
+caption:`I built a 10-tab command centre for a new client.
+Here's what it looks like on day 1.
+
+When I start with a B2B company, I don't open a deck.
+I open a command centre.
+
+10 tabs. One screen. Everything the CEO and CMO need to see:
+→ Pipeline overview
+→ Revenue by segment
+→ Marketing performance vs. targets
+→ Key risks + quick wins
+→ 90-day action plan
+
+This is the one I built for EREA — an industrial B2B company with 3 operating divisions.
+
+Day 1, they had a single view of everything that needed to move.
+
+→ DM me "COMMAND" and I'll show you what this looks like for your sector.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #Dashboard #CommandCentre #FractionalCMO #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF C1: EREA_CommandCentre_10tab_May6.html — 1200×1500px portrait. Save as BESTOF_C1_EREA-CommandCentre_1200x1500.png',cta:'ruttens.com'},
+
+{id:'bestof-3',tab:'bestof',type:'image',date:'Unscheduled',icp:'CMO/CRO/CEO',
+hook:'What does a full GTM playbook actually look like? Here\'s the one I built for a Zebra company.',
+caption:`What does a full GTM playbook actually look like?
+
+Here's the one I built for a Zebra company.
+
+Zebras are mid-market B2B companies with solid product-market fit but an inconsistent, complex sales cycle.
+
+Their playbook has 6 chapters:
+→ ICP definition + scoring model
+→ Messaging architecture by buyer persona
+→ Channel mix + budget allocation
+→ Pipeline velocity targets
+→ Sales-marketing SLA
+→ 90-day execution sprint
+
+This is 6–8 weeks of diagnostic and build work compressed into one document your team can actually use.
+
+→ DM me "PLAYBOOK" for the free GTM Playbook structure — the template I use with every new client.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #Playbook #FractionalCMO #Revenue #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF D1: Zebra GTM Playbook — RUTTENS+.pdf — 1200×1500px portrait. Save as BESTOF_D1_Zebra-Playbook_1200x1500.png',cta:'ruttens.com'},
+
+{id:'bestof-4',tab:'bestof',type:'image',date:'Unscheduled',icp:'Founder/CEO',
+hook:'Here\'s what a real fractional CMO proposal looks like. For a scale-up preparing for market entry.',
+caption:`Here's what a real fractional CMO proposal looks like.
+
+For a scale-up preparing for market entry.
+
+Not a retainer pitch. Not a slide deck.
+
+A structured commercial response that answers:
+→ What's the exact GTM problem we're solving?
+→ What do we commit to delivering in 90 days?
+→ What does success look like, in numbers?
+→ What does it cost, and why?
+
+This is the proposal I submitted to AYA — a scale-up with 3 business units preparing for a merger.
+
+They said yes.
+
+→ DM me "PROPOSAL" for the free fractional CMO brief template — what a proper engagement proposal should contain.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#FractionalCMO #B2B #GTM #ScaleUp #Revenue #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF F4: AYA-Marketing-and-Revenue-Growth-Phil-Fractional-CMO-Proposal.pdf — 1200×1500px portrait. Save as BESTOF_F4_AYA-Proposal_1200x1500.png',cta:'ruttens.com'},
+
+{id:'bestof-5',tab:'bestof',type:'image',date:'Unscheduled',icp:'All ICPs',
+hook:'One page. Your entire GTM strategy. Here\'s the format.',
+caption:`One page. Your entire GTM strategy.
+
+If you can't fit it on one page, it's not a strategy. It's a list.
+
+This is the RUTTENS+ strategy one-pager format:
+→ The problem we solve (in one sentence)
+→ The ICP (in one paragraph)
+→ The offer ladder (5 lines)
+→ The 3 GTM bets for the next 90 days
+→ The single metric that proves it's working
+
+No buzzwords. No ambiguity. No 40-slide decks.
+
+→ DM me "ONEPAGE" and I'll send you the blank template + 3 examples.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #Strategy #FractionalCMO #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF F1: STRATEGY_OnePager_Jun2026.html — 1200×1500px portrait. Save as BESTOF_F1_Strategy-OnePager_1200x1500.png',cta:'ruttens.com'},
+
+{id:'bestof-6',tab:'bestof',type:'carousel',date:'Unscheduled',icp:'Founder/Startup',
+hook:'I rebuilt my B2B brand from scratch. No agency. €0 design budget. Here\'s exactly how.',
+caption:`I rebuilt my B2B brand from scratch.
+No agency. €0 design budget.
+
+But I did it properly — with a clear system.
+
+Here's what went into the 120K rebrand:
+→ Positioning from scratch (ICP → pain → offer)
+→ Visual identity (3 colours, 2 fonts, 1 rule set)
+→ LinkedIn content architecture (6 pillars, 4/week)
+→ Website rebuild (7 pages, 1 conversion goal each)
+→ Lead magnet suite (quiz + free tools + scan)
+
+12 months later: first €120K in consulting revenue.
+
+The carousel shows every decision and why.
+
+→ DM me "BRAND" for the free B2B Brand Architecture template I use with every founder client.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #Branding #Founder #GTM #LinkedIn #RUTTENS`,
+visualNote:'📸 Screenshot BESTOF E1: 120K Rebrand Carousel.html — 1200×1500px portrait. Save as BESTOF_E1_120K-Rebrand_1200x1500.png',cta:'ruttens.com'},
+
+/* ── MAYBE ── */
+{id:'li-maybe-s2',tab:'maybe',type:'text',date:'⚠️ Unscheduled — awaiting Substack S2 URL',icp:'CMO/CEO/CRO',
+hook:'The buyer didn\'t pick a competitor. They stopped.',
+caption:`The buyer didn't pick a competitor. They stopped.
+
+No-decision is the most expensive outcome in B2B sales.
+
+More expensive than losing to a competitor.
+More expensive than a longer sales cycle.
+More expensive than price objections.
+
+Because no-decision means:
+→ You never find out what was missing
+→ The deal quietly disappears
+→ The budget gets repurposed elsewhere
+
+This is what we call the "no-decision problem."
+
+[S2 link — REPLACE with Substack S2 URL once published]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'⚠️ BLOCKER: Replace [S2 link] with Substack S2 URL before scheduling. Visual: 💛 Quote card: "No-decision is more expensive than losing." — amber/navy',cta:'ruttens.com'},
+
+{id:'li-maybe-s3',tab:'maybe',type:'text',date:'⚠️ Unscheduled — awaiting Substack S3 URL',icp:'CMO/CEO',
+hook:'Distinctiveness is the only marketing budget that compounds.',
+caption:`Distinctiveness is the only marketing budget that compounds.
+
+You can spend €50K on ads. Ads stop when budget stops.
+
+You can spend €50K on a brand that is genuinely distinct. Distinctiveness accumulates.
+
+Every time someone sees your name.
+Every time a colleague recommends you.
+Every time a client says "I don't need to look at alternatives."
+
+That's compounding distinctiveness at work.
+
+[S3 link — REPLACE with Substack S3 URL once published]
+
+BOOK A REVENUE SCAN · RUTTENS.COM`,
+visualNote:'⚠️ BLOCKER: Replace [S3 link] with Substack S3 URL before scheduling. Visual: 💛 Quote card: "Distinctiveness compounds." — bold brand statement',cta:'ruttens.com'},
+
+/* ── C-SUITE SCAN LAUNCH (Jun 30 – Jul 18) ── */
+{id:'cs-01',tab:'csuite-scan',type:'text',date:'Mon Jun 30',icp:'CMO/CRO/CEO',
+hook:'I built something for the C-suite question that never gets a clean answer.',
+caption:`I built something for the C-suite question that never gets a clean answer.
+
+"Why isn't our revenue engine performing the way we expected?"
+
+Not pipeline. Not lead volume. Not NPS.
+
+The bigger question: where exactly is the system leaking — and what's it costing us?
+
+I've been working with B2B CMOs, CROs, and CEOs for 9 years.
+
+The answer is almost never where they think it is.
+
+So I built a 45-minute diagnostic for it.
+
+Three gaps identified. Board-ready deliverables in 5 days. €799.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #CsuiteScan #FractionalCMO #Revenue #RUTTENS`,
+visualNote:'📎 Text post — no visual needed. Publish as-is.',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-02',tab:'csuite-scan',type:'text',date:'Wed Jul 2',icp:'CEO/CRO',
+hook:'The board asked why deals are taking longer. The CEO didn\'t have an answer.',
+caption:`The board asked why deals are taking longer.
+
+The CEO didn't have an answer.
+
+Not because they weren't working hard enough.
+
+Because the real reason — the one that matters — was buried three layers deep in the GTM system.
+
+It wasn't the market. It wasn't the team.
+
+It was the handoff.
+
+The moment between "marketing qualified" and "sales owns it."
+
+That gap was costing them 30% of their pipeline — silently, every quarter.
+
+That's what the C-Suite Scan finds.
+
+45 minutes. Three gaps identified. One-pager + board deck + 90-day plan. 5 days.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #Pipeline #CRO #FractionalCMO #RUTTENS`,
+visualNote:'📎 Text post — no visual needed.',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-03',tab:'csuite-scan',type:'image',date:'Fri Jul 4',icp:'CMO/CEO/CRO',
+hook:'3 gaps. 45 minutes. Board-ready in 5 days. Here\'s what the C-Suite Scan actually produces.',
+caption:`3 gaps. 45 minutes. Board-ready in 5 days.
+
+Here's what the C-Suite Scan actually produces.
+
+Deliverable 1: The Gap One-Pager
+One page. Three gaps. No jargon. The exact explanation for why revenue is underperforming.
+
+Deliverable 2: The Board Deck (10 slides)
+Not a status update. A boardroom narrative that shows the gap, the cost, and the fix.
+
+Deliverable 3: The 90-Day Action List
+What to do first. What to stop doing. In what order.
+
+Everything delivered within 5 business days of the call.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #BoardReady #CMO #CRO #FractionalCMO #RUTTENS`,
+visualNote:'📸 Visual: clean 3-deliverable layout card — dark bg, 3 stacked cards (One-Pager / Board Deck / 90-Day List), #38B6FF accents. 1200×1500px portrait. Save as CS_03_Deliverables_1200x1500.png',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-04',tab:'csuite-scan',type:'text',date:'Mon Jul 7',icp:'CMO/CRO/CEO',
+hook:'CAC is up 40%. The team says it\'s the market. It\'s not.',
+caption:`CAC is up 40%.
+
+The team says it's the market.
+
+It's not.
+
+I've seen this in 12 B2B companies over the past 3 years.
+
+Rising CAC almost always has one of four causes:
+→ ICP drift (you're targeting slightly the wrong people)
+→ Channel efficiency loss (what worked at €500k spend breaks at €1.2M)
+→ Handoff friction (MQL → SQL is leaking 20–30% of your pipeline)
+→ Messaging misalignment (the why-buy has drifted from the why-switch)
+
+The market is never the real answer.
+
+The C-Suite Scan identifies which one it is. 45 minutes. Your three gaps. In 5 days.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #CAC #GTM #CMO #CRO #FractionalCMO #RUTTENS`,
+visualNote:'📎 Text post — no visual needed.',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-05',tab:'csuite-scan',type:'carousel',date:'Wed Jul 9',icp:'CMO/CRO/CEO',
+hook:'5 signs your revenue engine has a diagnostic problem, not a performance problem.',
+caption:`5 signs your revenue engine has a diagnostic problem, not a performance problem.
+
+[CAROUSEL — 6 slides]
+
+Slide 1: Hook
+"Your GTM isn't broken. You just don't know exactly where it's leaking."
+
+Slide 2: Sign 1
+Deals are closing — but slower than last year.
+The pipeline looks fine. The conversion rate doesn't.
+→ This is a velocity problem, not a volume problem.
+
+Slide 3: Sign 2
+CAC keeps climbing and you can't explain why.
+You're spending more per acquired customer but the output looks the same.
+→ This is an efficiency problem, usually in channel mix or ICP definition.
+
+Slide 4: Sign 3
+Marketing and sales both say they're doing their part.
+But something between them keeps leaking.
+→ This is a handoff problem. The most expensive gap in B2B GTM.
+
+Slide 5: Sign 4
+Your board is asking questions you can't answer with confidence.
+→ This is a diagnostic gap. You don't have the number because no one has built the model.
+
+Slide 6: Sign 5
+You've hired, invested, optimised — but growth is stuck at the same ceiling.
+→ This is a system problem. Not a people problem.
+
+The C-Suite Scan identifies exactly which one (or more) applies.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #CMO #CRO #FractionalCMO #CsuiteScan #RUTTENS`,
+visualNote:'📸 Carousel — 6 slides, 1200×1500px portrait each. Dark bg #0A0A0A, Oswald headlines, IBM Plex body, #38B6FF accents. Slide 1 = cover hook. Slides 2–6 = one sign per slide with bold header + 2-line explanation. Save as CS_05_5Signs_Slide1–6_1200x1500.png',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-06',tab:'csuite-scan',type:'text',date:'Mon Jul 14',icp:'CMO/CRO/CEO',
+hook:'What does a board-ready GTM narrative actually look like?',
+caption:`What does a board-ready GTM narrative actually look like?
+
+Not a status update. Not a pipeline snapshot.
+
+A narrative that answers:
+→ Why is revenue performing at X instead of Y?
+→ What's the structural cause — and how long has it been there?
+→ What are the three things we're fixing, and in what order?
+→ What does "fixed" look like in 90 days?
+
+That's what the C-Suite Scan delivers.
+
+One 45-minute call.
+Three gaps identified.
+One-pager + 10-slide board deck + 90-day action list.
+In 5 business days.
+
+No retainer. No discovery phase. No 8-week consulting process.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #BoardMeeting #CMO #CRO #FractionalCMO #RUTTENS`,
+visualNote:'📎 Text post — no visual needed.',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-07',tab:'csuite-scan',type:'image',date:'Wed Jul 16',icp:'CMO/CRO/CEO',
+hook:'€799. 45 minutes. Three gaps. Board deck in 5 days. Here\'s why the price is what it is.',
+caption:`€799. 45 minutes. Three gaps. Board deck in 5 days.
+
+Here's why the price is what it is.
+
+The average B2B company loses €100–200K per year from one unfixed GTM gap.
+
+Usually it's the handoff. Sometimes it's ICP drift. Sometimes it's channel efficiency.
+
+But it's always one clear thing — and it's almost always fixable once it's named.
+
+I charge €799 for 45 minutes because:
+→ I've done this 40+ times
+→ I know exactly what to look for
+→ I don't need 8 weeks to find it
+→ I deliver the answer — not a process for finding it
+
+No junior consultants. No scoping calls. No retainer.
+
+One call. Three gaps. Five days.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #CMO #CRO #FractionalCMO #CsuiteScan #RUTTENS`,
+visualNote:'📸 Visual: value comparison card — left side "Traditional consulting: 8 weeks, €15K–€40K, junior delivery" vs right side "C-Suite Scan: 45 min, €799, Phil only." Dark bg, clean two-column stat card, #38B6FF right column. 1200×1500px portrait. Save as CS_07_Pricing_1200x1500.png',cta:'ruttens.com/csuite-scan'},
+
+{id:'cs-08',tab:'csuite-scan',type:'text',date:'Fri Jul 18',icp:'CMO/CRO/CEO',
+hook:'3 slots left in July. After that, August is closed.',
+caption:`3 slots left in July.
+
+After that, August is closed.
+
+I take a break in August. Real one — no calls, no diagnostics.
+
+If your board meeting is in September and you need a clean GTM narrative by then, you have until July 25 to book.
+
+The C-Suite Scan takes 45 minutes of your time and 5 days of mine.
+
+You leave with:
+→ Your three biggest GTM gaps, named
+→ A one-pager explaining why revenue is performing at X
+→ A 10-slide board deck you can use in September
+→ A 90-day action list
+
+€799. No retainer. No upsell.
+
+→ ruttens.com/csuite-scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#B2B #GTM #FractionalCMO #CMO #CRO #CsuiteScan #RUTTENS`,
+visualNote:'📎 Text post — urgency close. No visual needed.',cta:'ruttens.com/csuite-scan'},
+
+// ── AI GTM SERIES ──────────────────────────────────────────────────────────
+{id:'aigtm-1',tab:'ai-gtm',type:'carousel',date:'Mon Jun 30',icp:'All ICPs',
+hook:'I run my entire B2B GTM on AI. Here\'s the full system — 6 components, one screen.',
+caption:`I run my entire B2B GTM on AI.
+
+Not by replacing what I do — by removing every manual layer that slows it down.
+
+Here's the full system — 6 components, one screen:
+
+→ Content Engine — 120+ posts, one scheduler, zero spreadsheets
+→ Prospect Scanner — 20-min pre-call scan, 8-dimension output, branded one-pager
+→ Outreach Hub — 5 LH campaigns + 6 manual DM sets, all in one artifact
+→ Client Dashboards — every client gets a live command centre on day 1
+→ Skills Library — 40+ AI skills built for B2B GTM execution
+→ Memory OS — every client, ICP, brand rule, and decision persists across sessions
+
+This is what "AI-native" actually looks like in practice.
+
+Not a ChatGPT wrapper. Not a bot sending cold DMs.
+
+A full commercial operating system — senior strategy at AI speed and cost.
+
+[Add: system overview screenshot or 6-slide carousel]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#AIGTMOrchestrator #B2BGTM #FractionalCMO #AIMarketing #RUTTENS`,
+visualNote:'📎 6-slide carousel: one slide per component. Screenshot of each artifact. Navy background, amber headings. Phil to add screenshots.',cta:'ruttens.com'},
+
+{id:'aigtm-2',tab:'ai-gtm',type:'image',date:'Mon Jul 7',icp:'All ICPs',
+hook:'This is my content engine. 120+ posts. One screen. Zero spreadsheets.',
+caption:`This is my content engine. 120+ posts. One screen. Zero spreadsheets.
+
+Every post I publish goes through this system:
+
+→ Written and stored in one artifact (14 tabs by category)
+→ Scheduled with date, ICP, hook, full caption, visual briefing
+→ Marked published with one click — no syncing, no sheet updates
+→ Filtered by tab: GTM Campaign / Education / Stories / PE Series / AI GTM…
+
+Before this existed: Google Docs, lost drafts, manual tracking.
+Now: open artifact → copy → click Published.
+
+The whole Q3 calendar lives in one screen.
+
+This is what I build for clients too — not just strategy. The operating system behind it.
+
+[Add: screenshot of Q3 Content Scheduler V2]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#ContentEngine #B2BGTM #AIMarketing #FractionalCMO #RUTTENS`,
+visualNote:'📎 Single screenshot: Q3 Content Scheduler V2 open on GTM Campaign tab. Phil to add.',cta:'ruttens.com'},
+
+{id:'aigtm-3',tab:'ai-gtm',type:'carousel',date:'Mon Jul 14',icp:'All ICPs',
+hook:'Before every discovery call, I run a 20-minute AI scan on the prospect. Here\'s what it produces.',
+caption:`Before every discovery call, I run a 20-minute AI scan on the prospect.
+
+Here's what it produces:
+
+→ Company overview: size, revenue, market, recent signals
+→ GTM profile: ICP, positioning, channel gaps, messaging issues
+→ Commercial gaps: where they're likely leaking revenue
+→ GTM Animal: which archetype fits their commercial style
+→ Quick wins: 3 things to fix in 90 days
+→ Opportunity sizing: estimated value of closing the gaps
+→ Offer fit: which of my services fits best and why
+→ Custom hook: a personalised conversation opener
+
+What happens next:
+→ Internal one-pager auto-generated — and a prospect-shareable version
+→ Branded HTML dashboard ready to share before the call
+→ I walk in knowing more about the prospect than their own marketing team
+
+20 minutes of prep. Fully AI-augmented.
+
+[Add: screenshot of Prospect Scanner output or branded one-pager]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#ProspectResearch #B2BGTM #AIMarketing #FractionalCMO #RUTTENS`,
+visualNote:'📎 4-slide carousel: Slide 1 = cover "The Pre-Call AI Scan" | Slide 2 = 8 output dimensions | Slide 3 = screenshot of one-pager | Slide 4 = "What it changes". Phil to add screenshot of scan output.',cta:'ruttens.com/scan'},
+
+{id:'aigtm-4',tab:'ai-gtm',type:'image',date:'Mon Jul 21',icp:'All ICPs',
+hook:'Every client I work with gets a live dashboard on day 1. Here\'s what\'s inside.',
+caption:`Every client I work with gets a live dashboard on day 1.
+
+Here's what's inside:
+
+10 tabs. One screen. Built in the first session.
+
+→ Overview — project status, open items, key contacts
+→ GTM Diagnosis — Revenue Scan findings
+→ Revenue Leaks — where deals are being lost and why
+→ ICP Map — who we're targeting and how
+→ Messaging — approved positioning and proof points
+→ Content Plan — what we're publishing and when
+→ Outreach — sequences, scripts, active campaigns
+→ Pipeline — deal stages, conversion rates, gaps
+→ Team Tracker — who's doing what, by when
+→ Board View — the board-ready KPI summary
+
+The dashboard isn't a deliverable. It's a working system.
+
+The client opens it any time and sees exactly where things stand.
+
+No PDF. No slide deck update. A live command centre — updated every session.
+
+[Add: client dashboard screenshot, anonymised]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#ClientDelivery #B2BGTM #FractionalCMO #AIMarketing #RUTTENS`,
+visualNote:'📎 Single screenshot: client dashboard artifact open on Overview tab. Anonymise client name. Phil to add.',cta:'ruttens.com/scan'},
+
+{id:'aigtm-5',tab:'ai-gtm',type:'text',date:'Mon Jul 28',icp:'All ICPs',
+hook:'Here are the 6 tools I use to run a B2B GTM practice — solo, at senior level.',
+caption:`Here are the 6 tools I use to run a B2B GTM practice — solo, at senior level.
+
+→ Claude Cowork — AI operating system. Content, outreach, client delivery, analysis, memory. Everything lives here.
+
+→ Apollo.io — prospect sourcing and enrichment. ICP targeting, contact data, sequence management.
+
+→ HubSpot — deal and CRM tracking. Every client, prospect, and conversation logged.
+
+→ LinkedHelper 2 — LinkedIn outreach automation. 5 campaigns running in parallel, within LI limits.
+
+→ Tally — lead capture and qualification. 3 forms live on ruttens.com, connected to CRM.
+
+→ Netlify — site hosting and deployment. ruttens.com updates live in under 2 minutes.
+
+Total stack cost: under €300/month.
+Total headcount: 1.
+
+This is what running a senior B2B practice without an agency or a team of 10 looks like.
+
+AI handles execution. I handle strategy.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#GTMStack #B2BGTM #FractionalCMO #AIMarketing #RUTTENS`,
+visualNote:'📎 Text post — no visual needed. Or: optional tool logo grid (6 logos on navy background) as carousel.',cta:'ruttens.com'},
+
+{id:'aigtm-6',tab:'ai-gtm',type:'carousel',date:'Mon Aug 4',icp:'All ICPs',
+hook:'This is my outreach system. 5 campaigns. Hundreds of contacts. One hub.',
+caption:`This is my outreach system. 5 campaigns. Hundreds of contacts. One hub.
+
+Here's what's inside the Outreach Hub:
+
+LH Sequences (automated):
+→ Phase 0 — 5 ICP campaigns (Industrial, Startup, SaaS, PE/VC, Agency)
+→ Phase 1 — LAB, MAP, MAX variants with tailored messaging per offer
+
+Manual DMs:
+→ ICP Connection DMs — 5 openers per target persona
+→ GTM Animal DMs — 5 sequences based on the prospect's commercial profile
+→ Warm-Up — re-engagement for ex-prospects and ex-clients
+
+Inbound:
+→ Recruiter Responses — 6 calibrated replies (perm vs fractional, A/B/C variants)
+
+LH Helpers:
+→ Quiz Outreach — 12 messages (3 ICPs × 4 steps) for GTM Animal respondents
+→ Coffee DMs — 3 invitation scripts for 1:1 discovery conversations
+
+Every message stored with copy button.
+Every campaign mapped in one view.
+
+No lost drafts. No "what did I say last time?"
+
+[Add: screenshot of Outreach Hub artifact]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#OutreachSystem #B2BGTM #LinkedInOutreach #FractionalCMO #RUTTENS`,
+visualNote:'📎 4-slide carousel: Slide 1 = "The Outreach Hub" cover | Slide 2 = LH sequences list | Slide 3 = Manual DMs list | Slide 4 = screenshot of campaign map. Phil to add screenshot.',cta:'ruttens.com/scan'},
+
+{id:'aigtm-7',tab:'ai-gtm',type:'text',date:'Mon Aug 11',icp:'All ICPs',
+hook:'People keep asking me what "AI GTM Orchestrator" actually means. Here\'s the honest answer.',
+caption:`People keep asking me what "AI GTM Orchestrator" actually means.
+
+Here's the honest answer.
+
+Traditional CMO:
+→ Manages a team of 5–15
+→ Budget: €500K–€2M+ per year
+→ Writes briefs. Approves work. Reviews reports.
+→ Strategy takes months. Execution takes longer.
+
+AI GTM Orchestrator:
+→ Builds and runs the system directly — no handoffs
+→ Budget: €3,990–€15,900 for the same output
+→ Generates content, runs outreach, builds dashboards — in the session
+→ Strategy in days. Execution in weeks.
+
+What I do for clients:
+
+→ Diagnose where revenue is leaking
+→ Build the commercial system — targeting, messaging, pipeline, handoff
+→ Run execution — content, outreach, CRM, campaigns
+→ Train the team to run it without me
+
+AI doesn't replace the senior thinking.
+It removes the execution bottleneck that used to require a team.
+
+That's what "AI GTM Orchestrator" means.
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#AIGTMOrchestrator #FractionalCMO #B2BGTM #AIMarketing #RUTTENS`,
+visualNote:'📎 Text post — no visual needed. Or: optional 2-col comparison table (Traditional CMO vs AI GTM Orchestrator) as a carousel slide.',cta:'ruttens.com/scan'},
+
+{id:'aigtm-8',tab:'ai-gtm',type:'carousel',date:'Mon Aug 18',icp:'All ICPs',
+hook:'I have 40+ AI skills built for B2B GTM. Here\'s what each one does.',
+caption:`I have 40+ AI skills built for B2B GTM. Here's what each one does.
+
+Skills are reusable AI workflows. Each handles a specific task — without re-explaining from scratch.
+
+Prospect & Research:
+→ /prospect-scan — 8-dimension company analysis + branded one-pager (internal + external)
+→ /brief — full session bootstrap from memory, loading all client and project context
+
+Content & Copy:
+→ /li — LinkedIn posts, carousels, DMs, Sales Nav scripts, all in Phil's voice
+→ /lh — LinkedHelper sequence scripts + campaign setup notes
+
+Outreach & Campaigns:
+→ /client-scope — pre-onboarding intake, scope protection, red flag checklist
+→ /pitch-kit — full proposal pack: phased deck, landing page, PDF, thank-you email
+
+Client Delivery:
+→ /design — RUTTENS+ brand applied to every HTML artifact
+→ /save — session handover generator (never lose work between chats)
+
+Operations & Memory:
+→ Memory system — every client, ICP, brand rule, decision persists across sessions
+→ SEO suite — audit, content brief, keyword clustering, on-page optimisation, AI visibility
+
+Why it matters:
+
+Every client I bring on benefits from 6 months of skills built before they arrived.
+No ramp-up. No "what's your brand voice?" at the start of every session.
+
+[Add: screenshot of Skills library or skill list]
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+#AISkills #B2BGTM #AIMarketing #FractionalCMO #RUTTENS`,
+visualNote:'📎 9-slide carousel: Intro + one slide per skill category (Prospect / Content / Outreach / Delivery / Website / Ops). Add screenshot of skill list or Cowork skill menu.',cta:'ruttens.com'},
+
+/* ── SUMMER SCAN CAMPAIGN (15 POSTS) ── */
+{id:'spf-1',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/CRO',hook:'Most GTM strategies need SPF 50. They\'re running on SPF 8.',caption:`Most GTM strategies need SPF 50.\n\nThey're running on SPF 8.\n\nYou know the feeling. Big summer energy in May. Optimistic forecast. Then July hits — deals slow, inboxes go quiet, pipeline stalls.\n\nIt's not the season. It's the gaps you didn't fix in June.\n\nI do 30-minute pre-summer GTM scans. We find the leaks, pressure-test your pipeline, and make sure Q3 actually closes.\n\nIf you're heading into summer with any of these, let's talk:\n→ ICP that's still "broadly defined"\n→ Sales and marketing not talking the same language\n→ Deals stuck at proposal stage since March\n→ Attribution that makes no sense\n\nruttens.com/summer-scan — book a free 30-min scan before you log off.\n\n#GTM #B2BSales #FractionalCMO #PipelineHealth #Q3`,visualNote:'Attach: Banner A (Navy 1584×396) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'spf-2',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/CRO',hook:'SPF 8 feels fine — until it doesn\'t. Same with GTM strategy.',caption:`SPF 8 feels fine — until it doesn't.\n\nSame with GTM strategy.\n\nMost B2B teams head into summer thinking they're covered. Decent pipeline. Reasonable forecast. Good enough messaging.\n\nThen September arrives and the numbers don't.\n\nThe fix is usually not a big programme. It's 3–4 specific gaps:\n— the ICP that was never crisp enough to run hard campaigns on\n— the enablement that never landed with the reps\n— the follow-up sequence that dies after email 2\n— the positioning that describes what you do, not why it matters\n\n30 minutes. I'll tell you exactly what's leaking.\n\n→ ruttens.com/summer-scan\n\n#RevOps #GTMStrategy #B2B #FractionalCMO #PreSummerScan`,visualNote:'Attach: Banner E (Black 1584×396) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'spf-3',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Sales',hook:'Hot take: summer isn\'t the problem. Your GTM is.',caption:`Hot take: summer isn't the problem. Your GTM is.\n\nPipeline doesn't slow down because of the season.\nIt slows down because July exposes what June was hiding.\n\nI've seen it across 40+ B2B scale-ups. The teams that close Q3 strong aren't the ones who hustled harder in August. They're the ones who fixed the gaps in June.\n\nSpecifically:\n✓ They knew exactly who they were chasing (not "SMB and enterprise")\n✓ Their reps had crisp objection handles, not decks\n✓ Their nurture didn't go silent after proposal\n✓ They had a plan B when the champion went on holiday\n\nI run a 30-minute scan. No slides, no fluff — just: here's what's going to hurt you in Q3, here's the fix.\n\nStill 2 spots this week.\n\nruttens.com/summer-scan\n\n#GTM #RevenueOperations #B2BSaas #CMO #SummerPipeline`,visualNote:'Attach: Banner F (Yellow 1584×396) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'split-1',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Marketing',hook:'Summer is for terraces. September is for targets.',caption:`Summer is for terraces.\nSeptember is for targets.\n\nI handle the second one.\n\nMost GTM leaders know exactly what they want Q3 to look like in September. The question is what they're doing about it in June.\n\nA 30-minute pre-summer scan covers:\n→ Where your pipeline is quietly leaking\n→ Which ICP segments are actually worth running hard campaigns on right now\n→ Whether your sales and marketing are really aligned (not "aligned on paper")\n→ What one thing, if fixed before July, changes your Q3 trajectory\n\nEnjoy the terrace. I'll make sure September delivers.\n\nruttens.com/summer-scan — free, 30 minutes, no pitch deck.\n\n#GTMStrategy #B2BMarketing #FractionalCMO #Q3Planning #SummerScan`,visualNote:'Attach: Banner C1 (Split Navy+Blue) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'split-2',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/VP Sales',hook:'Summer is for ice cream. September is for ICPs. I handle the second one.',caption:`Summer is for ice cream.\nSeptember is for ICPs.\n\nI handle the second one. 😏\n\nHere's the thing nobody says out loud: most B2B companies don't actually have a crisp ICP. They have a wishlist dressed up as a segment.\n\n"We target scale-ups between 50 and 500 people in SaaS."\n\nThat's not an ICP. That's 40,000 companies.\n\nA real ICP tells you:\n— which 200 accounts you should be running signals-based outreach on right now\n— which industries have the buying cycles that match your summer-to-Q3 timeline\n— which titles actually have budget sign-off (not just influence)\n\nYou can sort this in June. Or you can sort it in October, after Q3.\n\nruttens.com/summer-scan\n\n#ICP #ABM #GTMStrategy #B2BMarketing #FractionalCMO`,visualNote:'Attach: Banner C2 (Split Navy+Blue) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'split-3',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Revenue',hook:'Summer is for recharging. September is for revenue. Both should happen.',caption:`Summer is for recharging.\nSeptember is for revenue.\n\nBoth should happen. Most teams only plan for one.\n\nI speak to a lot of revenue leaders in June. The good ones are already thinking about September. They want to close the summer knowing the Q3 machine is set up to run.\n\nWhat that actually means:\n✓ Pipeline that was qualified, not just logged\n✓ Messaging that's been tightened since the spring\n✓ A nurture sequence that doesn't die in August\n✓ Sales reps who know exactly what to say when champions go dark\n\nRecharge properly. I'll make sure the revenue piece is covered.\n\nFree 30-min scan → ruttens.com/summer-scan\n\n#RevenueLeaders #GTM #CMO #B2BGrowth #Q3`,visualNote:'Attach: Banner C3 (Split Navy+Blue) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'split-4',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/CFO',hook:'Good summer. Bad Q3. Not a coincidence.',caption:`Good summer. Bad Q3.\n\nNot a coincidence.\n\nTeams that have a great June and July — team off-sites, relaxed pipeline reviews, "we'll push hard in August" — almost always struggle in September.\n\nNot because they rested. Because they didn't fix things when there was still time.\n\nThe pattern is predictable:\n→ June: pipeline looks fine on paper, no one digs in\n→ July: everyone half-present, no real decisions made\n→ August: panic mode, discounting, chasing anything warm\n→ September: the numbers don't close\n\nOne conversation in June changes this. 30 minutes to find the gaps while you can still do something about them.\n\nruttens.com/summer-scan\n\n#GTM #Q3 #RevenueOps #B2B #FractionalCMO`,visualNote:'Attach: Banner D (Navy + Yellow) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'heatwave-1',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Marketing',hook:'Your GTM is overheating. Most companies don\'t notice until September.',caption:`Your GTM is overheating. 🌡️\n\nMost companies don't notice until September.\n\nThe signs are there in June if you know what to look for:\n— Win rates dropping but nobody's reviewing calls\n— Marketing and sales blaming each other for the pipeline miss\n— Messaging still built around the product launch from 18 months ago\n— Champions going quiet and reps not knowing why\n\nI do the diagnosis. 30 minutes, free, before you head off for summer.\n\nYou wouldn't skip an MOT before a long drive. Don't skip a GTM scan before Q3.\n\nruttens.com/summer-scan\n\n#GTMDiagnosis #B2B #HeatwaveGTM #FractionalCMO #RevenueHealth`,visualNote:'Attach: Banner G (Heatwave Orange) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'heatwave-2',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CRO/VP Sales',hook:'Pipeline melts in July if you don\'t move now. Harsh? A little. True? Completely.',caption:`Pipeline melts in July if you don't move now.\n\nHarsh? A little. True? Completely.\n\nHere's what actually happens to unprotected pipeline in summer:\n🔥 Champions go on holiday — deals pause, never restart\n🔥 Buying committees disperse — consensus resets\n🔥 Competitors who stayed sharp move into your accounts\n🔥 Momentum built in spring evaporates in August heat\n\nThe fix is not heroics. It's clarity — before July.\n\nCrisp next steps on every live deal. Champions briefed. Internal champions identified. A nurture that keeps you warm without being annoying.\n\n30 minutes now. Proper Q3 pipeline in September.\n\nruttens.com/summer-scan\n\n#PipelineManagement #B2BSales #GTM #SummerPipeline #RevOps`,visualNote:'Attach: Banner H (Heatwave Black+Orange) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'heatwave-3',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/CRO',hook:'Your Q3 is running a fever. The symptoms are clear if you know what to look for.',caption:`Your Q3 is running a fever. 🤒\n\nThe symptoms:\n— Pipeline that looked healthy in May is looking shaky in June\n— You're not sure if marketing is actually moving deals or just creating noise\n— Your ICP was defined in a workshop 18 months ago and nobody's questioned it since\n— The board wants a Q3 number you don't fully believe in\n\nThis isn't a forecast problem. It's a GTM health problem.\n\nI'm a fractional CMO and AI GTM Orchestrator. I do 30-minute pre-summer scans for B2B scale-ups. We identify the fever, trace it to the root, and you leave with a clear prescription — not a report, a fix.\n\nStill a few spots left before July.\n\nruttens.com/summer-scan\n\n#GTM #B2BMarketing #FractionalCMO #Q3Recovery #RevenueHealth`,visualNote:'Attach: Banner I (Heatwave Split Orange+Navy) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'square-1',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Sales',hook:'Most GTM strategies are running on SPF 8. They think they\'re covered. They\'re not.',caption:`Most GTM strategies are running on SPF 8.\n\nThey think they're covered. They're not.\n\nThe teams who close Q3 strong didn't get lucky in September. They did this in June:\n\n1. Tightened their ICP to the 200 accounts most likely to close in 90 days\n2. Ran a ruthless pipeline review — anything with no next step got cut or re-engaged\n3. Fixed the messaging gap between what sales says and what marketing puts out\n4. Built a summer nurture that kept them warm without spamming\n\nYou can do all of this in a 30-minute conversation.\n\nI call it a pre-summer scan. It's free. It's sharp. And it's the difference between a good summer AND a strong Q3.\n\n→ ruttens.com/summer-scan\n\n#GTM #B2B #Q3Planning #FractionalCMO`,visualNote:'Attach: Square Post 1 (1080×1080) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'square-2',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/CRO',hook:'Do you want a summer tan, sir? Or a scan with your summer tan?',caption:`Do you want a summer tan, sir?\n\nOr a scan with your summer tan? ☀️\n\n(You can have both. The scan takes 30 minutes. The tan takes the rest of July.)\n\nFractional CMO + AI GTM Orchestrator for B2B scale-ups who want a strong Q3, not just a nice summer.\n\nWhat I look at in a pre-summer scan:\n— Pipeline quality (not just quantity)\n— ICP clarity (real signals, not personas)\n— Sales-marketing alignment (real, not theoretical)\n— The 1–2 things most likely to quietly kill your Q3 if you ignore them now\n\nFree. 30 minutes. No deck, no pitch — just a straight answer.\n\nruttens.com/summer-scan\n\n#GTM #B2BMarketing #SummerScan #FractionalCMO #AskMeAnything`,visualNote:'Attach: Square Post 2 (1080×1080) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'build-1',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CEO/CMO/VP Sales',hook:'Your clients are off in July. That\'s not downtime. That\'s your build window.',caption:`Your clients are off in July.\n\nThat's not downtime. That's your build window.\n\nMost consultants and fractional CMOs slow down when clients go quiet. The sharp ones do the opposite.\n\nJuly and early August are the best weeks of the year to:\n→ Audit what actually worked in H1 (honestly, not politically)\n→ Rebuild your ICP from signals, not assumptions\n→ Set up the AI GTM systems that make Q3 run on autopilot\n→ Build the outreach sequences, content pipeline, and nurture flows that will be waiting when inboxes reopen\n→ Identify the 20 accounts most likely to close before Christmas\n\nBy the time your clients come back mid-August, you're not "catching up." You're ready.\n\nI work with B2B scale-ups to build the GTM machine during the quiet months — so September feels like a launch, not a scramble.\n\nruttens.com/summer-scan — let's use July well.\n\n#GTM #FractionalCMO #AIGTMOrchestrator #Q3Planning #BuildSeason`,visualNote:'Attach: Banner J (Split Navy+Blue) | Pair with: SPF Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'build-2',tab:'summer-scan',type:'image',date:'Unscheduled',icp:'CMO/CRO/VP Marketing',hook:'July is for building. September is for billing. Most get it backwards.',caption:`July is for building.\nSeptember is for billing.\n\nThis is the sequence most B2B scale-ups get backwards.\n\nThey treat July as a write-off — team scattered, clients on holiday, pipeline stalled. Then they scramble in August and wonder why Q3 doesn't close.\n\nThe ones who get it right do this in July while the world is quiet:\n\n✓ They clean and rebuild their ICP — real account-level signals, not segment assumptions\n✓ They install the AI GTM systems that run outreach, scoring, and nurture without headcount\n✓ They write the Q3 content in advance so the machine is loaded when clients return\n✓ They set up the workflows that make mid-August reactivation feel effortless\n\nI build this with you. The quiet weeks. The right systems. So when your clients come back from Tuscany, your pipeline is already warm.\n\nThat's the July job. September handles itself.\n\nruttens.com/summer-scan\n\n#AIGTMOrchestrator #B2BGrowth #FractionalCMO #BuildSeason #Q3Strategy`,visualNote:'Attach: Banner K (Navy + Yellow) | Pair with: Evidence Carousel PDF',cta:'ruttens.com/summer-scan'},
+{id:'build-3',tab:'summer-scan',type:'text',date:'Unscheduled',icp:'CMO/CRO/VP Marketing',hook:'Mid-August is a very specific moment in B2B. Inboxes reopen. People are tanned, rested, and making decisions again.',caption:`Mid-August is a very specific moment in B2B.\n\nInboxes reopen. Out-of-office replies stop. People are tanned, rested, and — crucially — making decisions again.\n\nThe question is: who are they coming back to?\n\nThe consultants and CMOs they hear from first? The ones with something sharp and relevant waiting for them?\n\nOr the ones who went quiet in July and are now "getting back up to speed"?\n\nI use July to make sure my clients are in the first group.\n\nThe work is not heroic. It's systematic:\n— Reactivation sequences ready to go on August 12th\n— Content that's been written, reviewed, and scheduled\n— Account list refreshed with summer signals (who published, who hired, who announced)\n— A clear offer and message for the September conversation\n\nSummer doesn't have to be dead time.\nFor the right kind of client, it's the best investment window of the year.\n\nHappy to show you what that looks like for your business.\n\nruttens.com/summer-scan\n\n#B2BMarketing #FractionalCMO #MidAugust #GTMStrategy #AIGTMOrchestrator`,visualNote:'No visual — text-only post | Best published: early August',cta:'ruttens.com/summer-scan'},
+
+/* ── 🏢 ENTERPRISE (7 POSTS) ── */
+{id:'ent-1',tab:'enterprise',type:'text',date:'Tue Jul 1',icp:'CEO/CFO',
+hook:'Your CFO just asked why €X in Copilot licenses hasn\'t moved revenue.',
+caption:`Your CFO just asked why €X in Copilot licenses hasn't moved revenue.
+
+The answer isn't uncomfortable. It's structural.
+
+Copilot was built for productivity.
+→ Summarise meetings
+→ Draft emails
+→ Explain documents
+
+Not for GTM.
+→ Diagnose why pipeline stalled in Q2
+→ Reposition against a competitor who just moved upmarket
+→ Build an account plan your sales team actually uses
+
+At 3,000+ FTE, there's no workaround. IT policy blocks ChatGPT and Claude at the network level. Procurement for anything new takes 6–18 months. Your team isn't using unauthorised tools. They're just going without.
+
+So the pipeline stays stuck. The AI rollout becomes a cost item with no measurable return. And the board asks questions nobody can answer cleanly.
+
+The missing piece isn't a new tool. It's a commercial layer — built inside the Microsoft environment you already own.
+
+SharePoint, Teams, and Copilot can drive pipeline. They need to be structured for it first.
+
+Bookmark this for your next Microsoft EA review.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one pipeline metric your board keeps asking about?`,
+visualNote:'💡 Text post — no visual required. Optional: stat card "€X Copilot spend / €0 pipeline movement" in navy/amber.',cta:'ruttens.com/scan'},
+
+{id:'ent-2',tab:'enterprise',type:'text',date:'Thu Jul 3',icp:'CEO/CFO',
+hook:'At 5,000 FTE, your team can\'t just open a ChatGPT tab and fix the problem.',
+caption:`At 5,000 FTE, your team can't just open a ChatGPT tab and fix the problem.
+
+I hear this a lot: "We'd love to test more AI. But IT won't allow it."
+
+That's not a complaint. That's the reality of enterprise AI governance in 2026.
+→ Non-Microsoft AI tools blocked at the network level
+→ Data residency rules prevent external model access
+→ New procurement: 6–18 months minimum
+
+Companies that use this as an excuse to do nothing fall further behind every quarter.
+
+Companies that build inside the constraints they have? They move.
+
+What that looks like in practice:
+→ SharePoint structured as a commercial intelligence layer — account plans, competitive plays, pipeline frameworks
+→ Teams workflows that give sales reps everything for a call without leaving the Microsoft environment
+→ A Copilot prompt library built for your specific deals, segments, and buying stages
+
+No new tool. No CIO conversation. No procurement process.
+
+Just the commercial system your Microsoft stack was always capable of running.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one Microsoft tool your team underuses most — SharePoint, Teams, or Copilot itself?`,
+visualNote:'💡 Text post — no visual required. Optional: "3 constraints that are actually solvable" graphic.',cta:'ruttens.com/scan'},
+
+{id:'ent-3',tab:'enterprise',type:'image',date:'Tue Jul 8',icp:'CEO/CFO',
+hook:'Three business units. One Microsoft environment. No shared way to talk about pipeline.',
+caption:`Three business units. One Microsoft environment. No shared way to talk about pipeline.
+
+That's what I walked into at AYA Energy.
+
+Post-merger. Three BUs — each with different markets, different sales teams, different ideas about what a good lead looked like. One Microsoft Enterprise Agreement covering all of them.
+
+The ask: build revenue visibility across three teams without forcing system consolidation.
+
+What we built, inside their existing Microsoft stack:
+→ A shared GTM framework in SharePoint — one structure, three market contexts
+→ A pipeline review process through Teams that didn't require consensus on definitions
+→ A Copilot prompt set for each BU, tailored to their specific buyers
+
+No new procurement. No CIO meeting. No 18-month rollout.
+
+Six weeks in, the CFO had pipeline visibility across all three BUs for the first time post-merger. The CEO stopped getting three different answers to the same question.
+
+That's what building the commercial layer inside Microsoft looks like in practice.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the hardest GTM challenge after a merger or reorg for your team?`,
+visualNote:'🖼️ Case study visual — AYA-style: 3 BUs → 1 framework. Navy/amber, 1200×1500px portrait. Text: "3 BUs. 1 Microsoft stack. Pipeline visibility in 6 weeks."',cta:'ruttens.com/scan'},
+
+{id:'ent-4',tab:'enterprise',type:'text',date:'Thu Jul 10',icp:'CMO/CRO/CCO',
+hook:'Your CMO wants account-based marketing (ABM). Your CIO says no to new tools.',
+caption:`Your CMO wants account-based marketing (ABM). Your CIO says no to new tools.
+
+Both can be right.
+
+ABM doesn't require a dedicated platform. Most teams spend €40K+ on software before they've built the plays that would make it work.
+
+What account-based marketing (ABM) actually requires:
+→ A list of 20–50 named accounts with real intelligence — who to contact, what they care about, where they are in the buying cycle
+→ Content and messaging mapped to specific buying stages for those accounts
+→ A multi-threaded engagement plan coordinating sales and marketing touchpoints
+→ A consistent way to review and update account status
+
+None of that requires a new platform. It requires structure.
+
+In SharePoint: account intelligence docs that Copilot retrieves and synthesises in seconds.
+In Teams: channel-based account reviews that keep sales and marketing aligned without email threads.
+In Copilot: call prep, email sequencing, account status summaries — automatically, from the intelligence you've built.
+
+ABM inside your Microsoft stack. Without the procurement conversation.
+
+Save this for your next ABM planning session.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Which part of ABM breaks down first for your team — the list, the content, or the coordination?`,
+visualNote:'💡 Text post — strong save-bait. Optional: "ABM inside Microsoft — what goes where" framework card (SharePoint/Teams/Copilot). Navy/amber.',cta:'ruttens.com/scan'},
+
+{id:'ent-5',tab:'enterprise',type:'text',date:'Tue Jul 15',icp:'CMO/CRO/CCO',
+hook:'Copilot is very good at writing emails to people you\'ve already decided to target.',
+caption:`Copilot is very good at writing emails to people you've already decided to target.
+
+It's not good at deciding who to target, why now, or what to say that's different from every other vendor in their inbox.
+
+That's the gap in most enterprise account-based marketing (ABM) programs in 2026.
+
+Copilot can:
+→ Draft a follow-up after a Teams call
+→ Summarise an account's recent news
+→ Personalise a template at scale
+
+Copilot can't:
+→ Tell you which of your 200 named accounts is in-market right now
+→ Build a multi-threaded engagement plan for your top 10 strategic accounts
+→ Reposition your message when a competitor moves into your lane
+
+So the ABM program runs. Emails go out. Copilot makes the process faster. But the strategic thinking — which accounts, which message, which play — still sits with one or two people who are already stretched.
+
+The fix isn't more AI. It's building the intelligence layer that Copilot draws from.
+
+That's what I build inside your Microsoft stack.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the hardest part of running ABM inside a large enterprise right now?`,
+visualNote:'💡 Text post — contrarian hook lands well without visual. Optional: "Can/Can\'t" split card for Copilot ABM.',cta:'ruttens.com/scan'},
+
+{id:'ent-6',tab:'enterprise',type:'carousel',date:'Wed Jul 16',icp:'CMO/CRO/CCO',
+hook:'I\'ve helped three commercial teams run account-based marketing (ABM) inside Microsoft stacks. Here\'s what works — and what doesn\'t.',
+caption:`I've helped three commercial teams run account-based marketing (ABM) inside Microsoft stacks.
+
+Here's what works — and what doesn't.
+
+What works:
+
+AYA Energy (post-merger, 3 BUs): Built account intelligence directly in SharePoint. Copilot retrieved account context for any sales call in under 30 seconds. Multi-threading became the default, not the exception.
+
+KooKoo / Ellis (multi-site): ABM plays were failing because sales reps couldn't maintain account knowledge across sites. Rebuilt the account layer in SharePoint with Teams-integrated review cadences. Adoption reached consistent use within four weeks.
+
+DPG Media (European media group): ABM strategy existed in a deck. No operational layer. Built the account planning framework in SharePoint with Copilot prompts for campaign alignment. The strategy became executable.
+
+What doesn't work:
+
+→ Buying an ABM platform before you have account intelligence to feed it
+→ Asking Copilot to do strategic ABM work it wasn't designed for
+→ Running ABM plays in email threads instead of structured channels
+
+The pattern: teams that succeed with ABM inside Microsoft aren't using better tools. They've built better structure.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Which of those failure modes do you see most often at your company?`,
+visualNote:'📎 Carousel — 6 slides: Cover ("ABM inside Microsoft: what works") → Slide 2 AYA → Slide 3 KooKoo → Slide 4 DPG → Slide 5 "What doesn\'t work" (3 bullets) → Slide 6 CTA. Navy/amber RUTTENS+ brand.',cta:'ruttens.com/scan'},
+
+{id:'ent-7',tab:'enterprise',type:'text',date:'Thu Jul 17',icp:'CEO/CFO/CMO/CRO/CCO',
+hook:'If you\'re Copilot-only and your pipeline still isn\'t moving, here\'s how we\'d start.',
+caption:`If you're Copilot-only and your pipeline still isn't moving, here's how we'd start.
+
+Not a pitch. A diagnostic.
+
+In 20 minutes, I can tell you:
+→ Where the gap sits between your Copilot rollout and your pipeline performance
+→ Whether the fix is in how SharePoint is structured, how Teams is being used, or something else entirely
+→ What a realistic commercial layer looks like inside your specific Microsoft environment
+
+I've done this with B2B energy companies, multi-site operations, and European media groups. The constraint is always slightly different. The approach is the same: work inside what you have, build what's missing, hand it over.
+
+No deck. No methodology presentation. Just a specific read on your situation and what to fix first.
+
+Free. 20 minutes. You leave with clarity.
+
+→ Book at ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one Copilot use case that hasn't delivered for your team yet?`,
+visualNote:'💡 Text post — low friction, high intent. No visual needed. This post should land cleanly in a feed with no distraction.',cta:'ruttens.com/scan'},
+];
+
+const TABS = [
+  {id:'gtm-campaign',label:'GTM Campaign',icon:'🚀'},
+  {id:'gtm-animal',label:'GTM Animal',icon:'🐾'},
+  {id:'apa',label:'APA Posts',icon:'💬'},
+  {id:'social-proof',label:'Social Proof',icon:'⭐'},
+  {id:'education',label:'Education',icon:'📚'},
+  {id:'stories',label:'Stories',icon:'📖'},
+  {id:'dialogue',label:'Dialogue',icon:'🎤'},
+  {id:'pe-series',label:'PE Series',icon:'🏦'},
+  {id:'substack',label:'Substack',icon:'✍️'},
+  {id:'instagram',label:'Instagram',icon:'📸'},
+  {id:'malt',label:'MALT Campaign',icon:'🤝'},
+  {id:'csuite-scan',label:'C-Suite Scan 🆕',icon:'🎯'},
+  {id:'ai-gtm',label:'AI GTM 🆕',icon:'🤖'},
+  {id:'enterprise',label:'🏢 Enterprise',icon:'🏢'},
+  {id:'summer-scan',label:'Summer Scan',icon:'☀️'},
+  {id:'bestof',label:'BEST OF',icon:'⭐'},
+  {id:'maybe',label:'Maybe',icon:'🤔'},
+  {id:'quiz',label:'Team Quiz',icon:'🎯',placeholder:true},
+  {id:'published',label:'Published',icon:'✅',special:'published'},
+];
+
+let activeTab = 'gtm-campaign';
+
+function loadPublished() {
+  try { PUBLISHED = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) { PUBLISHED = {}; }
+}
+function savePublished() { localStorage.setItem(LS_KEY, JSON.stringify(PUBLISHED)); }
+function getPostsForTab(tabId) { return ALL_POSTS.filter(p => p.tab === tabId && !PUBLISHED[p.id]); }
+function getPublishedPosts() { return ALL_POSTS.filter(p => PUBLISHED[p.id]); }
+
+function updateStats() {
+  const pub = Object.keys(PUBLISHED).length;
+  document.getElementById('total-count').textContent = ALL_POSTS.length;
+  document.getElementById('published-count').textContent = pub;
+  document.getElementById('pending-count').textContent = ALL_POSTS.length - pub;
+}
+
+function renderSidebar() {
+  const pub = Object.keys(PUBLISHED).length;
+  document.getElementById('sidebar-nav').innerHTML = TABS.map(tab => {
+    const cnt = tab.special === 'published' ? pub
+      : tab.placeholder ? 0
+      : getPostsForTab(tab.id).length;
+    const isActive = activeTab === tab.id;
+    const isPubActive = tab.special === 'published' && pub > 0;
+    return `<div class="nav-item${isActive?' active':''}${isPubActive?' nav-published-active':''}" onclick="switchTab('${tab.id}')">
+      <span class="nav-icon">${tab.icon}</span>
+      <span class="nav-label">${tab.label}</span>
+      <span class="nav-count">${cnt}</span>
+    </div>`;
+  }).join('');
+}
+
+function typeBadge(type) {
+  const m = {text:['type-text','Text'],image:['type-image','Image'],carousel:['type-carousel','Carousel'],sub:['type-sub','Substack'],ig:['type-ig','Instagram']};
+  const [cls,lbl] = m[type]||['type-text',type];
+  return `<span class="post-type-badge ${cls}">${lbl}</span>`;
+}
+
+function icpBadge(icp) {
+  if (!icp) return '';
+  const c = icpColor(icp);
+  return `<span class="icp-badge" style="background:${c}1a;color:${c};border:1px solid ${c}33">${icp}</span>`;
+}
+
+function ctaLabel(cta) {
+  if (!cta) return '';
+  if (cta.includes('quiz')) return '🎯 Take the Quiz';
+  if (cta.includes('free-tools')) return '🆓 Free Tools';
+  if (cta.includes('pe-vc')) return '📊 PE/VC Page';
+  if (cta.includes('tally')) return '📋 Book Now';
+  if (cta.includes('cal.com')) return '📅 Book Call';
+  return '🔗 Open Link';
+}
+
+function renderCard(post, inPublished) {
+  const checked = !!PUBLISHED[post.id];
+  const capId = 'cap-'+post.id;
+  const longCap = post.caption.length > 220;
+  return `<div class="post-card" id="card-${post.id}">
+    <div class="post-card-header">
+      <div class="post-checkbox${checked?' checked':''}" onclick="togglePublished('${post.id}')" title="${checked?'Move back to pending':'Mark as published'}"></div>
+      <div class="post-meta">
+        <div class="post-type-row">
+          ${typeBadge(post.type)}
+          ${icpBadge(post.icp)}
+          ${post.date ? `<span class="post-date">${post.date}</span>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="post-hook">${post.hook}</div>
+    <div class="post-caption${longCap ? '' : ' expanded'}" id="${capId}">${post.caption}</div>
+    ${longCap ? `<button class="caption-toggle" onclick="toggleCap('${capId}',this)">Show full caption ▼</button>` : ''}
+    <button class="copy-btn" id="cpybtn-${post.id}" onclick="copyPost('${post.id}')">📋 Copy caption</button>
+    ${post.cta ? `<a class="cta-btn" href="https://${post.cta.replace(/^https?:\/\//,'')}" target="_blank">${ctaLabel(post.cta)}</a>` : ''}
+    ${post.visualNote ? `<div class="visual-note"><strong>Visual:</strong> ${post.visualNote}</div>` : ''}
+    <div class="post-footer">
+      <span class="post-cta">${post.cta ? `<a href="https://${post.cta.replace(/^https?:\/\//,'')}" target="_blank">${post.cta}</a>` : ''}</span>
+      <span class="post-id">#${post.id}</span>
+      ${inPublished ? `<button class="uncheck-btn" onclick="togglePublished('${post.id}')">↩ Unpublish</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function toggleCap(capId, btn) {
+  const el = document.getElementById(capId);
+  if (!el) return;
+  if (el.classList.contains('expanded')) {
+    el.classList.remove('expanded');
+    btn.textContent = 'Show full caption ▼';
+  } else {
+    el.classList.add('expanded');
+    btn.textContent = 'Hide caption ▲';
+  }
+}
+
+function copyPost(postId) {
+  const post = ALL_POSTS.find(p => p.id === postId);
+  if (!post) return;
+  const btn = document.getElementById('cpybtn-'+postId);
+  navigator.clipboard.writeText(post.caption).then(() => {
+    if (btn) { btn.textContent = '✅ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy caption'; btn.classList.remove('copied'); }, 2000); }
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = post.caption; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (btn) { btn.textContent = '✅ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy caption'; btn.classList.remove('copied'); }, 2000); }
+  });
+}
+
+function togglePublished(postId) {
+  if (PUBLISHED[postId]) { delete PUBLISHED[postId]; } else { PUBLISHED[postId] = true; }
+  savePublished();
+  renderAll();
+}
+
+function renderMain() {
+  const main = document.getElementById('main-content');
+  if (activeTab === 'published') { renderPublished(main); return; }
+  if (activeTab === 'quiz') { renderQuiz(main); return; }
+  const tabInfo = TABS.find(t => t.id === activeTab);
+  const posts = getPostsForTab(activeTab);
+  main.innerHTML = `
+    <div class="tab-header">
+      <h2>${tabInfo ? tabInfo.icon+' '+tabInfo.label : activeTab}</h2>
+      <p>${posts.length} post${posts.length!==1?'s':''} pending · Check a post to move it to Published</p>
+    </div>
+    <div class="posts-grid">
+      ${posts.length > 0 ? posts.map(p=>renderCard(p,false)).join('') : `<p class="empty-tab">All posts published! 🎉</p>`}
+    </div>`;
+}
+
+function renderPublished(main) {
+  const posts = getPublishedPosts();
+  if (posts.length === 0) {
+    main.innerHTML = `<div class="tab-header"><h2>✅ Published</h2><p>Posts you've marked as published will appear here</p></div>
+    <div class="published-empty"><div class="icon">📭</div><h3>Nothing published yet</h3><p>Check the box on any post card to mark it as published.<br>It will move here and disappear from its category tab.</p></div>`;
+    return;
+  }
+  const grouped = {};
+  posts.forEach(p => { if (!grouped[p.tab]) grouped[p.tab]=[]; grouped[p.tab].push(p); });
+  let html = `<div class="tab-header"><h2>✅ Published (${posts.length})</h2><p>Click "Unpublish" to move a post back to its category tab</p></div>`;
+  Object.entries(grouped).forEach(([tabId, tPosts]) => {
+    const t = TABS.find(x => x.id === tabId);
+    html += `<div class="section-label">${t ? t.icon+' '+t.label : tabId}</div>`;
+    html += `<div class="posts-grid">${tPosts.map(p=>renderCard(p,true)).join('')}</div>`;
+  });
+  main.innerHTML = html;
+}
+
+function renderQuiz(main) {
+  main.innerHTML = `<div class="tab-header"><h2>🎯 Team Quiz</h2><p>Placeholder — content to be added in a future session</p></div>
+  <div class="placeholder-card">
+    <div class="ph-icon">🎯</div>
+    <h3>Team Quiz Content Coming Soon</h3>
+    <p style="margin-top:8px;font-size:13px;color:var(--gray)">This tab is reserved for Team Quiz posts.<br>Content will be added in a separate Claude session.</p>
+    <p style="margin-top:16px;font-size:11px;color:#4b5a6b">Possible content: quiz announcement posts · result series · ICP-specific quiz follow-ups · amplification posts</p>
+  </div>`;
+}
+
+function renderAll() { renderSidebar(); renderMain(); updateStats(); }
+function switchTab(id) { activeTab = id; renderAll(); }
+
+loadPublished();
+renderAll();
+</script>
+</body>
+</html>

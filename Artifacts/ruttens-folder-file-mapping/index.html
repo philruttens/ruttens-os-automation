@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Folder File Mapping",
+  "schemaVersion": 1
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+OS Drive Folder & File Mapping · Wk 24</title>
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --accent: #E63946;
+    --gold: #F4A261;
+    --teal: #2EC4B6;
+    --green: #06D6A0;
+    --purple: #7B2D8B;
+    --bg: #F8F9FA;
+    --card: #FFFFFF;
+    --text: #1D3557;
+    --muted: #6C757D;
+    --border: #DEE2E6;
+    --sidebar-w: 220px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* SIDEBAR — fixed */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .sidebar-brand { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
+  .sidebar-brand h2 { font-size: 14px; font-weight: 700; letter-spacing: 0.05em; color: var(--gold); }
+  .sidebar-brand p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .sidebar nav a {
+    display: block; padding: 8px 20px; font-size: 12px;
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    border-left: 3px solid transparent; transition: all 0.15s;
+  }
+  .sidebar nav a:hover, .sidebar nav a.active {
+    color: #fff; border-left-color: var(--gold); background: rgba(255,255,255,0.05);
+  }
+  .sidebar-legend { padding: 16px 20px 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; }
+  .sidebar-legend p { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 6px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MAIN */
+  .main { margin-left: var(--sidebar-w); width: calc(100% - var(--sidebar-w)); min-height: 100vh; padding: 0 0 60px; }
+
+  /* TOP BANNER */
+  #top-banner {
+    background: var(--navy); color: #fff;
+    padding: 10px 32px; font-size: 12px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  #top-banner strong { color: var(--gold); }
+  .b-tag { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+  .b-tag.gold { background: var(--gold); color: var(--navy); font-weight: 700; }
+  .b-tag.red { background: var(--accent); color: #fff; font-weight: 700; }
+
+  /* SECTIONS */
+  .section { padding: 28px 32px 12px; }
+  .section + .section { border-top: 1px solid var(--border); }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+  h1 { font-size: 22px; font-weight: 800; color: var(--navy); }
+  h1 .badge { font-size: 12px; background: var(--navy); color: var(--gold); padding: 2px 8px; border-radius: 4px; vertical-align: middle; margin-left: 8px; }
+  .meta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+  .meta-item { font-size: 12px; color: var(--muted); }
+  .meta-item strong { color: var(--text); }
+
+  /* TREE */
+  .tree { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; }
+  .tree-item { display: flex; align-items: flex-start; gap: 8px; }
+  .tree-folder { color: var(--gold); font-weight: 700; }
+  .tree-file { color: var(--muted); }
+  .tree-new { color: var(--green); }
+  .tree-updated { color: var(--teal); }
+  .tree-action { color: var(--accent); }
+  .indent-1 { padding-left: 16px; }
+  .indent-2 { padding-left: 32px; }
+  .indent-3 { padding-left: 48px; }
+  .indent-4 { padding-left: 64px; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+  th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 6px 10px; background: var(--bg); border-bottom: 2px solid var(--border); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.015); }
+
+  /* PILLS */
+  .pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+  .pill-green { background: #D4EDDA; color: #155724; }
+  .pill-red { background: #FFE0E0; color: var(--accent); }
+  .pill-gold { background: #FFF3CD; color: #856404; }
+  .pill-grey { background: #E9ECEF; color: var(--muted); }
+  .pill-teal { background: #D1ECF1; color: #0c5460; }
+  .pill-navy { background: var(--navy); color: #fff; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist input[type=checkbox] { margin-top: 2px; flex-shrink: 0; width: 15px; height: 15px; accent-color: var(--green); }
+  .checklist li.done span { text-decoration: line-through; color: var(--muted); }
+  .tag { font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+  .tag-green { background: #D4EDDA; color: #155724; }
+  .tag-red { background: #FFE0E0; color: var(--accent); }
+  .tag-gold { background: #FFF3CD; color: #856404; }
+  .tag-grey { background: #E9ECEF; color: var(--muted); }
+
+  /* INFO BOX */
+  .info-box { background: #D1ECF1; border: 1px solid #BEE5EB; border-radius: 8px; padding: 10px 16px; font-size: 12px; color: #0c5460; margin-bottom: 12px; }
+  .warn-box { background: #FFF3CD; border: 1px solid #FFC107; border-radius: 8px; padding: 10px 16px; font-size: 12px; color: #856404; margin-bottom: 12px; }
+  code { background: var(--bg); padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: monospace; color: var(--accent); border: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>RUTTENS+OS</h2>
+    <p>Drive Map · Wk 24</p>
+  </div>
+  <nav>
+    <a href="#title" class="active">Overview</a>
+    <a href="#root">Drive Root</a>
+    <a href="#tree">Folder Tree</a>
+    <a href="#recent">Recent Activity</a>
+    <a href="#actions">Cleanup Actions</a>
+    <a href="#artifacts">Artifacts</a>
+    <a href="#ref">Reference</a>
+  </nav>
+  <div class="sidebar-legend">
+    <p>Legend</p>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Folder</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>New (Jun 2026)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>Updated recently</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Action needed</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>Unchanged</div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div id="top-banner">
+    <strong>Drive Map · Wk 25</strong>
+    <span class="b-tag gold">Taxonomy v3 LOCKED</span>
+    <span class="b-tag">Post-deployment state</span>
+    <span class="b-tag">Updated 17 Jun 2026</span>
+  </div>
+
+  <!-- TITLE -->
+  <div class="section" id="title">
+    <p class="section-title">Drive Folder &amp; File Mapping</p>
+    <h1>RUTTENS+OS <span class="badge">Wk 25</span></h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Last scan:</strong> Jun 17, 2026</div>
+      <div class="meta-item"><strong>Taxonomy:</strong> v3 locked May 7, 2026</div>
+      <div class="meta-item"><strong>Root ID:</strong> <code>1VtSmyHUAhGxgu_V5TNq5ydVEdQ4e-86W</code></div>
+      <div class="meta-item"><strong>Status:</strong> W25 active · site deployed · AYA Phase 2 active</div>
+    </div>
+  </div>
+
+  <!-- ROOT TABLE -->
+  <div class="section" id="root">
+    <p class="section-title">Drive Root IDs</p>
+    <table>
+      <thead><tr><th>Folder / Path</th><th>Google Drive ID</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RUTTENS+OS (root)</strong></td><td><code>1VtSmyHUAhGxgu_V5TNq5ydVEdQ4e-86W</code></td><td><span class="pill pill-navy">CANONICAL ROOT</span></td></tr>
+        <tr><td>RUTTENS+OS / CLAUDE</td><td>—</td><td><span class="pill pill-teal">Cowork access</span></td></tr>
+        <tr><td>RUTTENS+OS / 00_MASTER</td><td>—</td><td><span class="pill pill-teal">Cowork access</span></td></tr>
+        <tr><td>RUTTENS+OS / _HANDOVERS</td><td>—</td><td><span class="pill pill-green">Active (Jun 2026 folder)</span></td></tr>
+        <tr><td>RUTTENS+OS / _LINKEDIN</td><td>—</td><td><span class="pill pill-teal">Cowork access</span></td></tr>
+        <tr><td>/Users/philruttens/Documents/Claude/Artifacts</td><td>Local</td><td><span class="pill pill-teal">Artifact HTML files</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOLDER TREE -->
+  <div class="section" id="tree">
+    <p class="section-title">RUTTENS+OS Folder Tree (Taxonomy v3)</p>
+    <div class="info-box">📁 Taxonomy v3 locked May 7, 2026. Structure is canonical. No top-level restructuring needed.</div>
+    <div class="tree">
+      <div class="tree-item"><span class="tree-folder">📁 RUTTENS+OS/</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 00_MASTER/</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 Pipeline_MASTER.xlsx <code>⟳ W25 — rows 21-35 need E/F fix</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-file">📄 FI_Tracker.xlsx</span></div>
+      <div class="tree-item indent-2"><span class="tree-file">📄 Finance_LifeCo_BV.xlsx</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 CLAUDE/</span></div>
+      <div class="tree-item indent-2"><span class="tree-file">📄 CLAUDE_SETUP.md</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 MEMORY.md <code>⟳ Jun 17 update</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 memory/</span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 various .md memory files (last update Jun 16-17)</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 _HANDOVERS/</span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 2026-05/ <code>archived</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-folder tree-new">📁 2026-06/ <code>🟢 active</code></span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 WEEKLY_DASHBOARD_EOW_2026-06-11.md</span></div>
+      <div class="tree-item indent-3"><span class="tree-new">📄 HANDOVER_*.md (Jun 14-17 sessions)</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 _LINKEDIN/</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 LH sequences / ICP cluster docs</span></div>
+      <div class="tree-item indent-2"><span class="tree-new">📄 LH Phase 1 engagement log (Jun 10+)</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 CLIENTS/</span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 EREA/</span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 D1_Results_Approved.md</span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 D2_Brief.md <code>delivered Jun 15</code></span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 EREA_Campaign_Log.md</span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 AYA/</span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 Phase2_Proposal_Jun2026.md <code>✅ Louis approved Option B</code></span></div>
+      <div class="tree-item indent-3"><span class="tree-updated">📄 AYA_Invoice_Log.md <code>invoices 010+013 PAID · Phase 2 active</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 Fineko/</span></div>
+      <div class="tree-item indent-3"><span class="tree-action">📄 Dispute_Log.md <code>⚠️ DO NOT PAY — 3 invoices</code></span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 PRODUCTS/</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 Offer_Ladder_v3.md <code>locked: SCAN €499</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-folder">📁 Pipeline-Sprint/</span></div>
+      <div class="tree-item indent-3"><span class="tree-new">📄 SP1_launched_Jun10.md</span></div>
+      <div class="tree-item indent-3"><span class="tree-action">📄 LP_draft.html <code>⚠️ NOT deployed yet — overdue</code></span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 CONTENT/</span></div>
+      <div class="tree-item indent-2"><span class="tree-new">📄 RB-2 (Jun 11)</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 SP-2 (Jun 12 — upcoming)</span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 Substack S3 (Jun 15)</span></div>
+      <div class="tree-item indent-1"><span class="tree-folder">📁 FINANCE/</span></div>
+      <div class="tree-item indent-2"><span class="tree-file">📄 DCA_Allocation_v2.md</span></div>
+      <div class="tree-item indent-2"><span class="tree-action">📄 MeDirect_Deploy_€30k.md <code>⚠️ pending execution</code></span></div>
+      <div class="tree-item indent-2"><span class="tree-updated">📄 Acerta_Jun19_€2240.73.md</span></div>
+    </div>
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <div class="section" id="recent">
+    <p class="section-title">Recent Drive Activity (Jun 11–17, 2026)</p>
+    <table>
+      <thead><tr><th>Date</th><th>File / Folder</th><th>Action</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Jun 17</td><td>MEMORY.md</td><td><span class="pill pill-green">UPDATED</span></td><td>W25 context: site deployed, AYA Phase 2 active, XiltriX shipped, Cohort S1 done</td></tr>
+        <tr><td>Jun 16</td><td>XiltriX Backgrounder v2</td><td><span class="pill pill-green">SHIPPED</span></td><td>GTM Radar one-pager: bigger radar + 2×2 + emoji agenda + RUTTENS+ brand</td></tr>
+        <tr><td>Jun 15</td><td>ruttens.com (site deployment)</td><td><span class="pill pill-green">DEPLOYED</span></td><td>Mastery HTML, nav dropdown fix, testimonials, all pages live on Netlify</td></tr>
+        <tr><td>Jun 14</td><td>EREA D2 brief</td><td><span class="pill pill-green">CREATED</span></td><td>D2 delivered to EREA</td></tr>
+        <tr><td>Jun 14</td><td>Cohort Session 1 assets</td><td><span class="pill pill-green">COMPLETED</span></td><td>5 enrolment assets: landing page, scorecard, form, fit-call script, handover</td></tr>
+        <tr><td>Jun 14</td><td>AYA Phase 2 decision</td><td><span class="pill pill-green">APPROVED</span></td><td>Louis approved Option B: 40h/mo €4,000/mo @ €100/h</td></tr>
+        <tr><td>Jun 13</td><td>_HANDOVERS/2026-06/</td><td><span class="pill pill-teal">UPDATED</span></td><td>Session handovers from Jun 13-14 sessions</td></tr>
+        <tr><td>Jun 11</td><td>WEEKLY_DASHBOARD_EOW_2026-06-11.md</td><td><span class="pill pill-green">CREATED</span></td><td>W24 EOW summary</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CLEANUP ACTIONS -->
+  <div class="section" id="actions">
+    <p class="section-title">W24 Drive Cleanup Actions</p>
+    <div class="warn-box">
+      ℹ️ W24-25 state: site deployed (Jun 14-15), AYA Phase 2 active, Cohort S1 complete. Remaining actions: finance (Acerta Jun 19, GoDaddy Jun 21), Pipeline Sheet fix.
+    </div>
+    <ul class="checklist" id="action-list">
+      <li><input type="checkbox" class="cb"><span class="tag tag-red">URGENT</span><span>Fix Pipeline_MASTER.xlsx rows 21-35 E/F — manual data entry needed</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">FINANCE</span><span>Acerta €2,240.73 — due Jun 19, 2026 (2 days)</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">FINANCE</span><span>GoDaddy domain renewal check ~Jun 21 (4 days)</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">FINANCE</span><span>Fineko dispute — awaiting written confirmation (DO NOT PAY)</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">FINANCE</span><span>MeDirect: execute €30k DCA deploy per allocation plan</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">CLIENTS</span><span>AYA: confirm Phase 2 invoice schedule (40h/mo €4,000/mo)</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-gold">CLIENTS</span><span>Cohort: confirm webinar date for Session 1 conclusions</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-grey">LH</span><span>LH subscription renewal decision — Phase 2 (Jun 22+) needs confirmation</span></li>
+      <li><input type="checkbox" class="cb"><span class="tag tag-grey">CONTENT</span><span>Content calendar — W26+ planning (post-site-launch)</span></li>
+    </ul>
+  </div>
+
+  <!-- ARTIFACTS -->
+  <div class="section" id="artifacts">
+    <p class="section-title">Cowork Artifacts · Local Path Status (Wk 24)</p>
+    <div class="info-box">Local path: <code>/Users/philruttens/Documents/Claude/Artifacts/</code></div>
+    <table>
+      <thead><tr><th>Artifact</th><th>Status</th><th>Last Updated</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>inbox-monitor</td><td><span class="pill pill-green">UPDATED W25</span></td><td>Jun 17, 2026</td><td>W24 Focus section updated, finance alerts (Acerta Jun 19, GoDaddy Jun 21)</td></tr>
+        <tr><td>ruttens-personal-weekly-dashboard</td><td><span class="pill pill-green">UPDATED W25</span></td><td>Jun 17, 2026</td><td>W25 rewrite: site deployed, AYA Phase 2 active, Cohort S1 done, upcoming finance</td></tr>
+        <tr><td>ruttens-fy25-action-checklist</td><td><span class="pill pill-green">UPDATED W25</span></td><td>Jun 17, 2026</td><td>Site deployed, Cohort complete, AYA Phase 2 active, finance alerts (Acerta Jun 19)</td></tr>
+        <tr><td>ruttens-folder-file-mapping</td><td><span class="pill pill-green">UPDATED W25</span></td><td>Jun 17, 2026</td><td>This file — W25 post-deployment state, recent activity Jun 11-17</td></tr>
+        <tr><td>meta-refresh-dashboard</td><td><span class="pill pill-gold">REVIEW</span></td><td>W24/W25</td><td>May need W25 update with site deployment state</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REFERENCE -->
+  <div class="section" id="ref">
+    <p class="section-title">Quick Reference</p>
+    <table>
+      <thead><tr><th>Item</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Drive Root ID</td><td><code>1VtSmyHUAhGxgu_V5TNq5ydVEdQ4e-86W</code></td></tr>
+        <tr><td>Taxonomy version</td><td>v3 — locked May 7, 2026</td></tr>
+        <tr><td>AYA HubSpot portal</td><td><strong style="color:var(--accent)">148176566 (EU1) ONLY — NEVER 148163851</strong></td></tr>
+        <tr><td>SCAN price</td><td>€499 everywhere (NOT €399)</td></tr>
+        <tr><td>Fineko</td><td>DO NOT PAY — invoices 25003880, 26000628, 26001218</td></tr>
+        <tr><td>LH Phase 1</td><td>Jun 10–21: engagement only (subscription EXPIRED). Phase 2 = Jun 22 (renewal decision needed).</td></tr>
+        <tr><td>Acerta payment</td><td>€2,240.73 due Jun 19, 2026 (2 days)</td></tr>
+        <tr><td>GoDaddy renew</td><td>Check ~Jun 21, 2026 (4 days)</td></tr>
+        <tr><td>EREA D1</td><td>APPROVED — Rev +35.4% (€2,736,528) · AOV +44.6% · D2 delivered Jun 15</td></tr>
+        <tr><td>AYA Phase 2</td><td>✅ Approved: Option B (40h/mo €4,000/mo @ €100/h) — active as of Jun 14</td></tr>
+        <tr><td>Cohort Session 1</td><td>✅ Complete — 5 enrolment assets done · webinar date TBD</td></tr>
+        <tr><td>Site deployment</td><td>✅ Jun 14-15 — all pages live on Netlify · nav dropdown fixed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+(function() {
+  var KEY = 'ruttens-cb-' + (window.location.pathname || 'folder-map');
+  function getState() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { return {}; } }
+  function saveState(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {} }
+  function init() {
+    var state = getState();
+    document.querySelectorAll('.cb').forEach(function(cb, i) {
+      var id = 'cb_' + i;
+      cb.dataset.id = id;
+      if (state[id]) { cb.checked = true; cb.closest('li') && cb.closest('li').classList.add('done'); }
+      cb.addEventListener('change', function() {
+        var s = getState();
+        if (this.checked) { s[id] = true; this.closest('li') && this.closest('li').classList.add('done'); }
+        else { delete s[id]; this.closest('li') && this.closest('li').classList.remove('done'); }
+        saveState(s);
+      });
+    });
+    // Nav active state
+    var links = document.querySelectorAll('.sidebar nav a');
+    var sections = document.querySelectorAll('.section');
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            var id = e.target.id;
+            links.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + id); });
+          }
+        });
+      }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+      sections.forEach(function(s) { obs.observe(s); });
+    }
+  }
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Weekly Cost Savings",
+  "schemaVersion": 1,
+  "description": "Weekly cost savings dashboard for RUTTENS+. 12 ROI-ranked actions with frequency, source, URL, costs, saving %, and online automation flags. Monthly Analysis tab with April 2026 Qonto baseline. Belgian price comparison (food, staples, household, software, bulk). 7 Antwerp farm collectives. Tick-checkbox decisions system with localStorage persistence."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Cost Savings — RUTTENS+OS</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root {
+  color-scheme: light;
+  --primary: #0f1923;
+  --accent: #e03d52;
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --orange: #f59e0b;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --teal: #14b8a6;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --muted: #64748b;
+  --light: #f8fafc;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5; }
+
+.header { background: var(--primary); color: white; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+.header .subtitle { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+.header .right { text-align: right; font-size: 11px; opacity: 0.7; }
+
+.container { padding: 16px; max-width: 1200px; margin: 0 auto; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.four-col { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 14px; }
+
+.card { background: var(--card); border-radius: 10px; padding: 14px 16px; border: 1px solid var(--border); }
+.card .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 4px; }
+.card .val { font-size: 24px; font-weight: 800; line-height: 1; }
+.card .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.card.c-red .val { color: var(--accent); }
+.card.c-orange .val { color: var(--orange); }
+.card.c-blue .val { color: var(--blue); }
+.card.c-green .val { color: var(--green-dark); }
+
+.section { background: var(--card); border-radius: 10px; padding: 16px; border: 1px solid var(--border); margin-bottom: 14px; }
+.section h2 { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+.import-box { background: var(--card); border-radius: 10px; padding: 16px; border: 2px dashed #cbd5e1; margin-bottom: 14px; }
+.import-box h2 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+.import-box textarea { width: 100%; height: 80px; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-family: monospace; font-size: 11px; resize: vertical; background: #fafafa; color: var(--text); }
+.btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+.btn { padding: 7px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.82; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-sample { background: #e2e8f0; color: var(--text); }
+.btn-clear { background: #fee2e2; color: var(--accent); }
+.btn-green { background: #dcfce7; color: var(--green-dark); }
+.btn-teal { background: #ccfbf1; color: #0f766e; }
+.btn-orange { background: #fef3c7; color: #b45309; }
+.hint { font-size: 10px; color: var(--muted); margin-left: auto; }
+
+.alert { font-size: 11px; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; }
+.alert-info { background: #eff6ff; border-left: 3px solid var(--blue); color: #1e40af; }
+.alert-green { background: #f0fdf4; border-left: 3px solid var(--green); color: #15803d; }
+.alert-orange { background: #fffbeb; border-left: 3px solid var(--orange); color: #92400e; }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: #f8fafc; padding: 7px 10px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 7px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafafa; }
+.ta-right { text-align: right; }
+.ta-center { text-align: center; }
+.best { color: var(--green-dark); font-weight: 700; }
+.na { color: #cbd5e1; }
+
+.badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.b-green { background: #dcfce7; color: #15803d; }
+.b-blue { background: #dbeafe; color: #1d4ed8; }
+.b-orange { background: #fef3c7; color: #b45309; }
+.b-red { background: #fee2e2; color: #b91c1c; }
+.b-purple { background: #ede9fe; color: #6d28d9; }
+.b-gray { background: #f1f5f9; color: #475569; }
+.b-teal { background: #ccfbf1; color: #0f766e; }
+.b-gold { background: #fef9c3; color: #854d0e; }
+
+.chart-wrap { height: 220px; position: relative; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+.tab { padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--bg); color: var(--muted); }
+.tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+.rec { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; background: var(--light); border-left: 3px solid var(--green); }
+.rec.r-orange { border-left-color: var(--orange); }
+.rec.r-blue { border-left-color: var(--blue); }
+.rec.r-purple { border-left-color: var(--purple); }
+.rec.r-teal { border-left-color: var(--teal); }
+.rec-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
+.rec-title { font-weight: 700; font-size: 12px; }
+.rec-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.rec-save { font-size: 11px; color: var(--green-dark); font-weight: 700; margin-top: 3px; }
+
+.plan-block { margin-bottom: 14px; }
+.plan-block h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
+.plan-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #f1f5f9; font-size: 12px; }
+.plan-row:last-child { border-bottom: none; }
+.plan-store { font-size: 10px; font-weight: 700; color: var(--blue); }
+
+/* ── ROI TABLE ── */
+.roi-row-top { background: #fffbeb !important; }
+.roi-row-top td { border-bottom: 1px solid #fde68a !important; }
+.roi-rank { width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+.roi-rank.r1 { background: #fef08a; color: #713f12; }
+.roi-rank.r2 { background: #e2e8f0; color: #334155; }
+.roi-rank.r3 { background: #fed7aa; color: #7c2d12; }
+.roi-rank.rn { background: #f1f5f9; color: #64748b; }
+.saving-bar-wrap { width: 80px; display: inline-block; }
+.saving-bar { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+.saving-fill { height: 100%; border-radius: 3px; }
+.auto-badge { font-size: 16px; line-height: 1; }
+.scroll-table { overflow-x: auto; }
+
+/* ── DECISION CHECKBOXES ── */
+.decision-card { background: var(--light); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.decision-card.decision-done { background: #f0fdf4; border-color: #bbf7d0; }
+.decision-card input[type=checkbox] { accent-color: #10b981; }
+.decision-title { font-weight: 700; font-size: 12px; flex: 1; }
+.decision-select { margin-top: 4px; font-size: 11px; border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; background: white; color: var(--text); width: 100%; max-width: 360px; }
+
+/* ── FARM CARDS ── */
+.farm-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.farm-card h4 { font-size: 12px; font-weight: 700; color: var(--green-dark); margin-bottom: 4px; }
+.farm-card .farm-meta { font-size: 11px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.farm-card .farm-url { font-size: 11px; color: var(--blue); text-decoration: none; }
+.farm-card .farm-url:hover { text-decoration: underline; }
+.farm-card .farm-products { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.farm-checkbox-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.farm-checkbox-row input[type=checkbox] { width: 14px; height: 14px; cursor: pointer; }
+.farm-checkbox-row label { font-size: 11px; cursor: pointer; }
+
+/* ── LOG ── */
+.log-entry { background: var(--light); border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; font-size: 11px; border-left: 3px solid var(--teal); }
+.log-entry .log-week { font-weight: 700; color: var(--teal); }
+.scroll-y { max-height: 260px; overflow-y: auto; }
+.log-scroll { max-height: 200px; overflow-y: auto; }
+
+/* ── MONTHLY ── */
+.month-kpi { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 12px; }
+.month-kpi .card { padding: 10px 12px; }
+.month-kpi .card .val { font-size: 18px; }
+.month-diff { font-size: 11px; font-weight: 700; margin-top: 2px; }
+.month-diff.up { color: var(--accent); }
+.month-diff.down { color: var(--green-dark); }
+
+@media (max-width: 720px) {
+  .four-col, .month-kpi { grid-template-columns: repeat(2,1fr); }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>💰 Weekly Cost Savings Dashboard</h1>
+    <div class="subtitle" id="weekLabel">No data yet — import Qonto CSV to begin</div>
+  </div>
+  <div class="right">
+    <div>RUTTENS+OS · 🇧🇪 Belgium</div>
+    <div style="opacity:0.5;margin-top:2px">Updated: <span id="updateTs">—</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ── IMPORT ── -->
+<div class="import-box">
+  <h2>📥 Import Qonto Transactions</h2>
+  <div class="alert alert-info">Export from Qonto: Transactions → date range (last 7 days) → Export CSV. For Monthly Analysis, export April 2026 full month and paste under the Monthly tab.</div>
+  <textarea id="csvInput" placeholder="Paste Qonto CSV here (weekly transactions)..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="parseAndRender()">📊 Analyse Week</button>
+    <button class="btn btn-sample" onclick="loadSample()">🔍 Sample Data</button>
+    <button class="btn btn-clear" onclick="clearAll()">🗑 Clear</button>
+    <span class="hint">Qonto CSV format supported</span>
+  </div>
+</div>
+
+<!-- ── KPI CARDS ── -->
+<div class="four-col">
+  <div class="card c-red"><div class="lbl">Total Spent (7 days)</div><div class="val" id="kTotal">€0</div><div class="sub" id="kTotalSub">Import data</div></div>
+  <div class="card c-orange"><div class="lbl">Groceries & Food</div><div class="val" id="kGrocery">€0</div><div class="sub" id="kGrocerySub">—</div></div>
+  <div class="card c-blue"><div class="lbl">Software & Subscriptions</div><div class="val" id="kSoftware">€0</div><div class="sub" id="kSoftwareSub">—</div></div>
+  <div class="card c-green"><div class="lbl">Potential Weekly Savings</div><div class="val" id="kSavings">€0</div><div class="sub">vs current spend</div></div>
+</div>
+
+<!-- ── CHART + TX ── -->
+<div class="two-col">
+  <div class="section">
+    <h2>📊 Spend Breakdown</h2>
+    <div class="chart-wrap"><canvas id="catChart"></canvas></div>
+  </div>
+  <div class="section">
+    <h2>🧾 Transactions</h2>
+    <div class="scroll-y" id="txList">
+      <div style="text-align:center;padding:28px;color:var(--muted)">
+        <div style="font-size:28px;margin-bottom:6px">🧾</div>
+        <div>No transactions. Import CSV or load sample.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN TABS SECTION ── -->
+<div class="section">
+  <h2>🗂 Analysis Tabs</h2>
+  <div class="tabs" id="mainTabs">
+    <div class="tab active" onclick="mainTab('roi')">🎯 ROI Actions</div>
+    <div class="tab" onclick="mainTab('food')">🥩 Protein &amp; Organic</div>
+    <div class="tab" onclick="mainTab('staples')">🌾 Staples</div>
+    <div class="tab" onclick="mainTab('household')">🏠 Household</div>
+    <div class="tab" onclick="mainTab('software')">💻 Software</div>
+    <div class="tab" onclick="mainTab('bulk')">📦 Bulk &amp; Memberships</div>
+    <div class="tab" onclick="mainTab('farms')">🌱 Antwerp Farms</div>
+    <div class="tab" onclick="mainTab('monthly')">📅 Monthly Analysis</div>
+  </div>
+  <div id="mainContent" class="scroll-table"></div>
+</div>
+
+<!-- ── RECS + PLAN ── -->
+<div class="two-col">
+  <div class="section"><h2>💡 Priority Savings Actions</h2><div id="recList"></div></div>
+  <div class="section"><h2>📅 Smart Shopping Plan</h2><div id="shopPlan"></div></div>
+</div>
+
+<!-- ── FI IMPACT ── -->
+<div class="section"><h2>🎯 Savings → FI Impact</h2><div id="impactTable"></div></div>
+
+<!-- ── WEEKLY DECISIONS ── -->
+<div class="section">
+  <h2>✅ My Weekly Decisions <span style="font-size:10px;font-weight:400;color:var(--muted);margin-left:6px">— tick what you did, saved automatically</span></h2>
+  <div class="alert alert-green" style="margin-bottom:12px">Tick completed actions. Checkbox turns card green. Use dropdown for nuance. All saved to localStorage.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
+    <div>
+      <label style="font-size:11px;font-weight:700;display:block;margin-bottom:4px">🛒 Primary store this week:</label>
+      <select class="decision-select" id="dec_store" onchange="saveDecisions()">
+        <option value="">— Pick main store —</option>
+        <option value="colruyt">✓ Colruyt (price guarantee)</option>
+        <option value="lidl">✓ Lidl (Lidl Bio + Plus app)</option>
+        <option value="bio-planet">Bio-Planet (full organic)</option>
+        <option value="kazidomi">Kazidomi online</option>
+        <option value="delhaize">Delhaize</option>
+        <option value="boeren_buren">Boeren &amp; Buren pickup</option>
+        <option value="farm_direct">Direct farm order</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:11px;font-weight:700;display:block;margin-bottom:4px">🥩 Protein source:</label>
+      <select class="decision-select" id="dec_protein" onchange="saveDecisions()">
+        <option value="">— Select protein strategy —</option>
+        <option value="fresh_colruyt">Fresh organic — Colruyt</option>
+        <option value="fresh_bioplanet">Fresh organic — Bio-Planet</option>
+        <option value="frozen_picard">❄️ Frozen organic — Picard</option>
+        <option value="frozen_lidl">❄️ Frozen organic — Lidl</option>
+        <option value="farm_direct">🌱 Farm direct</option>
+        <option value="canned">🥫 Canned protein week</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:11px;font-weight:700;display:block;margin-bottom:4px">📦 Bulk action:</label>
+      <select class="decision-select" id="dec_bulk" onchange="saveDecisions()">
+        <option value="">— What bulk action? —</option>
+        <option value="none">Nothing this week</option>
+        <option value="amazon_order">Amazon Subscribe &amp; Save order</option>
+        <option value="kazidomi_joined">Joined Kazidomi (€89/yr)</option>
+        <option value="makro_joined">Got Makro/Metro card (BV)</option>
+        <option value="picard_order">Ordered from Picard frozen</option>
+        <option value="lidl_plus">Activated Lidl Plus coupons</option>
+        <option value="colruyt_xtra">Using Colruyt Xtra + Collect&amp;Go</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="decisionCards" style="margin-top:12px"></div>
+
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-green" onclick="saveDecisions()">💾 Save Decisions</button>
+    <button class="btn btn-teal" onclick="exportDecisions()">📋 Copy Summary for Claude</button>
+    <button class="btn btn-sample" onclick="logCurrentDecisions()">📝 Log This Week</button>
+    <span id="saveStatus" style="font-size:11px;color:var(--green-dark);align-self:center"></span>
+  </div>
+</div>
+
+<!-- ── DECISIONS LOG ── -->
+<div class="section">
+  <h2>📓 Decisions Log</h2>
+  <div class="log-scroll" id="decisionsLog">
+    <div style="text-align:center;padding:16px;color:var(--muted)">No decisions logged yet.</div>
+  </div>
+  <div style="margin-top:8px"><button class="btn btn-clear" onclick="clearLog()" style="font-size:11px;padding:5px 10px">🗑 Clear Log</button></div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// ROI ACTIONS DATA — 80/20 ranked, with frequency / source / URL / cost
+// ─────────────────────────────────────────────────────────────────────────────
+const ROI_ACTIONS = [
+  {
+    rank:1, icon:'🎨', action:'Replace Adobe CC → Affinity Suite (one-time €70)',
+    freq:'Ad-hoc', freqBadge:'b-purple',
+    source:'Affinity / Serif', url:'https://affinity.serif.com',
+    currentCost: 59.99, currentCostNote:'€59.99/mo',
+    savingPct: 100, savingYr: 650,
+    auto:'✅', autoNote:'Buy online, download instantly',
+    category:'Software', effort:'Low',
+    note:'One-time payment. Full replacement for Ps, Ai, Id. Pay back in 2 months.',
+    visor:true
+  },
+  {
+    rank:2, icon:'☁️', action:'Switch Dropbox Plus → Google One 2TB',
+    freq:'Ad-hoc', freqBadge:'b-purple',
+    source:'Google One', url:'https://one.google.com',
+    currentCost: 12.99, currentCostNote:'€12.99/mo',
+    savingPct: 69, savingYr: 108,
+    auto:'✅', autoNote:'Switch subscription online',
+    category:'Software', effort:'Low',
+    note:'Same storage, integrates with Drive. Cancel Dropbox after data moved.',
+    visor:true
+  },
+  {
+    rank:3, icon:'❄️', action:'Buy frozen organic protein (Picard / Lidl Bio)',
+    freq:'Weekly', freqBadge:'b-blue',
+    source:'Picard', url:'https://www.picard.be',
+    currentCost: 35, currentCostNote:'~€35/wk fresh',
+    savingPct: 30, savingYr: 780,
+    auto:'✅', autoNote:'Picard.be online order + home delivery',
+    category:'Food', effort:'Low',
+    note:'Frozen organic = same nutrition. Picard home delivery. Set recurring monthly order.',
+    visor:true
+  },
+  {
+    rank:4, icon:'📦', action:'Set up Amazon Subscribe & Save (household + staples)',
+    freq:'Monthly (auto)', freqBadge:'b-green',
+    source:'Amazon.be', url:'https://www.amazon.com.be',
+    currentCost: 25, currentCostNote:'~€25/mo shoppping trips',
+    savingPct: 15, savingYr: 312,
+    auto:'🤖', autoNote:'Fully automated recurring delivery',
+    category:'Household + Food', effort:'Low',
+    note:'Kitchen tissue, oats, legumes, tuna, dishwasher tabs. Set & forget. 5-15% discount.',
+    visor:true
+  },
+  {
+    rank:5, icon:'🛒', action:'Switch to Colruyt + Xtra card as primary store',
+    freq:'Weekly', freqBadge:'b-blue',
+    source:'Colruyt', url:'https://www.colruyt.be',
+    currentCost: 80, currentCostNote:'~€80/wk groceries',
+    savingPct: 15, savingYr: 520,
+    auto:'🔄', autoNote:'Collect&Go online order',
+    category:'Groceries', effort:'Low',
+    note:'Belgian price guarantee = always lowest. Xtra card auto-applies discounts. Use Collect&Go to avoid impulse buys.',
+    visor:true
+  },
+  {
+    rank:6, icon:'📱', action:'Activate Lidl Plus coupons every Monday',
+    freq:'Weekly', freqBadge:'b-blue',
+    source:'Lidl Plus', url:'https://www.lidl.be/nl/lidl-plus',
+    currentCost: 0, currentCostNote:'Free app',
+    savingPct: null, savingYr: 240,
+    auto:'✅', autoNote:'App — activate coupons each Monday',
+    category:'Groceries', effort:'Very Low',
+    note:'€3-8/week in weekly coupons auto-applied at checkout. Lidl Bio covers most organics.',
+    visor:true
+  },
+  {
+    rank:7, icon:'🌿', action:'Join Kazidomi organic membership',
+    freq:'Ad-hoc', freqBadge:'b-purple',
+    source:'Kazidomi', url:'https://www.kazidomi.com',
+    currentCost: 0, currentCostNote:'€89.99/yr cost',
+    savingPct: 25, savingYr: 200,
+    auto:'✅', autoNote:'Full online shop, home delivery',
+    category:'Organic Food', effort:'Low',
+    note:'20-30% off 2000+ organic products. Break-even at ~€450 annual purchases. Oat milk, nut butter, legumes.',
+    visor:false
+  },
+  {
+    rank:8, icon:'🏪', action:'Get Makro/Metro membership with RUTTENS+ VAT',
+    freq:'Ad-hoc → Monthly', freqBadge:'b-purple',
+    source:'Makro.be', url:'https://www.makro.be',
+    currentCost: 0, currentCostNote:'€30/yr card cost',
+    savingPct: 20, savingYr: 350,
+    auto:'🔄', autoNote:'Register online; shop in-store or online',
+    category:'Bulk / BV', effort:'Medium',
+    note:'15-30% on cleaning bulk, coffee, protein, stationery. Use RUTTENS+ VAT number. Pays back first shop.',
+    visor:false
+  },
+  {
+    rank:9, icon:'🌱', action:'Order from Antwerp farm collective (eggs, chicken)',
+    freq:'Weekly / Bi-weekly', freqBadge:'b-blue',
+    source:'Boeren & Buren', url:'https://boerenenburen.be',
+    currentCost: 12, currentCostNote:'~€12/wk supermarket',
+    savingPct: 25, savingYr: 260,
+    auto:'✅', autoNote:'Online order, pickup point nearby',
+    category:'Fresh Food', effort:'Low',
+    note:'Local organic eggs/chicken, 20-30% cheaper than Bio-Planet. Order Tue, collect Thu. Free to join.',
+    visor:false
+  },
+  {
+    rank:10, icon:'🐟', action:'Canned wild fish bulk (Amazon 24-pack tuna/sardines)',
+    freq:'Monthly (auto)', freqBadge:'b-green',
+    source:'Amazon.be', url:'https://www.amazon.com.be',
+    currentCost: 8, currentCostNote:'~€8/wk fresh/shop',
+    savingPct: 35, savingYr: 150,
+    auto:'🤖', autoNote:'Subscribe & Save, auto monthly',
+    category:'Protein', effort:'Very Low',
+    note:'€0.99-1.25/can vs €1.49-2.49 in supermarket. Same wild MSC quality. Set Subscribe & Save.',
+    visor:false
+  },
+  {
+    rank:11, icon:'🌾', action:'Organic legumes/oats bulk (5kg Amazon)',
+    freq:'Monthly (auto)', freqBadge:'b-green',
+    source:'Amazon.be', url:'https://www.amazon.com.be',
+    currentCost: 15, currentCostNote:'~€15/mo supermarket',
+    savingPct: 30, savingYr: 108,
+    auto:'🤖', autoNote:'Subscribe & Save, auto monthly',
+    category:'Staples', effort:'Very Low',
+    note:'Chickpeas/lentils/oats at €1.99-2.20/kg vs €2.50-3.79 in shops. 2-year shelf life.',
+    visor:false
+  },
+  {
+    rank:12, icon:'🛡️', action:'Cancel redundant VPN → Mullvad (€5/mo flat)',
+    freq:'Ad-hoc', freqBadge:'b-purple',
+    source:'Mullvad', url:'https://mullvad.net',
+    currentCost: 9.99, currentCostNote:'€9.99/mo',
+    savingPct: 50, savingYr: 60,
+    auto:'✅', autoNote:'Sign up online, pay by card',
+    category:'Software', effort:'Very Low',
+    note:'No account needed, privacy-first, same speed. Or check if current VPN can go annual (-30%).',
+    visor:false
+  },
+];
+
+// % of total annual saving per action (for 80/20 bar)
+const TOTAL_SAVING_YR = ROI_ACTIONS.reduce((s,a) => s + (a.savingYr||0), 0);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DECISION ITEMS (linked to ROI_ACTIONS)
+// ─────────────────────────────────────────────────────────────────────────────
+const DECISION_ITEMS = [
+  { id:'adobe',       label:'Replace Adobe CC → Affinity Suite (one-time €70)',          save:'€650+/yr' },
+  { id:'dropbox',     label:'Switch Dropbox → Google One 2TB (€3.99/mo)',                save:'€108/yr'  },
+  { id:'frozen',      label:'Buy frozen organic protein — Picard / Lidl',                save:'€780/yr'  },
+  { id:'amazon_sub',  label:'Set up Amazon Subscribe & Save (household + staples)',       save:'€312/yr'  },
+  { id:'colruyt',     label:'Switch to Colruyt as primary store + Xtra card',            save:'€520/yr'  },
+  { id:'lidl_plus',   label:'Activate Lidl Plus coupons every Monday',                   save:'€240/yr'  },
+  { id:'kazidomi',    label:'Join Kazidomi organic membership (€89/yr)',                  save:'€200/yr net' },
+  { id:'makro',       label:'Get Makro/Metro card with RUTTENS+ VAT number',             save:'€350/yr'  },
+  { id:'farm_direct', label:'Order from Boeren & Buren / Baarbeekhoeve (eggs, chicken)', save:'€260/yr'  },
+  { id:'canned_fish', label:'Amazon Subscribe & Save — tuna/sardines 24-pack',           save:'€150/yr'  },
+  { id:'legumes',     label:'Amazon 5kg organic legumes/oats bulk order',                save:'€108/yr'  },
+  { id:'vpn',         label:'Switch VPN to Mullvad (€5/mo) or go annual',               save:'€60/yr'   },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PRICE DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const PRICES = {
+  food: [
+    { item:'Chicken breast organic (/kg)', col:16.99, del:21.99, car:18.99, lid:null, bio:19.99, amz:null, kaz:17.50, frz:'Picard organic frozen €13.50/kg ✓ best' },
+    { item:'Whole organic chicken (/kg)',  col:11.99, del:14.99, car:12.99, lid:9.99, bio:13.99, amz:null, kaz:null,  frz:'Picard free-range frozen €9.50/kg' },
+    { item:'Wild salmon (/kg)',            col:24.99, del:29.99, car:26.99, lid:19.99,bio:null,  amz:null, kaz:null,  frz:'Lidl Almare frozen wild €18.99/kg ✓' },
+    { item:'Organic cod fillets (/kg)',    col:19.99, del:24.99, car:21.99, lid:16.99,bio:null,  amz:null, kaz:null,  frz:'Lidl frozen organic cod €14.99/kg ✓' },
+    { item:'Canned tuna wild (140g)',      col:1.89,  del:2.49,  car:2.09,  lid:1.49, bio:null,  amz:1.25, kaz:1.65,  frz:null },
+    { item:'Canned sardines MSC (120g)',   col:1.49,  del:1.99,  car:1.69,  lid:1.19, bio:null,  amz:0.99, kaz:1.30,  frz:null },
+    { item:'Eggs organic free-range (x12)',col:3.99,  del:4.99,  car:4.49,  lid:3.49, bio:4.29,  amz:null, kaz:3.85,  frz:null },
+    { item:'Greek yogurt organic (500g)',  col:2.99,  del:3.79,  car:3.29,  lid:2.49, bio:3.49,  amz:null, kaz:2.79,  frz:null },
+  ],
+  staples: [
+    { item:'Dried chickpeas organic (/kg)',col:2.89, del:3.79, car:3.19, lid:2.49, bio:3.49, amz:2.20, kaz:2.65, frz:null },
+    { item:'Dried lentils organic (/kg)',  col:2.69, del:3.49, car:2.99, lid:2.29, bio:3.29, amz:1.99, kaz:2.45, frz:null },
+    { item:'Black beans organic (/kg)',    col:2.79, del:3.59, car:3.09, lid:null,  bio:3.39, amz:2.10, kaz:2.55, frz:null },
+    { item:'Rolled oats organic (/kg)',    col:1.99, del:2.79, car:2.29, lid:1.69, bio:2.59, amz:1.45, kaz:1.79, frz:null },
+    { item:'Oat milk organic (1L)',        col:1.79, del:2.29, car:1.99, lid:1.49, bio:2.09, amz:1.35, kaz:1.55, frz:null },
+    { item:'Olive oil organic (750ml)',    col:7.99, del:10.99,car:8.99, lid:6.99, bio:9.49, amz:6.50, kaz:7.25, frz:null },
+    { item:'Quinoa organic (/kg)',         col:5.49, del:7.99, car:6.49, lid:4.99, bio:7.49, amz:4.25, kaz:5.10, frz:null },
+    { item:'Frozen organic veg mix (/kg)', col:3.49, del:4.29, car:3.79, lid:2.79, bio:4.49, amz:null, kaz:null, frz:'Frozen = same nutrients, 40% cheaper' },
+    { item:'Organic almond butter (250g)', col:5.99, del:8.49, car:6.99, lid:4.99, bio:7.49, amz:4.50, kaz:5.25, frz:null },
+  ],
+  household: [
+    { item:'Kitchen tissue rolls (x4)',    col:1.99, del:2.79, car:2.29, lid:1.69, amz:1.45 },
+    { item:'Dishwasher tabs eco (x40)',    col:6.99, del:9.99, car:7.99, lid:5.99, amz:5.50 },
+    { item:'Laundry liquid eco (2L)',      col:7.99, del:10.99,car:8.99, lid:6.49, amz:6.99 },
+    { item:'Toilet paper recycled (x12)', col:4.99, del:6.99, car:5.49, lid:4.29, amz:3.99 },
+    { item:'Bin bags 30L (x30)',           col:2.99, del:3.79, car:3.29, lid:2.49, amz:2.10 },
+    { item:'Hand soap organic (300ml)',    col:2.49, del:3.49, car:2.99, lid:1.99, amz:1.80 },
+  ],
+  software: [
+    { sub:'Adobe Creative Cloud',   mo:59.99, alt:'Affinity Suite (one-time €70)', moAlt:0,    note:'Pays back month 2. No sub forever after. Buy at affinity.serif.com' },
+    { sub:'Dropbox Plus',           mo:12.99, alt:'Google One 2TB (€3.99/mo)',     moAlt:3.99, note:'€108/yr saved. Integrates with Drive. one.google.com' },
+    { sub:'Spotify',                mo:11.99, alt:'Annual plan (€9.99/mo avg)',     moAlt:9.99, note:'€24/yr saved — same service.' },
+    { sub:'VPN service',            mo:9.99,  alt:'Mullvad (€5/mo flat)',           moAlt:5.00, note:'Privacy-first, no account. mullvad.net' },
+    { sub:'LastPass/1Password',     mo:4.99,  alt:'Bitwarden (FREE)',               moAlt:0,    note:'Open source, same features. bitwarden.com' },
+    { sub:'Microsoft 365 Personal', mo:7.99,  alt:'Annual plan (€5.83/mo avg)',     moAlt:5.83, note:'€26/yr saved — switch at microsoft365.com' },
+    { sub:'Notion Personal Pro',    mo:8.00,  alt:'Notion Free (generous)',         moAlt:0,    note:'Free tier covers most solo use. Downgrade in settings.' },
+    { sub:'Antivirus premium',      mo:5.99,  alt:'Windows Defender (free)',        moAlt:0,    note:'Now excellent. Disable paid AV from settings.' },
+  ],
+  bulk: [
+    { name:'Amazon Subscribe & Save 🤖', cost:'Free', save:'5-15% off recurring. Fully automated monthly delivery.', action:'amazon.com.be — set up for: kitchen tissue, dishwasher tabs, oats, tuna, supplements', url:'https://www.amazon.com.be' },
+    { name:'Picard frozen organic 🤖', cost:'Free delivery on orders €60+', save:'Organic frozen chicken/fish/veg 20-40% cheaper than fresh. Same nutrition.', action:'picard.be — online order, Belgium-wide home delivery', url:'https://www.picard.be' },
+    { name:'Colruyt Xtra + Collect&Go 🔄', cost:'Free card', save:'Price guarantee (lowest in BE) + weekly auto-discounts. Collect&Go avoids impulse buys.', action:'colruyt.be — register Xtra card, use Collect&Go', url:'https://www.colruyt.be/nl/collectgo' },
+    { name:'Kazidomi organic membership ✅', cost:'€89.99/yr', save:'20-30% off 2000+ organic products. Best for: oat milk, nut butters, legumes, supplements.', action:'kazidomi.com — full online shop with delivery', url:'https://www.kazidomi.com' },
+    { name:'Makro/Metro BV card 🏪', cost:'€30/yr', save:'15-30% on bulk food, cleaning, coffee, stationery. BV card = business pricing.', action:'makro.be — register with RUTTENS+ VAT number online', url:'https://www.makro.be' },
+    { name:'Lidl Plus app 📱', cost:'Free', save:'€3-8/week in auto-applied weekly coupons. Lidl Bio = best-value organic.', action:'lidl-plus.be — download, activate coupons every Monday', url:'https://www.lidl.be/nl/lidl-plus' },
+  ],
+  farms: [
+    { name:'Boeren & Buren — Antwerpen', type:'Pickup collective', location:'Hal 5 Locomotievenstraat 1 + Provinciehuis', products:['🥦 Vegetables','🥩 Meat','🥚 Eggs','🐟 Fish','🍞 Bread','🥛 Dairy'], url:'https://boerenenburen.be', note:'Weekly local pickup. Order Tue, collect Thu/Fri. Free to join. Local farms, organic & sustainable.', how:'Create account at boerenenburen.be → find nearest Buurderij → order weekly' },
+    { name:'Oogstappel CSA Antwerpen', type:'CSA vegetable box', location:'PAKT, Antwerp — pickup Wed 15:00–19:00', products:['🥦 Seasonal veg','🌿 Herbs','🫛 Legumes'], url:'https://www.oogstappel.com', note:'Easter to Christmas. Weekly vegetable package assembled fresh. Transparent pricing.', how:'Subscribe at oogstappel.com for weekly veg share' },
+    { name:'Recht van bij de Boer — Antwerp Eggs', type:'Farm directory (443 egg producers)', location:'Province of Antwerp (multiple farms)', products:['🥚 Eggs','🥩 Meat','🥦 Vegetables'], url:'https://rechtvanbijdeboer.be/hoeve-eieren-antwerpen', note:'Filter by province + "home delivery". Organic certified farms listed separately.', how:'rechtvanbijdeboer.be → Antwerpen → home delivery filter' },
+    { name:'Voedselteams Antwerpen Zuid', type:'Food buying collective', location:'Antwerp South', products:['🥦 Vegetables','🥚 Eggs','🧈 Dairy','🌾 Grains'], url:'https://www.voedselteams.be/antwerpen-zuid', note:'Volunteer-run. Bulk orders from local organic farms split among members.', how:'Email antwerpenzuid@voedselteams.be to join' },
+    { name:'Baarbeekhoeve Antwerpen', type:'Bio farm shop + market', location:'Antwerp shop + Wed & Sun markets', products:['🥩 Bio meat','🥚 Eggs','🥦 Vegetables'], url:'https://baarbeekhoeve.be', note:'Own-farm cultivation, bio certified. Also weekly markets.', how:'baarbeekhoeve.be — call to reserve meat box' },
+    { name:'CSA Netwerk Vlaanderen', type:'CSA farm finder', location:'Province Antwerp (200+ farms)', products:['🥦 Veg boxes','🥩 Meat shares','🥚 Eggs'], url:'https://www.csa-netwerk.be/vind-een-boerderij', note:'Directory of CSA farms. Annual share model. 2026–27 spots opening now.', how:'csa-netwerk.be/vind-een-boerderij → filter Antwerp' },
+    { name:'Boeren in het Bos — Online Meat', type:'Online farm delivery', location:'Belgium-wide delivery', products:['🥩 Grass-fed beef','🐔 Free-range chicken','🐖 Pork'], url:'https://www.boereninhetbos.shop', note:'Online organic meat, Belgian farms. Home delivery. Monthly protein boxes.', how:'boereninhetbos.shop — set up recurring monthly order 🤖' },
+  ]
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CATEGORIES
+// ─────────────────────────────────────────────────────────────────────────────
+const CATS = {
+  groceries:  { lbl:'Groceries & Food',   icon:'🛒', color:'#22c55e' },
+  software:   { lbl:'Software & Subs',    icon:'💻', color:'#3b82f6' },
+  restaurant: { lbl:'Restaurants',        icon:'🍽️', color:'#f59e0b' },
+  transport:  { lbl:'Transport',          icon:'🚗', color:'#8b5cf6' },
+  health:     { lbl:'Health',             icon:'💊', color:'#ef4444' },
+  other:      { lbl:'Other',              icon:'📋', color:'#94a3b8' },
+};
+const KW = {
+  groceries:  ['colruyt','delhaize','carrefour','lidl','aldi','bio-planet','bioplanet','kazidomi','picard','makro','metro','cora','spar','supermarkt'],
+  software:   ['netflix','spotify','adobe','microsoft','google','amazon','dropbox','slack','notion','chatgpt','claude','openai','apple','icloud','youtube','linkedin','canva','zoom','hubspot','figma','github','cursor','anthropic','midjourney','affinity','mullvad'],
+  restaurant: ['café','cafe','restaurant','brasserie','pizza','sushi','lunch','dinner','delivery','uber eats','deliveroo','takeaway','quick','mcdo','burger','friterie','frituur','kebab','traiteur','bakkerij','boulangerie'],
+  transport:  ['nmbs','sncb','delijn','de lijn','tec','mivb','stib','parking','uber','bolt','taxi','train','bus','fuel','esso','q8','total','fiets'],
+  health:     ['pharmacie','apotheek','pharmacy','dokter','fitness','basic-fit','ziekenfonds','mutualit'],
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MONTHLY BASELINE DATA (April 2026 — entered from Qonto CSV or manual)
+// ─────────────────────────────────────────────────────────────────────────────
+const BASELINE_MONTH = 'April 2026';
+const MONTHS_ORDER = ['April 2026','May 2026','June 2026','July 2026','August 2026','September 2026'];
+
+function loadMonthlyData() {
+  try { return JSON.parse(localStorage.getItem('ruttens_monthly') || '{}'); }
+  catch(e) { return {}; }
+}
+function saveMonthlyData(data) {
+  localStorage.setItem('ruttens_monthly', JSON.stringify(data));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let txns = [];
+let catChart = null;
+let currentMainTab = 'roi';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CATEGORISE
+// ─────────────────────────────────────────────────────────────────────────────
+function catOf(label) {
+  const l = (label || '').toLowerCase();
+  for (const [cat, kws] of Object.entries(KW)) {
+    if (kws.some(k => l.includes(k))) return cat;
+  }
+  return 'other';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CSV PARSER
+// ─────────────────────────────────────────────────────────────────────────────
+function splitCSV(line) {
+  const res = []; let cur = ''; let inQ = false;
+  for (const ch of line) {
+    if (ch === '"') { inQ = !inQ; }
+    else if ((ch === ',' || ch === ';') && !inQ) { res.push(cur.trim()); cur = ''; }
+    else cur += ch;
+  }
+  res.push(cur.trim());
+  return res;
+}
+
+function parseCSVToTxns(raw) {
+  const rows = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const hdr = rows[0].toLowerCase();
+  const txs = [];
+  for (let i = 1; i < rows.length; i++) {
+    const c = splitCSV(rows[i]);
+    if (c.length < 2) continue;
+    let date = '', label = '', amount = 0;
+    if (hdr.includes('libellé') || hdr.includes('débit eur') || hdr.includes('debit eur')) {
+      date = c[0]; label = c[1];
+      const debit  = parseFloat((c[4]||'0').replace(',','.'));
+      const credit = parseFloat((c[5]||'0').replace(',','.'));
+      amount = debit > 0 ? debit : -credit;
+    } else {
+      date = c[0]; label = c[1];
+      const nums = c.slice(2).map(v => parseFloat(v.replace(',','.'))).filter(n => !isNaN(n) && n !== 0);
+      amount = nums.length ? Math.abs(nums[0]) : 0;
+    }
+    if (!label || !amount || isNaN(amount) || amount <= 0) continue;
+    txs.push({ date: date.replace(/"/g,''), label: label.replace(/"/g,''), amount, cat: catOf(label) });
+  }
+  return txs;
+}
+
+function parseAndRender() {
+  const raw = document.getElementById('csvInput').value.trim();
+  if (!raw) { alert('Paste Qonto CSV first.'); return; }
+  txns = parseCSVToTxns(raw);
+  if (!txns.length) { alert('No valid transactions found. Check CSV format or try Sample Data.'); return; }
+  render();
+}
+
+function loadSample() {
+  txns = [
+    { date:'2026-06-09', label:'Colruyt Ixelles',         amount:67.45, cat:'groceries' },
+    { date:'2026-06-09', label:'Netflix Belgium',          amount:15.99, cat:'software'  },
+    { date:'2026-06-10', label:'Delhaize Uccle',           amount:48.20, cat:'groceries' },
+    { date:'2026-06-10', label:'Spotify',                  amount:11.99, cat:'software'  },
+    { date:'2026-06-11', label:'Brasserie La Clef',        amount:42.00, cat:'restaurant'},
+    { date:'2026-06-11', label:'NMBS Brussel-Antwerpen',   amount:12.60, cat:'transport' },
+    { date:'2026-06-12', label:'Amazon Prime',             amount:4.99,  cat:'software'  },
+    { date:'2026-06-12', label:'Lidl Etterbeek',           amount:28.30, cat:'groceries' },
+    { date:'2026-06-13', label:'Adobe Creative Cloud',     amount:59.99, cat:'software'  },
+    { date:'2026-06-13', label:'Bio-Planet Ixelles',       amount:52.80, cat:'groceries' },
+    { date:'2026-06-14', label:'Apotheek De Groene Leeuw', amount:18.50, cat:'health'    },
+    { date:'2026-06-14', label:'Dropbox Plus',             amount:12.99, cat:'software'  },
+    { date:'2026-06-14', label:'Parking Brussels City',    amount:8.00,  cat:'transport' },
+    { date:'2026-06-15', label:'Cursor AI Pro',            amount:20.00, cat:'software'  },
+  ];
+  render();
+}
+
+function clearAll() {
+  txns = [];
+  document.getElementById('csvInput').value = '';
+  ['kTotal','kGrocery','kSoftware','kSavings'].forEach(id => document.getElementById(id).textContent = '€0');
+  document.getElementById('kTotalSub').textContent = 'Import data';
+  document.getElementById('kGrocerySub').textContent = '—';
+  document.getElementById('kSoftwareSub').textContent = '—';
+  document.getElementById('txList').innerHTML = '<div style="text-align:center;padding:28px;color:var(--muted)"><div style="font-size:28px;margin-bottom:6px">🧾</div><div>No transactions.</div></div>';
+  document.getElementById('recList').innerHTML = '';
+  if (catChart) { catChart.destroy(); catChart = null; }
+  document.getElementById('weekLabel').textContent = 'No data yet — import Qonto CSV';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────────────────────────
+function render() {
+  const total   = txns.reduce((s,t) => s + t.amount, 0);
+  const byCat   = {};
+  txns.forEach(t => byCat[t.cat] = (byCat[t.cat]||0) + t.amount);
+  const grocery  = byCat.groceries  || 0;
+  const software = byCat.software   || 0;
+  const potSave  = grocery * 0.20 + software * 0.38;
+
+  const dates = [...txns.map(t => t.date)].sort();
+  document.getElementById('weekLabel').textContent = dates.length ? `${dates[0]} → ${dates[dates.length-1]} · ${txns.length} transactions` : 'Data loaded';
+  document.getElementById('updateTs').textContent = new Date().toLocaleDateString('fr-BE');
+
+  document.getElementById('kTotal').textContent    = '€' + total.toFixed(2);
+  document.getElementById('kGrocery').textContent  = '€' + grocery.toFixed(2);
+  document.getElementById('kSoftware').textContent = '€' + software.toFixed(2);
+  document.getElementById('kSavings').textContent  = '€' + potSave.toFixed(2);
+  document.getElementById('kTotalSub').textContent = `${txns.length} transactions`;
+  document.getElementById('kGrocerySub').textContent = total > 0 ? `${((grocery/total)*100).toFixed(0)}% of total` : '—';
+  document.getElementById('kSoftwareSub').textContent = `${txns.filter(t=>t.cat==='software').length} subs`;
+
+  renderChart(byCat);
+  renderTxns();
+  renderRecs(byCat);
+  renderImpact(potSave);
+  mainTab(currentMainTab);
+}
+
+function renderChart(byCat) {
+  const canvas = document.getElementById('catChart');
+  const keys = Object.keys(byCat);
+  if (!keys.length) return;
+  if (catChart) catChart.destroy();
+  catChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: keys.map(k => (CATS[k]?.icon||'') + ' ' + (CATS[k]?.lbl||k)),
+      datasets: [{ data: keys.map(k => byCat[k].toFixed(2)), backgroundColor: keys.map(k => CATS[k]?.color||'#ccc'), borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'bottom', labels:{ font:{ size:10 }, padding:8 } },
+        tooltip: { callbacks: { label: ctx => ' €' + parseFloat(ctx.parsed).toFixed(2) } }
+      }
+    }
+  });
+}
+
+function renderTxns() {
+  const sorted = [...txns].sort((a,b) => b.amount - a.amount);
+  const catBadge = c => { const m = { groceries:'b-green', software:'b-blue', restaurant:'b-orange', transport:'b-purple', health:'b-red', other:'b-gray' }; return `<span class="badge ${m[c]||'b-gray'}">${CATS[c]?.icon||'📋'}</span>`; };
+  document.getElementById('txList').innerHTML = `<div class="scroll-y"><table>
+    <thead><tr><th>Date</th><th>Description</th><th></th><th class="ta-right">€</th></tr></thead>
+    <tbody>${sorted.map(t=>`<tr><td style="color:var(--muted);white-space:nowrap">${t.date}</td><td>${t.label}</td><td>${catBadge(t.cat)}</td><td class="ta-right" style="font-weight:700">€${t.amount.toFixed(2)}</td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function renderRecs(byCat) {
+  const grocery  = byCat.groceries  || 0;
+  const software = byCat.software   || 0;
+  const labels   = txns.map(t => t.label.toLowerCase());
+  const has = kw => labels.some(l => l.includes(kw));
+  const recs = [];
+  if (has('adobe'))    recs.push({ icon:'🎨', title:'#1 ROI: Adobe CC (€60/mo) → Affinity one-time €70', detail:'Saves €650/yr. One-time buy, immediate payback. affinity.serif.com', save:'€650+/yr', cls:'' });
+  if (has('dropbox'))  recs.push({ icon:'☁️', title:'#2 ROI: Dropbox → Google One 2TB', detail:'€108/yr saved. 5 min to switch. one.google.com', save:'€108/yr', cls:'r-blue' });
+  if (grocery > 40)    recs.push({ icon:'❄️', title:'#3 ROI: Frozen organic protein (Picard online)', detail:'Same nutrition, 30% cheaper. Set recurring order at picard.be 🤖', save:'€780/yr', cls:'r-orange' });
+  if (grocery > 30)    recs.push({ icon:'📦', title:'#4 ROI: Amazon Subscribe & Save (fully automated 🤖)', detail:'Household + staples auto-delivered monthly. Set up in 10 min at amazon.com.be', save:'€312/yr', cls:'r-blue' });
+  if (has('delhaize') || grocery > 50) recs.push({ icon:'🛒', title:'#5 ROI: Switch primary store to Colruyt', detail:'Price guarantee = always lowest in BE. Use Collect&Go to order online.', save:'€520/yr', cls:'r-orange' });
+  recs.push({ icon:'📱', title:'#6 ROI: Lidl Plus coupons (activate every Monday)', detail:'€3-8/week auto-applied. Download Lidl Plus app, takes 2 minutes.', save:'€240/yr', cls:'' });
+  recs.push({ icon:'🌱', title:'#9 ROI: Boeren & Buren eggs/chicken (online order)', detail:'Local organic, 25% cheaper than Bio-Planet. Order online, collect at Antwerp pickup.', save:'€260/yr', cls:'r-teal' });
+  document.getElementById('recList').innerHTML = recs.slice(0,6).map(r => `
+    <div class="rec ${r.cls}">
+      <div class="rec-icon">${r.icon}</div>
+      <div><div class="rec-title">${r.title}</div><div class="rec-detail">${r.detail}</div><div class="rec-save">💚 ${r.save}</div></div>
+    </div>`).join('');
+}
+
+function renderImpact(weekSave) {
+  const yr = weekSave * 52;
+  const fiGap = 750000 - 573000;
+  const pct = Math.min(100, (yr / fiGap * 100)).toFixed(1);
+  const totalROI = TOTAL_SAVING_YR;
+  document.getElementById('impactTable').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+      <div class="card c-green"><div class="lbl">Weekly savings estimate</div><div class="val" style="font-size:20px">€${weekSave.toFixed(0)}</div><div class="sub">From this week's spend</div></div>
+      <div class="card c-blue"><div class="lbl">Annual from weekly savings</div><div class="val" style="font-size:20px">€${yr.toFixed(0)}</div><div class="sub">Reinvested monthly</div></div>
+      <div class="card c-orange"><div class="lbl">Max annual ROI (all actions)</div><div class="val" style="font-size:20px">€${totalROI.toLocaleString()}</div><div class="sub">If all actions completed</div></div>
+      <div class="card c-red"><div class="lbl">FI gap coverage / year</div><div class="val" style="font-size:20px">${pct}%</div><div class="sub">Of €177k gap (€573k→€750k)</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);background:var(--light);padding:10px;border-radius:8px">
+      💡 <strong>80/20 Rule:</strong> The top 6 actions (Adobe, Dropbox, Frozen protein, Amazon Auto, Colruyt, Lidl Plus) deliver <strong>€2,610/yr = 78%</strong> of total potential savings with the lowest effort. Complete those first.
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN TABS
+// ─────────────────────────────────────────────────────────────────────────────
+function mainTab(name) {
+  currentMainTab = name;
+  document.querySelectorAll('#mainTabs .tab').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('onclick') === `mainTab('${name}')`);
+  });
+  const el = document.getElementById('mainContent');
+
+  if (name === 'roi') { renderROI(el); }
+  else if (name === 'food' || name === 'staples') { renderPriceTable(el, name); }
+  else if (name === 'household') { renderHousehold(el); }
+  else if (name === 'software') { renderSoftware(el); }
+  else if (name === 'bulk') { renderBulk(el); }
+  else if (name === 'farms') { renderFarms(el); }
+  else if (name === 'monthly') { renderMonthly(el); }
+}
+
+function renderROI(el) {
+  const data = loadDecisions();
+  const items = data.items || {};
+  const cumSaving = [];
+  let running = 0;
+  ROI_ACTIONS.forEach(a => { running += (a.savingYr||0); cumSaving.push(running); });
+
+  const rankClass = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'rn';
+  const freqBadge = (f, cls) => `<span class="badge ${cls||'b-gray'}">${f}</span>`;
+  const autoIcon = a => a === '🤖' ? `<span title="Fully automated recurring delivery">🤖 Auto</span>` : a === '✅' ? `<span title="Online purchase/signup">✅ Online</span>` : `<span title="Hybrid - part online">🔄 Hybrid</span>`;
+  const barColor = i => {
+    const cumPct = (cumSaving[i] / TOTAL_SAVING_YR) * 100;
+    return cumPct <= 50 ? '#22c55e' : cumPct <= 80 ? '#f59e0b' : '#94a3b8';
+  };
+  const pctOfTotal = a => ((a.savingYr||0) / TOTAL_SAVING_YR * 100).toFixed(0);
+  const topRowStyle = i => i < 6 ? 'background:#fffbeb;' : '';
+
+  el.innerHTML = `
+    <div class="alert alert-orange" style="margin-bottom:12px">
+      <strong>80/20 Focus:</strong> Top 6 actions (ranks 1–6, highlighted) deliver €2,610/yr = 78% of all savings. Automate online where possible 🤖.
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th class="ta-center">#</th>
+        <th>Action</th>
+        <th>Frequency</th>
+        <th>Source &amp; URL</th>
+        <th class="ta-right">Current Cost</th>
+        <th class="ta-right">Saving %</th>
+        <th class="ta-right">Saving €/yr</th>
+        <th class="ta-right">% of Total</th>
+        <th class="ta-center">🤖 Online</th>
+        <th class="ta-center">✓ Done</th>
+      </tr></thead>
+      <tbody>
+      ${ROI_ACTIONS.map((a,i) => {
+        const saved = items[DECISION_ITEMS[i]?.id] || {};
+        const done = saved.checked || saved.status === 'done';
+        const barW = Math.round((a.savingYr||0) / Math.max(...ROI_ACTIONS.map(x=>x.savingYr||0)) * 100);
+        return `<tr style="${topRowStyle(i)}${done?'opacity:0.55;':''}">
+          <td class="ta-center"><span class="roi-rank ${rankClass(a.rank)}">${a.rank}</span></td>
+          <td>
+            <div style="font-weight:700;font-size:12px">${a.icon} ${a.action}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">${a.note}</div>
+          </td>
+          <td>${freqBadge(a.freq, a.freqBadge)}</td>
+          <td>
+            <div style="font-weight:600;font-size:11px">${a.source}</div>
+            <a href="${a.url}" target="_blank" style="font-size:10px;color:var(--blue)">${a.url.replace('https://','')}</a>
+          </td>
+          <td class="ta-right" style="color:var(--accent);font-weight:700;white-space:nowrap">${a.currentCostNote}</td>
+          <td class="ta-right"><span style="font-weight:700;color:var(--green-dark)">${a.savingPct != null ? a.savingPct+'%' : '—'}</span></td>
+          <td class="ta-right">
+            <div style="font-weight:800;color:var(--green-dark)">€${(a.savingYr||0).toLocaleString()}</div>
+            <div class="saving-bar-wrap"><div class="saving-bar"><div class="saving-fill" style="width:${barW}%;background:${barColor(i)}"></div></div></div>
+          </td>
+          <td class="ta-right">
+            <span class="badge b-green">${pctOfTotal(a)}%</span>
+          </td>
+          <td class="ta-center">${autoIcon(a.auto)}<div style="font-size:10px;color:var(--muted);margin-top:2px">${a.autoNote}</div></td>
+          <td class="ta-center"><span style="font-size:18px">${done ? '✅' : '⬜'}</span></td>
+        </tr>`;
+      }).join('')}
+      <tr style="background:#f0fdf4;font-weight:700">
+        <td colspan="6" style="text-align:right;font-size:12px;color:var(--green-dark)">TOTAL ANNUAL SAVINGS POTENTIAL</td>
+        <td class="ta-right" style="color:var(--green-dark);font-size:16px;font-weight:800">€${TOTAL_SAVING_YR.toLocaleString()}</td>
+        <td class="ta-right"><span class="badge b-green">100%</span></td>
+        <td colspan="2"></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+      🤖 = Fully automated recurring · ✅ = Online purchase/signup · 🔄 = Hybrid (online + some in-store) · Rows highlighted in yellow = 80/20 priority actions
+    </div>`;
+}
+
+function renderPriceTable(el, name) {
+  const rows = PRICES[name];
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th>Product</th>
+      <th class="ta-right">Colruyt</th><th class="ta-right">Delhaize</th><th class="ta-right">Carrefour</th>
+      <th class="ta-right">Lidl</th><th class="ta-right">Bio-Planet</th><th class="ta-right">Amazon 🤖</th>
+      <th class="ta-right">Kazidomi 🤖</th><th>❄️ Frozen / Best tip</th>
+    </tr></thead>
+    <tbody>
+    ${rows.map(r => {
+      const vals = [r.col,r.del,r.car,r.lid,r.bio,r.amz,r.kaz].filter(v=>v!=null);
+      const min = Math.min(...vals);
+      const c = v => v===null ? '<td class="ta-right na">—</td>' : `<td class="ta-right${v===min?' best':''}">${v===min?'✓ ':''}€${v.toFixed(2)}</td>`;
+      return `<tr><td><strong>${r.item}</strong></td>${c(r.col)}${c(r.del)}${c(r.car)}${c(r.lid)}${c(r.bio)}${c(r.amz)}${c(r.kaz)}<td style="font-size:11px;color:var(--muted)">${r.frz||'—'}</td></tr>`;
+    }).join('')}
+    </tbody></table>`;
+}
+
+function renderHousehold(el) {
+  const rows = PRICES.household;
+  el.innerHTML = `<table>
+    <thead><tr><th>Product</th><th class="ta-right">Colruyt</th><th class="ta-right">Delhaize</th><th class="ta-right">Carrefour</th><th class="ta-right">Lidl</th><th class="ta-right">Amazon 🤖</th><th>Recommendation</th></tr></thead>
+    <tbody>
+    ${rows.map(r => {
+      const vals = [r.col,r.del,r.car,r.lid,r.amz].filter(v=>v!=null);
+      const min = Math.min(...vals);
+      const c = v => v===null ? '<td class="ta-right na">—</td>' : `<td class="ta-right${v===min?' best':''}">${v===min?'✓ ':''}€${v.toFixed(2)}</td>`;
+      const saved = (Math.max(...vals) - min).toFixed(2);
+      return `<tr><td><strong>${r.item}</strong></td>${c(r.col)}${c(r.del)}${c(r.car)}${c(r.lid)}${c(r.amz)}<td style="font-size:11px;color:var(--green-dark)">🤖 Amazon S&S saves €${saved}/unit</td></tr>`;
+    }).join('')}
+    </tbody></table>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">🤖 = Amazon Subscribe & Save — set recurring delivery for all household staples at amazon.com.be</div>`;
+}
+
+function renderSoftware(el) {
+  el.innerHTML = `<table>
+    <thead><tr><th>Subscription</th><th class="ta-right">Current/mo</th><th>Better alternative</th><th class="ta-right">Alt/mo</th><th class="ta-right">Save/yr</th><th class="ta-center">🤖 How</th><th>Note</th></tr></thead>
+    <tbody>
+    ${PRICES.software.map(r => {
+      const save = (r.mo - r.moAlt) * 12;
+      return `<tr>
+        <td><strong>${r.sub}</strong></td>
+        <td class="ta-right" style="color:var(--accent);font-weight:700">€${r.mo}</td>
+        <td>${r.alt}</td>
+        <td class="ta-right best">€${r.moAlt||'0'}</td>
+        <td class="ta-right best">${save>0?'€'+save.toFixed(0):r.moAlt===0?'€'+(r.mo*12).toFixed(0):'—'}</td>
+        <td class="ta-center" style="font-size:16px">✅</td>
+        <td style="font-size:11px;color:var(--muted)">${r.note}</td>
+      </tr>`;
+    }).join('')}
+    </tbody></table>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">✅ = All software changes are online — cancel/switch in a few minutes. Biggest win: Adobe CC (€650/yr saved).</div>`;
+}
+
+function renderBulk(el) {
+  el.innerHTML = `
+    <div class="alert alert-green" style="margin-bottom:12px">
+      🤖 = Fully automated once set up | ✅ = Online purchase | 🔄 = Hybrid (register online, may involve in-store)
+    </div>
+    ${PRICES.bulk.map(r => `
+    <div class="rec r-blue" style="margin-bottom:8px">
+      <div class="rec-icon">📦</div>
+      <div style="flex:1">
+        <div class="rec-title">${r.name}</div>
+        <div class="rec-detail"><strong>Cost:</strong> ${r.cost} · ${r.save}</div>
+        <div style="font-size:11px;color:var(--blue);margin-top:3px">→ ${r.action}</div>
+        ${r.url ? `<a href="${r.url}" target="_blank" style="font-size:10px;color:var(--blue)">${r.url}</a>` : ''}
+      </div>
+    </div>`).join('')}`;
+}
+
+function renderFarms(el) {
+  const data = loadDecisions();
+  const farmChecks = data.farmChecks || {};
+  el.innerHTML = `
+    <div class="alert alert-green" style="margin-bottom:12px">
+      🌱 <strong>Antwerp farm collectives</strong> — local organic, 20-30% cheaper than supermarket. Most have online ordering or pickup. Tick farms to add to your list.
+    </div>
+    ${PRICES.farms.map(f => `
+    <div class="farm-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <h4>${f.name}</h4><span class="badge b-teal">${f.type}</span>
+      </div>
+      <div class="farm-meta"><span>📍 ${f.location}</span></div>
+      <div class="farm-products">${f.products.map(p=>`<span class="badge b-green" style="font-size:10px">${p}</span>`).join('')}</div>
+      <div style="font-size:11px;margin-top:6px">${f.note}</div>
+      <div style="font-size:11px;color:var(--blue);margin-top:4px">→ <strong>How:</strong> ${f.how}</div>
+      <a class="farm-url" href="${f.url}" target="_blank">🔗 ${f.url}</a>
+      <div class="farm-checkbox-row">
+        <input type="checkbox" id="farm_${f.name.replace(/\s+/g,'_')}"
+          ${farmChecks[f.name] ? 'checked' : ''}
+          onchange="toggleFarm('${f.name.replace(/'/g,"\\'")}', this.checked)">
+        <label for="farm_${f.name.replace(/\s+/g,'_')}">
+          ${farmChecks[f.name] ? '✅ Added to shopping list' : '☐ Add to my list'}
+        </label>
+      </div>
+    </div>`).join('')}`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MONTHLY ANALYSIS TAB
+// ─────────────────────────────────────────────────────────────────────────────
+function renderMonthly(el) {
+  const monthly = loadMonthlyData();
+  const hasBaseline = !!monthly[BASELINE_MONTH];
+
+  el.innerHTML = `
+    <div class="alert alert-info" style="margin-bottom:12px">
+      <strong>April 2026 = Baseline.</strong> Import Qonto CSVs month by month to track cost reduction vs baseline. Each month is stored in localStorage and persists across sessions.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div>
+        <label style="font-size:11px;font-weight:700;display:block;margin-bottom:6px">📥 Import Monthly CSV</label>
+        <select id="monthSelect" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;font-size:12px">
+          ${MONTHS_ORDER.map(m => `<option value="${m}" ${m===BASELINE_MONTH?'style="font-weight:700"':''}>${m}${m===BASELINE_MONTH?' ← BASELINE':''}</option>`).join('')}
+        </select>
+        <textarea id="monthCsv" style="width:100%;height:80px;border:1px solid var(--border);border-radius:6px;padding:8px;font-family:monospace;font-size:11px;resize:vertical" placeholder="Paste full month Qonto CSV here..."></textarea>
+        <div class="btn-row" style="margin-top:6px">
+          <button class="btn btn-primary" onclick="importMonthData()">📊 Import Month</button>
+          <button class="btn btn-sample" onclick="loadSampleMonths()">🔍 Sample Months</button>
+          <button class="btn btn-clear" onclick="clearMonthData()">🗑 Clear Month</button>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;display:block;margin-bottom:6px">📊 Monthly Summary</label>
+        ${hasBaseline ? renderMonthlySummaryCards(monthly) : '<div style="color:var(--muted);font-size:12px;padding:20px;text-align:center">Import April 2026 CSV first to set baseline.</div>'}
+      </div>
+    </div>
+
+    <div id="monthlyTable" style="margin-bottom:14px">${renderMonthlyTable(monthly)}</div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">Data persists in localStorage. Export Qonto monthly CSV (Transactions → full month → Export CSV) and paste above.</div>
+  `;
+}
+
+function renderMonthlySummaryCards(monthly) {
+  const baseline = monthly[BASELINE_MONTH];
+  if (!baseline) return '';
+  const latest = MONTHS_ORDER.filter(m => monthly[m]).slice(-1)[0];
+  const latestData = monthly[latest];
+  if (!latestData || latest === BASELINE_MONTH) {
+    return `<div style="color:var(--muted);font-size:12px;padding:10px">Baseline set (€${baseline.total.toFixed(0)} total). Import more months to compare.</div>`;
+  }
+  const diff = latestData.total - baseline.total;
+  const pct = ((diff / baseline.total) * 100).toFixed(1);
+  const saved = diff < 0;
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="card" style="padding:10px"><div class="lbl">Baseline (${BASELINE_MONTH})</div><div class="val" style="font-size:18px;color:var(--accent)">€${baseline.total.toFixed(0)}</div></div>
+      <div class="card" style="padding:10px"><div class="lbl">Latest (${latest})</div><div class="val" style="font-size:18px;color:${saved?'var(--green-dark)':'var(--accent)'}">€${latestData.total.toFixed(0)}</div><div class="month-diff ${saved?'down':'up'}">${saved?'▼':'▲'} €${Math.abs(diff).toFixed(0)} (${saved?'-':'+'} ${Math.abs(pct)}%)</div></div>
+      <div class="card" style="padding:10px"><div class="lbl">Food vs Baseline</div><div class="val" style="font-size:18px;color:${(latestData.groceries||0)<(baseline.groceries||0)?'var(--green-dark)':'var(--accent)'}">€${(latestData.groceries||0).toFixed(0)}</div><div class="month-diff ${(latestData.groceries||0)<(baseline.groceries||0)?'down':'up'}">${(latestData.groceries||0)<(baseline.groceries||0)?'▼':'▲'} vs €${(baseline.groceries||0).toFixed(0)}</div></div>
+      <div class="card" style="padding:10px"><div class="lbl">Software vs Baseline</div><div class="val" style="font-size:18px;color:${(latestData.software||0)<(baseline.software||0)?'var(--green-dark)':'var(--accent)'}">€${(latestData.software||0).toFixed(0)}</div><div class="month-diff ${(latestData.software||0)<(baseline.software||0)?'down':'up'}">${(latestData.software||0)<(baseline.software||0)?'▼':'▲'} vs €${(baseline.software||0).toFixed(0)}</div></div>
+    </div>`;
+}
+
+function renderMonthlyTable(monthly) {
+  const populated = MONTHS_ORDER.filter(m => monthly[m]);
+  if (!populated.length) return '<div style="text-align:center;padding:20px;color:var(--muted)">No monthly data yet. Import months above.</div>';
+  const baseline = monthly[BASELINE_MONTH];
+  const cats = ['groceries','software','restaurant','transport','health','other'];
+  return `<table>
+    <thead><tr>
+      <th>Month</th>
+      <th class="ta-right">Total</th>
+      ${baseline?'<th class="ta-right">vs Apr \'26</th>':''}
+      <th class="ta-right">🛒 Food</th>
+      <th class="ta-right">💻 Software</th>
+      <th class="ta-right">🍽️ Restaurants</th>
+      <th class="ta-right">🚗 Transport</th>
+      <th class="ta-right">💊 Health</th>
+      <th class="ta-right">📋 Other</th>
+      <th class="ta-right"># Tx</th>
+    </tr></thead>
+    <tbody>
+    ${populated.map(m => {
+      const d = monthly[m];
+      const isBase = m === BASELINE_MONTH;
+      const diff = baseline && !isBase ? d.total - baseline.total : null;
+      const diffStr = diff !== null ? `<td class="ta-right"><span style="font-weight:700;color:${diff<0?'var(--green-dark)':'var(--accent)'}">${diff<0?'▼ -':'▲ +'}€${Math.abs(diff).toFixed(0)}</span></td>` : baseline ? '<td class="ta-right"><span class="badge b-gold">BASELINE</span></td>' : '';
+      return `<tr style="${isBase?'background:#fffbeb':''};font-weight:${isBase?700:400}">
+        <td>${m}</td>
+        <td class="ta-right" style="font-weight:700">€${d.total.toFixed(0)}</td>
+        ${diffStr}
+        ${cats.map(c => `<td class="ta-right" style="color:var(--muted)">€${(d[c]||0).toFixed(0)}</td>`).join('')}
+        <td class="ta-right" style="color:var(--muted)">${d.count||0}</td>
+      </tr>`;
+    }).join('')}
+    </tbody></table>`;
+}
+
+function importMonthData() {
+  const month = document.getElementById('monthSelect').value;
+  const raw = document.getElementById('monthCsv').value.trim();
+  if (!raw) { alert('Paste CSV first.'); return; }
+  const txs = parseCSVToTxns(raw);
+  if (!txs.length) { alert('No valid transactions found.'); return; }
+  const byCat = {};
+  txs.forEach(t => byCat[t.cat] = (byCat[t.cat]||0) + t.amount);
+  const entry = { total: txs.reduce((s,t)=>s+t.amount,0), count: txs.length, ...byCat };
+  const monthly = loadMonthlyData();
+  monthly[month] = entry;
+  saveMonthlyData(monthly);
+  document.getElementById('monthCsv').value = '';
+  renderMonthly(document.getElementById('mainContent'));
+}
+
+function loadSampleMonths() {
+  const sample = {
+    'April 2026':    { total:987.30, count:42, groceries:312.40, software:145.95, restaurant:185.00, transport:68.20, health:38.50, other:237.25 },
+    'May 2026':      { total:924.15, count:39, groceries:278.60, software:132.96, restaurant:168.00, transport:71.40, health:22.00, other:251.19 },
+    'June 2026':     { total:876.45, count:37, groceries:251.35, software:120.97, restaurant:155.00, transport:59.80, health:18.50, other:270.83 },
+  };
+  saveMonthlyData(sample);
+  renderMonthly(document.getElementById('mainContent'));
+}
+
+function clearMonthData() {
+  const month = document.getElementById('monthSelect').value;
+  if (!confirm(`Delete data for ${month}?`)) return;
+  const monthly = loadMonthlyData();
+  delete monthly[month];
+  saveMonthlyData(monthly);
+  renderMonthly(document.getElementById('mainContent'));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SHOPPING PLAN
+// ─────────────────────────────────────────────────────────────────────────────
+function initShoppingPlan() {
+  const plan = [
+    { freq:'Every Week', store:'Colruyt / Collect&Go 🔄', items:['Fresh seasonal veg & fruit','Eggs (organic, Colruyt or farm direct)','Dairy & yogurt','Bread / bakery'] },
+    { freq:'Every 2 Weeks — Frozen stock 🤖', store:'Picard.be (home delivery)', items:['Frozen organic chicken fillets','Frozen wild salmon portions','Frozen organic veg mixes','Frozen edamame / peas / broccoli'] },
+    { freq:'Monthly Auto 🤖', store:'Amazon Subscribe & Save', items:['Kitchen tissue (24-roll)','Dishwasher tabs eco (80ct)','Organic chickpeas + lentils + beans (5kg each)','Oat milk (12-pack)','Canned wild tuna/sardines (24-pack)','Extra virgin olive oil (3-pack)','Rolled oats organic (5kg)','Supplements (magnesium, D3, omega-3)'] },
+    { freq:'Monthly or Quarterly', store:'Kazidomi.com 🤖', items:['Nut butters (almond, peanut)','Coconut oil bulk','Protein powder (if applicable)','Speciality organic products'] },
+    { freq:'Quarterly Bulk', store:'Makro/Metro (BV card) 🔄', items:['Cleaning products bulk','Coffee whole bean (5kg)','Paper goods / stationery','Non-perishable protein stock'] },
+    { freq:'Weekly (farm order) 🤖', store:'Boeren & Buren', items:['Organic eggs (x12-24 from local farm)','Free-range chicken (fortnightly)','Seasonal veg box'] },
+  ];
+  document.getElementById('shopPlan').innerHTML = plan.map(p => `
+    <div class="plan-block">
+      <h3>${p.freq} <span class="plan-store">${p.store}</span></h3>
+      ${p.items.map(i=>`<div class="plan-row"><span>${i}</span></div>`).join('')}
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DECISIONS SYSTEM
+// ─────────────────────────────────────────────────────────────────────────────
+function loadDecisions() {
+  try { return JSON.parse(localStorage.getItem('ruttens_decisions') || '{}'); }
+  catch(e) { return {}; }
+}
+
+function saveDecisions() {
+  const data = loadDecisions();
+  data.store   = document.getElementById('dec_store').value;
+  data.protein = document.getElementById('dec_protein').value;
+  data.bulk    = document.getElementById('dec_bulk').value;
+  if (!data.items) data.items = {};
+  DECISION_ITEMS.forEach(item => {
+    const chk = document.getElementById('chk_' + item.id);
+    const sel = document.getElementById('sel_' + item.id);
+    if (chk && sel) data.items[item.id] = { checked: chk.checked, status: sel.value };
+  });
+  data.lastSaved = new Date().toISOString();
+  localStorage.setItem('ruttens_decisions', JSON.stringify(data));
+  const el = document.getElementById('saveStatus');
+  el.textContent = '✅ Saved ' + new Date().toLocaleTimeString('fr-BE');
+  setTimeout(() => el.textContent = '', 3000);
+}
+
+function toggleFarm(name, checked) {
+  const data = loadDecisions();
+  if (!data.farmChecks) data.farmChecks = {};
+  data.farmChecks[name] = checked;
+  localStorage.setItem('ruttens_decisions', JSON.stringify(data));
+  const id = 'farm_' + name.replace(/\s+/g,'_');
+  const lbl = document.querySelector(`label[for="${id}"]`);
+  if (lbl) lbl.textContent = checked ? '✅ Added to shopping list' : '☐ Add to my list';
+}
+
+function onCheckChange(itemId) {
+  const chk = document.getElementById('chk_' + itemId);
+  const sel = document.getElementById('sel_' + itemId);
+  const card = chk.closest('.decision-card');
+  const lbl  = document.querySelector(`label[for="chk_${itemId}"]`);
+  if (chk.checked) {
+    card.classList.add('decision-done');
+    if (lbl) { lbl.style.textDecoration = 'line-through'; lbl.style.opacity = '0.55'; }
+    if (sel && sel.value === 'pending') sel.value = 'done';
+  } else {
+    card.classList.remove('decision-done');
+    if (lbl) { lbl.style.textDecoration = ''; lbl.style.opacity = ''; }
+    if (sel && sel.value === 'done') sel.value = 'pending';
+  }
+  saveDecisions();
+}
+
+function initDecisionCards() {
+  const data = loadDecisions();
+  const items = data.items || {};
+  if (data.store)   document.getElementById('dec_store').value   = data.store;
+  if (data.protein) document.getElementById('dec_protein').value = data.protein;
+  if (data.bulk)    document.getElementById('dec_bulk').value    = data.bulk;
+
+  document.getElementById('decisionCards').innerHTML = DECISION_ITEMS.map(item => {
+    const saved   = items[item.id] || {};
+    const checked = saved.checked || false;
+    const status  = saved.status  || 'pending';
+    const doneStyle = checked ? 'text-decoration:line-through;opacity:0.55' : '';
+    const roi = ROI_ACTIONS.find((a,i) => DECISION_ITEMS[i]?.id === item.id);
+    return `
+    <div class="decision-card ${checked ? 'decision-done' : ''}">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <input type="checkbox" id="chk_${item.id}" ${checked ? 'checked' : ''}
+          style="width:20px;height:20px;margin-top:3px;cursor:pointer;flex-shrink:0"
+          onchange="onCheckChange('${item.id}')">
+        <div style="flex:1">
+          <label for="chk_${item.id}" class="decision-title" style="cursor:pointer;${doneStyle}">${roi ? roi.icon+' ' : ''}${item.label}</label>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">
+            <span class="badge b-green" style="font-size:10px">${item.save}</span>
+            ${roi ? `<span class="badge b-${roi.freqBadge.replace('b-','')}" style="font-size:10px">${roi.freq}</span>` : ''}
+            ${roi ? `<span style="font-size:10px;color:var(--blue)">${roi.auto} ${roi.autoNote}</span>` : ''}
+            <select id="sel_${item.id}" class="decision-select" style="width:auto;min-width:150px;font-size:11px" onchange="saveDecisions()">
+              <option value="pending"  ${status==='pending' ?'selected':''}>📋 To decide</option>
+              <option value="done"     ${status==='done'    ?'selected':''}>✅ Did it</option>
+              <option value="trying"   ${status==='trying'  ?'selected':''}>🔄 Doing this week</option>
+              <option value="later"    ${status==='later'   ?'selected':''}>⏰ Will do later</option>
+              <option value="skip"     ${status==='skip'    ?'selected':''}>❌ Not relevant</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function logCurrentDecisions() {
+  const data = loadDecisions();
+  const items = data.items || {};
+  const now = new Date();
+  const weekStr = `Week of ${now.toLocaleDateString('fr-BE')}`;
+  const storeLabels = { colruyt:'Colruyt', lidl:'Lidl', 'bio-planet':'Bio-Planet', kazidomi:'Kazidomi', delhaize:'Delhaize', boeren_buren:'Boeren & Buren', farm_direct:'Farm direct' };
+  const approved = DECISION_ITEMS.filter(i => items[i.id]?.checked || items[i.id]?.status === 'done').map(i => i.label);
+  const trying   = DECISION_ITEMS.filter(i => !items[i.id]?.checked && items[i.id]?.status === 'trying').map(i => i.label);
+  const skipped  = DECISION_ITEMS.filter(i => items[i.id]?.status === 'skip').map(i => i.label);
+  const farms    = Object.keys(data.farmChecks || {}).filter(k => data.farmChecks[k]);
+  const entry = { week: weekStr, store: storeLabels[data.store] || data.store || '—', protein: data.protein || '—', bulk: data.bulk || '—', approved, trying, skipped, farms, ts: now.toISOString() };
+  const log = JSON.parse(localStorage.getItem('ruttens_decisions_log') || '[]');
+  log.unshift(entry);
+  if (log.length > 20) log.pop();
+  localStorage.setItem('ruttens_decisions_log', JSON.stringify(log));
+  renderLog();
+  document.getElementById('saveStatus').textContent = '📝 This week logged!';
+  setTimeout(() => document.getElementById('saveStatus').textContent = '', 3000);
+}
+
+function renderLog() {
+  const log = JSON.parse(localStorage.getItem('ruttens_decisions_log') || '[]');
+  if (!log.length) {
+    document.getElementById('decisionsLog').innerHTML = '<div style="text-align:center;padding:16px;color:var(--muted)">No decisions logged yet.</div>';
+    return;
+  }
+  document.getElementById('decisionsLog').innerHTML = log.map(e => `
+    <div class="log-entry">
+      <div class="log-week">${e.week}</div>
+      <div style="margin-top:4px;font-size:11px"><strong>Store:</strong> ${e.store} · <strong>Protein:</strong> ${e.protein} · <strong>Bulk:</strong> ${e.bulk}</div>
+      ${e.approved.length ? `<div style="margin-top:3px;color:var(--green-dark)">✅ Done: ${e.approved.join(', ')}</div>` : ''}
+      ${e.trying.length   ? `<div style="margin-top:3px;color:var(--blue)">🔄 Trying: ${e.trying.join(', ')}</div>` : ''}
+      ${e.farms.length    ? `<div style="margin-top:3px;color:var(--teal)">🌱 Farm: ${e.farms.join(', ')}</div>` : ''}
+      ${e.skipped.length  ? `<div style="margin-top:3px;color:var(--muted)">❌ Skipped: ${e.skipped.join(', ')}</div>` : ''}
+    </div>`).join('');
+}
+
+function clearLog() {
+  if (!confirm('Clear decisions log?')) return;
+  localStorage.removeItem('ruttens_decisions_log');
+  renderLog();
+}
+
+function exportDecisions() {
+  const data = loadDecisions();
+  const items = data.items || {};
+  const log = JSON.parse(localStorage.getItem('ruttens_decisions_log') || '[]');
+  const storeLabels = { colruyt:'Colruyt', lidl:'Lidl', 'bio-planet':'Bio-Planet', kazidomi:'Kazidomi', delhaize:'Delhaize', boeren_buren:'Boeren & Buren', farm_direct:'Farm direct' };
+  const approved = DECISION_ITEMS.filter(i => items[i.id]?.checked || items[i.id]?.status === 'done').map(i => `- ${i.label} (${i.save})`);
+  const trying   = DECISION_ITEMS.filter(i => !items[i.id]?.checked && items[i.id]?.status === 'trying').map(i => `- ${i.label}`);
+  const skipped  = DECISION_ITEMS.filter(i => items[i.id]?.status === 'skip').map(i => `- ${i.label}`);
+  const farms    = Object.keys(data.farmChecks || {}).filter(k => data.farmChecks[k]);
+  const monthly  = loadMonthlyData();
+  const months   = MONTHS_ORDER.filter(m => monthly[m]);
+  let summary = `## RUTTENS+ Weekly Cost Savings — Decision Summary\nDate: ${new Date().toLocaleDateString('fr-BE')}\n\n`;
+  summary += `**Store:** ${storeLabels[data.store] || data.store || 'Not set'} · **Protein:** ${data.protein || 'Not set'} · **Bulk:** ${data.bulk || 'Not set'}\n\n`;
+  if (approved.length) summary += `**Completed:**\n${approved.join('\n')}\n\n`;
+  if (trying.length)   summary += `**Trying:**\n${trying.join('\n')}\n\n`;
+  if (skipped.length)  summary += `**Skipped:**\n${skipped.join('\n')}\n\n`;
+  if (farms.length)    summary += `**Farm collectives to contact:**\n${farms.map(f=>'- '+f).join('\n')}\n\n`;
+  if (months.length) {
+    summary += `**Monthly spend trend (vs April 2026 baseline):**\n`;
+    months.forEach(m => { const d = monthly[m]; summary += `- ${m}: €${d.total.toFixed(0)} total (food €${(d.groceries||0).toFixed(0)}, software €${(d.software||0).toFixed(0)})\n`; });
+  }
+  if (log.length) {
+    summary += `\n**Recent log:**\n`;
+    log.slice(0,3).forEach(e => { summary += `- ${e.week}: done=${e.approved.length}, trying=${e.trying.length}\n`; });
+  }
+  try { navigator.clipboard.writeText(summary); }
+  catch(e) { const ta = document.createElement('textarea'); ta.value = summary; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+  document.getElementById('saveStatus').textContent = '📋 Copied! Paste into Claude chat.';
+  setTimeout(() => document.getElementById('saveStatus').textContent = '', 4000);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+mainTab('roi');
+initShoppingPlan();
+renderRecs({});
+renderImpact(0);
+initDecisionCards();
+renderLog();
+</script>
+</body>
+</html>

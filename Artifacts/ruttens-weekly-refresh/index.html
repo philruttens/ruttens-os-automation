@@ -1,0 +1,628 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Weekly Refresh",
+  "schemaVersion": 1,
+  "description": "RUTTENS+OS Weekly Refresh Dashboard — Monday morning routine with checkbox tracking for content publishing, client actions, admin/urgent items, upcoming deadlines, and content schedule. Auto-calculates current week number. Checkboxes persist via localStorage and reset each Monday."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RUTTENS+OS Weekly Refresh</title>
+<style>
+:root{color-scheme:light;--blue:#38B6FF;--black:#0A0A0A;--navy:#0D1B2A;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--amber:#D4943A;--bg:#F8FAFC;--card:#fff;--border:#E2E8F0;--muted:#64748B;--text:#1E293B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:13px}
+
+/* SIDEBAR */
+.sidebar{width:200px;min-width:200px;background:var(--navy);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.sb-brand{padding:14px 16px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-brand h2{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;text-transform:uppercase}
+.sb-brand p{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.sb-week{padding:10px 16px;background:rgba(56,182,255,.1);border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-week .wnum{font-size:22px;font-weight:800;color:var(--blue);line-height:1}
+.sb-week .wdate{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.sb-prog{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.prog-lbl{font-size:10px;color:rgba(255,255,255,.4);display:flex;justify-content:space-between;margin-bottom:4px}
+.prog-lbl span{color:var(--blue);font-weight:700}
+.prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--blue);border-radius:3px;transition:width .3s}
+.sb-nav{padding:8px 0;flex:1}
+.sb-nav a{display:flex;align-items:center;gap:6px;padding:7px 16px;color:rgba(255,255,255,.55);text-decoration:none;font-size:11px;font-weight:500;border-left:3px solid transparent;cursor:pointer;transition:all .12s}
+.sb-nav a:hover,.sb-nav a.active{color:#fff;background:rgba(56,182,255,.1);border-left-color:var(--blue)}
+.nav-section{padding:8px 16px 2px;font-size:9px;font-weight:700;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.09em}
+.sb-footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:9px;color:rgba(255,255,255,.25);line-height:1.7}
+.reset-btn{width:100%;margin-top:6px;background:rgba(220,38,38,.2);border:1px solid rgba(220,38,38,.4);color:rgba(255,255,255,.6);border-radius:4px;padding:5px 0;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s}
+.reset-btn:hover{background:rgba(220,38,38,.35);color:#fff}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto}
+.hero{background:var(--navy);color:#fff;padding:16px 24px;border-bottom:3px solid var(--blue)}
+.hero h1{font-size:17px;font-weight:800}
+.hero .sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
+.hero-stats{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hs{background:rgba(255,255,255,.07);border-radius:6px;padding:6px 10px}
+.hs .v{font-size:18px;font-weight:800;color:var(--blue)}
+.hs .l{font-size:9px;color:rgba(255,255,255,.4);margin-top:1px}
+.hs.red .v{color:#f87171}
+.hs.orange .v{color:#fbbf24}
+.hs.green .v{color:#4ade80}
+
+/* SECTIONS */
+.section{padding:16px 24px;border-bottom:1px solid var(--border)}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em}
+.sec-count{font-size:11px;color:var(--muted);background:var(--bg);border:1px solid var(--border);padding:2px 8px;border-radius:12px}
+
+/* BANNERS */
+.banner{padding:8px 16px;font-size:11px;font-weight:600;border-left:4px solid var(--orange);background:#fffbeb;color:#92400e;margin:0 24px 12px;border-radius:0 4px 4px 0}
+.banner.red{background:#fef2f2;border-left-color:var(--red);color:#991b1b}
+.banner.green{background:#f0fdf4;border-left-color:var(--green);color:#166534}
+
+/* CHECKLIST ITEMS */
+.cl{display:flex;flex-direction:column;gap:4px}
+.ci{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:7px;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:all .12s}
+.ci:hover{background:#f8fafc}
+.ci.done{background:#f0fdf4;border-color:#bbf7d0}
+.ci.done .ci-text{text-decoration:line-through;color:var(--muted)}
+.ci.done .ci-sub{color:#86efac}
+.cb{width:18px;height:18px;border:2px solid #d1d5db;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12px;background:#fff;margin-top:1px}
+.ci.done .cb{background:var(--green);border-color:var(--green)}
+.ci.done .cb::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+.ci-body{flex:1;min-width:0}
+.ci-text{font-size:12px;font-weight:600;color:var(--navy);line-height:1.35}
+.ci-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.ci-tag{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:5px;vertical-align:middle;text-transform:uppercase}
+.t-red{background:#fee2e2;color:#991b1b}
+.t-orange{background:#fef3c7;color:#92400e}
+.t-blue{background:#dbeafe;color:#1e40af}
+.t-green{background:#dcfce7;color:#166534}
+.t-purple{background:#ede9fe;color:#6d28d9}
+
+/* DEADLINE TABLE */
+.dtable{width:100%;border-collapse:collapse;font-size:12px}
+.dtable th{text-align:left;padding:7px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--bg);border-bottom:2px solid var(--border)}
+.dtable td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+.dtable tr:last-child td{border-bottom:none}
+.dtable tr:hover td{background:#f8fafc}
+.ddot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-red{background:var(--red)}
+.dot-orange{background:var(--orange)}
+.dot-blue{background:var(--blue)}
+.dot-green{background:var(--green)}
+
+/* CONTENT SCHEDULE */
+.sched-row{display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:6px;background:var(--card);border:1px solid var(--border);margin-bottom:4px;font-size:12px}
+.sched-day{font-weight:700;color:var(--navy);width:35px;flex-shrink:0}
+.sched-time{color:var(--muted);width:45px;flex-shrink:0;font-size:11px}
+.sched-title{flex:1}
+.sched-ch{font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;flex-shrink:0}
+.ch-li{background:#dbeafe;color:#1e40af}
+.ch-ig{background:#fce7f3;color:#9d174d}
+.ch-sub{background:#fff7ed;color:#c2410c}
+.today-row{background:#eff8ff;border-color:var(--blue)}
+
+/* SECTION PROGRESS BAR */
+.sec-pbar-wrap{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec-pbar{flex:1;height:6px;background:#E2E8F0;border-radius:4px;overflow:hidden}
+.sec-pbar-fill{height:100%;border-radius:4px;transition:width .35s,background .35s}
+.sec-pbar-lbl{font-size:11px;font-weight:700;color:var(--navy);min-width:34px;text-align:right}
+
+/* QUICK LINKS */
+.qlinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.qlink{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:var(--card);border:1px solid var(--border);border-radius:5px;font-size:11px;font-weight:600;color:var(--navy);text-decoration:none;transition:all .12s}
+.qlink:hover{background:var(--bg);border-color:var(--blue);color:var(--blue)}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-brand">
+    <h2>RUTTENS+OS</h2>
+    <p>Weekly Refresh Dashboard</p>
+  </div>
+  <div class="sb-week">
+    <div class="wnum" id="sb-week">W25</div>
+    <div class="wdate" id="sb-wdate">Loading...</div>
+  </div>
+  <div class="sb-prog">
+    <div class="prog-lbl">Weekly progress <span id="prog-label">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-section">This Week</div>
+    <a href="#content" id="nav-content">📣 Content Publishing</a>
+    <a href="#clients" id="nav-clients">💼 Client Actions</a>
+    <a href="#admin" id="nav-admin">🔴 Admin / Urgent</a>
+    <div class="nav-section">Reference</div>
+    <a href="#deadlines" id="nav-deadlines">📅 Upcoming Deadlines</a>
+    <a href="#schedule" id="nav-schedule">📋 Content Schedule</a>
+    <a href="#links" id="nav-links">🔗 Quick Links</a>
+  </div>
+  <div class="sb-footer">
+    Mon · Reload to refresh<br>
+    Checkboxes auto-save<br>
+    <button class="reset-btn" onclick="resetWeek()">↺ Reset This Week</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="hero">
+    <h1>Weekly Refresh Dashboard <span id="hero-date" style="font-size:12px;color:rgba(255,255,255,.4);font-weight:400;margin-left:8px"></span></h1>
+    <div class="sub">Open every Monday morning · tick as you go · reset at start of next week</div>
+    <div class="hero-stats">
+      <div class="hs"><div class="v" id="stat-done">0</div><div class="l">Done this week</div></div>
+      <div class="hs orange"><div class="v" id="stat-remain">0</div><div class="l">Remaining</div></div>
+      <div class="hs red"><div class="v">19 Jun</div><div class="l">Acerta €2,240</div></div>
+      <div class="hs orange"><div class="v">~21 Jun</div><div class="l">GoDaddy renew</div></div>
+    </div>
+  </div>
+
+  <div class="banner" id="top-banner">🟣 W25 · Jun 16–20 · SP-3 Tue 17 + SP-4 Thu 19 · S3 LI Teaser Mon 16 · EREA D2 → activate LH · Acerta SVF €2,241 due Thu 19 · GoDaddy renewal ~Jun 21</div>
+
+  <!-- CONTENT PUBLISHING -->
+  <div class="section" id="content">
+    <div class="sec-h">
+      <div class="sec-title">📣 Content Publishing</div>
+      <div class="sec-count" id="cnt-content">0/0</div>
+    </div>
+    <div class="sec-pbar-wrap">
+      <div class="sec-pbar"><div class="sec-pbar-fill" id="bar-content" style="width:0%;background:var(--red)"></div></div>
+      <span class="sec-pbar-lbl" id="lbl-content">0/7</span>
+    </div>
+    <div class="cl" id="list-content">
+
+      <div class="ci" onclick="toggle(this,'content-s3teaser')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">S3 LI Teaser — LinkedIn · Mon Jun 16 8:30am CET <span class="ci-tag t-orange">MON 16</span></div>
+          <div class="ci-sub">Substack S3 published Sun Jun 15 → post LI teaser linking to S3 per content scheduler</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-sp3')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">SP-3 — LinkedIn SP Series · Tue Jun 17 12:00 CET <span class="ci-tag t-purple">TUE 17</span></div>
+          <div class="ci-sub">SP Series post #3 · queued in scheduler · confirm visual attached · same purple SP badge</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-ig6')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">IG P6 — Post on Instagram · Tue Jun 17 12:00 CET <span class="ci-tag t-purple">IG · TUE 17</span></div>
+          <div class="ci-sub">Captions: 04_Content_Engine/LinkedIn/2026-06/IG_10Captions_P1-P10_2026.md · Bio → ruttens.com/quiz</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-rb3')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">RB-3 — LinkedIn · Wed Jun 18 13:00 CET <span class="ci-tag t-orange">WED 18</span></div>
+          <div class="ci-sub">RB series (Real B2B) · CTA: /scan — check scheduler for copy · build Canva visual if not done</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-sp4')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">SP-4 — LinkedIn SP Series · Thu Jun 19 12:00 CET <span class="ci-tag t-purple">THU 19</span></div>
+          <div class="ci-sub">SP Series post #4 · queued in scheduler · same purple SP badge series</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-ig7')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">IG P7 — Post on Instagram · Thu Jun 19 12:00 CET <span class="ci-tag t-purple">IG · THU 19</span></div>
+          <div class="ci-sub">Bio → ruttens.com/quiz · visual from website-conversion-campaign-2026-05/visuals/</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'content-canva-sp')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Canva visuals — build SP-3 + SP-4 banner visuals if not done <span class="ci-tag t-blue">CANVA</span></div>
+          <div class="ci-sub">SP series banner = purple #7c3aed · SP badge · check scheduler artifact for queued visuals</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CLIENT ACTIONS -->
+  <div class="section" id="clients">
+    <div class="sec-h">
+      <div class="sec-title">💼 Client Actions</div>
+      <div class="sec-count" id="cnt-clients">0/0</div>
+    </div>
+    <div class="sec-pbar-wrap">
+      <div class="sec-pbar"><div class="sec-pbar-fill" id="bar-clients" style="width:0%;background:var(--red)"></div></div>
+      <span class="sec-pbar-lbl" id="lbl-clients">0/6</span>
+    </div>
+    <div class="cl" id="list-clients">
+
+      <div class="ci" onclick="toggle(this,'client-aya-inv')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">AYA — Chase invoice 2026-006 (€6,413 overdue) → email Louis Langerock + confirm Phase 2 renewal <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">louis.langerock@aya.energy · Also discuss Phase 2 renewal (mid-June deadline)</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'client-lh-triage')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">LinkedHelper — Triage Campaign B replies from May 15–Jun 9 · activate 6 RUTTENS_* P0 campaigns <span class="ci-tag t-orange">THIS WEEK</span></div>
+          <div class="ci-sub">Categorize Hot/Warm/No. Draft personalized follow-ups for Hot + Warm leads.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'client-wayfina')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Wayfina — Check Alex Novik reply status → send contract or close-out</div>
+          <div class="ci-sub">alex@wayfina.com · wlad@wayfina.com · Full standards in client_wayfina_standards.md</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'client-erea')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">EREA — D2 decision Jun 15 → if approved: activate LH BE/NL sequences + send testimonial Option A to Herman <span class="ci-tag t-orange">THIS WEEK</span></div>
+          <div class="ci-sub">D1 APPROVED Jun 9 · Revenue +35.4% · AOV +44.6% · LI ads: remove seniority targeting · Google Ads: review search terms w/ Arno · EREA-dag Sept 7+</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'client-apollo')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Apollo — Run ICP search, 50 new leads/week → add to HubSpot (portal 148176566)</div>
+          <div class="ci-sub">B2B founders/CEOs/CMOs · €1M–€20M ARR · BE/NL/FR/UK · Tech + Industrial</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'client-lh-activate')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">LinkedHelper — Activate 6 RUTTENS_* P0 campaigns (currently in Draft)</div>
+          <div class="ci-sub">Persona × Vertical × 3 ICPs. Phil activates from LinkedHelper app.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADMIN / URGENT -->
+  <div class="section" id="admin">
+    <div class="sec-h">
+      <div class="sec-title">🔴 Admin / Urgent</div>
+      <div class="sec-count" id="cnt-admin">0/0</div>
+    </div>
+    <div class="sec-pbar-wrap">
+      <div class="sec-pbar"><div class="sec-pbar-fill" id="bar-admin" style="width:0%;background:var(--red)"></div></div>
+      <span class="sec-pbar-lbl" id="lbl-admin">0/9</span>
+    </div>
+    <div class="cl" id="list-admin">
+
+      <div class="ci" onclick="toggle(this,'admin-ag')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">AG Insurance Familis — check amount in Yago/AG portal (ref 014076085) → pay from Qonto BV <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">Log into Yago portal → find invoice → pay. Amount unknown — verify first.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-bvb')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">BvB BV sweep — transfer €2,094.32 → Qonto BV <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">From BvB BV (BE46 6455 0675 7236) to Qonto BV. Internal transfer.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-fineko')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Fineko — email Lien re dispute status · compare invoices 26000628 + 26001218 (possible duplicate)</div>
+          <div class="ci-sub">€3,448.50 on hold. DO NOT PAY until Lien confirms in writing. May 12 email unanswered.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-godaddy')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">GoDaddy ruttens.com — renew before ~21 Jun. Add calendar reminder now. <span class="ci-tag t-orange">~21 JUN</span></div>
+          <div class="ci-sub">30-day notice received May 22. Contact live chat for discount. ~€20/yr.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-acerta')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Acerta SVF — social contribution €2,240.73 due 19 Jun. Add calendar reminder. <span class="ci-tag t-orange">19 JUN</span></div>
+          <div class="ci-sub">Q2 sociale bijdrage · Pay from Qonto BV · source: Doccle notification 24 Apr</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-titeos')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">TITEOS DNS cut-over — review Netlify staging → point GoDaddy NS → cancel Wix (before Jul)</div>
+          <div class="ci-sub">titeos-rebuild-staging.netlify.app is live. Runbook: titeos-migration/02_DEPLOY_RUNBOOK.md. Snapshot Wix MX first.</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-tally')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Tally forms 1/2/3 — was due Jun 10 <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">Form 1: preview list · Form 2: 10Q audit + email gate · Form 3: prospect intel. Spec in memory: project_tally_forms_spec.md</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-pipeline-sprint')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Pipeline Sprint landing page /pipeline-sprint — was due Jun 10 <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">from €2,590 · 30-day fixed scope · needs Tally form integration</div>
+        </div>
+      </div>
+
+      <div class="ci" onclick="toggle(this,'admin-zen')">
+        <div class="cb"></div>
+        <div class="ci-body">
+          <div class="ci-text">Zen Doc session — upload files + run HOLIDAY_RESET_SESSION_PROMPT_May2026.md <span class="ci-tag t-red">OVERDUE</span></div>
+          <div class="ci-sub">HOLIDAY_RESET_SESSION_PROMPT_May2026.md in RUTTENS+OS/CLAUDE/ · 5 outputs: Energy Protocol · Lifestyle Blueprint etc.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- UPCOMING DEADLINES -->
+  <div class="section" id="deadlines">
+    <div class="sec-h">
+      <div class="sec-title">📅 Upcoming Deadlines</div>
+    </div>
+    <table class="dtable">
+      <thead><tr><th></th><th>Date</th><th>Item</th><th>Amount / Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ddot dot-red"></span></td>
+          <td><strong>Jun 5–10 ⚠ OVERDUE</strong></td>
+          <td>AG Insurance Familis + BvB sweep + Fineko email + AYA invoice + Tally forms + Pipeline Sprint + Zen Doc</td>
+          <td>€2,094.32 + AG TBD</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-red"></span></td>
+          <td><strong>Sun Jun 15</strong></td>
+          <td>Substack S3 publish · EREA D2 go/no-go</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-orange"></span></td>
+          <td><strong>Mon Jun 16 — TODAY</strong></td>
+          <td>S3 LI Teaser · Open W25 dashboard · LinkedHelper check</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-red"></span></td>
+          <td><strong>Thu Jun 19 🔴 THIS WEEK</strong></td>
+          <td>Acerta SVF social contribution Q2</td>
+          <td>€2,240.73</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-red"></span></td>
+          <td><strong>~Jun 21 THIS WEEK</strong></td>
+          <td>GoDaddy ruttens.com domain renewal</td>
+          <td>~€20/yr</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-orange"></span></td>
+          <td><strong>~Jun 22</strong></td>
+          <td>Acerta monthly payroll (next cycle)</td>
+          <td>~€680.50</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-orange"></span></td>
+          <td><strong>≤ Jul 20</strong></td>
+          <td>Q2 VAT — confirm exact date with Fineko</td>
+          <td>TBD</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-blue"></span></td>
+          <td><strong>Jul 2026</strong></td>
+          <td>Wix TITEOS cancel (before renewal) — after DNS cut-over</td>
+          <td>Saves ~€29/mo</td>
+        </tr>
+        <tr>
+          <td><span class="ddot dot-blue"></span></td>
+          <td><strong>Aug 10</strong></td>
+          <td>Instagram restart (W32) after gap Jul 8–Aug 9</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CONTENT SCHEDULE THIS WEEK -->
+  <div class="section" id="schedule">
+    <div class="sec-h">
+      <div class="sec-title">📋 Content Schedule — This Week</div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:10px">LI: Mon 10:30 · Tue 8:30 · Wed 13:00 · Thu 9:00 CET · SP Series Tue+Thu 12:00 &nbsp;·&nbsp; IG: Tue · Thu 12:00 CET &nbsp;·&nbsp; Substack: Mon/Sun &nbsp;·&nbsp; <strong style="color:var(--blue)">SP-3 Tue Jun 17 12:00 · SP-4 Thu Jun 19 12:00</strong></p>
+
+    <div class="sched-row today-row">
+      <div class="sched-day">Mon 16</div>
+      <div class="sched-time">8:30am</div>
+      <div class="sched-title">S3 LI Teaser — LinkedIn · link to Substack S3 · TODAY</div>
+      <div class="sched-ch ch-li">LI</div>
+    </div>
+    <div class="sched-row" style="border-color:#7c3aed;background:#faf5ff">
+      <div class="sched-day" style="color:#7c3aed">Tue 17</div>
+      <div class="sched-time">12:00pm</div>
+      <div class="sched-title"><strong style="color:#7c3aed">SP-3 🟣 SP Series</strong> — Tue Jun 17 12:00 CET</div>
+      <div class="sched-ch" style="background:#ede9fe;color:#6d28d9">SP</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-day">Tue 17</div>
+      <div class="sched-time">12:00pm</div>
+      <div class="sched-title">IG P6 · Bio → /quiz</div>
+      <div class="sched-ch ch-ig">IG</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-day">Wed 18</div>
+      <div class="sched-time">13:00</div>
+      <div class="sched-title">RB-3 — LinkedIn post · CTA: /scan</div>
+      <div class="sched-ch ch-li">LI</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-day">Thu 19</div>
+      <div class="sched-time">9:00am</div>
+      <div class="sched-title">LI post (regular cadence) · 70/20/10 mix</div>
+      <div class="sched-ch ch-li">LI</div>
+    </div>
+    <div class="sched-row" style="border-color:#7c3aed;background:#faf5ff">
+      <div class="sched-day" style="color:#7c3aed">Thu 19</div>
+      <div class="sched-time">12:00pm</div>
+      <div class="sched-title"><strong style="color:#7c3aed">SP-4 🟣 SP Series</strong> — Thu Jun 19 12:00 CET</div>
+      <div class="sched-ch" style="background:#ede9fe;color:#6d28d9">SP</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-day">Thu 19</div>
+      <div class="sched-time">12:00pm</div>
+      <div class="sched-title">IG P7 · Bio → /quiz</div>
+      <div class="sched-ch ch-ig">IG</div>
+    </div>
+
+    <div class="qlinks" id="links">
+      <a class="qlink" href="https://www.linkedin.com/scheduling/compose/" target="_blank">📅 LI Scheduler</a>
+      <a class="qlink" href="https://www.instagram.com/" target="_blank">📸 Instagram</a>
+      <a class="qlink" href="https://substack.com/publish" target="_blank">📰 Substack</a>
+      <a class="qlink" href="https://www.canva.com" target="_blank">🎨 Canva</a>
+      <a class="qlink" href="https://app.apollo.io" target="_blank">🔍 Apollo</a>
+      <a class="qlink" href="https://app.hubspot.com/contacts/148176566" target="_blank">📊 HubSpot AYA</a>
+      <a class="qlink" href="https://tally.so" target="_blank">📋 Tally</a>
+      <a class="qlink" href="https://www.ruttens.com/quiz" target="_blank">🦁 Quiz</a>
+      <a class="qlink" href="https://account.godaddy.com/subscriptions" target="_blank">🌐 GoDaddy</a>
+      <a class="qlink" href="https://app.qonto.com" target="_blank">💳 Qonto</a>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+const NS = 'ruttens-weekly-refresh-v1';
+
+// ── Week helpers ──────────────────────────────────────────────────────────────
+function getWeekKey(){
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun,1=Mon
+  const diff = d.getDate() - day + (day===0 ? -6 : 1);
+  const mon = new Date(d.setDate(diff));
+  return mon.toISOString().slice(0,10);
+}
+function getWeekNum(){
+  const d = new Date();
+  const start = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d - start) / 86400000 + start.getDay() + 1) / 7);
+}
+function formatDate(d){
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function getMondayDate(){
+  const d = new Date();
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day===0 ? -6 : 1);
+  return new Date(d.setDate(diff));
+}
+
+// ── State ──────────────────────────────────────────────────────────────────────
+const weekKey = getWeekKey();
+function getState(){
+  try { return JSON.parse(localStorage.getItem(NS+'::'+weekKey)||'{}'); } catch(e){ return {}; }
+}
+function saveState(st){ localStorage.setItem(NS+'::'+weekKey, JSON.stringify(st)); }
+
+// ── Toggle ────────────────────────────────────────────────────────────────────
+function toggle(el, key){
+  const st = getState();
+  const done = !el.classList.contains('done');
+  el.classList.toggle('done', done);
+  st[key] = done;
+  saveState(st);
+  updateProgress();
+}
+
+function updateProgress(){
+  const all = document.querySelectorAll('.ci');
+  const done = [...all].filter(c=>c.classList.contains('done')).length;
+  const pct = all.length ? Math.round(done/all.length*100) : 0;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-label').textContent = pct+'%';
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-remain').textContent = all.length - done;
+
+  // ── Section progress bars + counts (auto-update) ──
+  ['content','clients','admin'].forEach(id=>{
+    const sec = document.getElementById('list-'+id);
+    if(!sec) return;
+    const items = sec.querySelectorAll('.ci');
+    const sdone = [...items].filter(c=>c.classList.contains('done')).length;
+    const spct = items.length ? Math.round(sdone/items.length*100) : 0;
+
+    // text count chip
+    const cntEl = document.getElementById('cnt-'+id);
+    if(cntEl) cntEl.textContent = sdone+'/'+items.length;
+
+    // visual bar
+    const barEl = document.getElementById('bar-'+id);
+    if(barEl){
+      barEl.style.width = spct+'%';
+      barEl.style.background = spct === 0 ? 'var(--red)' :
+                                spct < 50  ? 'var(--orange)' :
+                                spct < 100 ? 'var(--blue)' : 'var(--green)';
+    }
+    // label
+    const lblEl = document.getElementById('lbl-'+id);
+    if(lblEl) lblEl.textContent = sdone+'/'+items.length;
+  });
+}
+
+function resetWeek(){
+  if(!confirm('Reset all checkboxes for this week? (Action cannot be undone)')) return;
+  localStorage.removeItem(NS+'::'+weekKey);
+  document.querySelectorAll('.ci').forEach(c=>c.classList.remove('done'));
+  updateProgress();
+}
+
+// ── Restore state on load ────────────────────────────────────────────────────
+function restore(){
+  const st = getState();
+  document.querySelectorAll('.ci').forEach(el=>{
+    const key = el.getAttribute('onclick')?.match(/toggle\(this,'([^']+)'\)/)?.[1];
+    if(key && st[key]) el.classList.add('done');
+  });
+}
+
+// ── Header dates ──────────────────────────────────────────────────────────────
+function setDates(){
+  const mon = getMondayDate();
+  const sun = new Date(mon); sun.setDate(mon.getDate()+6);
+  document.getElementById('sb-week').textContent = 'W'+getWeekNum();
+  document.getElementById('sb-wdate').textContent = formatDate(mon)+' – '+sun.getDate()+'/'+( sun.getMonth()+1);
+  document.getElementById('hero-date').textContent = 'Week '+getWeekNum()+' · '+formatDate(new Date());
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+setDates();
+restore();
+updateProgress();
+</script>
+</body>
+</html>

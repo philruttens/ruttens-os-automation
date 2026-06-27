@@ -1,0 +1,518 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Inbox Monitor",
+  "schemaVersion": 1,
+  "description": "Live Gmail inbox monitor: scans for unanswered threads, shows From/Subject/Date/Priority, lets Phil mark as handled (persisted across refreshes), and generates reply drafts on demand. Refreshable any time, auto-loads on open.",
+  "mcpTools": [
+    "mcp__ce50545b-07e8-48e1-8715-68b76a09e9ef__search_threads"
+  ],
+  "mcpServerNames": [
+    "Gmail"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inbox Monitor — Backlog + Live</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'IBM Plex Sans', sans-serif; background: #fff; color: #111; padding: 16px; font-size: 14px; }
+  h1 { font-size: 18px; font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+  h2 { font-size: 15px; font-weight: 700; margin: 22px 0 6px; color: #111; display:flex; align-items:center; gap:8px; }
+  .subtitle { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .ooo-banner { background: #fff8e1; border: 1px solid #ffd54f; border-radius: 6px; padding: 9px 12px; font-size: 12px; color: #6d4c00; margin: 10px 0 8px; }
+  .today-phone { background: #fff0f0; border: 2px solid #e53935; border-radius: 8px; padding: 12px 14px; margin: 8px 0 16px; }
+  .today-phone h3 { font-size: 14px; font-weight: 700; color: #b71c1c; margin-bottom: 8px; }
+  .today-phone .phone-cards { display: flex; gap: 10px; flex-wrap: wrap; }
+  .today-phone .pcard { flex: 1; min-width: 220px; background: #fff; border: 1px solid #e53935; border-radius: 6px; padding: 10px 12px; font-size: 12px; }
+  .today-phone .pcard.amber { border-color: #f57c00; }
+  .today-phone .pcard label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+  .today-phone .pcard input[type=checkbox] { margin-top: 2px; flex-shrink: 0; }
+  .today-phone .pcard .ptitle { font-weight: 700; font-size: 13px; color: #111; }
+  .today-phone .pcard .paction { color: #444; margin-top: 4px; line-height: 1.4; }
+  .today-phone .pcard .pbadge { display: inline-block; background: #e53935; color: #fff; border-radius: 3px; font-size: 10px; font-weight: 700; padding: 1px 5px; margin-bottom: 3px; }
+  .today-phone .pcard.amber .pbadge { background: #f57c00; }
+  .today-phone .lock-note { font-size: 11px; color: #888; margin-top: 8px; font-style: italic; }
+  .badge { display: inline-block; background: #38B6FF; color: #fff; border-radius: 10px; padding: 2px 9px; font-size: 12px; font-weight: 700; }
+  .badge.gray { background: #999; }
+  .badge.green { background: #2e7d32; }
+  .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  button { padding: 6px 14px; border: 1px solid #d0d0d0; border-radius: 5px; background: #fff; cursor: pointer; font-size: 13px; font-family: inherit; }
+  button.primary { background: #38B6FF; color: #fff; border-color: #38B6FF; font-weight: 600; }
+  button:hover:not(:disabled) { opacity: 0.85; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .status { font-size: 12px; color: #888; }
+  .filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .filter-row label { font-size: 12px; color: #555; display: flex; align-items: center; gap: 5px; }
+  select { font-size: 12px; padding: 3px 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f5f5f5; padding: 8px 10px; text-align: left; font-weight: 600; border-bottom: 2px solid #e4e4e4; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #555; white-space: nowrap; }
+  td { padding: 10px 10px; border-bottom: 1px solid #f2f2f2; vertical-align: top; }
+  tr.handled td { opacity: 0.38; }
+  tr:hover:not(.handled) td { background: #fafafa; }
+
+  .from-name { font-weight: 600; }
+  .from-email { font-size: 11px; color: #aaa; }
+  .subject { font-weight: 500; }
+  .snippet { color: #888; font-size: 12px; margin-top: 3px; line-height: 1.4; }
+  .date { white-space: nowrap; color: #999; font-size: 12px; }
+
+  .priority { display: inline-block; border-radius: 4px; padding: 2px 7px; font-size: 11px; font-weight: 700; }
+  .HIGH   { background: #ffeaea; color: #c00; }
+  .MEDIUM { background: #fff3cd; color: #856404; }
+  .LOW    { background: #f0f0f0; color: #666; }
+  .SKIP   { background: #ececec; color: #999; text-decoration: line-through; }
+
+  .channel { display:inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 3px; }
+  .channel.linkedin { background: #e8f4ff; color: #0a66c2; }
+  .channel.gmail { background: #fde9e7; color: #d93025; }
+
+  .draft-box { margin-top: 8px; background: #f5faff; border: 1px solid #c8dfff; border-radius: 5px; padding: 10px 12px; font-size: 12px; line-height: 1.6; white-space: pre-wrap; color: #222; }
+  .draft-box.visible { display: block; }
+  .draft-box.hidden { display: none; }
+  .draft-label { font-weight: 700; color: #38B6FF; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; display: block; }
+
+  .loading { text-align: center; padding: 30px 20px; color: #aaa; font-size: 14px; }
+  .empty   { text-align: center; padding: 30px 20px; color: #aaa; font-size: 13px; font-style: italic; }
+  .error-box { background: #fff4f4; border: 1px solid #f5c6cb; border-radius: 5px; padding: 12px; color: #900; font-size: 13px; margin-bottom: 14px; }
+
+  .btn-sm { padding: 3px 9px; font-size: 11px; }
+  .btn-draft { background: #f0f7ff; border-color: #38B6FF; color: #0066cc; }
+  .btn-draft:hover:not(:disabled) { background: #e0f0ff; }
+  .btn-copy { background: #f0fff0; border-color: #2e7d32; color: #2e7d32; }
+  .btn-copy:hover:not(:disabled) { background: #e0f7e0; }
+  .btn-show { background: #fff; border-color: #888; color: #555; }
+  .actions { white-space: nowrap; display: flex; gap: 4px; flex-direction: column; }
+  .send-day { display: inline-block; background:#eef; color:#445; padding:1px 5px; font-size:10px; border-radius:3px; margin-top:2px; }
+
+  details.linkedin-block { background:#fafafa; border:1px solid #eee; padding:10px 12px; border-radius:6px; margin: 8px 0 14px; font-size: 12px; color:#555; }
+  details.linkedin-block summary { cursor: pointer; font-weight:600; color:#0a66c2; }
+</style>
+</head>
+<body>
+
+<h1>📬 Inbox Monitor <span id="totalBadge" class="badge">0</span></h1>
+<div class="subtitle">Phil Ruttens · backlog + live Gmail scan · <span id="lastRun">—</span> · Updated 17 Jun 2026</div>
+
+<!-- W25 Focus — high-priority open items · 17 Jun 2026 -->
+<div class="today-phone" id="w25-focus" style="background:#fff8f0;border-color:#f57c00;">
+  <h3 style="color:#e65100;">🎯 W25 Focus — High-Priority Open Items · Jun 17, 2026</h3>
+  <div class="phone-cards">
+    <div class="pcard">
+      <label>
+        <input type="checkbox" id="ph-g6" onchange="savePh('ph-g6',this.checked)">
+        <div>
+          <span class="pbadge">✅ SENT</span>
+          <div class="ptitle">G6 · Mike Lander — Piscari.com</div>
+          <div class="paction">Zoom crash reschedule — sent (in progress)</div>
+        </div>
+      </label>
+    </div>
+    <div class="pcard">
+      <label>
+        <input type="checkbox" id="ph-g11" onchange="savePh('ph-g11',this.checked)">
+        <div>
+          <span class="pbadge">✅ SENT</span>
+          <div class="ptitle">G11 · Nathalie Van Oost — Markov.be</div>
+          <div class="paction">Warm collab follow-up — sent (in progress)</div>
+        </div>
+      </label>
+    </div>
+    <div class="pcard">
+      <label>
+        <input type="checkbox" id="ph-g19" onchange="savePh('ph-g19',this.checked)">
+        <div>
+          <span class="pbadge">✅ SENT</span>
+          <div class="ptitle">G19 · Raf Heylen — Martougin VME</div>
+          <div class="paction">BAV analysis follow-up — sent (Jun 15 promised contact)</div>
+        </div>
+      </label>
+    </div>
+    <div class="pcard amber">
+      <label>
+        <input type="checkbox" id="ph-aya" onchange="savePh('ph-aya',this.checked)">
+        <div>
+          <span class="pbadge" style="background:#2e7d32">✅ COMPLETED</span>
+          <div class="ptitle">AYA · Louis — Phase 2 APPROVED</div>
+          <div class="paction">Louis approved Phase 2 Option B (40h/mo €4,000/mo @ €100/h) — ACTIVE as of Jun 14</div>
+        </div>
+      </label>
+    </div>
+  </div>
+  <p class="lock-note">⚠️ W25 Focus: Acerta €2,240.73 due Jun 19 (2 days) · GoDaddy domain check ~Jun 21 (4 days) · LH subscription renewal decision by Jun 22 · Cohort webinar date pending. AYA HubSpot: 148176566 EU1 ONLY. SCAN = €499.</p>
+</div>
+
+<h2>📌 May 15 Backlog — Un-sent drafts <span id="backlogBadge" class="badge gray">0</span></h2>
+<div class="subtitle">32 drafts ready · 5 LI DMs (pulled 21 May) · 22 Gmail · <span id="backlogProgress">0/25 sent</span> · tick when sent, persists across refreshes · Last refresh: Jun 17, 2026</div>
+
+<div class="toolbar">
+  <label><input type="checkbox" id="backlogShowDone" onchange="renderBacklog()"> Show sent</label>
+  <label>Channel:
+    <select id="backlogChannel" onchange="renderBacklog()">
+      <option value="all">All</option>
+      <option value="gmail">Gmail only</option>
+      <option value="linkedin">LinkedIn only</option>
+    </select>
+  </label>
+  <label>Priority:
+    <select id="backlogPriority" onchange="renderBacklog()">
+      <option value="all">All</option>
+      <option value="HIGH">HIGH only</option>
+      <option value="MEDIUM">MEDIUM+</option>
+    </select>
+  </label>
+  <button class="btn-sm" onclick="clearBacklogTicks()">↺ Reset all ticks</button>
+</div>
+
+<details class="linkedin-block">
+  <summary>ℹ️ LinkedIn DMs pulled 21 May via Chrome Phil &mdash; 5 new appended (L6&ndash;L10)</summary>
+  <p style="margin-top:8px">Comet's extension framework conflicts with Claude-in-Chrome's DOM access on linkedin.com (every click returns <code>"Cannot access a chrome-extension:// URL of different extension"</code>). To pull LinkedIn DMs from May 15 → today, start a fresh chat with: <em>"Switch Chrome MCP to Chrome Phil (deviceId e721c0e1-5f25-445e-9293-3b91e15c3a21), open linkedin.com/messaging, scan unanswered threads since May 15 2026, append to the backlog"</em>. The 5 LinkedIn drafts below stay valid — open them via LinkedIn web inbox.</p>
+</details>
+
+<div id="backlogContainer"><div class="loading">Loading backlog…</div></div>
+
+<h2>📥 Live Gmail — Last 10 days <span id="liveBadge" class="badge green">0</span></h2>
+<div class="subtitle">Auto-pulled · <span id="liveStatus">—</span></div>
+
+<div class="toolbar">
+  <button class="primary" id="refreshBtn" onclick="loadLive()">↻ Refresh now</button>
+  <div class="filter-row">
+    <label>Window:
+      <select id="filterPeriod" onchange="loadLive()">
+        <option value="10">Last 10 days</option>
+        <option value="14">Last 14 days</option>
+        <option value="30">Last 30 days</option>
+        <option value="60">Last 60 days</option>
+      </select>
+    </label>
+    <label><input type="checkbox" id="showHandled" onchange="renderLive()"> Show handled</label>
+  </div>
+  <span class="status" id="statusMsg"></span>
+</div>
+
+<div id="errorBox" class="error-box" style="display:none"></div>
+<div id="liveContainer"><div class="loading">📩 Loading…</div></div>
+
+<script>
+const BACKLOG = [
+  { id:'L1', channel:'linkedin', name:'Lisa O.', email:'(LinkedIn DM)', date:'May 12', subject:'SEO → pipeline cold pitch', preview:'"Hi Philippe, great to connect. I focus on turning search demand into pipeline and revenue for…"', draft:"Hi Lisa — apologies for the late reply, your note slipped through a busy stretch. SEO-to-pipeline is exactly the lane I work in for B2B clients at RUTTENS+. Curious which segment you're focused on — SaaS, services, industrial? Happy to compare notes on a quick 20-min call if useful.\n\nBest, Phil", priority:'LOW', sendDay:3 },
+  { id:'L2', channel:'linkedin', name:'Allan Rønsholt', email:'(LinkedIn DM)', date:'May 12', subject:'👍 emoji ack', preview:'"👍"', draft:'(skip — emoji acknowledgement, no reply needed)', priority:'SKIP', sendDay:0 },
+  { id:'L3', channel:'linkedin', name:'Samson Husbands', email:'(LinkedIn DM)', date:'May 12', subject:'GTM reviews cold pitch', preview:'"Hi Philippe, For CROs… Go-To-Market reviews create more revenue. The outcomes uncovered…"', draft:"Hi Samson — apologies for the delay. GTM reviews are core to what I do at RUTTENS+, so I appreciate the angle. Quick question before a call: are you selling a service or a tool? If a tool, send a 1-pager — saves us both time. If a service, what's the typical engagement length?\n\nBest, Phil", priority:'LOW', sendDay:3 },
+  { id:'L4', channel:'linkedin', name:'Etienne Feliz', email:'(LinkedIn DM)', date:'May 11', subject:'Sent attachment', preview:'"Etienne sent an attachment"', draft:"Hi Etienne — apologies for not getting back, your attachment dropped during a busy week. Mind giving me one line on what it's about and the action you need from me? Saves me opening blind.\n\nBest, Phil", priority:'MEDIUM', sendDay:2 },
+  { id:'L5', channel:'linkedin', name:'Chems Eddouha Bouchikhi 🎯', email:'(LinkedIn DM)', date:'May 11', subject:'New Opportunity', preview:'"New Opportunity"', draft:'Hi Chems — apologies for the slow reply. "New Opportunity" caught my eye but I need a bit more context: which role/company, what type of engagement (fractional / project / full-time), and is it B2B marketing/GTM scope? Happy to look properly with those details.\n\nBest, Phil', priority:'MEDIUM', sendDay:2 },
+  { id:'L6', channel:'linkedin', name:'Vikesh Tiwari', email:'(LinkedIn DM)', date:'May 19', subject:'GTM infra for Claude — free tester pitch', preview:'"saw your comment on Yann\'s post. Building GTM infra for Claude, looking for testers — free while you test, pay only if it works. Open to a chat?"', draft:"Hi Vikesh — thanks for the note and the no-risk framing. GTM infra is squarely my world, so I'm curious. Before a call, send a 1-pager or short Loom on what it does and what 'it works' means in metrics. Happy to connect.\n\nBest, Phil", priority:'MEDIUM', sendDay:2 },
+  { id:'L7', channel:'linkedin', name:'Anshvan Goswami', email:'(LinkedIn DM)', date:'May 20', subject:'Fractional CMO execution gaps — wants to connect', preview:'"Work adjacent to the fractional space on the talent side. Talking to fractional CMOs about how they handle execution gaps with clients — would love to connect."', draft:"Hi Anshvan — happy to connect. Execution gaps are the real story in fractional work: strategy is the easy part, landing it inside the client's team is the hard part. What are you building on the talent side?\n\nBest, Phil", priority:'LOW', sendDay:3 },
+  { id:'L8', channel:'linkedin', name:'Jovanny Tovar', email:'(LinkedIn DM)', date:'May 21', subject:'PMM landscape question (opener)', preview:'"With your background in B2B marketing and leading teams, curious how you see the landscape for Product Marketing Managers evolving and the challenges they face today."', draft:"Hi Jovanny — good question. Short version: PMMs are being pulled from launch support into revenue ownership, and the ones who win pair tight ICP/positioning with GTM execution, not just enablement decks. Happy to go deeper — what's prompting the question?\n\nBest, Phil", priority:'LOW', sendDay:3 },
+  { id:'L9', channel:'linkedin', name:'Iryna Papusha, PhD', email:'(LinkedIn InMail)', date:'May 21', subject:'InMail — Board Director / Chair of the Board (HIGH)', preview:'"InMail from an International Board Director / Chair. Full body sits in LinkedIn Other/InMail — not readable via scan. Senior inbound, highest value this week."', draft:"(OPEN IN LINKEDIN — InMail from a Board Chair. Read the full message in your LinkedIn Other inbox and reply personally; do not auto-draft.)", priority:'HIGH', sendDay:1 },
+  { id:'L10', channel:'linkedin', name:'Ruben Vanhees', email:'(LinkedIn DM)', date:'May 21', subject:'Sent a post', preview:'"Ruben sent a post (content share, no direct ask)."', draft:"(skip — content share, no reply needed unless you want to react.)", priority:'SKIP', sendDay:0 },
+  { id:'G1', channel:'gmail', name:'Elena Mirchevska', email:'elena.mirchevska@chaos.com', date:'May 13', subject:'Senior Growth Manager, ABM @ Chaos', preview:'Job application — role on hold / strategic pause (not hard reject)', draft:'Hi Elena,\n\nThanks for getting back and for the transparency. Appreciate the speed of follow-up. If anything fitting a senior fractional/contract GTM profile comes up at Chaos in the future, please keep me on the radar — happy to stay in touch on LinkedIn meanwhile.\n\nBest, Phil', priority:'MEDIUM', sendDay:2 },
+  { id:'G2', channel:'gmail', name:'Harvey Bogush', email:'harvey.bogush@vividresourcing.com', date:'May 12', subject:'Urgent Freelance Business Analyst', preview:'Mass blast — wrong role, called Phil "Roi"', draft:'(skip — mass blast with wrong name "Roi" + wrong role. Not worth replying.)', priority:'SKIP', sendDay:0 },
+  { id:'G3', channel:'gmail', name:'Sinclair A.', email:'sinclair.a@morerecruits.space', date:'May 7', subject:'CMO – Enterprise Growth & Brand Leadership', preview:'Cold CMO recruiter outreach', draft:"Hi Sinclair — apologies for the delay. Open to hearing more about CMO-level roles when they're EU-based and fractional or interim in shape. If this one is full-time relocation, it's not the right fit. Send the JD and I'll look properly.\n\nBest, Phil", priority:'LOW', sendDay:4 },
+  { id:'G4', channel:'gmail', name:'Cathy Alacid', email:'cathy.alacid@akuit.com', date:'May 4', subject:'Echanges entre professionels — Managers de transition', preview:'French portage salarial outreach', draft:"Bonjour Cathy,\n\nDésolé pour la réponse tardive — votre message est passé entre les mailles d'une période chargée. Je travaille principalement via ma propre structure (Life & Co BV) donc le portage n'est pas la priorité court terme, mais je suis curieux d'échanger sur le marché transition manager B2B en BE/FR. Si c'est aussi votre angle, je suis dispo pour un appel rapide.\n\nCordialement, Phil", priority:'MEDIUM', sendDay:2 },
+  { id:'G5', channel:'gmail', name:'Alexis Bouvry', email:'alexis.bouvry@gmail.com', date:'May 4', subject:"Demande d'entretien (TFE) – De la part de Pascal Bouvry", preview:'Student TFE — 30-min video call · referral from Pascal Bouvry (father)', draft:"Bonjour Alexis,\n\nMerci pour votre message — Pascal m'a effectivement mentionné que vous prendriez contact. Désolé pour le délai, j'étais en déplacement. Le sujet de votre TFE est pertinent et je suis heureux de vous consacrer 30 minutes. Dites-moi quelle plage horaire vous convient cette semaine et je confirme. Saluez votre père de ma part.\n\nBien à vous, Phil", priority:'HIGH', sendDay:1 },
+  { id:'G6', channel:'gmail', name:'Mike Lander', email:'mike@piscari.com', date:'May 6', subject:'Phil Ruttens and Mike Lander (Zoom crashed + canceled)', preview:'Zoom crashed during 10:00 call · Mike asked: reschedule or leave it?', draft:"Hi Mike,\n\nApologies for the radio silence — heads-down then on holiday. Sorry the Zoom gods weren't cooperating on May 6. Happy to reschedule if you still think it's worth 30 minutes. What does your diary look like this week or next?\n\nBest, Phil", priority:'HIGH', sendDay:1 },
+  { id:'G7', channel:'gmail', name:'Jack', email:'jack@jackandjill.ai', date:'Apr 25', subject:'Re: Fresh Fractional CMO hits', preview:'Jobs newsletter / fractional CMO career platform', draft:"Hi Jack — thanks for keeping me on the list, apologies for not engaging earlier. The Field Marketing Lead EMEA roles you flagged aren't in my fractional CMO lane, but if you see anything fractional / interim / fractional-CRO-adjacent in EU mid-market B2B, those are my fit.\n\nBest, Phil", priority:'LOW', sendDay:4 },
+  { id:'G8', channel:'gmail', name:'Christopher Hill', email:'christopher.hill@ensun.de', date:'Apr 23', subject:'Founder of ensun.io', preview:'Cold founder outreach about ensun Ads B2B leadgen', draft:"Hi Christopher — apologies for the late reply. I'd looked at ensun briefly and was curious about the data sources behind the targeting. Before booking a call: what's your sweet spot in terms of B2B verticals (we work mostly EU industrial + tech SME) and what's the typical CPL clients see? Send a 1-pager and I'll look properly.\n\nBest, Phil", priority:'LOW', sendDay:4 },
+  { id:'G9', channel:'gmail', name:'Yago Support', email:'support@yago5190.zendesk.com', date:'May 1 → 11 (auto-closed)', subject:'Récapitulatif épargne pension pour indépendant', preview:'Pension recap follow-up — ticket auto-closed for no response', draft:"Bonjour,\n\nDésolé pour le retour tardif — pouvez-vous rouvrir le ticket 582273347717 ? J'aimerais effectivement recevoir le récapitulatif de mon épargne pension pour indépendant 2025. Merci d'avance.\n\nCordialement, Phil", priority:'MEDIUM', sendDay:1 },
+  { id:'G10', channel:'gmail', name:'Charles Wiggett', email:'charles.wiggett@vividresourcing.com', date:'Apr 13', subject:'Freelance Test Automation Lead — Brussels', preview:'Cold recruiter, wrong role (Test Automation)', draft:"Hi Charles — thanks for reaching out. Test Automation Lead isn't my lane — I work in B2B marketing strategy and fractional CMO. If you ever have senior GTM, marketing leadership, or fractional CMO mandates in Belgium or remotely, those are my fit. Feel free to keep me in mind.\n\nBest, Phil", priority:'LOW', sendDay:5 },
+  { id:'G11', channel:'gmail', name:'Nathalie Van Oost', email:'nathalie@markov.be', date:'Feb 24', subject:'Samenwerking collectief B2B marketing', preview:'Warm collab — wanted to follow up in April, Phil had unsent draft', draft:'Dag Nathalie,\n\nMijn excuses voor de trage reactie — april is anders gelopen dan gepland en mijn opvolgmail is tussen de plooien gevallen. Ik ben nog altijd geïnteresseerd in een mogelijke samenwerking binnen jullie collectief. Zou je beschikbaar zijn voor een kort gesprek van 20 min in juni? Dan kunnen we kijken of de fit er is.\n\nMet vriendelijke groeten, Phil', priority:'HIGH', sendDay:2 },
+  { id:'G12', channel:'gmail', name:'Melissa Bobillier', email:'melissa.bobillier@entrepreneurs.com', date:'Feb 13', subject:'Coach Référent Entrepreneurs.com', preview:'Application acknowledged, never followed up by either party', draft:"Bonjour Melissa,\n\nMerci pour votre retour à l'époque — désolé pour ma réponse tardive. Je suis toujours actif sur le marché belge et français en tant que coach/consultant B2B marketing et GTM fractional. Si le processus est toujours ouvert ou si d'autres opportunités correspondant à ce profil se présentent, n'hésitez pas à me recontacter.\n\nBonne continuation. Cordialement, Phil", priority:'MEDIUM', sendDay:3 },
+  { id:'G13', channel:'gmail', name:'Judy Middelburg', email:'judy@endeblauw.com', date:'Feb 12', subject:'Re: Freelance/Interim CMO – tech/SaaS', preview:"No opportunities in tech/SaaS right now, will keep in mind — Phil never ack'd", draft:"Hi Judy — apologies for the silence on my end, your message got buried. Thanks for checking and for keeping me in mind. If anything relevant comes up in tech, SaaS, or B2B services, I'd welcome the introduction. You can always reach me at pruttens@gmail.com or via LinkedIn.\n\nBest, Phil", priority:'LOW', sendDay:4 },
+  { id:'G14', channel:'gmail', name:'Bilal Tariq', email:'bilal.tariq@g2recruitment.com', date:'Apr 22', subject:'Freelance Customer Journey Expert — Ghent', preview:"Recruiter — Customer Journey/Retail, not Phil's lane", draft:'Hi Bilal — thanks for the second outreach. Customer Journey / Retail isn\'t my primary lane — I focus on B2B marketing strategy, GTM, and fractional CMO in tech and industrial sectors. If you ever carry mandates in that space, happy to reconnect.\n\nBest, Phil', priority:'LOW', sendDay:5 },
+  { id:'G15', channel:'gmail', name:'James (Tyk CEO)', email:'james@tyk.io', date:'Dec 8 2025', subject:'Re: DRAFT Proposal — GTM & Marketing Coaching Support to Tyk', preview:'"Still planning the year ahead. Hope you find time to kick Titeos off again. Soon!"', draft:"Hi James — apologies for the gap, your message slipped off my radar. Good to know you're still planning — no rush on the Tyk side, whenever the timing is right. I've been heads-down on a few B2B marketing engagements and have refined how I frame the coaching work since December. If it makes sense to reconnect before mid-year, I'm easy to reach. And yes — Titeos is back on the bench for H2 2026.\n\nTake care, Phil", priority:'MEDIUM', sendDay:3 },
+  { id:'G16', channel:'gmail', name:'Martin (CEG-Consult)', email:'martin@ceg-consult.com', date:'Aug 21 2025', subject:'Re: TITEOS', preview:'TITEOS collab follow-up · 9-month gap', draft:'Hi Martin,\n\nMijn excuses voor mijn stilte — jouw bericht van augustus is volledig in het oog gelopen. TITEOS ligt me na aan het hart en ik wil zeker opvolging geven. Zou je me even kunnen updaten waar dingen nu staan? Ik ben beschikbaar voor een kort gesprek deze week.\n\nMet vriendelijke groeten, Phil', priority:'HIGH', sendDay:2 },
+  { id:'G17', channel:'gmail', name:'Stephen Levis', email:'stephen@access-avidity.com', date:'Sep 12 2025', subject:'Senior Marketing / Growth Role — Belgium', preview:'Cold recruiter, not fractional/advisory', draft:"Hi Stephen — apologies for the late reply. The role you described doesn't match my lane — I work as a fractional CMO and B2B GTM consultant, not a full-time hire. If you ever carry fractional, interim, or advisory mandates in EU B2B tech/industrial, happy to reconnect.\n\nBest, Phil", priority:'LOW', sendDay:5 },
+  { id:'G18', channel:'gmail', name:'Beth', email:'beth@continuousreintegration.com', date:'Oct 8 2025', subject:'Re: Zoom Recording', preview:"Sent Zoom recording link · Phil never ack'd", draft:"Hi Beth — apologies for not getting back, the recording link got buried. I've noted it now. Thanks for sending it over — if there's a next step you were waiting on from my side, let me know and I'll pick it up.\n\nBest, Phil", priority:'LOW', sendDay:4 },
+  // ── NEW: May 13–23 scan ────────────────────────────────────────────────────
+  { id:'G19', channel:'gmail', name:'Raf Heylen', email:'heylen.raf@gmail.com', date:'May 17', subject:'Re: B.A.V. van dinsdag 12 mei — Martougin follow-up', preview:'"Het doet deugd te lezen dat je aansluit bij de kern van mijn analyse en voorstel van aanpak." — Raf Heylen replied to Phil\'s May 15 BAV analysis. Martougin VME, deadline Jun 16.', draft:"Dag Raf,\n\nDank voor je reactie van 17 mei en je positieve lezing van mijn analyse — excuses dat ik pas nu terugkom, ik was op vakantie t.e.m. 4 juni. Ik lees dat we grotendeels op dezelfde lijn zitten wat aanpak betreft. Graag bijpraten over hoe de BAV verlopen is en wat de volgende stappen zijn vanuit de VME. Ik contacteer je de week van 9 juni.\n\nMet vriendelijke groeten, Phil", priority:'HIGH', sendDay:1 },
+  { id:'G20', channel:'gmail', name:'YAGO Insurance', email:'support@yago5190.zendesk.com', date:'May 20', subject:'YAGO - Insurance Follow-up (Baloise update)', preview:'"As agreed, I am coming back to you. Baloise. We confirm what Baloise has sent you. Everything is in order and the contract has been properly closed."', draft:"Bonjour,\n\nMerci pour votre suivi et la confirmation de Baloise. Je prends bonne note que le dossier est clôturé correctement. Merci pour la clarté.\n\nCordialement, Philippe Ruttens", priority:'MEDIUM', sendDay:2 },
+  { id:'G21', channel:'gmail', name:'Damian (Outbehaving)', email:'damian@outbehaving.co.uk', date:'May 19', subject:'Outbehaving – From vision to reality (Founders Circle)', preview:'"Action required — add yourself as a Founders Circle member on LinkedIn." Group thread, Rania and others replied acknowledging.', draft:"Hi Damian — thanks for the update and the momentum. Will follow on LinkedIn and add myself to the Founders Circle page. Good to see the progress.\n\nBest, Phil", priority:'LOW', sendDay:3 },
+  { id:'G22', channel:'gmail', name:'Alasdair Anderson (Euro London)', email:'alasdair.anderson.eurolondon@gmail.com', date:'May 22', subject:'Fractional CMO / CMO cold blast (mass email)', preview:'"Hello Carl…" and "Hello Philippe…" — same recruiter, two separate cold blasts sent to undisclosed lists. Wrong name on one (Carl). Not worth replying.', draft:'(skip — mass cold blast, one sent to "Carl", neither personalised. No reply needed.)', priority:'SKIP', sendDay:0 }
+];
+
+const PHIL_EMAILS = ['pruttens@gmail.com','philipperuttens@hotmail.com','phil@ruttens.com'];
+const SKIP_FROM = ['annemarievanriet@hotmail.com','noreply','no-reply','mailer-daemon','postmaster','erea','tunity','fineko','anthropic@','aya.energy','linkedin.com','jobs-listings@','mail.kit.com','substack.com','beehiiv.com','convertkit.com','mailchimp.com','vividresourcing','winkelhaak.be','peppol','invoic','factuur','notifications@','alerts@','info@linkedin','digest@','weekly@','donotreply','do-not-reply','bounce@','delivery@'];
+const SKIP_SUBJECTS = ['b.a.v.','bijzondere algemene vergadering','algemene vergadering','may be a fit for','great fit for','your profile caught','invoice','receipt','factuur','betaling','payment confirmation','job alert','new jobs','jobs you may like','weekly digest','unsubscribe','newsletter','update van linkedin'];
+const BACKLOG_GMAIL_FROM = new Set(['elena.mirchevska@chaos.com','harvey.bogush@vividresourcing.com','sinclair.a@morerecruits.space','cathy.alacid@akuit.com','alexis.bouvry@gmail.com','mike@piscari.com','jack@jackandjill.ai','christopher.hill@ensun.de','support@yago5190.zendesk.com','charles.wiggett@vividresourcing.com','nathalie@markov.be','melissa.bobillier@entrepreneurs.com','judy@endeblauw.com','bilal.tariq@g2recruitment.com','james@tyk.io','martin@ceg-consult.com','stephen@access-avidity.com','beth@continuousreintegration.com',
+  // Added May 23 scan
+  'heylen.raf@gmail.com','damian@outbehaving.co.uk','alasdair.anderson.eurolondon@gmail.com']);
+const BACKLOG_KEY = 'inbox-monitor-may15-backlog-sent-v1';
+const LIVE_KEY = 'inbox-monitor-handled-v2';
+const LAST_RUN_KEY = 'inbox-monitor-lastrun-v2';
+const PH_KEY = 'inbox-ph-may25'; // deliberately unchanged — preserves Phil's ticks
+let allLiveThreads = [];
+
+function savePh(id, val) {
+  const s = JSON.parse(localStorage.getItem(PH_KEY)||'{}');
+  if (val) s[id]=true; else delete s[id];
+  localStorage.setItem(PH_KEY, JSON.stringify(s));
+}
+function loadPh() {
+  const s = JSON.parse(localStorage.getItem(PH_KEY)||'{}');
+  ['ph-g6','ph-g11','ph-g19','ph-aya'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = !!s[id];
+  });
+}
+
+function getBacklogSent() { try { return JSON.parse(localStorage.getItem(BACKLOG_KEY)||'{}'); } catch { return {}; } }
+function setBacklogSent(id, val) { const h=getBacklogSent(); if(val) h[id]=true; else delete h[id]; localStorage.setItem(BACKLOG_KEY,JSON.stringify(h)); }
+function getLiveHandled() { try { return JSON.parse(localStorage.getItem(LIVE_KEY)||'{}'); } catch { return {}; } }
+function setLiveHandled(id, val) { const h=getLiveHandled(); if(val) h[id]=true; else delete h[id]; localStorage.setItem(LIVE_KEY,JSON.stringify(h)); }
+function saveLastRun(s) { localStorage.setItem(LAST_RUN_KEY,s); document.getElementById('lastRun').textContent=s; }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function isPhilSender(s) { const f=(s||'').toLowerCase(); return PHIL_EMAILS.some(e => f.includes(e)); }
+function formatDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}); } catch { return d; } }
+async function copyToClipboard(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const old = btn.textContent;
+    btn.textContent='✓ Copied'; btn.style.background='#2e7d32'; btn.style.color='#fff'; btn.style.borderColor='#2e7d32';
+    setTimeout(()=>{ btn.textContent=old; btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }, 1500);
+  } catch(e) { btn.textContent='⚠ failed'; }
+}
+
+function renderBacklog() {
+  const sent = getBacklogSent();
+  const showDone = document.getElementById('backlogShowDone').checked;
+  const filterCh = document.getElementById('backlogChannel').value;
+  const filterPr = document.getElementById('backlogPriority').value;
+  const container = document.getElementById('backlogContainer');
+  const actionable = BACKLOG.filter(b => b.priority !== 'SKIP');
+  const sentCount = actionable.filter(b => sent[b.id]).length;
+  const remaining = actionable.length - sentCount;
+  document.getElementById('backlogBadge').textContent = remaining;
+  document.getElementById('backlogProgress').textContent = `${sentCount}/${actionable.length} sent`;
+  let visible = BACKLOG.filter(b => {
+    if (b.priority === 'SKIP' && !showDone) return false;
+    if (sent[b.id] && !showDone) return false;
+    if (filterCh !== 'all' && b.channel !== filterCh) return false;
+    if (filterPr === 'HIGH' && b.priority !== 'HIGH') return false;
+    if (filterPr === 'MEDIUM' && !['HIGH','MEDIUM'].includes(b.priority)) return false;
+    return true;
+  });
+  const pOrder = { HIGH:0, MEDIUM:1, LOW:2, SKIP:3 };
+  visible.sort((a,b) => (pOrder[a.priority]??1)-(pOrder[b.priority]??1) || (a.sendDay||99)-(b.sendDay||99));
+  if (!visible.length) { container.innerHTML = '<div class="empty">🎉 All backlog drafts sent. Toggle "Show sent" to review.</div>'; updateTotalBadge(); return; }
+  let html = `<table><thead><tr><th style="width:34px">Sent</th><th style="width:60px">Ch</th><th style="width:170px">Person</th><th>Subject &amp; draft</th><th style="width:75px">Date</th><th style="width:80px">Priority</th><th style="width:130px">Actions</th></tr></thead><tbody>`;
+  for (const b of visible) {
+    const isSent = !!sent[b.id];
+    const sendDayLabel = b.sendDay > 0 ? `Day ${b.sendDay}` : '';
+    html += `<tr class="${isSent?'handled':''}" id="brow_${b.id}"><td><input type="checkbox" ${isSent?'checked':''} onchange="toggleBacklog('${b.id}',this.checked)" title="Tick when sent"></td><td><span class="channel ${b.channel}">${b.channel==='linkedin'?'LI':'GM'}</span></td><td><div class="from-name">${esc(b.name)}</div><div class="from-email">${esc(b.email)}</div>${sendDayLabel ? `<div class="send-day">${sendDayLabel}</div>` : ''}</td><td id="bcell_${b.id}"><div class="subject">${esc(b.subject)}</div><div class="snippet">${esc(b.preview)}</div><div class="draft-box hidden" id="bdbox_${b.id}"><span class="draft-label">✏️ Draft — copy &amp; paste</span>${esc(b.draft)}</div></td><td class="date">${esc(b.date)}</td><td><span class="priority ${b.priority}">${b.priority}</span></td><td class="actions">${b.priority==='SKIP' ? '<span style="color:#999;font-size:11px;font-style:italic">no reply</span>' : `<button class="btn-sm btn-show" onclick="toggleDraft('${b.id}', this)">👁 Show</button><button class="btn-sm btn-copy" onclick="copyDraft('${b.id}', this)">📋 Copy</button>`}</td></tr>`;
+  }
+  html += '</tbody></table>';
+  container.innerHTML = html;
+  updateTotalBadge();
+}
+
+function toggleBacklog(id, checked) {
+  setBacklogSent(id, checked);
+  const row = document.getElementById('brow_'+id);
+  if (row) row.className = checked ? 'handled' : '';
+  renderBacklog();
+}
+function toggleDraft(id, btn) {
+  const box = document.getElementById('bdbox_'+id);
+  if (!box) return;
+  const isHidden = box.classList.contains('hidden');
+  box.classList.toggle('hidden', !isHidden);
+  box.classList.toggle('visible', isHidden);
+  btn.textContent = isHidden ? '🙈 Hide' : '👁 Show';
+}
+function copyDraft(id, btn) {
+  const item = BACKLOG.find(b => b.id === id);
+  if (item) copyToClipboard(item.draft, btn);
+}
+function clearBacklogTicks() {
+  if (!confirm('Reset all backlog ticks back to un-sent?')) return;
+  localStorage.removeItem(BACKLOG_KEY);
+  renderBacklog();
+}
+
+function isSkipLive(thread) {
+  const msgs = thread.messages||[];
+  if (!msgs.length) return true;
+  const last = msgs[msgs.length-1];
+  const sender = (last.sender||last.from||'').toLowerCase();
+  const subject = (last.subject||'').toLowerCase();
+  if (isPhilSender(sender)) return true;
+  if (SKIP_FROM.some(s => sender.includes(s))) return true;
+  if (SKIP_SUBJECTS.some(s => subject.includes(s))) return true;
+  if ([...BACKLOG_GMAIL_FROM].some(e => sender.includes(e))) return true;
+  return false;
+}
+function estimatePriority(thread) {
+  const msgs = thread.messages||[];
+  const last = msgs[msgs.length-1]||{};
+  const sender = (last.sender||last.from||'').toLowerCase();
+  const all = ((last.subject||'')+(last.snippet||'')+sender).toLowerCase();
+  if (/samenwerking|collaboration|proposal|collab|partnership|following up on our|would love to connect about/.test(all)) return 'HIGH';
+  if (/recruiter|recruitment|staffing|freelance role|job opportunity|position|opening|your profile|headhunter|talent/.test(all)) return 'LOW';
+  return 'MEDIUM';
+}
+function extractName(f) {
+  if (!f) return '—';
+  const angleMatch = (f||'').match(/^"?([^"<]+)"?\s*</);
+  if (angleMatch) return angleMatch[1].trim();
+  const atIdx = f.indexOf('@');
+  if (atIdx>0) return f.substring(0,atIdx);
+  return f;
+}
+function extractEmail(f) {
+  if (!f) return '—';
+  const m = (f||'').match(/<([^>]+)>/);
+  return m ? m[1] : f;
+}
+
+async function generateLiveDraft(threadId, from, subject, snippet) {
+  const btn = document.getElementById('lbtn_'+threadId);
+  if (!btn) return;
+  btn.disabled=true; btn.textContent='⏳…';
+  try {
+    const prompt = `You are writing a reply on behalf of Phil Ruttens (fractional B2B CMO at RUTTENS+, pruttens@gmail.com). It is W24, Jun 9–13, 2026. Phil is back at work after returning from holiday Jun 5. RUTTENS+ offer ladder: SCAN €499 → Pipeline Sprint €2,590+ → LAB €2,990 → MAP €6,990+ → SPRINT €15,900+ → MAX €3,990+/mo.\n\nUnanswered thread:\nFrom: ${from}\nSubject: ${subject}\nLast message snippet: ${snippet}\n\nWrite a short reply draft in Phil's voice:\n- Direct, no fluff, B2B tone\n- Briefly acknowledge the delay (1 sentence max)\n- Max 4–5 sentences\n- Match the sender's language (EN / NL / FR)\n- End with: Best, Phil\n- Do NOT include a subject line, just the reply body`;
+    const raw = await window.cowork.askClaude(prompt);
+    let draft;
+    if (typeof raw === 'string') draft = raw;
+    else if (raw && typeof raw === 'object') {
+      draft = raw.text || raw.content || raw.completion || raw.message || (Array.isArray(raw.content) ? raw.content.map(c=>c.text||'').join('') : null) || JSON.stringify(raw);
+    } else draft = String(raw||'');
+    let box = document.getElementById('ldbox_'+threadId);
+    if (!box) {
+      box = document.createElement('div'); box.id='ldbox_'+threadId; box.className='draft-box';
+      const cell = document.getElementById('lcell_'+threadId);
+      if (cell) cell.appendChild(box);
+    }
+    box.innerHTML = `<span class="draft-label">✏️ Draft</span>${esc(draft)}`;
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-sm btn-copy';
+    copyBtn.style.marginTop = '8px';
+    copyBtn.textContent = '📋 Copy';
+    copyBtn.onclick = () => copyToClipboard(draft, copyBtn);
+    box.appendChild(copyBtn);
+    btn.textContent='↻ Re-draft'; btn.disabled=false;
+  } catch(e) {
+    const errMsg = e?.message || String(e) || 'unknown error';
+    let box = document.getElementById('ldbox_'+threadId);
+    if (!box) {
+      box = document.createElement('div'); box.id='ldbox_'+threadId; box.className='draft-box';
+      box.style.background='#fff4f4'; box.style.borderColor='#f5c6cb'; box.style.color='#900';
+      const cell = document.getElementById('lcell_'+threadId);
+      if (cell) cell.appendChild(box);
+    }
+    box.textContent = '⚠️ Draft error: ' + errMsg;
+    btn.textContent='↻ Retry'; btn.disabled=false;
+  }
+}
+
+function renderLive() {
+  const handled = getLiveHandled();
+  const showH = document.getElementById('showHandled').checked;
+  const container = document.getElementById('liveContainer');
+  const unhandled = allLiveThreads.filter(t => !handled[t.id]).length;
+  document.getElementById('liveBadge').textContent = unhandled;
+  const visible = allLiveThreads.filter(t => showH || !handled[t.id]);
+  if (!visible.length) {
+    container.innerHTML = '<div class="empty">📭 No new unanswered Gmail threads in this window (after filtering backlog dupes + system noise).</div>';
+    updateTotalBadge();
+    return;
+  }
+  const order = {HIGH:0,MEDIUM:1,LOW:2};
+  const sorted = [...visible].sort((a,b) => {
+    const pa = order[estimatePriority(a)]??1;
+    const pb = order[estimatePriority(b)]??1;
+    if (pa!==pb) return pa-pb;
+    const da = new Date((a.messages||[]).at(-1)?.date||0);
+    const db = new Date((b.messages||[]).at(-1)?.date||0);
+    return db-da;
+  });
+  let html = `<table><thead><tr><th style="width:34px"></th><th style="width:170px">From</th><th>Subject &amp; preview</th><th style="width:75px">Date</th><th style="width:75px">Priority</th><th style="width:80px">Action</th></tr></thead><tbody>`;
+  for (const t of sorted) {
+    const msgs = t.messages||[];
+    const last = msgs[msgs.length-1]||{};
+    const isH = !!handled[t.id];
+    const priority = estimatePriority(t);
+    const from = last.sender||last.from||'—';
+    const subject = last.subject||'(no subject)';
+    const snippet = last.snippet||'';
+    const date = formatDate(last.date);
+    const safeFrom = from.replace(/`/g,"'").replace(/\\/g,'');
+    const safeSubj = subject.replace(/`/g,"'").replace(/\\/g,'');
+    const safeSnip = snippet.substring(0,200).replace(/`/g,"'").replace(/\\/g,'');
+    html += `<tr class="${isH?'handled':''}" id="lrow_${t.id}"><td><input type="checkbox" ${isH?'checked':''} onchange="toggleLive('${t.id}',this.checked)" title="Mark as handled"></td><td><div class="from-name">${esc(extractName(from))}</div><div class="from-email">${esc(extractEmail(from))}</div></td><td id="lcell_${t.id}"><div class="subject">${esc(subject)}</div><div class="snippet">${esc(snippet.substring(0,140))}${snippet.length>140?'…':''}</div></td><td class="date">${date}</td><td><span class="priority ${priority}">${priority}</span></td><td class="actions"><button class="btn-sm btn-draft" id="lbtn_${t.id}" onclick="generateLiveDraft('${t.id}',\`${safeFrom}\`,\`${safeSubj}\`,\`${safeSnip}\`)">✏️ Draft</button></td></tr>`;
+  }
+  html += '</tbody></table>';
+  container.innerHTML = html;
+  updateTotalBadge();
+}
+
+function toggleLive(id, checked) {
+  setLiveHandled(id, checked);
+  const row = document.getElementById('lrow_'+id);
+  if (row) row.className = checked ? 'handled' : '';
+  renderLive();
+}
+
+function updateTotalBadge() {
+  const sent = getBacklogSent();
+  const handled = getLiveHandled();
+  const backlogRemaining = BACKLOG.filter(b => b.priority !== 'SKIP' && !sent[b.id]).length;
+  const liveRemaining = allLiveThreads.filter(t => !handled[t.id]).length;
+  document.getElementById('totalBadge').textContent = backlogRemaining + liveRemaining;
+}
+
+async function loadLive() {
+  const btn = document.getElementById('refreshBtn');
+  const statusEl = document.getElementById('statusMsg');
+  const liveStatus = document.getElementById('liveStatus');
+  const errorBox = document.getElementById('errorBox');
+  const container = document.getElementById('liveContainer');
+  const period = document.getElementById('filterPeriod').value;
+  btn.disabled=true; btn.textContent='⏳ Scanning…';
+  statusEl.textContent=''; errorBox.style.display='none';
+  container.innerHTML='<div class="loading">📩 Scanning Gmail…</div>';
+  try {
+    const query = `in:inbox newer_than:${period}d -category:promotions -category:updates -category:social -from:annemarievanriet@hotmail.com`;
+    const resultRaw = await window.cowork.callMcpTool('mcp__ce50545b-07e8-48e1-8715-68b76a09e9ef__search_threads', { query, pageSize: 50 });
+    function unwrap(r) {
+      if (!r) return {};
+      if (typeof r === 'string') { try { return JSON.parse(r); } catch { return {}; } }
+      if (Array.isArray(r)) {
+        const ti = r.find(x => x?.type === 'text' && x?.text);
+        if (ti) { try { return JSON.parse(ti.text); } catch { return {}; } }
+        return {};
+      }
+      if (r.content) return unwrap(r.content);
+      return r;
+    }
+    const result = unwrap(resultRaw);
+    const raw = result?.threads ?? result?.data?.threads ?? (Array.isArray(result) ? result : []);
+    allLiveThreads = raw.filter(t => !isSkipLive(t));
+    const now = new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    saveLastRun(now);
+    liveStatus.textContent = `last refresh ${now}`;
+    renderLive();
+    statusEl.textContent = `${allLiveThreads.length} unhandled · ${raw.length} scanned · ${raw.length - allLiveThreads.length} filtered (backlog + noise)`;
+  } catch(e) {
+    errorBox.textContent = '⚠️ Gmail scan failed: ' + (e?.message || String(e));
+    errorBox.style.display='block';
+    container.innerHTML='<div class="empty">Could not load threads. Check Gmail connector and try again.</div>';
+  } finally {
+    btn.disabled=false; btn.textContent='↻ Refresh now';
+  }
+}
+
+const lr = localStorage.getItem(LAST_RUN_KEY);
+if (lr) {
+  document.getElementById('lastRun').textContent = lr;
+  document.getElementById('liveStatus').textContent = 'last refresh ' + lr;
+}
+loadPh();
+renderBacklog();
+loadLive();
+</script>
+</body>
+</html>

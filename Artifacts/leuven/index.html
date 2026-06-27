@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Leuven",
+  "schemaVersion": 1,
+  "description": "Leuven outreach tracker for Jun 19 coffees. Tab 1: 5 short templates by ICP × persona (CEO/Founder universal, Industrial CEO, VP Sales Tech, CMO Tech, CFO PE-VC) with EN/NL toggle, copy buttons, contact name field, Sent/Replied/Booked checkboxes + stats bar. Tab 2: Full V1 Warm / V2 Mid-warm / V3 Punchy scripts × EN/NL. All state persists via localStorage."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leuven Outreach · Jun 19</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --blue: #38B6FF;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --bg: #F4F6F9;
+  --border: #E2E6EC;
+  --muted: #6B7280;
+  --green: #16A34A;
+  --amber: #D97706;
+  --purple: #7C3AED;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--black); min-height: 100vh; }
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--black);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.hdr-title { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1.5px; color: var(--blue); }
+.hdr-sub { font-size: 11px; color: #888; margin-top: 2px; }
+.hdr-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.slot { background: rgba(56,182,255,.15); color: var(--blue); border: 1px solid var(--blue); padding: 3px 9px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.quick-link { background: var(--blue); color: var(--black); padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; text-decoration: none; }
+
+/* ── TABS ── */
+.tab-bar { background: var(--white); border-bottom: 2px solid var(--border); display: flex; padding: 0 20px; }
+.tab { padding: 12px 18px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s; white-space: nowrap; }
+.tab.active { color: var(--black); border-bottom-color: var(--blue); }
+.tab:hover:not(.active) { color: var(--black); }
+
+/* ── CONTENT ── */
+.page { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* ── STATS ── */
+.stats { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.stat { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.stat-n { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--black); line-height: 1; }
+.stat-n.blue { color: var(--blue); }
+.stat-n.green { color: var(--green); }
+.stat-n.amber { color: var(--amber); }
+
+/* ── ICP FILTERS ── */
+.icp-filters { display: flex; gap: 7px; margin-bottom: 18px; flex-wrap: wrap; }
+.icp-btn { padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; transition: all .15s; }
+.icp-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.icp-btn:hover:not(.active) { border-color: var(--blue); color: var(--black); }
+
+/* ── CARDS GRID ── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+
+.card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden;
+  transition: box-shadow .15s;
+}
+.card:hover { box-shadow: 0 4px 14px rgba(0,0,0,.07); }
+.card.is-sent { opacity: .65; }
+.card.is-booked { border-color: var(--green); border-width: 2px; }
+
+.card-head {
+  padding: 10px 14px 8px; border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 7px;
+}
+.card-head-row1 { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.badges { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.icp-tag {
+  font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px;
+  letter-spacing: .6px; text-transform: uppercase;
+}
+.t-ind { background: #FEF3C7; color: #92400E; }
+.t-tech { background: #EDE9FE; color: #5B21B6; }
+.t-pe { background: #FCE7F3; color: #9D174D; }
+.t-svc { background: #D1FAE5; color: #065F46; }
+.t-all { background: #DBEAFE; color: #1E40AF; }
+.persona-name { font-size: 12px; font-weight: 600; color: var(--black); }
+
+.lang-sw { display: flex; border: 1.5px solid var(--border); border-radius: 5px; overflow: hidden; align-self: flex-start; }
+.lang-sw button {
+  padding: 4px 13px; font-size: 10px; font-weight: 700; border: none; background: var(--white);
+  cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; color: var(--muted); transition: all .12s;
+  border-right: 1px solid var(--border);
+}
+.lang-sw button:last-child { border-right: none; }
+.lang-sw button.active { background: var(--black); color: var(--white); }
+
+.card-name { padding: 7px 14px; border-bottom: 1px solid var(--border); }
+.name-input {
+  width: 100%; padding: 5px 9px; font-size: 12px; border: 1px solid var(--border);
+  border-radius: 5px; font-family: 'IBM Plex Sans', sans-serif; color: var(--black);
+  background: var(--bg);
+}
+.name-input:focus { outline: none; border-color: var(--blue); background: var(--white); }
+.name-input::placeholder { color: #aaa; font-style: italic; }
+
+.card-msg { padding: 12px 14px; }
+.msg-text {
+  font-size: 12.5px; line-height: 1.65; color: #2D3748; white-space: pre-wrap;
+  max-height: 200px; overflow-y: auto;
+}
+
+.card-foot {
+  padding: 8px 14px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+}
+.copy-btn {
+  background: var(--blue); color: var(--black); border: none; padding: 6px 13px;
+  border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif; transition: all .15s; white-space: nowrap;
+}
+.copy-btn:hover { background: #1aabf5; }
+.copy-btn.ok { background: var(--green); color: var(--white); }
+
+.checks { display: flex; gap: 10px; align-items: center; }
+.chk { display: flex; align-items: center; gap: 3px; cursor: pointer; }
+.chk input { width: 13px; height: 13px; cursor: pointer; accent-color: var(--blue); }
+.chk span { font-size: 10px; font-weight: 600; color: var(--muted); }
+.chk.booked-chk input { accent-color: var(--green); }
+
+/* ── FULL SCRIPTS TAB ── */
+.scripts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+
+.script-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+.script-head {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--black);
+}
+.script-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); letter-spacing: .5px; }
+.script-desc { font-size: 10px; color: #aaa; margin-top: 1px; }
+
+.script-lang { display: flex; border: 1.5px solid #333; border-radius: 5px; overflow: hidden; }
+.script-lang button {
+  padding: 3px 9px; font-size: 10px; font-weight: 700; border: none; background: transparent;
+  cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; color: #888; transition: all .12s;
+}
+.script-lang button.active { background: var(--blue); color: var(--black); }
+
+.script-body { padding: 14px; }
+.script-msg { font-size: 12.5px; line-height: 1.7; color: #2D3748; white-space: pre-wrap; }
+
+.script-foot { padding: 8px 14px; border-top: 1px solid var(--border); }
+.script-copy {
+  background: var(--blue); color: var(--black); border: none; padding: 7px 16px;
+  border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%;
+  font-family: 'IBM Plex Sans', sans-serif; transition: all .15s;
+}
+.script-copy:hover { background: #1aabf5; }
+.script-copy.ok { background: var(--green); color: var(--white); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--black); color: var(--white); padding: 9px 16px; border-radius: 7px;
+  font-size: 12px; font-weight: 500; opacity: 0; transform: translateY(8px);
+  transition: all .2s; z-index: 999; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px; margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="hdr-title">LEUVEN OUTREACH · FRI 19 JUN</div>
+    <div class="hdr-sub">Market research coffees · 26K network amplification · No pitch</div>
+  </div>
+  <div class="hdr-right">
+    <span class="slot">🕙 11:00</span>
+    <span class="slot">☀️ Afternoon</span>
+    <span class="slot">☕ Saturday</span>
+    <a href="https://ruttens.com/quiz" target="_blank" class="quick-link">GTM Quiz →</a>
+    <a href="https://ruttens.com/playbook" target="_blank" class="quick-link">Playbook →</a>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('quick', this)">⚡ Quick Templates</div>
+  <div class="tab" onclick="switchTab('scripts', this)">📄 Full Scripts (3 versions)</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 1 — QUICK TEMPLATES
+═══════════════════════════════════════════════ -->
+<div class="page active" id="page-quick">
+
+  <div class="stats" id="stats">
+    <div class="stat"><span class="stat-n blue" id="s-total">5</span>&nbsp;templates</div>
+    <div class="stat"><span class="stat-n" id="s-sent">0</span>&nbsp;sent</div>
+    <div class="stat"><span class="stat-n green" id="s-replied">0</span>&nbsp;replied</div>
+    <div class="stat"><span class="stat-n amber" id="s-booked">0</span>&nbsp;☕ booked</div>
+  </div>
+
+  <div class="icp-filters">
+    <button class="icp-btn active" onclick="setFilter('all',this)">All Personas</button>
+    <button class="icp-btn" onclick="setFilter('ind',this)">🏭 Industrial SME</button>
+    <button class="icp-btn" onclick="setFilter('tech',this)">💻 Tech Scale-up</button>
+    <button class="icp-btn" onclick="setFilter('pe',this)">📊 PE/VC-backed</button>
+    <button class="icp-btn" onclick="setFilter('svc',this)">🤝 Prof. Services</button>
+  </div>
+
+  <div class="grid" id="quick-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 2 — FULL SCRIPTS
+═══════════════════════════════════════════════ -->
+<div class="page" id="page-scripts">
+  <div class="section-label">3 versions · EN + NL · from your _LINKEDIN folder</div>
+  <div class="scripts-grid" id="scripts-grid"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════ DATA ═══════════════ */
+
+const QUICK = [
+  {
+    id: 'q-ceo-any',
+    icp: 'all', icpLabel: 'Universal', icpCls: 't-all',
+    persona: 'CEO / Founder',
+    en: `Hi [Name], hope things are going well on your end!
+
+I'll be in Leuven on June 19 and would love to grab a 30-min coffee — no pitch, I genuinely promise.
+
+I've been collecting market insights from B2B leaders across Q1-Q2 and would love to brainstorm with you on four honest questions:
+→ What's actually driving pipeline right now vs. what looks good on paper?
+→ Where do deals stall — and what's the real reason?
+→ Is your content creating real conversations or just impressions?
+→ AI in your GTM: experimenting or still figuring it out?
+
+In return I'll share the best practices I've gathered and — if you're open to it — I'll turn your insights into a joint LinkedIn post reaching my 26K network. Zero cost, great visibility for you.
+
+Free GTM diagnostic (3 min): ruttens.com/quiz
+My B2B Revenue Playbook: ruttens.com/playbook
+
+11am, afternoon, or even Saturday works for me. Would that suit you?`,
+    en_short: `Hi [Name], hope things are going well!
+
+I'll be in Leuven on June 19 — 30-min coffee? No pitch, I promise.
+
+I've been collecting B2B market insights across Q1-Q2 and want to brainstorm on four things:
+→ What's actually driving pipeline vs. what looks good on paper?
+→ Where do deals stall — and why really?
+→ Is your content creating conversations or just impressions?
+→ AI in your GTM: experimenting or figuring it out?
+
+In return I'll share best practices and — if you're open — feature your insights in a LinkedIn post to my 26K network. Zero cost.
+
+ruttens.com/quiz | ruttens.com/playbook
+
+11am, afternoon, or Saturday?`,
+    nl: `Hoi [Name], hoop dat alles goed gaat bij jou!
+
+Ik ben op 19 juni in Leuven en zou graag een half uurtje koffie drinken — geen verkooppraatje, beloofd.
+
+Ik verzamel marktinzichten bij B2B-leiders voor mijn Q1-Q2-analyse en zou graag met jou brainstormen over vier eerlijke vragen:
+→ Wat drijft nu écht je pipeline — vs. wat ziet er gewoon goed uit op papier?
+→ Waar stagneert een deal — en wat is de echte reden?
+→ Zorgt je content voor échte gesprekken of enkel voor impressies?
+→ AI in je GTM: experimenterend of nog aan het aftasten?
+
+In ruil deel ik de best practices die ik verzameld heb en — als je dat wil — maak ik er een gezamenlijke LinkedIn-post van voor mijn 26K connecties. Volledig gratis, goede zichtbaarheid voor jou.
+
+Gratis GTM-diagnose (3 min): ruttens.com/quiz
+Mijn B2B Revenue Playbook: ruttens.com/playbook
+
+11u, 's middags of zelfs zaterdag past me. Schikt jou dat?`
+  },
+  {
+    id: 'q-ceo-ind',
+    icp: 'ind', icpLabel: 'Industrial SME', icpCls: 't-ind',
+    persona: 'CEO / Owner',
+    en: `Hi [Name], hope business is treating you well this spring!
+
+I'll be in Leuven on June 19 and thought of you — 30-min coffee? Not selling, I promise.
+
+I'm gathering real-world B2B growth insights from industrial leaders for a Q1-Q2 market analysis and would love your honest take on a few things:
+→ Where's new business actually coming from right now?
+→ Where does your sales process stall most — and why?
+→ Is your team generating enough qualified pipeline?
+→ Thinking about AI in your commercial process yet?
+
+In return I'll share the best practices I've collected and — if you're up for it — write up your perspective as a joint post for my 26K LinkedIn network. At no cost to you.
+
+Free GTM diagnostic: ruttens.com/quiz
+B2B Revenue Playbook: ruttens.com/playbook
+
+11am, afternoon, or Saturday all work. Interested?`,
+    en_short: `Hi [Name], hope business is treating you well!
+
+I'll be in Leuven on June 19 — 30-min coffee? Not selling, I promise.
+
+I'm gathering industrial B2B insights for a Q1-Q2 market analysis. Four honest questions:
+→ Where's new business actually coming from?
+→ Where does your sales process stall most?
+→ Is your team generating enough qualified pipeline?
+→ AI in your commercial process — any traction yet?
+
+In return I'll share best practices and — if you're up for it — write up your take for my 26K LinkedIn network. At no cost.
+
+ruttens.com/quiz | ruttens.com/playbook
+
+11am, afternoon, or Saturday?`,
+    nl: `Hoi [Name], hoop dat het lekker loopt dit voorjaar!
+
+Ik ben op 19 juni in Leuven en dacht meteen aan jou — 30 min koffie? Geen verkooppraatje, beloofd.
+
+Ik verzamel praktijkinzichten bij industriële leiders voor een Q1-Q2-marktanalyse en zou graag jouw eerlijke mening horen over een paar zaken:
+→ Waar komt nieuwe business nu écht vandaan?
+→ Waar stagneert je verkoopproces het vaakst — en waarom?
+→ Genereert je team genoeg gekwalificeerde pipeline?
+→ Denk je al na over AI in je commercieel proces?
+
+In ruil deel ik de best practices die ik verzameld heb en — als je dat wil — schrijf ik jouw perspectief als gezamenlijke post voor mijn 26K LinkedIn-connecties. Volledig gratis.
+
+Gratis GTM-diagnose: ruttens.com/quiz
+B2B Revenue Playbook: ruttens.com/playbook
+
+11u, 's middags of zaterdag passen me. Zin in?`
+  },
+  {
+    id: 'q-vpsales-tech',
+    icp: 'tech', icpLabel: 'Tech Scale-up', icpCls: 't-tech',
+    persona: 'VP Sales / Commercial Dir.',
+    en: `Hi [Name], hope Q2 is treating you well!
+
+I'll be in Leuven on June 19 — coffee? 30 minutes, no sales talk, I promise.
+
+I'm running a round of B2B market conversations to capture real pipeline insights across Q1-Q2 and would love to brainstorm with you on a few honest questions:
+→ What's actually filling your pipeline right now?
+→ Where do deals go quiet — and what's the real blocker?
+→ Is outbound still delivering, or has the game changed?
+→ AI in your sales motion: experimenting or already embedded?
+
+In return I'll share the best practices I've gathered across conversations and — if you're open — write up your take as a joint LinkedIn post for my 26K network. Zero cost, solid visibility.
+
+My B2B Revenue Playbook: ruttens.com/playbook
+Free GTM diagnostic: ruttens.com/quiz
+
+11am, afternoon, or Saturday works. Would that suit you?`,
+    en_short: `Hi [Name], hope Q2 is going well!
+
+I'll be in Leuven on June 19 — 30-min coffee? No sales talk, I promise.
+
+I'm capturing real B2B pipeline insights from Q1-Q2. Four honest questions:
+→ What's actually filling your pipeline?
+→ Where do deals go quiet — and what's the real blocker?
+→ Is outbound still delivering or has the game changed?
+→ AI in your sales motion: embedded or still testing?
+
+In return I'll share what I've gathered and — if you're open — write up your take for my 26K LinkedIn network. Zero cost.
+
+ruttens.com/playbook | ruttens.com/quiz
+
+11am, afternoon, or Saturday?`,
+    nl: `Hoi [Name], hoop dat Q2 goed loopt!
+
+Ik ben op 19 juni in Leuven — koffie? 30 minuten, geen verkooppraatje, beloofd.
+
+Ik doe een ronde B2B-marktgesprekken om echte pipeline-inzichten te verzamelen uit Q1-Q2 en zou graag met jou brainstormen over een paar eerlijke vragen:
+→ Wat vult je pipeline nu écht?
+→ Waar worden deals stil — en wat is de echte blokkade?
+→ Werkt outbound nog, of is het spel veranderd?
+→ AI in je salesaanpak: aan het experimenteren of al ingevoerd?
+
+In ruil deel ik de best practices die ik verzameld heb en — als je open staat — schrijf ik jouw perspectief als gezamenlijke LinkedIn-post voor mijn 26K connecties. Volledig gratis, goede zichtbaarheid.
+
+Mijn B2B Revenue Playbook: ruttens.com/playbook
+Gratis GTM-diagnose: ruttens.com/quiz
+
+11u, 's middags of zaterdag past me. Schikt dat?`
+  },
+  {
+    id: 'q-cmo-tech',
+    icp: 'tech', icpLabel: 'Tech Scale-up', icpCls: 't-tech',
+    persona: 'CMO / Head of Marketing',
+    en: `Hi [Name], hope you're having a good run into summer!
+
+I'll be in Leuven on June 19 — 30-min coffee? No pitch, I promise.
+
+I'm building a Q1-Q2 market picture on what's actually working in B2B marketing right now and would love to brainstorm with you on a few honest questions:
+→ How much of your content is actually driving pipeline vs. just impressions?
+→ Where's your CAC heading — and is it justified?
+→ How are you approaching content-to-revenue attribution?
+→ AI in your demand gen: experimenting or already scaled?
+
+In return I'll share the best practices I've collected and — if you're open to it — write up your insights as a joint post for my 26K LinkedIn network. Zero cost to you, great visibility.
+
+Free GTM diagnostic (3 min): ruttens.com/quiz
+B2B Revenue Playbook: ruttens.com/playbook
+
+11am, afternoon, or Saturday works. Interested?`,
+    en_short: `Hi [Name], hope you're having a good run into summer!
+
+I'll be in Leuven on June 19 — 30-min coffee? No pitch.
+
+I'm building a Q1-Q2 picture on what's working in B2B marketing. Four honest questions:
+→ How much of your content actually drives pipeline?
+→ Where's your CAC heading — justified?
+→ How are you approaching content-to-revenue attribution?
+→ AI in demand gen: experimenting or scaled?
+
+In return I'll share best practices and — if you're open — write up your insights for my 26K LinkedIn network. Zero cost.
+
+ruttens.com/quiz | ruttens.com/playbook
+
+11am, afternoon, or Saturday?`,
+    nl: `Hoi [Name], hoop dat je goed op stoom zit richting de zomer!
+
+Ik ben op 19 juni in Leuven — 30 min koffie? Geen pitch, beloofd.
+
+Ik bouw een Q1-Q2-marktbeeld op over wat nu écht werkt in B2B-marketing en zou graag met jou brainstormen over een paar eerlijke vragen:
+→ Hoeveel van je content drijft écht pipeline — vs. enkel impressies?
+→ Waar gaat je CAC naartoe — en is dat gerechtvaardigd?
+→ Hoe pak je content-naar-omzet-attributie aan?
+→ AI in je demand gen: experimenterend of al op schaal?
+
+In ruil deel ik de best practices die ik verzameld heb en — als je dat wil — schrijf ik jouw inzichten als gezamenlijke post voor mijn 26K LinkedIn-connecties. Volledig gratis, goede zichtbaarheid.
+
+Gratis GTM-diagnose (3 min): ruttens.com/quiz
+B2B Revenue Playbook: ruttens.com/playbook
+
+11u, 's middags of zaterdag past me. Zin in?`
+  },
+  {
+    id: 'q-cfo-pe',
+    icp: 'pe', icpLabel: 'PE/VC-backed', icpCls: 't-pe',
+    persona: 'CFO / Finance Director',
+    en: `Hi [Name], hope the quarter is closing well on your end!
+
+I'll be in Leuven on June 19 — 30-min coffee? Not selling, I promise.
+
+I'm putting together a Q1-Q2 market view on B2B revenue efficiency and would love to brainstorm with you on a few honest questions:
+→ How are you measuring marketing ROI right now?
+→ Where's CAC heading — and what's the board's reaction?
+→ Is your pipeline generating quality deals or just volume?
+→ AI in commercial operations — are you using it to optimise spend?
+
+In return I'll share the best practices I've gathered and — if you're open — write up your perspective as a joint post for my 26K LinkedIn network. At no cost to you.
+
+Free GTM diagnostic: ruttens.com/quiz
+
+11am, afternoon, or Saturday all work. Would that suit you?`,
+    en_short: `Hi [Name], hope the quarter is closing well!
+
+I'll be in Leuven on June 19 — 30-min coffee? No pitch.
+
+I'm building a Q1-Q2 view on B2B revenue efficiency. Four honest questions:
+→ How are you measuring marketing ROI right now?
+→ Where's CAC heading — and what's the board saying?
+→ Pipeline generating quality deals or just volume?
+→ AI in commercial ops — using it to optimise spend?
+
+In return I'll share what I've gathered and — if you're open — feature your perspective in a LinkedIn post to my 26K network. At no cost.
+
+ruttens.com/quiz
+
+11am, afternoon, or Saturday?`,
+    nl: `Hoi [Name], hoop dat het kwartaal goed afsluit bij jullie!
+
+Ik ben op 19 juni in Leuven — 30 min koffie? Geen pitch, beloofd.
+
+Ik bouw een Q1-Q2-marktoverzicht op over B2B revenue-efficiëntie en zou graag met jou brainstormen over een paar eerlijke vragen:
+→ Hoe meet je marketing-ROI momenteel?
+→ Waar gaat CAC naartoe — en wat is de reactie van de board?
+→ Genereert je pipeline kwaliteitsdeals of gewoon volume?
+→ AI in commerciële operaties — gebruik je het om spend te optimaliseren?
+
+In ruil deel ik de best practices die ik verzameld heb en — als je dat wil — schrijf ik jouw perspectief als gezamenlijke post voor mijn 26K LinkedIn-connecties. Volledig gratis.
+
+Gratis GTM-diagnose: ruttens.com/quiz
+
+11u, 's middags of zaterdag past me. Schikt dat?`
+  }
+];
+
+const SCRIPTS = [
+  {
+    id: 's-warm',
+    title: 'VERSION 1 — WARM',
+    desc: 'Close connections · personal, first-name, casual',
+    en: `Hey [Name],
+
+I'll be in Leuven on Friday June 19 — would you be up for a 30-min coffee? 11am works, or anytime in the afternoon. Even Saturday if that's more relaxed.
+
+No pitch, no services talk — I genuinely promise.
+
+I'm doing a round of conversations with B2B leaders to get honest, ground-level input on where GTM and pipeline is really heading. Four questions I'd love your take on:
+
+1. What's actually generating pipeline right now — and what just looks good on paper?
+2. Where do deals stall most for you? And what's the real reason behind it?
+3. How much of your content is creating real conversations versus just traffic?
+4. AI in your GTM — experimenting, already embedded, or still figuring it out?
+
+If you're open to it: I'll write up a short summary of your perspective and share it with my 26K LinkedIn network. Your name, your insights — good visibility for you, real signal for others.
+
+Something for your time before we even meet: free GTM diagnostic (3 min) → ruttens.com/quiz + my B2B Revenue Playbook → ruttens.com/playbook
+
+Are you free that Friday?
+
+Phil`,
+    nl: `Hey [Name],
+
+Ik ben vrijdag 19 juni in Leuven — heb je zin in een koffie van 30 minuten? 11u of 's middags werkt perfect. Of zaterdag als dat rustiger is.
+
+Geen verkooppraatje, beloof ik oprecht.
+
+Ik doe een ronde gesprekken met B2B-leiders om te begrijpen wat er echt speelt in GTM en pipeline. Vier vragen waarop ik graag jouw eerlijke mening hoor:
+
+1. Wat genereert nu écht pipeline voor jullie — en wat ziet er gewoon goed uit op papier?
+2. Waar stagneert een deal het vaakst? En wat is de échte reden?
+3. Hoeveel van jullie content zorgt voor échte gesprekken versus enkel impressies?
+4. AI in je GTM — experimenterend, al ingevoerd, of nog aan het aftasten?
+
+Als je er open voor staat: ik schrijf een korte samenvatting van jouw inzichten en deel die met mijn 26.000 LinkedIn-connecties. Jouw naam, jouw perspectief — goede zichtbaarheid voor jou en echte signalen voor anderen.
+
+Alvast iets voor je tijd: gratis GTM-diagnose (3 min) → ruttens.com/quiz + mijn B2B Revenue Playbook → ruttens.com/playbook
+
+Ben je vrij die vrijdag?
+
+Phil`
+  },
+  {
+    id: 's-midwarm',
+    title: 'VERSION 2 — MID-WARM',
+    desc: 'Met once or twice · professional but human',
+    en: `Hi [Name],
+
+I'll be in Leuven on Friday June 19 for a handful of market research conversations — and thought of you.
+
+Not selling anything. I promise. I'm spending the day asking B2B leaders four honest questions:
+
+1. What's actually generating pipeline right now?
+2. Where do deals stall — and what's the real blocker?
+3. Is your content driving revenue conversations or just impressions?
+4. How are you thinking about AI in your commercial/GTM motion?
+
+30 minutes, coffee, zero pitch. And if you're open to it: I'll write up a short summary of your perspective and share it with my 26K connections. Positions you as a voice with real B2B ground-level insight.
+
+Something in return: free GTM diagnostic (3 min) → ruttens.com/quiz + my B2B Revenue Playbook → ruttens.com/playbook
+
+Available at 11am, afternoon, or even Saturday if that's easier.
+
+Phil`,
+    nl: `Hoi [Name],
+
+Ik ben op vrijdag 19 juni in Leuven voor een reeks marktgesprekken — en dacht meteen aan jou.
+
+Geen diensten, geen pitch, beloofd. Ik stel die dag B2B-leiders vier eerlijke vragen:
+
+1. Wat genereert nu écht pipeline voor jullie?
+2. Waar stagneert een deal — en wat is de echte blokkade?
+3. Zorgt jullie content voor omzetgesprekken of enkel voor statistieken?
+4. Hoe kijken jullie naar AI in jullie commerciële aanpak?
+
+30 minuten koffie, nul verkooppraatje. En als je er open voor staat: ik schrijf een korte samenvatting van jouw perspectief en deel die met mijn 26.000 connecties. Zet jou neer als iemand met echte, praktische B2B-inzichten.
+
+Iets van mijn kant: gratis GTM-diagnose (3 min) → ruttens.com/quiz + mijn B2B Revenue Playbook → ruttens.com/playbook
+
+Beschikbaar om 11u, 's middags of zaterdag als dat gemakkelijker is.
+
+Phil`
+  },
+  {
+    id: 's-punchy',
+    title: 'VERSION 3 — PUNCHY',
+    desc: 'C-suite / time-poor · ultra-brief',
+    en: `[Name] — I'll be in Leuven on June 19.
+
+30-min coffee? Not selling. I'm running a round of market conversations with B2B leaders — four questions, your honest answers, that's it.
+
+1. What's creating pipeline right now — really?
+2. Where do deals stall, and why really?
+3. Is your content driving revenue conversations or just metrics?
+4. AI in your GTM: experimenting, embedded, or avoiding it?
+
+If you're open: I write up your take and share it with my 26K network. Good visibility for you.
+
+Something for your time: ruttens.com/quiz (free 3-min GTM diagnostic) + ruttens.com/playbook
+
+11am or afternoon on the 19th — or Saturday if that's easier.
+
+Phil`,
+    nl: `[Name] — ik ben op 19 juni in Leuven.
+
+30 minuten koffie? Ik kom niet verkopen. Ik doe een ronde met B2B-leiders — vier vragen, jouw eerlijke antwoorden, dat is alles.
+
+1. Wat creëert nu écht pipeline bij jullie?
+2. Waar stagneert een deal — en waarom écht?
+3. Zorgt jullie content voor omzetgesprekken of enkel voor cijfers?
+4. AI in jullie GTM: experimenten, al ingevoerd, of afwachtend?
+
+Als je er open voor staat: ik schrijf jouw perspectief neer en deel het met mijn 26.000 connecties.
+
+Alvast iets voor je tijd: ruttens.com/quiz (gratis 3 min GTM-diagnose) + ruttens.com/playbook
+
+11u of 's middags op de 19de — of zaterdag als dat makkelijker is.
+
+Phil`
+  }
+];
+
+/* ═══════════════ STATE ═══════════════ */
+const SK = 'leuven-v2';
+let ST = JSON.parse(localStorage.getItem(SK) || '{}');
+let curFilter = 'all';
+
+function save() { localStorage.setItem(SK, JSON.stringify(ST)); }
+function gs(id) { return ST[id] || { sent:false, replied:false, booked:false, lang:'en_short', name:'' }; }
+
+/* ═══════════════ TABS ═══════════════ */
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('page-' + name).classList.add('active');
+}
+
+/* ═══════════════ QUICK TEMPLATES ═══════════════ */
+function setFilter(f, btn) {
+  curFilter = f;
+  document.querySelectorAll('.icp-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuick();
+}
+
+function renderQuick() {
+  const items = curFilter === 'all' ? QUICK : QUICK.filter(q => q.icp === curFilter);
+  document.getElementById('s-total').textContent = items.length;
+
+  let sent=0, replied=0, booked=0;
+  QUICK.forEach(q => {
+    const s = gs(q.id);
+    if(s.sent) sent++;
+    if(s.replied) replied++;
+    if(s.booked) booked++;
+  });
+  document.getElementById('s-sent').textContent = sent;
+  document.getElementById('s-replied').textContent = replied;
+  document.getElementById('s-booked').textContent = booked;
+
+  document.getElementById('quick-grid').innerHTML = items.map(q => {
+    const s = gs(q.id);
+    const msg = s.lang === 'nl' ? q.nl : s.lang === 'en_short' ? q.en_short : q.en;
+    const cardCls = s.booked ? 'card is-booked' : s.sent ? 'card is-sent' : 'card';
+    return `<div class="${cardCls}" id="card-${q.id}">
+      <div class="card-head">
+        <div class="badges">
+          <span class="icp-tag ${q.icpCls}">${q.icpLabel}</span>
+          <span class="persona-name">${q.persona}</span>
+        </div>
+        <div class="lang-sw">
+          <button class="${s.lang==='en'?'active':''}" onclick="setLang('${q.id}','en')" title="Full EN">EN</button>
+          <button class="${s.lang==='en_short'?'active':''}" onclick="setLang('${q.id}','en_short')" title="Short EN">EN↓</button>
+          <button class="${s.lang==='nl'?'active':''}" onclick="setLang('${q.id}','nl')">NL</button>
+        </div>
+      </div>
+      <div class="card-name">
+        <input class="name-input" type="text" placeholder="→ Contact name" value="${esc(s.name||'')}" oninput="setName('${q.id}',this.value)">
+      </div>
+      <div class="card-msg">
+        <div class="msg-text" id="msg-${q.id}">${esc(msg)}</div>
+      </div>
+      <div class="card-foot">
+        <button class="copy-btn" id="cb-${q.id}" onclick="doCopy('${q.id}','cb-')">📋 Copy</button>
+        <div class="checks">
+          <label class="chk">
+            <input type="checkbox" ${s.sent?'checked':''} onchange="togChk('${q.id}','sent',this.checked)">
+            <span>Sent</span>
+          </label>
+          <label class="chk">
+            <input type="checkbox" ${s.replied?'checked':''} onchange="togChk('${q.id}','replied',this.checked)">
+            <span>Replied</span>
+          </label>
+          <label class="chk booked-chk">
+            <input type="checkbox" ${s.booked?'checked':''} onchange="togChk('${q.id}','booked',this.checked)">
+            <span>☕ Booked</span>
+          </label>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function esc(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function setLang(id, lang) {
+  if(!ST[id]) ST[id] = gs(id);
+  ST[id].lang = lang;
+  save(); renderQuick();
+}
+function setName(id, name) {
+  if(!ST[id]) ST[id] = gs(id);
+  ST[id].name = name;
+  save();
+}
+function togChk(id, field, val) {
+  if(!ST[id]) ST[id] = gs(id);
+  ST[id][field] = val;
+  save();
+  const card = document.getElementById('card-'+id);
+  if(card) {
+    const s = ST[id];
+    card.className = s.booked ? 'card is-booked' : s.sent ? 'card is-sent' : 'card';
+  }
+  renderQuick();
+}
+
+function doCopy(id, prefix) {
+  const isScript = prefix === 'sc-';
+  let text;
+  if(isScript) {
+    const sc = SCRIPTS.find(s => s.id === id);
+    const lang = (ST[id]||{}).slang || 'en';
+    text = lang === 'nl' ? sc.nl : sc.en;
+  } else {
+    const q = QUICK.find(x => x.id === id);
+    const s = gs(id);
+    text = s.lang === 'nl' ? q.nl : s.lang === 'en_short' ? q.en_short : q.en;
+  }
+  navigator.clipboard.writeText(text).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+  });
+  const btn = document.getElementById(prefix + id);
+  if(btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!'; btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('ok'); }, 2000);
+  }
+  toast('Copied to clipboard');
+}
+
+/* ═══════════════ FULL SCRIPTS ═══════════════ */
+function renderScripts() {
+  document.getElementById('scripts-grid').innerHTML = SCRIPTS.map(sc => {
+    const slang = (ST[sc.id]||{}).slang || 'en';
+    const msg = slang === 'nl' ? sc.nl : sc.en;
+    return `<div class="script-card" id="scard-${sc.id}">
+      <div class="script-head">
+        <div>
+          <div class="script-title">${sc.title}</div>
+          <div class="script-desc">${sc.desc}</div>
+        </div>
+        <div class="script-lang">
+          <button class="${slang==='en'?'active':''}" onclick="setSLang('${sc.id}','en')">EN</button>
+          <button class="${slang==='nl'?'active':''}" onclick="setSLang('${sc.id}','nl')">NL</button>
+        </div>
+      </div>
+      <div class="script-body">
+        <div class="script-msg" id="smsg-${sc.id}">${esc(msg)}</div>
+      </div>
+      <div class="script-foot">
+        <button class="script-copy" id="sc-${sc.id}" onclick="doCopy('${sc.id}','sc-')">📋 Copy message</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setSLang(id, lang) {
+  if(!ST[id]) ST[id] = {};
+  ST[id].slang = lang;
+  save(); renderScripts();
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✓ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ═══════════════ INIT ═══════════════ */
+renderQuick();
+renderScripts();
+</script>
+</body>
+</html>

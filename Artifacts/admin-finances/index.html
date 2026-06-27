@@ -1,0 +1,823 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Admin Finances",
+  "schemaVersion": 1,
+  "description": "RUTTENS+OS Admin & Finances — pre-holiday sprint plan (May 11–14), finance & investment tracker, subscription audit, holiday automation checklist, 2h/day learning plan, and June return roadmap. Checkboxes persist across sessions."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+OS — Admin & Finances | May–June 2026</title>
+<style>
+  :root {
+    color-scheme: light;
+    --blue: #37B5FF;
+    --blue-dark: #0e90d8;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --green: #16a34a;
+    --purple: #7c3aed;
+    --navy: #0f172a;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --nav-w: 220px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  .header { background: var(--navy); color: #fff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--blue); }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
+  .logo-text { font-weight: 800; font-size: 15px; letter-spacing: 0.5px; color: #fff; }
+  .logo-plus { color: var(--blue); }
+  .header-meta { font-size: 12px; color: #94a3b8; }
+  .header-badge { background: var(--red); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+  .layout { display: flex; min-height: calc(100vh - 57px); }
+  .nav { width: var(--nav-w); background: #fff; border-right: 1px solid var(--border); padding: 20px 0; position: sticky; top: 57px; height: calc(100vh - 57px); overflow-y: auto; flex-shrink: 0; }
+  .nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); padding: 12px 16px 4px; }
+  .nav a { display: flex; align-items: center; gap: 8px; padding: 8px 16px; color: var(--text); text-decoration: none; font-size: 13px; transition: background 0.15s; border-left: 3px solid transparent; }
+  .nav a:hover { background: #f1f5f9; border-left-color: var(--blue); }
+  .nav a.active { background: #eff8ff; border-left-color: var(--blue); color: var(--blue); font-weight: 600; }
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-red { background: var(--red); }
+  .dot-orange { background: var(--orange); }
+  .dot-green { background: var(--green); }
+  .dot-blue { background: var(--blue); }
+  .dot-purple { background: var(--purple); }
+  .dot-gray { background: #94a3b8; }
+  .nav-progress { padding: 16px; border-top: 1px solid var(--border); margin-top: auto; }
+  .progress-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .progress-bar { background: #e2e8f0; border-radius: 99px; height: 6px; overflow: hidden; }
+  .progress-fill { background: var(--blue); height: 100%; border-radius: 99px; transition: width 0.3s; }
+  .main { flex: 1; padding: 28px 32px; max-width: 880px; }
+  section { margin-bottom: 48px; scroll-margin-top: 80px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .section-icon { font-size: 20px; }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .section-tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .tag-urgent { background: #fef2f2; color: var(--red); }
+  .tag-action { background: #fff7ed; color: var(--orange); }
+  .tag-auto { background: #f0fdf4; color: var(--green); }
+  .tag-learn { background: #f5f3ff; color: var(--purple); }
+  .tag-plan { background: #eff8ff; color: var(--blue); }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .card-val { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .card-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .card.urgent { border-left: 3px solid var(--red); }
+  .card.action { border-left: 3px solid var(--orange); }
+  .card.auto { border-left: 3px solid var(--green); }
+  .card.info { border-left: 3px solid var(--blue); }
+  .task-list { list-style: none; }
+  .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+  .task-item:last-child { border-bottom: none; }
+  .task-item input[type="checkbox"] { margin-top: 2px; width: 16px; height: 16px; cursor: pointer; accent-color: var(--blue); flex-shrink: 0; }
+  .task-content { flex: 1; }
+  .task-label { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
+  .task-label.done { text-decoration: line-through; color: var(--muted); }
+  .task-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .task-time { font-size: 11px; font-weight: 600; background: #f1f5f9; color: var(--muted); padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+  .task-badge { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+  .badge-red { background: #fef2f2; color: var(--red); }
+  .badge-orange { background: #fff7ed; color: var(--orange); }
+  .badge-green { background: #f0fdf4; color: var(--green); }
+  .badge-blue { background: #eff8ff; color: var(--blue); }
+  .badge-purple { background: #f5f3ff; color: var(--purple); }
+  .data-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .data-table th { background: var(--navy); color: #fff; text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .data-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #f8fafc; }
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; padding: 0 0 20px 20px; }
+  .tl-dot { position: absolute; left: -14px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; }
+  .tl-date { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 4px; }
+  .tl-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .tl-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .info-box { background: #eff8ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
+  .warn-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; }
+  .alert-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; }
+  .success-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  .pill-green { background: #dcfce7; color: #15803d; }
+  .pill-red { background: #fee2e2; color: #b91c1c; }
+  .pill-orange { background: #fef3c7; color: #b45309; }
+  .pill-blue { background: #dbeafe; color: #1d4ed8; }
+  h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin: 16px 0 8px; }
+  p { line-height: 1.6; color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+  @media (max-width: 768px) {
+    .nav { display: none; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <div class="logo-text">RUTTENS<span class="logo-plus">+</span>OS</div>
+    <div class="header-meta">Admin &amp; Finances &middot; Refreshed 21 May &middot; synced 10 Jun 2026 · Phil returned Thu 4 Jun · See Payments tracker for priority items</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span id="global-progress-label" style="font-size:12px;color:#94a3b8;"></span>
+    <span class="header-badge" style="background:#16a34a;" title="Last refresh">🚀 BACK 4 JUN · THURSDAY</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav class="nav">
+  <div class="nav-label">Overview</div>
+  <a href="#overview" onclick="setActive(this)"><span class="nav-dot dot-red"></span>Status</a>
+
+  <div class="nav-label">Pre-Holiday</div>
+  <a href="#thu-may14" onclick="setActive(this)"><span class="nav-dot dot-red"></span>Thu May 14 &middot; FINAL DAY</a>
+
+  <div class="nav-label">Finance</div>
+  <a href="#finance" onclick="setActive(this)"><span class="nav-dot dot-blue"></span>Finance &amp; Invest</a>
+  <a href="#subscriptions" onclick="setActive(this)"><span class="nav-dot dot-orange"></span>Subscriptions</a>
+
+  <div class="nav-label">Holiday</div>
+  <a href="#automation" onclick="setActive(this)"><span class="nav-dot dot-green"></span>Automation Running</a>
+  <a href="#learning" onclick="setActive(this)"><span class="nav-dot dot-purple"></span>Learning Plan</a>
+
+  <div class="nav-label">Return</div>
+  <a href="#june" onclick="setActive(this)"><span class="nav-dot dot-blue"></span>June 4+ Plan</a>
+  <a href="#checklist" onclick="setActive(this)"><span class="nav-dot dot-gray"></span>Master Checklist</a>
+
+  <div class="nav-progress">
+    <div class="progress-label" id="nav-progress-label">0 / 0 done</div>
+    <div class="progress-bar"><div class="progress-fill" id="nav-progress-fill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<main class="main">
+
+<section id="overview">
+  <div class="section-header">
+    <span class="section-icon">&#x1f6a8;</span>
+    <div class="section-title">Status Overview &middot; 19 May, 2026</div>
+    <span class="section-tag tag-urgent">FINAL WORK DAY TOMORROW</span>
+  </div>
+
+  <div class="cards">
+    <div class="card urgent">
+      <div class="card-val">1</div>
+      <div class="card-label">day until flight (May 15 AM)</div>
+    </div>
+    <div class="card action">
+      <div class="card-val">2h</div>
+      <div class="card-label">tomorrow's admin window 9-11am</div>
+    </div>
+    <div class="card auto">
+      <div class="card-val">3</div>
+      <div class="card-label">scheduled tasks live</div>
+    </div>
+    <div class="card info">
+      <div class="card-val">21d</div>
+      <div class="card-label">holiday duration (May 15 &rarr; Jun 4)</div>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <strong>&#x1f6a8; OPEN ITEMS TO CLEAR BEFORE MAY 15 EOD:</strong>
+    <ul style="margin-top:6px;margin-left:20px;line-height:1.7;">
+      <li>Gmail vacation auto-reply not yet set</li>
+      <li>LinkedHelper: 6 P0 campaigns built in Draft &mdash; URL imports + Start = Phil's action tomorrow</li>
+      <li>LinkedIn 30-post queue: confirm scheduled (W20 &rarr; W27, 4/week, Phil's voice locked)</li>
+      <li>Fireflies storage exhausted since May 10 &mdash; clean before final meeting recordings</li>
+      <li>Fineko #1B escalation email NL: OVERDUE since May 11</li>
+      <li>BvB BV sweep &euro;2,094 &rarr; Qonto BV: OVERDUE since May 12</li>
+      <li>Deploy &euro;30k MeDirect via DCA: OVERDUE since May 12 (or defer to Jun 5)</li>
+      <li>5 loose files at Drive root to move (HANDOVER, PLAN, wayfina-deploy.zip, 3 old HTMLs)</li>
+    </ul>
+  </div>
+  <div class="success-box">
+    <strong>&#x2705; Done this sprint:</strong> AYA Phase 2 proposal sent May 12 &middot; EREA Phase 1 audit review meeting May 13 &middot; AYA V2 review meeting May 13 &middot; 30 LinkedIn posts in W20&ndash;W27 queue &middot; 6 RUTTENS_* P0 LinkedHelper campaigns built in Draft &middot; URL Library Phase 2 MVP shipped (4,751 clean + 783 shortlist) &middot; All artifacts refreshed today via meta-refresh sprint.
+  </div>
+  <div class="success-box">
+    <strong>&#x2705; EREA Invoice 2026-007 confirmed paid</strong> &mdash; &euro;3,146 by Ilse (EREA Finance), April 28. Nothing outstanding from EREA.
+  </div>
+</section>
+
+<section id="thu-may14">
+  <div class="section-header">
+    <span class="section-icon">&#x1f534;</span>
+    <div class="section-title">Thursday May 15 &mdash; Pre-flight (AM only)</div>
+    <span class="section-tag tag-urgent">FLIGHT AM &middot; FINAL WORK 2h</span>
+  </div>
+  <p>Pure pre-flight. Phil's flight is May 15 AM, so tomorrow May 14 EOD is the hard cut. Clear non-negotiables, then disconnect.</p>
+
+  <h4>&#x1f534; Non-negotiables before flight (45 min)</h4>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_pf1" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Set Gmail vacation auto-reply (May 15 &rarr; June 4)</div>
+        <div class="task-meta">Mention: back June 5, urgent &rarr; designated contact. Include AYA + EREA backup contacts.</div>
+      </div>
+      <span class="task-time">10 min</span>
+      <span class="task-badge badge-red">BLOCKING</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_pf2" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">LinkedHelper: import URLs and Start the 6 RUTTENS_* P0 campaigns</div>
+        <div class="task-meta">All 6 built in Draft (Persona &times; Vertical). Phil's action: URL list import per campaign + click Start.</div>
+      </div>
+      <span class="task-time">20 min</span>
+      <span class="task-badge badge-red">BLOCKING</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_pf3" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Confirm LinkedIn 30-post queue is scheduled in native scheduler (W20 &rarr; W27, 4/week)</div>
+        <div class="task-meta">Mon 10:30am &middot; Tue 8:30am &middot; Wed 1pm &middot; Thu 9am CET. Video #1 holiday May 27.</div>
+      </div>
+      <span class="task-time">10 min</span>
+      <span class="task-badge badge-red">BLOCKING</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_pf4" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Fireflies: clean storage (delete old transcripts) &mdash; free tier still works after declutter</div>
+        <div class="task-meta">Storage exhausted since May 10. No upgrade needed.</div>
+      </div>
+      <span class="task-time">5 min</span>
+      <span class="task-badge badge-red">URGENT</span>
+    </li>
+  </ul>
+
+  <h4>&#x1f7e0; Drive cleanup (10 min)</h4>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_dr1" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Move HANDOVER_2026-05-07_Setup_Plan.md &rarr; _HANDOVERS/2026-05/</div>
+      </div>
+      <span class="task-time">1 min</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_dr2" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Move PLAN_2026-05-07_Setup_Sprint.md &rarr; CLAUDE/</div>
+      </div>
+      <span class="task-time">1 min</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_dr3" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Move wayfina-deploy.zip &rarr; _DEPLOY/</div>
+      </div>
+      <span class="task-time">1 min</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_dr4" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Archive 3 old HTML dashboards (TEAM_CHAT_W18, GTM_CommandCentre_v3, Plus_v2_Playbook) &rarr; _archive_2026-05/</div>
+      </div>
+      <span class="task-time">5 min</span>
+    </li>
+  </ul>
+
+  <h4>&#x1f7e1; Finance (15 min)</h4>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_f1" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Confirm Q2 VAT filing not due before June 10 (Accountable / Lien)</div>
+        <div class="task-meta">No missed deadlines while on holiday.</div>
+      </div>
+      <span class="task-time">5 min</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_f2" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Log GoDaddy ruttens.com renewal date in calendar</div>
+        <div class="task-meta">Don't let domain expire while away.</div>
+      </div>
+      <span class="task-time">5 min</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_f3" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Flag Morgan Stanley (Accenture shares) login fix for June 9-13</div>
+        <div class="task-meta">KBC + Van Breda GBP closed &#x2705;. MS only remaining consolidation.</div>
+      </div>
+      <span class="task-time">2 min</span>
+    </li>
+  </ul>
+
+  <h4>&#x1f535; Deferrable (skip if time-pressed; do post-holiday)</h4>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_def1" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Deploy &euro;30k MeDirect via DCA (or wait June 5+)</div>
+        <div class="task-meta">Cash drag since 9/2 acceptable for 3 more weeks. Better to deploy with full attention post-holiday.</div>
+      </div>
+      <span class="task-badge badge-orange">DEFER OK</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_def2" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Set up monthly &euro;2,500 DCA standing order</div>
+        <div class="task-meta">Can be done post-holiday Jun 5+.</div>
+      </div>
+      <span class="task-badge badge-orange">DEFER OK</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_def3" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Sweep BvB BV residual &euro;2,094 &rarr; Qonto BV</div>
+        <div class="task-meta">Can be done post-holiday.</div>
+      </div>
+      <span class="task-badge badge-orange">DEFER OK</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_def4" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Fineko #1B NL escalation email</div>
+        <div class="task-meta">Already overdue from May 11. Davy is "in communication with Philippe" &mdash; pause until Davy substantive reply, address June 5+.</div>
+      </div>
+      <span class="task-badge badge-orange">DEFER OK</span>
+    </li>
+  </ul>
+</section>
+
+<section id="finance">
+  <div class="section-header">
+    <span class="section-icon">&#x1f4b0;</span>
+    <div class="section-title">Finance &amp; Investment</div>
+    <span class="section-tag tag-plan">REVIEW + FLAG FOR JUNE</span>
+  </div>
+
+  <div class="success-box">&#x2705; <strong>EREA Invoice 2026-007 PAID</strong> &mdash; &euro;3,146 confirmed by Ilse (EREA Finance), April 28, 2026.</div>
+
+  <h4>Investment Accounts &mdash; Status</h4>
+  <table class="data-table" style="margin-bottom:16px;">
+    <thead><tr><th>Account</th><th>Platform</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Keyprivate portfolio</td><td>Keytrade</td><td><span class="pill pill-green">Active</span></td><td>April 2026 analysis read; reflect in June review</td></tr>
+      <tr><td>ACN Shares / KBC</td><td>KBC</td><td><span class="pill pill-green">&#x2705; CLOSED</span></td><td>Done</td></tr>
+      <tr><td>Morgan Stanley (Accenture shares)</td><td>MS</td><td><span class="pill pill-orange">Login issue</span></td><td>Resolve login &rarr; close June 9&ndash;13 (p1 Todoist)</td></tr>
+      <tr><td>GBP Account</td><td>Van Breda BvB</td><td><span class="pill pill-green">&#x2705; CLOSED</span></td><td>Done</td></tr>
+      <tr><td>MeDirect cash &euro;30k</td><td>MeDirect</td><td><span class="pill pill-orange">Awaiting deploy</span></td><td>Deploy via DCA &mdash; deferred to Jun 5+</td></tr>
+      <tr><td>Fidelity Global Focus</td><td>Delen</td><td><span class="pill pill-blue">Research</span></td><td>Evaluate in June (&euro;5k + &euro;500/mo, Risk 5)</td></tr>
+      <tr><td>Fidelity Emerging Markets</td><td>Delen</td><td><span class="pill pill-blue">Research</span></td><td>Evaluate in June (&euro;3k + &euro;500/mo, Risk 6)</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Investment Goals (as set in Todoist)</h4>
+  <div class="info-box">Target: 5&ndash;8% annual return across funds/portfolios. Min floor: 3%. Priority: consolidate accounts (close MS Accenture last) and concentrate into MeDirect + Keytrade + Delen in June. FI target &euro;750k by April 2028.</div>
+
+  <h4>Life &amp; Co BV &mdash; Obligations to Check</h4>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_bv1" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Confirm Q2 VAT filing deadline &mdash; not due before June 10</div>
+      </div>
+      <span class="task-time">May 14</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_bv2" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Confirm no invoices due during holiday (AYA next billing)</div>
+      </div>
+      <span class="task-time">May 14</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_bv3" onchange="saveCheck(this)">
+      <div class="task-content">
+        <div class="task-label">Update investment sheet summary (current balances all accounts)</div>
+      </div>
+      <span class="task-time">June 5</span>
+      <span class="task-badge badge-blue">JUNE</span>
+    </li>
+  </ul>
+</section>
+
+<section id="subscriptions">
+  <div class="section-header">
+    <span class="section-icon">&#x1f527;</span>
+    <div class="section-title">Subscription Audit</div>
+    <span class="section-tag tag-action">REVIEW MAY 14</span>
+  </div>
+  <p>Review tools. Keep what's active. Pause or cancel rest before holiday.</p>
+  <table class="data-table">
+    <thead><tr><th>Tool</th><th>Cost</th><th>Usage</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Fireflies.ai</strong></td>
+        <td>$10/seat/mo</td>
+        <td>Meeting transcripts</td>
+        <td><span class="pill pill-orange">Clean storage</span></td>
+        <td>Declutter (free) &mdash; no upgrade</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Max/Pro</strong></td>
+        <td>$20&ndash;100/mo</td>
+        <td>Daily &mdash; core tool</td>
+        <td><span class="pill pill-green">Keep</span></td>
+        <td>Essential</td>
+      </tr>
+      <tr>
+        <td><strong>LinkedIn Sales Navigator</strong></td>
+        <td>~&euro;80/mo</td>
+        <td>Prospecting</td>
+        <td><span class="pill pill-green">Keep</span></td>
+        <td>Confirm renewal date</td>
+      </tr>
+      <tr>
+        <td><strong>Apollo.io</strong></td>
+        <td>$49/mo+</td>
+        <td>Outreach + enrichment</td>
+        <td><span class="pill pill-orange">Review</span></td>
+        <td>Downgrade if not using sequences</td>
+      </tr>
+      <tr>
+        <td><strong>Canva</strong></td>
+        <td>~&euro;15/mo</td>
+        <td>Carousels, brand kit</td>
+        <td><span class="pill pill-green">Keep</span></td>
+        <td>Essential for content engine</td>
+      </tr>
+      <tr>
+        <td><strong>GoDaddy (ruttens.com)</strong></td>
+        <td>~&euro;20/yr</td>
+        <td>Domain</td>
+        <td><span class="pill pill-orange">Check date</span></td>
+        <td>Log renewal &mdash; must not lapse</td>
+      </tr>
+      <tr>
+        <td><strong>LinkedHelper</strong></td>
+        <td>~&euro;15/mo</td>
+        <td>LinkedIn automation</td>
+        <td><span class="pill pill-green">Keep active</span></td>
+        <td>6 P0 campaigns running during holiday</td>
+      </tr>
+      <tr>
+        <td><strong>Make.com</strong></td>
+        <td>varies</td>
+        <td>Automation flows</td>
+        <td><span class="pill pill-blue">Confirm</span></td>
+        <td>Verify scenarios active</td>
+      </tr>
+      <tr>
+        <td><strong>Djinni.co</strong></td>
+        <td>Free</td>
+        <td>Job alerts (hotmail)</td>
+        <td><span class="pill pill-red">Unsubscribe</span></td>
+        <td>Bloating inbox</td>
+      </tr>
+      <tr>
+        <td><strong>Aboveboard</strong></td>
+        <td>Free</td>
+        <td>Exec job platform</td>
+        <td><span class="pill pill-red">Unsubscribe</span></td>
+        <td>Not relevant</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="automation">
+  <div class="section-header">
+    <span class="section-icon">&#x1f916;</span>
+    <div class="section-title">Holiday Automation (May 15 &ndash; June 4)</div>
+    <span class="section-tag tag-auto">RUNS WITHOUT YOU</span>
+  </div>
+  <div class="success-box">These run autonomously while you're away. All 3 scheduled tasks verified live in this session May 14.</div>
+
+  <table class="data-table" style="margin-bottom:20px;">
+    <thead><tr><th>Task</th><th>Schedule</th><th>Output</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Inbox digest</strong></td>
+        <td>Mon&ndash;Fri &middot; 7:00am BE</td>
+        <td>Morning summary of priority emails</td>
+        <td><span class="pill pill-green">&#x2705; Running</span></td>
+      </tr>
+      <tr>
+        <td><strong>Weekly dashboard refresh</strong></td>
+        <td>Monday &middot; 6:00am BE</td>
+        <td>Updated KPI / client dashboards</td>
+        <td><span class="pill pill-green">&#x2705; Running</span></td>
+      </tr>
+      <tr>
+        <td><strong>Friday client status drafts</strong></td>
+        <td>Friday &middot; 5:00pm BE</td>
+        <td>Draft update per client in Gmail/Slack</td>
+        <td><span class="pill pill-green">&#x2705; Running</span></td>
+      </tr>
+      <tr>
+        <td><strong>LinkedIn 30-post queue</strong></td>
+        <td>Native scheduler &middot; 4/week</td>
+        <td>Posts publish without manual input (W20 &rarr; W27)</td>
+        <td><span class="pill pill-orange">&#x26a0; Confirm May 14 EOD</span></td>
+      </tr>
+      <tr>
+        <td><strong>LinkedHelper P0 campaigns x6</strong></td>
+        <td>Continuous</td>
+        <td>RUTTENS_* outreach (Persona &times; Vertical)</td>
+        <td><span class="pill pill-orange">&#x26a0; URL imports + Start May 14</span></td>
+      </tr>
+      <tr>
+        <td><strong>Gmail vacation reply</strong></td>
+        <td>May 15 &rarr; June 4</td>
+        <td>Auto-reply to inbound emails</td>
+        <td><span class="pill pill-red">&#x26a0; Set tomorrow EOD</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>What NOT to expect during holiday</h4>
+  <p>No client deliverables, no HubSpot updates, no manual LinkedIn engagement, no invoice processing. All financial decisions deferred to June 5.</p>
+</section>
+
+<section id="learning">
+  <div class="section-header">
+    <span class="section-icon">&#x1f4da;</span>
+    <div class="section-title">Holiday Learning Plan (Max 2h/day)</div>
+    <span class="section-tag tag-learn">MAY 15 &ndash; JUNE 4</span>
+  </div>
+  <div class="info-box">Two hours max per day. Mornings preferred (9&ndash;11am). Afternoons off. No client work, no screen after 6pm. Holiday: May 15 &rarr; June 4 (21 days).</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--blue);"></div>
+      <div class="tl-date">Week 1 &middot; May 16&ndash;22</div>
+      <div class="tl-title">HubSpot Mastery + GTM Foundations</div>
+      <div class="tl-body">
+        &bull; HubSpot Academy: Sales Hub certification (free, ~6h total &rarr; 90 min/day) <br>
+        &bull; Goal: fully certified before AYA Phase 3 starts June 5 <br>
+        &bull; Side read: AYA GTM STANDUP notes + Phase 2 framework
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--purple);"></div>
+      <div class="tl-date">Week 2 &middot; May 23&ndash;29</div>
+      <div class="tl-title">AI Tools for B2B Marketing</div>
+      <div class="tl-body">
+        &bull; Anthropic prompting docs: advanced techniques (docs.claude.com)<br>
+        &bull; Claude agent/workflow design for client delivery automation <br>
+        &bull; Gemini 2.5 for stock/market research (flagged in Todoist)<br>
+        &bull; 30 min/day: "The 4 Revenue Leaks" (matt@founderos.com)
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--green);"></div>
+      <div class="tl-date">Week 3 &middot; May 30 &ndash; June 1</div>
+      <div class="tl-title">Financial Independence + Investment</div>
+      <div class="tl-body">
+        &bull; Keytrade Keyprivate April 2026 analysis re-read <br>
+        &bull; Research: Bank van Merker (alt to Delen), Raizers.com, Baloise funds <br>
+        &bull; Review FI plan vs. target (5&ndash;8% return goal) <br>
+        &bull; Watch: Superhuman AI / robotics trends
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--orange);"></div>
+      <div class="tl-date">Last Days &middot; June 2&ndash;4</div>
+      <div class="tl-title">Re-entry Prep</div>
+      <div class="tl-body">
+        &bull; 1h: Pre-read AYA Phase 3 brief + EREA Phase 2 scope notes <br>
+        &bull; 30 min: Review learning notes &mdash; what to implement first <br>
+        &bull; 30 min: Draft June priority list (clients + finance + system)
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="june">
+  <div class="section-header">
+    <span class="section-icon">&#x1f5d3;</span>
+    <div class="section-title">June 5+ Return Plan</div>
+    <span class="section-tag tag-plan">POST-HOLIDAY</span>
+  </div>
+  <p>Return June 5. First 2 weeks: admin + finance consolidation. Then full client mode from June 16. GTM Jun 5 &rarr; Aug 15.</p>
+
+  <div class="two-col">
+    <div>
+      <h4>Week 1 &mdash; June 5&ndash;11: Finance &amp; Admin</h4>
+      <ul class="task-list">
+        <li class="task-item">
+          <input type="checkbox" id="t_j1" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Deploy &euro;30k MeDirect via DCA (carried over from May)</div>
+          </div>
+          <span class="task-badge badge-red">P1</span>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j2" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Fix Morgan Stanley login &rarr; close Accenture shares account</div>
+            <div class="task-meta">Last open consolidation &mdash; target June 9&ndash;13.</div>
+          </div>
+          <span class="task-badge badge-red">P1</span>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j3" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Update investment sheet summary (all accounts, balances, % return YTD)</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j4" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">File Life &amp; Co BV: confirm Q2 VAT + any outstanding invoices</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j5" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Cancel Djinni, Aboveboard, Apollo downgrade</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j6" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Fineko #1B NL escalation if Davy has not responded by then</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4>Week 2 &mdash; June 12&ndash;18: Clients</h4>
+      <ul class="task-list">
+        <li class="task-item">
+          <input type="checkbox" id="t_j7" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">AYA Phase 3 kickoff with Louis</div>
+            <div class="task-meta">Based on V2 meeting outcomes May 13.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j8" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">EREA Phase 2 scope/timeline with Herman</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j9" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Wayfina: confirm next deliverable cycle (Alexander Novik)</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j10" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Review 30 LinkedIn posts performance &mdash; what worked, adjust July</div>
+          </div>
+        </li>
+      </ul>
+
+      <h4>Summer (July 2026)</h4>
+      <ul class="task-list">
+        <li class="task-item">
+          <input type="checkbox" id="t_j11" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Dropbox &rarr; Google Drive migration via Movebot</div>
+          </div>
+          <span class="task-badge badge-blue">JULY</span>
+        </li>
+        <li class="task-item">
+          <input type="checkbox" id="t_j12" onchange="saveCheck(this)">
+          <div class="task-content">
+            <div class="task-label">Re-evaluate Fineko BV (parked since May 7 sprint)</div>
+          </div>
+          <span class="task-badge badge-blue">JULY</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="checklist">
+  <div class="section-header">
+    <span class="section-icon">&#x2705;</span>
+    <div class="section-title">Master Checklist &mdash; Pre-Holiday Must-Do (May 14 EOD)</div>
+    <span class="section-tag tag-urgent">CRITICAL BEFORE FLIGHT</span>
+  </div>
+  <p>Non-negotiables only. Everything else can wait until June 5.</p>
+  <ul class="task-list">
+    <li class="task-item">
+      <input type="checkbox" id="t_cl1" checked onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label done">AYA Phase 2 proposal sent to Louis (Done May 12)</div></div>
+      <span class="task-badge badge-green">DONE</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl2" checked onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label done">EREA Phase 1 audit review completed (Done May 13)</div></div>
+      <span class="task-badge badge-green">DONE</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl3" checked onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label done">AYA V2 meeting done + recap sent (Done May 13)</div></div>
+      <span class="task-badge badge-green">DONE</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl4" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">Fireflies storage cleaned (May 14)</div></div>
+      <span class="task-badge badge-red">TOOLS</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl5" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">LinkedIn 30 posts queue confirmed in native scheduler (May 14)</div></div>
+      <span class="task-badge badge-red">CONTENT</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl6" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">6 LinkedHelper P0 campaigns: URL imports + Start (May 14)</div></div>
+      <span class="task-badge badge-red">CONTENT</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl7" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">Gmail vacation auto-reply set May 15&ndash;June 4 (May 14 evening)</div></div>
+      <span class="task-badge badge-red">ADMIN</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl8" checked onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label done">3 scheduled tasks verified running (inbox digest, dashboard, Friday drafts)</div></div>
+      <span class="task-badge badge-green">DONE</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl9" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">Life &amp; Co BV: confirm no VAT/invoice due before June 10 (May 14)</div></div>
+      <span class="task-badge badge-orange">FINANCE</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl10" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">GoDaddy ruttens.com renewal date logged (May 14)</div></div>
+      <span class="task-badge badge-orange">ADMIN</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl11" onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label">5 loose Drive files moved out of root (May 14)</div></div>
+      <span class="task-badge badge-orange">SYSTEM</span>
+    </li>
+    <li class="task-item">
+      <input type="checkbox" id="t_cl12" checked onchange="saveCheck(this)">
+      <div class="task-content"><div class="task-label done">CLAUDE_SETUP.md verified + CLAUDE hub ready for June session bootstrap</div></div>
+      <span class="task-badge badge-green">DONE</span>
+    </li>
+  </ul>
+</section>
+
+</main>
+</div>
+
+<script>
+function saveCheck(el) {
+  localStorage.setItem(el.id, el.checked ? '1' : '0');
+  updateProgress();
+  updateLabel(el);
+}
+function loadChecks() {
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    const saved = localStorage.getItem(cb.id);
+    if (saved === '1') { cb.checked = true; updateLabel(cb); }
+  });
+  updateProgress();
+}
+function updateLabel(cb) {
+  const label = cb.closest('.task-item')?.querySelector('.task-label');
+  if (label) {
+    if (cb.checked) label.classList.add('done');
+    else label.classList.remove('done');
+  }
+}
+function updateProgress() {
+  const all = document.querySelectorAll('input[type="checkbox"]');
+  const done = [...all].filter(c => c.checked).length;
+  const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+  document.getElementById('nav-progress-fill').style.width = pct + '%';
+  document.getElementById('nav-progress-label').textContent = `${done} / ${all.length} done`;
+  document.getElementById('global-progress-label').textContent = `${pct}% complete`;
+}
+function setActive(el) {
+  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+loadChecks();
+</script>
+</body>
+</html>

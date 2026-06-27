@@ -1,0 +1,404 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Client Weekly Aya",
+  "schemaVersion": 1,
+  "description": "AYA Energy client weekly dashboard — Wk 25 Jun 13, 2026. Phase 2 launch imminent, testimonial assets ready."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AYA — Client Weekly Dashboard Wk 25</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Inter, system-ui, sans-serif; background: #f4f6f8; color: #1a1a2e; display: flex; flex-direction: column; min-height: 100vh; font-size: 14px; }
+  .layout-row { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: 210px; min-width: 210px; background: #0D1B2A; color: #fff; position: sticky; top: 0; height: calc(100vh - 80px); overflow-y: auto; display: flex; flex-direction: column; padding: 20px 0; }
+  .sidebar-brand { padding: 0 18px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-brand h2 { font-size: 13px; font-weight: 700; color: #F5A623; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sidebar-brand p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; }
+  .sidebar nav { padding: 12px 0; flex: 1; }
+  .sidebar nav a { display: flex; align-items: center; gap: 9px; padding: 8px 18px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.15s; border-left: 3px solid transparent; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: #fff; background: rgba(245,166,35,0.12); border-left-color: #F5A623; }
+  .sidebar nav a .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); flex-shrink: 0; }
+  .sidebar nav a:hover .dot, .sidebar nav a.active .dot { background: #F5A623; }
+  .sidebar-footer { padding: 14px 18px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: rgba(255,255,255,0.4); }
+  .main { flex: 1; overflow-y: auto; }
+  .section { padding: 32px 40px; border-bottom: 1px solid #e5e9ef; scroll-margin-top: 0; }
+  .section:last-child { border-bottom: none; }
+  .section-label { font-size: 10px; font-weight: 700; color: #F5A623; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .section-title { font-size: 21px; font-weight: 700; color: #0D1B2A; margin-bottom: 4px; }
+  .section-sub { font-size: 13px; color: #6b7280; margin-bottom: 22px; }
+  .title-section { background: #0D1B2A; color: #fff; padding: 28px 40px; }
+  .title-section .meta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+  .title-section .meta-item { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .title-section .meta-item span { color: #F5A623; font-weight: 600; }
+  .title-section h1 { font-size: 26px; font-weight: 800; color: #fff; }
+  .title-section .badge { display: inline-block; background: #F5A623; color: #0D1B2A; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 12px; vertical-align: middle; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .card { background: #fff; border-radius: 10px; padding: 18px; border: 1px solid #e5e9ef; }
+  .card-label { font-size: 11px; color: #6b7280; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+  .card-value { font-size: 24px; font-weight: 800; color: #0D1B2A; margin: 5px 0 2px; }
+  .card-sub { font-size: 12px; color: #6b7280; }
+  .card.accent { border-top: 3px solid #F5A623; }
+  .card.green { border-top: 3px solid #10b981; }
+  .card.red { border-top: 3px solid #ef4444; }
+  .card.blue { border-top: 3px solid #3b82f6; }
+  .card.orange { border-top: 3px solid #f97316; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th { background: #f8f9fb; text-align: left; padding: 9px 13px; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e5e9ef; }
+  td { padding: 10px 13px; font-size: 13px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+  .badge-done { display: inline-block; background: #d1fae5; color: #065f46; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-open { display: inline-block; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-blocked { display: inline-block; background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-tbc { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-new { display: inline-block; background: #ede9fe; color: #5b21b6; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  a.drive-link { color: #F5A623; text-decoration: none; font-weight: 600; }
+  a.drive-link:hover { text-decoration: underline; }
+  .timeline { list-style: none; padding: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 18px; top: 0; bottom: 0; width: 2px; background: #e5e9ef; }
+  .timeline li { position: relative; padding: 0 0 18px 46px; }
+  .timeline li::before { content: ''; position: absolute; left: 10px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #e5e9ef; }
+  .timeline li.done::before { background: #10b981; border-color: #10b981; }
+  .timeline li.active::before { background: #F5A623; border-color: #F5A623; }
+  .timeline li.urgent::before { background: #ef4444; border-color: #ef4444; }
+  .timeline-date { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+  .timeline-title { font-size: 14px; font-weight: 600; color: #0D1B2A; margin: 2px 0; }
+  .timeline-desc { font-size: 12px; color: #6b7280; }
+  .prose { font-size: 14px; line-height: 1.7; color: #374151; }
+  .prose p { margin-bottom: 12px; }
+  .prose strong { color: #0D1B2A; }
+  .alert { background: #fef3c7; border-left: 4px solid #F5A623; padding: 13px 15px; border-radius: 0 8px 8px 0; margin-bottom: 14px; font-size: 13px; color: #92400e; }
+  .alert strong { color: #78350f; }
+  .alert-green { background: #d1fae5; border-left: 4px solid #10b981; padding: 13px 15px; border-radius: 0 8px 8px 0; margin-bottom: 14px; font-size: 13px; color: #065f46; }
+  .alert-green strong { color: #064e3b; }
+  .alert-purple { background: #ede9fe; border-left: 4px solid #7c3aed; padding: 13px 15px; border-radius: 0 8px 8px 0; margin-bottom: 14px; font-size: 13px; color: #4c1d95; }
+  .alert-purple strong { color: #3b0764; }
+  .cb { width:15px; height:15px; border:1.5px solid #a8a29e; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-top:2px; user-select:none; }
+  .cb.done { background:#10b981; border-color:#10b981; }
+  .cb.done::after { content:'checkmark'; font-size:0; }
+  .cb.done::before { content:'✓'; color:#fff; font-size:10px; font-weight:700; }
+  tr.row-done td:not(:first-child) { text-decoration: line-through; opacity: 0.45; }
+</style>
+</head>
+<body>
+
+<!-- FULL-WIDTH TOP BANNER -->
+<div style="background:#d1fae5;border-left:5px solid #10b981;padding:10px 24px;font-size:13px;font-weight:700;color:#065f46;display:flex;align-items:center;gap:12px;flex-shrink:0;width:100%;">
+  &#x1F7E2; Phase 2 starts <strong style="color:#064e3b;">Mon 15 Jun (Wk 25)</strong> — pending Louis confirmation by today (Fri 13 Jun). Invoices &#x2705; Paid. Testimonial assets &#x2705; Ready to send.
+  <span style="font-weight:400;color:#047857;margin-left:auto;font-size:11px;">Updated: Jun 13, 2026</span>
+</div>
+
+<!-- FULL-WIDTH PROGRESS BAR -->
+<div id="prog-banner" style="background:#fff;border-bottom:1px solid #e5e7eb;padding:8px 28px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);flex-shrink:0;width:100%;position:sticky;top:0;z-index:200;">
+  <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;white-space:nowrap;">Week Progress</span>
+  <div style="flex:1;background:#f3f4f6;border-radius:3px;height:9px;overflow:hidden;min-width:80px;">
+    <div id="prog-bar" style="height:100%;width:0%;border-radius:3px;background:#ef4444;transition:width .4s,background .4s;"></div>
+  </div>
+  <span id="prog-pct" style="font-size:14px;font-weight:800;color:#ef4444;min-width:38px;text-align:right;">0%</span>
+  <span id="prog-label" style="font-size:11px;color:#9ca3af;white-space:nowrap;">0 / 0 done</span>
+  <button onclick="resetProgress()" title="Reset all checkboxes" style="background:none;border:1px solid #e5e7eb;border-radius:3px;padding:2px 8px;font-size:10px;color:#9ca3af;cursor:pointer;white-space:nowrap;">&#8635; Reset</button>
+</div>
+
+<!-- SIDEBAR + MAIN ROW -->
+<div class="layout-row">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h2>AYA</h2>
+      <p>Client Dashboard · Wk 25</p>
+    </div>
+    <nav>
+      <a href="#title" class="active"><span class="dot"></span> Overview</a>
+      <a href="#summary"><span class="dot"></span> Executive Summary</a>
+      <a href="#decisions"><span class="dot"></span> Key Decisions</a>
+      <a href="#actions"><span class="dot"></span> Action Items</a>
+      <a href="#testimonial"><span class="dot"></span> Testimonial Campaign</a>
+      <a href="#timeline"><span class="dot"></span> Timeline</a>
+      <a href="#budget"><span class="dot"></span> Budget</a>
+      <a href="#metrics"><span class="dot"></span> Success Metrics</a>
+      <a href="#next"><span class="dot"></span> Next Steps</a>
+      <a href="#appendix"><span class="dot"></span> Appendix</a>
+    </nav>
+    <div class="sidebar-footer">Philippe Ruttens<br>Fractional CMO</div>
+  </aside>
+
+  <main class="main">
+
+    <section class="title-section" id="title">
+      <h1>AYA — Client Dashboard <span class="badge">Wk 25 · Jun 9–15</span></h1>
+      <div class="meta">
+        <div class="meta-item">Owner: <span>Philippe Ruttens</span></div>
+        <div class="meta-item">Stakeholders: <span>Louis (CEO) · Pieter (Mkt) · AYA Sales</span></div>
+        <div class="meta-item">HubSpot: <span>Portal 148176566 (EU1)</span></div>
+        <div class="meta-item">Updated: <span>2026-06-13</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="summary">
+      <div class="section-label">Section 2</div>
+      <div class="section-title">Executive Summary</div>
+      <div class="section-sub">AYA GTM engagement status — Wk 25 · Phase 2 launch imminent · Louis decision by Fri 13 Jun</div>
+
+      <div class="alert-green"><strong>&#x2705; V1 Playbook DONE &middot; &#x2705; V2 Review Meeting held May 13 &middot; &#x2705; Invoices 2026-010 + 2026-013 PAID &middot; &#x2705; Testimonial assets ready.</strong> Re-engagement week (Wk 24) complete. Phase 2 target start: <strong>Mon 15 Jun (Wk 25 — tomorrow)</strong>. Louis to confirm Option A or B by today (Fri 13 Jun). Testimonial approval email to Louis + Pieter drafted Jun 12 — ready to send when Phase 2 confirmed.</div>
+
+      <div class="card-grid">
+        <div class="card green">
+          <div class="card-label">V1 Playbook</div>
+          <div class="card-value">&#x2705; Done</div>
+          <div class="card-sub">57 deliverables · Phase 1 closed</div>
+        </div>
+        <div class="card green">
+          <div class="card-label">Invoices</div>
+          <div class="card-value">&#x2705; Paid</div>
+          <div class="card-sub">2026-010 + 2026-013 settled</div>
+        </div>
+        <div class="card orange">
+          <div class="card-label">Phase 2 Start</div>
+          <div class="card-value">Mon 15 Jun</div>
+          <div class="card-sub">Target Wk 25 · Fallback Wk 28</div>
+        </div>
+        <div class="card accent">
+          <div class="card-label">Louis Decision</div>
+          <div class="card-value">&#x23F3; Today</div>
+          <div class="card-sub">Due Fri 13 Jun — A or B + referral + Apollo</div>
+        </div>
+        <div class="card blue">
+          <div class="card-label">Testimonials</div>
+          <div class="card-value">&#x2705; Ready</div>
+          <div class="card-sub">Email + banner + post — pending send</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p><strong>Engagement status:</strong> V1 GTM playbook delivered. V2 review meeting held May 13 with Louis, Pieter and AYA Sales. Both invoices are paid. Phase 2 re-engagement is active from Wk 24 (Jun 8). Phil offered complimentary 30-min performance audits to marketing team (Pieter) and sales team (Vincent, Jasper, Arnaud). Phase 2 proposal sent to Louis — Option A 30-day sprint €4,000 flat or Option B 60-day €4,000/month. Louis to confirm by Fri 13 Jun for Phase 2 to start Mon 15 Jun.</p>
+        <p><strong>Jun 12 session output:</strong> Testimonial assets package created — approval email to Louis + Pieter (English), LinkedIn banner HTML (4 banners: Louis/Pieter × landscape/square), LinkedIn post copy (3 versions). Files in <em>AYA x PHIL</em> folder. Ready to send once Phase 2 is confirmed. Separate Phase 2 scope document also produced (<em>Phase 2 - Phil x AYA Jun 12, 2026.docx</em>).</p>
+        <p><strong>Phase 2 proposal:</strong> €100/hour. Option A: 30-day sprint, 40h = €4,000 flat. Option B: 60-day engagement, 40h/month = €4,000/month. All deliverables build on Phase 1 assets (D-24 ABM list, D-36 installer activation, D-43 calling script, D-25 outreach sequences, D-17 Looker Studio, D-45 CRO audit, D-21 case study).</p>
+        <p><strong>HubSpot note:</strong> Always use portal <strong>148176566 (EU1)</strong>. Never 148163851. Metrics section to be populated at Phase 2 kickoff.</p>
+      </div>
+    </section>
+
+    <section class="section" id="decisions">
+      <div class="section-label">Section 3</div>
+      <div class="section-title">Key Decisions</div>
+      <div class="section-sub">AYA engagement decisions confirmed to date</div>
+      <table>
+        <thead><tr><th>Decision</th><th>Detail</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>HubSpot portal</strong></td><td>Use portal 148176566 (EU1) exclusively. 148163851 is wrong — never use.</td><td><span class="badge-done">LOCKED</span></td></tr>
+          <tr><td><strong>V1 delivery</strong></td><td>V1 = foundational GTM playbook. Delivered May 11. 57 deliverables.</td><td><span class="badge-done">DELIVERED</span></td></tr>
+          <tr><td><strong>V2 review meeting</strong></td><td>May 13 with Louis, Pieter, AYA Sales — outcomes captured in handover.</td><td><span class="badge-done">DONE May 13</span></td></tr>
+          <tr><td><strong>Invoices</strong></td><td>2026-010 (€6,485.60) + 2026-013 (€181.50) — both paid.</td><td><span class="badge-done">&#x2705; PAID</span></td></tr>
+          <tr><td><strong>Phase 2 rate</strong></td><td>€100/hour. Option A: 40h = €4,000 flat (30-day sprint). Option B: 40h/month = €4,000/month (60-day).</td><td><span class="badge-open">PENDING LOUIS</span></td></tr>
+          <tr><td><strong>Phase 2 start</strong></td><td>Target: Mon 15 Jun (Wk 25). Fallback: Mon 7 Jul (Wk 28). Louis to confirm by Fri 13 Jun.</td><td><span class="badge-open">DUE TODAY</span></td></tr>
+          <tr><td><strong>Referral fee structure</strong></td><td>Louis must confirm before installer campaign Tier 1 can launch (Solaris + OmniPower).</td><td><span class="badge-blocked">BLOCKED — LOUIS</span></td></tr>
+          <tr><td><strong>Apollo credits</strong></td><td>Top-up required for ABM enrichment batch 1. Needs Louis approval.</td><td><span class="badge-blocked">BLOCKED — LOUIS</span></td></tr>
+          <tr><td><strong>Testimonial approvals</strong></td><td>Louis (CEO) + Pieter (Mkt Director) to approve text + banner. Assets ready Jun 12.</td><td><span class="badge-open">PENDING SEND</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="actions">
+      <div class="section-label">Section 4</div>
+      <div class="section-title">Action Items</div>
+      <div class="section-sub">Who | What | When — specific dates only</div>
+      <table>
+        <thead><tr><th style="width:28px"></th><th>Who</th><th>What</th><th>When</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Claude</strong></td><td>Finalise AYA V1 GTM Playbook (57 deliverables)</td><td>May 11</td><td><span class="badge-done">&#x2705; Done</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Send V1 Playbook + handover email to Louis + Pieter</td><td>May 12</td><td><span class="badge-done">&#x2705; Sent</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Run AYA V2 review meeting (Louis · Pieter · AYA Sales)</td><td>May 13</td><td><span class="badge-done">&#x2705; Held</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>AYA</strong></td><td>Pay invoices 2026-010 + 2026-013</td><td>May–Jun</td><td><span class="badge-done">&#x2705; Paid</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>WhatsApp Louis — Phase 2 sprint proposal (€100/h, 40h, €4,000 flat). Book 30-min call.</td><td>Mon 8 Jun</td><td><span class="badge-done">&#x2705; Sent</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Teams → Pieter: complimentary 30-min marketing performance audit</td><td>Wk 24</td><td><span class="badge-done">&#x2705; Sent</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Teams → Sales team (Vincent, Jasper, Arnaud): complimentary 30-min pipeline audits</td><td>Wk 24</td><td><span class="badge-done">&#x2705; Sent</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Claude</strong></td><td>Draft testimonial assets: approval email (EN) + LinkedIn banner HTML (4) + post copy (3 versions)</td><td>Jun 12</td><td><span class="badge-done">&#x2705; Ready</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Claude</strong></td><td>Produce Phase 2 scope document (Phase 2 - Phil x AYA Jun 12, 2026.docx)</td><td>Jun 12</td><td><span class="badge-done">&#x2705; Done</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Send testimonial approval email to Louis + Pieter (AYA_Email_Testimonial_Approval_EN.md)</td><td>After Phase 2 confirmed</td><td><span class="badge-open">&#x23F3; Ready to send</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Louis</strong></td><td>Confirm Phase 2 (Option A or B) + referral fee structure + Apollo credits</td><td>By Fri 13 Jun</td><td><span class="badge-open">&#x23F3; Pending</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Pull HubSpot 148176566 pipeline data + run Phase 2 kickoff session</td><td>Mon 15 Jun</td><td><span class="badge-tbc">WK 25 TARGET</span></td></tr>
+          <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Louis / Pieter</strong></td><td>Approve testimonial text (L1/L2 + P1/P2) + confirm photo or initials OK</td><td>TBC (mid-July)</td><td><span class="badge-new">&#x1F4E8; Pending approval</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="testimonial">
+      <div class="section-label">Section 5 — New Jun 12</div>
+      <div class="section-title">Testimonial Campaign</div>
+      <div class="section-sub">LinkedIn testimonial assets for AYA Energy × RUTTENS+ — pending Louis + Pieter approval</div>
+
+      <div class="alert-purple"><strong>&#x1F4E8; All assets ready — send after Phase 2 is confirmed.</strong> Approval email (EN) drafted for Louis + Pieter. LinkedIn banner HTML (4 banners). LinkedIn post copy (3 versions). Do NOT publish until explicit approval received from both.</div>
+
+      <div class="card-grid">
+        <div class="card green">
+          <div class="card-label">Approval Email (EN)</div>
+          <div class="card-value" style="font-size:16px;">&#x2705; Ready</div>
+          <div class="card-sub">AYA_Email_Testimonial_Approval_EN.md</div>
+        </div>
+        <div class="card green">
+          <div class="card-label">WhatsApp Follow-up</div>
+          <div class="card-value" style="font-size:16px;">&#x2705; Ready</div>
+          <div class="card-sub">3 versions (A: follow-up / B: same-day / C: standalone)</div>
+        </div>
+        <div class="card accent">
+          <div class="card-label">LinkedIn Banner</div>
+          <div class="card-value" style="font-size:16px;">&#x26A0;&#xFE0F; Draft</div>
+          <div class="card-sub">AYA_Quote_Banner_LinkedIn_v1.html — 4 banners</div>
+        </div>
+        <div class="card accent">
+          <div class="card-label">LinkedIn Post Copy</div>
+          <div class="card-value" style="font-size:16px;">&#x26A0;&#xFE0F; Draft</div>
+          <div class="card-sub">AYA_LinkedIn_Post_Testimonial.md — 3 versions</div>
+        </div>
+      </div>
+
+      <table>
+        <thead><tr><th>Asset</th><th>File</th><th>Content</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Approval email</strong></td><td>AYA_Email_Testimonial_Approval_EN.md</td><td>EN email to Louis + Pieter with testimonial options L1/L2 and P1/P2</td><td><span class="badge-done">&#x2705; Ready to send</span></td></tr>
+          <tr><td><strong>WhatsApp follow-up</strong></td><td>AYA_WhatsApp_Testimonial.md (in MASTER file)</td><td>3 versions per person (follow-up / same-day / standalone)</td><td><span class="badge-done">&#x2705; Ready</span></td></tr>
+          <tr><td><strong>LinkedIn banner HTML</strong></td><td>AYA_Quote_Banner_LinkedIn_v1.html</td><td>4 banners: Louis + Pieter × landscape 1200×627 + square 1080×1080. KPI chips: 57 deliverables · 12 weeks · 3 webinars</td><td><span class="badge-open">&#x26A0;&#xFE0F; Text pending approval</span></td></tr>
+          <tr><td><strong>LinkedIn post copy</strong></td><td>AYA_LinkedIn_Post_Testimonial.md</td><td>3 versions: Build angle (recommended) / CEO testimonial focus / Short hooky</td><td><span class="badge-open">&#x26A0;&#xFE0F; Publish after approval</span></td></tr>
+          <tr><td><strong>Master file</strong></td><td>AYA_Testimonial_Assets_MASTER.md</td><td>Full package: email + WA + banner instructions + post copy + publishing checklist</td><td><span class="badge-done">&#x2705; Complete</span></td></tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:16px;" class="prose">
+        <p><strong>Publishing checklist (key gates):</strong> (1) Send approval email. (2) Louis chooses L1 or L2 · Pieter chooses P1 or P2. (3) Update banner HTML with approved text + photos. (4) Send preview PNG to each person. (5) Wait for Phase 2 traction milestone — <strong>mid-July minimum</strong>. (6) Publish Louis banner first, Pieter ~1 week later.</p>
+        <p><strong>Testimonial options:</strong> Louis — L1 (strategy &amp; delivery angle) or L2 (founder-brief). Pieter — P1 (ops &amp; team alignment) or P2 (practical/brief). Current banner uses L1 + P1 as drafts.</p>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <div class="section-label">Section 6</div>
+      <div class="section-title">Timeline &amp; Milestones</div>
+      <div class="section-sub">AYA delivery schedule — May → July 2026</div>
+      <ul class="timeline">
+        <li class="done"><div class="timeline-date">Mon May 11</div><div class="timeline-title">V1 Playbook finalised + handover email sent</div><div class="timeline-desc">All Phase 1 deliverables (D-01 to D-57) produced. HubSpot live with 10,361 contacts.</div></li>
+        <li class="done"><div class="timeline-date">Wed May 13</div><div class="timeline-title">V2 Review Meeting — DONE</div><div class="timeline-desc">Louis · Pieter · AYA Sales. Webinar #3 recap: 80 registrants, 14 HOT, 11 WARM. Installer channel confirmed as new priority.</div></li>
+        <li class="done"><div class="timeline-date">May 15 → Jun 4</div><div class="timeline-title">Phil on holiday — AYA paused</div><div class="timeline-desc">Invoices 2026-010 + 2026-013 paid during this period.</div></li>
+        <li class="done"><div class="timeline-date">Fri Jun 5</div><div class="timeline-title">Phil back from holiday</div><div class="timeline-desc">Re-engagement planning prepared. Phase 2 proposal drafted at €100/h.</div></li>
+        <li class="done"><div class="timeline-date">Wk 24 — Jun 8–13</div><div class="timeline-title">Re-engagement week DONE</div><div class="timeline-desc">WhatsApp Louis (Phase 2 proposal sent). Teams → Pieter (marketing audit). Teams → Sales team (pipeline audits).</div></li>
+        <li class="done"><div class="timeline-date">Fri Jun 12</div><div class="timeline-title">Testimonial assets package produced</div><div class="timeline-desc">Approval email (EN) · LinkedIn banner HTML (4) · LinkedIn post copy (3 versions) · Master file. Phase 2 scope doc produced. Ready to send post Phase 2 confirmation.</div></li>
+        <li class="active"><div class="timeline-date">Fri Jun 13 — TODAY (Wk 25)</div><div class="timeline-title">Louis decision deadline — Phase 2 confirmation</div><div class="timeline-desc">Louis to confirm Option A or B + referral fee + Apollo credits. If confirmed → Phase 2 starts Mon 15 Jun.</div></li>
+        <li class="urgent"><div class="timeline-date">Mon Jun 15 — TARGET (Wk 25)</div><div class="timeline-title">Phase 2 kickoff — Option A 30-day sprint</div><div class="timeline-desc">40h · €4,000 flat · W1: lead scoring + webinar nurture + HOT leads. W2: ABM Apollo batch 1. W3: installer Tier 1. W4: Looker Studio + case study + retrospective.</div></li>
+        <li><div class="timeline-date">Mon Jul 7 — FALLBACK (Wk 28)</div><div class="timeline-title">Phase 2 kickoff — fallback date</div><div class="timeline-desc">Use if Louis can't confirm by Fri Jun 13. Same scope as Wk 25 option.</div></li>
+        <li><div class="timeline-date">Mid-July 2026</div><div class="timeline-title">Testimonial publish — earliest</div><div class="timeline-desc">Publish LinkedIn testimonial banners once Phase 2 has traction. Louis first, Pieter ~1 week later.</div></li>
+        <li><div class="timeline-date">Aug 2026</div><div class="timeline-title">Option B Month 2 (if extended)</div><div class="timeline-desc">ABM waves 2–3, installer Tier 1 signed, EM2 renewal campaign, D-35 chatbot, D-40 brand narrative.</div></li>
+      </ul>
+    </section>
+
+    <section class="section" id="budget">
+      <div class="section-label">Section 7</div>
+      <div class="section-title">Budget / Investment</div>
+      <div class="section-sub">AYA Phase 2 engagement fees — €100/hour confirmed</div>
+      <table>
+        <thead><tr><th>Item</th><th>Hours</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Phase 1 — invoices 2026-010 + 2026-013</strong></td><td>—</td><td>€6,667.10 incl. VAT</td><td><span class="badge-done">&#x2705; PAID</span></td></tr>
+          <tr><td><strong>Phase 2 — Option A: 30-day sprint</strong></td><td>40h @ €100/h</td><td>€4,000 flat</td><td><span class="badge-open">Pending Louis · Start 15 Jun</span></td></tr>
+          <tr><td><strong>Phase 2 — Option B: 60-day engagement</strong></td><td>40h/month @ €100/h</td><td>€4,000/month</td><td><span class="badge-open">Pending Louis · Start 15 Jun</span></td></tr>
+          <tr><td>Apollo credits (ABM enrichment batch 1)</td><td>—</td><td><span class="badge-tbc">TBC</span></td><td><span class="badge-blocked">Needs Louis approval</span></td></tr>
+          <tr><td>HubSpot subscription (EU1 portal)</td><td>—</td><td><span class="badge-tbc">TBC</span></td><td>Managed by AYA directly</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:14px;font-size:12px;color:#6b7280;">Rate: €100/hour confirmed. Option A recommended as entry point — review at day 30 to decide on Option B extension.</div>
+    </section>
+
+    <section class="section" id="metrics">
+      <div class="section-label">Section 8</div>
+      <div class="section-title">Success Metrics</div>
+      <div class="section-sub">AYA GTM KPIs — to be populated at Phase 2 kickoff (Wk 25 or Wk 28)</div>
+      <div class="alert"><strong>&#x23F3; Metrics update deferred to Phase 2 kickoff.</strong> Pull live data from HubSpot portal 148176566 (EU1) at first Phase 2 session. Last known state: 10,361 contacts scored, 134 active deals, ~€800K pipeline at Diagnose stage, 14 HOT leads from May 12 webinar.</div>
+      <table>
+        <thead><tr><th>Metric</th><th>Last Known (May 13)</th><th>Target</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Total HubSpot contacts</td><td>10,361</td><td>—</td><td>HubSpot 148176566</td></tr>
+          <tr><td>Active deals</td><td>134</td><td>—</td><td>HubSpot 148176566</td></tr>
+          <tr><td>Pipeline value</td><td>~€800K (Diagnose)</td><td>Set at Phase 2 kickoff</td><td>HubSpot 148176566</td></tr>
+          <tr><td>HOT leads (≥30 score)</td><td>14 from May 12 webinar</td><td>Set at kickoff</td><td>HubSpot 148176566</td></tr>
+          <tr><td>Lead score calibration</td><td>≥30 provisional (≥55 target)</td><td>Calibrated Wk 25</td><td>HubSpot 148176566</td></tr>
+          <tr><td>MQL → SQL conversion</td><td><span class="badge-tbc">TBC</span></td><td>&gt;20%</td><td>HubSpot 148176566</td></tr>
+          <tr><td>Phase 2 contract signed</td><td>Pending</td><td>By Fri 13 Jun</td><td>Louis</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="next">
+      <div class="section-label">Section 9</div>
+      <div class="section-title">Next Steps &amp; Dependencies</div>
+      <div class="section-sub">What needs to happen and in what order</div>
+      <div class="prose">
+        <p><strong>Fri 13 Jun (today) — Louis decision:</strong> Louis confirms Phase 2 option (A or B), referral fee structure, and Apollo credits. Without this, Phase 2 cannot start Jun 15.</p>
+        <p><strong>Mon 15 Jun (Wk 25) — Phase 2 kickoff (if Louis confirms):</strong> Pull HubSpot 148176566 live data, run lead scoring calibration with Justin, audit webinar nurture execution, brief Vincent on HOT lead list.</p>
+        <p><strong>After Phase 2 confirmed — Testimonial send:</strong> Email testimonial approval request to Louis + Pieter using <em>AYA_Email_Testimonial_Approval_EN.md</em>. Follow up via WhatsApp if no reply in 3–4 days. Do not publish until both approve.</p>
+        <p><strong>Mid-July — Testimonial publish:</strong> Once Phase 2 has traction, publish LinkedIn posts with banners. Louis first, Pieter ~1 week later. Send each a preview PNG before anything goes live.</p>
+        <p><strong>Dependencies:</strong> Phase 2 start contingent on Louis confirmation today. Installer campaign Tier 1 blocked until referral fee decision. ABM batch 1 blocked until Apollo credits approved. Testimonial publish contingent on (1) approval from Louis + Pieter and (2) Phase 2 traction milestone.</p>
+      </div>
+    </section>
+
+    <section class="section" id="appendix">
+      <div class="section-label">Section 10</div>
+      <div class="section-title">Appendix</div>
+      <div class="section-sub">AYA reference data, key files, and contacts</div>
+      <table>
+        <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>HubSpot portal</td><td><strong>148176566 (EU1)</strong> — NEVER use 148163851</td></tr>
+          <tr><td>Phase 2 rate</td><td>€100/hour · Option A 40h = €4,000 flat · Option B 40h/month = €4,000/month</td></tr>
+          <tr><td>Phase 2 key deliverables</td><td>Lead scoring (HubSpot W19 Issue 2) · ABM batch (D-24 v3) · Installer Tier 1 (D-36 v2) · Webinar nurture (D-20/D-15) · CRO audit (D-45) · Looker Studio (D-17) · Case study Galloo (D-21)</td></tr>
+          <tr><td>Phase 2 scope doc</td><td><em>Phase 2 - Phil x AYA Jun 12, 2026.docx</em> — AYA x PHIL folder</td></tr>
+          <tr><td>Testimonial master file</td><td><em>AYA_Testimonial_Assets_MASTER.md</em> — AYA x PHIL folder · Jun 12, 2026</td></tr>
+          <tr><td>LinkedIn banner file</td><td><em>AYA_Quote_Banner_LinkedIn_v1.html</em> — AYA x PHIL folder · 4 banners (Louis/Pieter × landscape/square)</td></tr>
+          <tr><td>Stakeholders</td><td>Louis Langerock (CEO) · Pieter Callebaut (Marketing Manager) · Vincent Bonini (Sales) · Jasper Debrabant (Sales) · Arnaud Stas (Sales) · Justin Ouwens (Web/MarTech) · Paulien Baele (Design/Social)</td></tr>
+          <tr><td>Key blockers for Louis</td><td>(1) Phase 2 option A or B · (2) Referral fee structure (installer campaign) · (3) Apollo credits approval</td></tr>
+          <tr><td>Testimonial contacts</td><td>Louis Langerock — louis@aya-energy.be · Pieter Callebaut — pieter@aya-energy.be</td></tr>
+          <tr><td>Google Drive</td><td><a href="https://drive.google.com/drive/folders/19_K4cuYg8ZymUO0g2n31g6n5Qts8IDgG" target="_blank" class="drive-link">&#x1F4C1; AYA x PHIL folder</a></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+  const mainEl = document.querySelector('.main');
+  if (mainEl) {
+    mainEl.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (s.offsetTop - mainEl.scrollTop <= 60) current = s.id;
+      });
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+      });
+    });
+  }
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target && mainEl) mainEl.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+    });
+  });
+</script>
+
+<script>
+(function(){
+  var KEY = 'cbState_v3_AYA_Wk25';
+  function stableKey(el,i){var tr=el.closest('tr');if(tr){var cells=tr.querySelectorAll('td');for(var c=1;c<cells.length;c++){var t=cells[c].textContent.trim();if(t.length>2)return t.slice(0,60);}}return String(i);}
+  function saveState(){var s={};document.querySelectorAll('.cb').forEach(function(el,i){if(el.classList.contains('done'))s[stableKey(el,i)]=1;});try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  function restoreState(){var s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}document.querySelectorAll('.cb').forEach(function(el,i){if(s[stableKey(el,i)]){el.classList.add('done');var tr=el.closest('tr');if(tr)tr.classList.add('row-done');}});updateProgress();}
+  window.updateProgress=function(){var all=document.querySelectorAll('.cb');var done=[].filter.call(all,function(el){return el.classList.contains('done');}).length;var total=all.length;var pct=total?Math.round(done/total*100):0;var bar=document.getElementById('prog-bar');var pctEl=document.getElementById('prog-pct');var lbl=document.getElementById('prog-label');var col=pct===100?'#10b981':pct>=75?'#38B6FF':pct>=40?'#f59e0b':'#ef4444';if(bar){bar.style.width=pct+'%';bar.style.background=col;}if(pctEl){pctEl.textContent=pct+'%';pctEl.style.color=col;}if(lbl)lbl.textContent=done+' / '+total+' done';};
+  window.resetProgress=function(){document.querySelectorAll('.cb').forEach(function(el){el.classList.remove('done');var tr=el.closest('tr');if(tr)tr.classList.remove('row-done');});try{localStorage.removeItem(KEY);}catch(e){}updateProgress();};
+  document.querySelectorAll('.cb').forEach(function(el){el.addEventListener('click',function(){el.classList.toggle('done');var tr=el.closest('tr');if(tr)tr.classList.toggle('row-done',el.classList.contains('done'));saveState();updateProgress();});});
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',restoreState);}else{restoreState();}
+})();
+</script>
+</body>
+</html>

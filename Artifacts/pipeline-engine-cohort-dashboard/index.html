@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Pipeline Engine Cohort Dashboard",
+  "schemaVersion": 1,
+  "description": "The Pipeline Engine cohort command centre — all 12 sessions with phase map, session goals, key concepts, probe questions, deliverables, Marco de Vries worked example, and ready-to-use campaign messages (email sequence + LinkedIn DMs/posts + follow-up sequence).",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pipeline Engine — Cohort Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --black: #0A0A0A;
+    --accent: #38B6FF;
+    --bg: #F5F6F8;
+    --bg2: #ECEDF0;
+    --white: #FFFFFF;
+    --text: #0A0A0A;
+    --text-muted: #6B7280;
+    --border: #D1D5DB;
+    --scan: #7C3AED;
+    --lab: #059669;
+    --map: #D97706;
+    --sprint: #DC2626;
+    --max: #38B6FF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--black);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .nav-brand span {
+    color: var(--accent);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    border: none;
+    background: transparent;
+    transition: all 0.15s;
+  }
+
+  .nav-tab:hover { color: white; background: rgba(255,255,255,0.08); }
+  .nav-tab.active { color: var(--accent); background: rgba(56,182,255,0.12); }
+
+  /* MAIN */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* OVERVIEW */
+  .hero {
+    background: var(--black);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 3px 8px;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    max-width: 600px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .hero-stat {
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-stat-val {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* PHASE MAP */
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+
+  .phase-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .phase-block {
+    flex: 1;
+    border-radius: 6px;
+    padding: 10px 12px;
+    min-width: 0;
+  }
+
+  .phase-block-scan { background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3); }
+  .phase-block-lab { background: rgba(5,150,105,0.12); border: 1px solid rgba(5,150,105,0.3); }
+  .phase-block-map { background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); }
+  .phase-block-sprint { background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3); }
+  .phase-block-max { background: rgba(56,182,255,0.12); border: 1px solid rgba(56,182,255,0.3); }
+
+  .phase-block-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .phase-block-scan .phase-block-name { color: #7C3AED; }
+  .phase-block-lab .phase-block-name { color: #059669; }
+  .phase-block-map .phase-block-name { color: #D97706; }
+  .phase-block-sprint .phase-block-name { color: #DC2626; }
+  .phase-block-max .phase-block-name { color: #38B6FF; }
+
+  .phase-block-weeks {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* SESSION CARDS */
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .session-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+
+  .session-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+
+  .session-card-top {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .session-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .session-week {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .phase-badge {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .badge-scan { background: rgba(124,58,237,0.1); color: #7C3AED; }
+  .badge-lab { background: rgba(5,150,105,0.1); color: #059669; }
+  .badge-map { background: rgba(217,119,6,0.1); color: #D97706; }
+  .badge-sprint { background: rgba(220,38,38,0.1); color: #DC2626; }
+  .badge-max { background: rgba(56,182,255,0.15); color: #0ea5e9; }
+
+  .session-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .session-card-body {
+    padding: 10px 16px 14px;
+  }
+
+  .session-goal {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .session-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .slide-count {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .slide-count span {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-left: auto;
+  }
+
+  .status-done { background: #10B981; }
+  .status-unknown { background: #F59E0B; }
+
+  /* DETAIL MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .modal-header {
+    background: var(--black);
+    padding: 20px 24px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .modal-header-text { flex: 1; }
+
+  .modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .modal-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .modal-body { padding: 24px; }
+
+  .modal-section { margin-bottom: 20px; }
+
+  .modal-section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .detail-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .detail-label { color: var(--text-muted); min-width: 110px; flex-shrink: 0; }
+  .detail-val { color: var(--text); font-weight: 500; }
+
+  .key-concepts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .concept-tag {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  /* CAMPAIGN PANEL */
+  .campaign-intro {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .campaign-intro h2 {
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .campaign-intro p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .message-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .msg-tab {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .msg-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .msg-tab.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .messages-container { display: none; }
+  .messages-container.active { display: block; }
+
+  .message-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .message-card-header {
+    background: var(--bg);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .message-type-badge {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--accent);
+    color: white;
+  }
+
+  .message-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .copy-btn {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover { background: var(--accent); color: white; }
+
+  .message-body {
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    white-space: pre-wrap;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  /* SPECS PANEL */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .spec-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .spec-card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .spec-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .spec-label { color: var(--text-muted); min-width: 120px; flex-shrink: 0; font-size: 12px; }
+  .spec-val { color: var(--text); font-weight: 500; }
+  .spec-val.accent { color: var(--accent); }
+
+  .milestone-list { list-style: none; }
+
+  .milestone-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--bg2);
+    font-size: 13px;
+  }
+
+  .milestone-item:last-child { border-bottom: none; }
+
+  .milestone-date {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 110px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .milestone-text { color: var(--text); line-height: 1.4; }
+
+  /* FILE LINKS */
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .file-card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .file-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .file-icon-md { background: rgba(56,182,255,0.1); }
+  .file-info { min-width: 0; }
+  .file-name { font-size: 12px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-meta { font-size: 11px; color: var(--text-muted); }
+
+  /* MARCO PANEL */
+  .marco-header {
+    background: var(--black);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .marco-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(56,182,255,0.15);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .marco-info { flex: 1; }
+
+  .marco-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+
+  .marco-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+
+  .marco-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .marco-tag {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
+  .pipeline-metrics {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 12px;
+    text-align: center;
+  }
+
+  .metric-val {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .metric-val.red { color: #DC2626; }
+  .metric-val.yellow { color: #D97706; }
+  .metric-val.green { color: #059669; }
+
+  .metric-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+  }
+
+  .metric-target {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .sessions-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .specs-grid { grid-template-columns: 1fr; }
+    .pipeline-metrics { grid-template-columns: repeat(3, 1fr); }
+    .file-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">The Pipeline Engine <span>·</span> RUTTENS<span>+</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPanel('overview')">Overview</button>
+    <button class="nav-tab" onclick="switchPanel('sessions')">All Sessions</button>
+    <button class="nav-tab" onclick="switchPanel('campaign')">Campaign Messages</button>
+    <button class="nav-tab" onclick="switchPanel('specs')">Programme Specs</button>
+    <button class="nav-tab" onclick="switchPanel('marco')">Marco (Worked Example)</button>
+    <button class="nav-tab" onclick="switchPanel('files')">Files</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- OVERVIEW PANEL -->
+<div class="panel active" id="panel-overview">
+  <div class="hero">
+    <div class="hero-badge">RUTTENS+ · Founding Cohort 1 · 2026</div>
+    <h1>Build a B2B Pipeline Engine<br>in 90 Days</h1>
+    <p>A 12-week cohort programme for B2B founders who want a documented, measured pipeline that runs without relying on memory, motivation, or luck.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">12</div>
+        <div class="hero-stat-label">Weeks · Sessions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">8</div>
+        <div class="hero-stat-label">Seats (Founding)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">€3,450</div>
+        <div class="hero-stat-label">Founding Price</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">Sep '26</div>
+        <div class="hero-stat-label">Cohort Start</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Phase Map</div>
+  <div class="phase-bar">
+    <div class="phase-block phase-block-scan">
+      <div class="phase-block-name">SCAN</div>
+      <div class="phase-block-weeks">W1–W2</div>
+    </div>
+    <div class="phase-block phase-block-lab">
+      <div class="phase-block-name">LAB</div>
+      <div class="phase-block-weeks">W3–W4</div>
+    </div>
+    <div class="phase-block phase-block-map">
+      <div class="phase-block-name">MAP</div>
+      <div class="phase-block-weeks">W5–W7</div>
+    </div>
+    <div class="phase-block phase-block-sprint">
+      <div class="phase-block-name">SPRINT</div>
+      <div class="phase-block-weeks">W8–W10</div>
+    </div>
+    <div class="phase-block phase-block-max">
+      <div class="phase-block-name">MAX</div>
+      <div class="phase-block-weeks">W11–W12</div>
+    </div>
+  </div>
+
+  <div class="section-title">What Participants Build</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+    <div style="background:white;border-radius:10px;border:1px solid var(--border);padding:18px 20px;">
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px;">The 5 Systems</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;">
+          <span style="color:var(--accent);font-weight:700;flex-shrink:0;">01</span>
+          <span><strong>Content Engine</strong> — ICP-targeted posts that generate inbound signals</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;">
+          <span style="color:var(--accent);font-weight:700;flex-shrink:0;">02</span>
+          <span><strong>Outbound Sequence</strong> — Trigger-based DM sequences to Tier 1 accounts</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;">
+          <span style="color:var(--accent);font-weight:700;flex-shrink:0;">03</span>
+          <span><strong>Conversion Path</strong> — DM → Revenue Scan Call bridge</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;">
+          <span style="color:var(--accent);font-weight:700;flex-shrink:0;">04</span>
+          <span><strong>Follow-Up Sequence</strong> — 6-step sequence for stalled deals</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;">
+          <span style="color:var(--accent);font-weight:700;flex-shrink:0;">05</span>
+          <span><strong>Pipeline Dashboard</strong> — 5-metric view + Monday Review ritual</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:10px;border:1px solid var(--border);padding:18px 20px;">
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px;">The 5 Pipeline Metrics</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;">
+          <span style="background:rgba(56,182,255,0.1);color:var(--accent);font-weight:700;font-size:11px;padding:2px 7px;border-radius:3px;flex-shrink:0;">M1</span>
+          <span>Pipeline Entries / Week <span style="color:var(--text-muted)">(target: 3–10)</span></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;">
+          <span style="background:rgba(56,182,255,0.1);color:var(--accent);font-weight:700;font-size:11px;padding:2px 7px;border-radius:3px;flex-shrink:0;">M2</span>
+          <span>Conversation → Call % <span style="color:var(--text-muted)">(target: 30–60%)</span></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;">
+          <span style="background:rgba(56,182,255,0.1);color:var(--accent);font-weight:700;font-size:11px;padding:2px 7px;border-radius:3px;flex-shrink:0;">M3</span>
+          <span>Call → Proposal % <span style="color:var(--text-muted)">(target: 40–70%)</span></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;">
+          <span style="background:rgba(56,182,255,0.1);color:var(--accent);font-weight:700;font-size:11px;padding:2px 7px;border-radius:3px;flex-shrink:0;">M4</span>
+          <span>Proposal → Close % <span style="color:var(--text-muted)">(target: 25–50%)</span></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;">
+          <span style="background:rgba(56,182,255,0.1);color:var(--accent);font-weight:700;font-size:11px;padding:2px 7px;border-radius:3px;flex-shrink:0;">M5</span>
+          <span>Avg Days to Close <span style="color:var(--text-muted)">(target: &lt;45 days)</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Quick Session View</div>
+  <div class="sessions-grid">
+    <div class="session-card" onclick="openModal(0)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W01</span><span class="phase-badge badge-scan">SCAN</span></div>
+        <div class="session-title">Baseline & The Number</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">GTM Animal archetype + 7-Pillar audit + specific 90-day revenue number</div>
+        <div class="session-footer"><span class="slide-count"><span>22</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(1)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W02</span><span class="phase-badge badge-scan">SCAN</span></div>
+        <div class="session-title">ICP & Segmentation</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Testable ICP definition + 20 named Tier 1 accounts</div>
+        <div class="session-footer"><span class="slide-count"><span>24</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(2)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W03</span><span class="phase-badge badge-lab">LAB</span></div>
+        <div class="session-title">Positioning & Messaging</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Working positioning statement + Messaging House</div>
+        <div class="session-footer"><span class="slide-count"><span>24</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(3)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W04</span><span class="phase-badge badge-lab">LAB</span></div>
+        <div class="session-title">Offer & Pipeline Math</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">3-Line Offer + backward pipeline math + messages/week target</div>
+        <div class="session-footer"><span class="slide-count"><span>22</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(4)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W05</span><span class="phase-badge badge-map">MAP</span></div>
+        <div class="session-title">Channel Strategy</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Focused 2-channel plan mapped to ICP + kill condition set</div>
+        <div class="session-footer"><span class="slide-count"><span>22</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(5)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W06</span><span class="phase-badge badge-map">MAP</span></div>
+        <div class="session-title">Content Engine</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">4-week content schedule + 3 post types + content-to-pipeline bridge</div>
+        <div class="session-footer"><span class="slide-count"><span>23</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(6)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W07</span><span class="phase-badge badge-map">MAP</span></div>
+        <div class="session-title">Outbound System</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Trigger-based DM sequences + DM → discovery bridge</div>
+        <div class="session-footer"><span class="slide-count"><span>—</span> slides</span><span class="status-dot status-unknown"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(7)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W08</span><span class="phase-badge badge-sprint">SPRINT</span></div>
+        <div class="session-title">Sales Alignment</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Revenue Scan Call framework + Conversion Path build</div>
+        <div class="session-footer"><span class="slide-count"><span>—</span> slides</span><span class="status-dot status-unknown"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(8)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W09</span><span class="phase-badge badge-sprint">SPRINT</span></div>
+        <div class="session-title">Proposal & Close</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Proposal framework + Handoff Protocol + 6-step follow-up</div>
+        <div class="session-footer"><span class="slide-count"><span>—</span> slides</span><span class="status-dot status-unknown"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(9)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W10</span><span class="phase-badge badge-sprint">SPRINT</span></div>
+        <div class="session-title">Measurement & Dashboard</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Live pipeline dashboard + 5-metric baseline + Monday Review booked</div>
+        <div class="session-footer"><span class="slide-count"><span>20</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(10)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W11</span><span class="phase-badge badge-max">MAX</span></div>
+        <div class="session-title">Execution Sprint</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">Written SOPs + Weekly Run Sheet + Person vs. System score</div>
+        <div class="session-footer"><span class="slide-count"><span>17</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+    <div class="session-card" onclick="openModal(11)">
+      <div class="session-card-top">
+        <div class="session-meta"><span class="session-week">W12</span><span class="phase-badge badge-max">MAX</span></div>
+        <div class="session-title">90-Day Plan & Graduation</div>
+      </div>
+      <div class="session-card-body">
+        <div class="session-goal">90-Day Operating Plan + Pipeline Engine Summary + Graduation Statement</div>
+        <div class="session-footer"><span class="slide-count"><span>18</span> slides</span><span class="status-dot status-done"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SESSIONS PANEL -->
+<div class="panel" id="panel-sessions">
+  <div class="section-title">All 12 Sessions</div>
+  <div id="sessions-full-grid" class="sessions-grid"></div>
+</div>
+
+<!-- CAMPAIGN PANEL -->
+<div class="panel" id="panel-campaign">
+  <div class="campaign-intro">
+    <h2>Campaign Messages</h2>
+    <p>Ready-to-use email sequences and LinkedIn messages for selling seats in The Pipeline Engine cohort. All messages are in Phil's voice — direct, specific, no fluff.</p>
+  </div>
+
+  <div class="message-tabs">
+    <button class="msg-tab active" onclick="switchMsgTab('email')">Email Sequence</button>
+    <button class="msg-tab" onclick="switchMsgTab('linkedin')">LinkedIn Messages</button>
+    <button class="msg-tab" onclick="switchMsgTab('followup')">Follow-Up</button>
+  </div>
+
+  <div class="messages-container active" id="msgs-email">
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">Email 1</span>
+        <span class="message-card-title">Cold/Warm Outreach — The Opening</span>
+        <button class="copy-btn" onclick="copyMsg('email1')">Copy</button>
+      </div>
+      <div class="message-body" id="email1">Subject: Your pipeline stops when you stop
+
+[First name],
+
+Quick question: if you went completely dark for 30 days — no posts, no DMs, no calls — what would still come in?
+
+For most B2B founders I talk to, the honest answer is: nothing. Or close to it.
+
+That's not a laziness problem. It's a systems problem. The pipeline is in your head, not in a process that runs without you.
+
+In September, I'm running a 12-week cohort programme — The Pipeline Engine — for 8 B2B founders who are ready to build a pipeline that doesn't stop when they get busy.
+
+What you build: a Content Engine, Outbound Sequence, Conversion Path, Follow-Up System, and Pipeline Dashboard — all documented, measured, and running by Week 12.
+
+8 seats. €3,450 founding price (goes to €6,900 after the cohort fills).
+
+Worth a 15-minute call to see if it's the right fit?
+
+Phil
+ruttens.com</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">Email 2</span>
+        <span class="message-card-title">The Programme Detail Email</span>
+        <button class="copy-btn" onclick="copyMsg('email2')">Copy</button>
+      </div>
+      <div class="message-body" id="email2">Subject: What you build in 12 weeks
+
+[First name],
+
+Following up on my earlier note. Here's what the cohort actually builds:
+
+12 weeks. 5 phases. 1 documented Pipeline Engine.
+
+SCAN (W1–W2): Honest baseline + testable ICP
+LAB (W3–W4): Positioning + 3-Line Offer + pipeline math
+MAP (W5–W7): 2-channel plan + Content Engine + Outbound Sequences
+SPRINT (W8–W10): Revenue Scan Call + Proposal System + Dashboard
+MAX (W11–W12): Written SOPs + Weekly Run Sheet + 90-Day Plan
+
+By Week 12, you have:
+— A pipeline that generates 3–10 new conversations per week
+— A follow-up system that doesn't rely on you remembering to do it
+— A dashboard that tells you in 90 seconds on Monday whether your pipeline is healthy
+— SOPs written well enough to delegate
+
+8 seats. September 2026. €3,450 founding price.
+
+One question: what's the biggest thing stalling your pipeline right now?
+
+Phil</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">Email 3</span>
+        <span class="message-card-title">Social Proof + Urgency Email</span>
+        <button class="copy-btn" onclick="copyMsg('email3')">Copy</button>
+      </div>
+      <div class="message-body" id="email3">Subject: 3 seats left (founding price)
+
+[First name],
+
+The Pipeline Engine cohort is filling up — 5 of 8 seats taken at the founding price.
+
+What the 5 founders already in have in common: they're not new to B2B. Most have been in business 2–5 years. They know what to do. They just don't have a system that does it without them.
+
+That's what the cohort is for.
+
+If you've been thinking about it, now's the time to lock the founding rate. At 8/8, the next cohort opens at €6,900.
+
+15 minutes to see if it's right for you: [CALENDLY LINK]
+
+Phil
+RUTTENS+
+ruttens.com</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">Email 4</span>
+        <span class="message-card-title">Last Call Email</span>
+        <button class="copy-btn" onclick="copyMsg('email4')">Copy</button>
+      </div>
+      <div class="message-body" id="email4">Subject: Last seat
+
+[First name],
+
+One founding seat left in The Pipeline Engine cohort.
+
+After this, the next cohort opens at €6,900 — double.
+
+If you're a B2B founder with an offer that works but a pipeline that's inconsistent, this is the programme.
+
+September 2026. 12 weeks. 8 founders. One engine each.
+
+Book 15 minutes here: [CALENDLY LINK]
+
+Or reply with a question. Happy to send more detail.
+
+Phil</div>
+    </div>
+  </div>
+
+  <div class="messages-container" id="msgs-linkedin">
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Msg 1</span>
+        <span class="message-card-title">Cold Connection Note (280 chars)</span>
+        <button class="copy-btn" onclick="copyMsg('li1')">Copy</button>
+      </div>
+      <div class="message-body" id="li1">Hi [Name] — I work with B2B founders building pipeline systems that don't rely on memory or motivation. Running a small cohort in September. Thought it might be relevant. Happy to share more if useful.</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Msg 2</span>
+        <span class="message-card-title">Step 2 — After Acceptance</span>
+        <button class="copy-btn" onclick="copyMsg('li2')">Copy</button>
+      </div>
+      <div class="message-body" id="li2">Thanks for connecting, [Name].
+
+Quick question: if you went dark for 30 days — no posts, no outreach — what would still come into your pipeline?
+
+I ask because most B2B founders I talk to answer "not much." That's the problem I help solve.
+
+In September I'm running The Pipeline Engine — a 12-week cohort for 8 founders to build a documented, measured pipeline. 8 seats at the founding price of €3,450.
+
+Worth a quick call to see if it fits? I'll keep it to 15 minutes.</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Msg 3</span>
+        <span class="message-card-title">Follow-Up 1 (7 days after Step 2)</span>
+        <button class="copy-btn" onclick="copyMsg('li3')">Copy</button>
+      </div>
+      <div class="message-body" id="li3">Following up, [Name].
+
+The cohort fills to 8. 5 seats taken. Founding price closes when it fills.
+
+If pipeline consistency is something you're working on — happy to share what the 12-week build looks like in detail. Takes 10 minutes.
+
+Interested?</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Msg 4</span>
+        <span class="message-card-title">Breakup Message (14 days, no reply)</span>
+        <button class="copy-btn" onclick="copyMsg('li4')">Copy</button>
+      </div>
+      <div class="message-body" id="li4">[Name] — last note on this.
+
+Not the right time? No problem. I'll leave it here.
+
+If pipeline ever becomes the priority — ruttens.com or hello@ruttens.com.
+
+Good luck with what you're building.</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Post</span>
+        <span class="message-card-title">Lead Post — "The Go Dark Question"</span>
+        <button class="copy-btn" onclick="copyMsg('lipost1')">Copy</button>
+      </div>
+      <div class="message-body" id="lipost1">If you went completely dark for 30 days —
+
+No posts.
+No DMs.
+No outreach.
+No calls.
+
+What would still come into your pipeline?
+
+Most B2B founders I ask answer: nothing.
+Or close to it.
+
+That's not because they don't know what to do.
+It's because everything they do lives in their head.
+
+The pipeline stops when they stop.
+
+That's what I built The Pipeline Engine cohort to fix.
+
+12 weeks. 8 founders. 1 documented, measured, running pipeline each.
+
+September 2026 · 8 seats · €3,450 founding price
+
+If the "go dark" test made you uncomfortable — DM me.
+
+↓ What's your answer?</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">LI Post</span>
+        <span class="message-card-title">Lead Post — "140 Minutes"</span>
+        <button class="copy-btn" onclick="copyMsg('lipost2')">Copy</button>
+      </div>
+      <div class="message-body" id="lipost2">The founders I know with the most consistent B2B pipelines don't work more hours.
+
+They work 140 minutes a week on their pipeline.
+
+That's it.
+
+30 min Monday: Pipeline Review + one action
+60 min Tuesday: Content Block
+20 min Wednesday: Outbound sequences
+20 min Thursday: Inbound + follow-up
+10 min Friday: Week close
+
+The difference isn't effort.
+
+It's structure.
+
+The Pipeline Engine cohort teaches you how to build that structure — and document it so it runs even when you don't.
+
+September 2026 · 8 seats · €3,450 founding
+
+If your pipeline is inconsistent, this is what changes it.
+
+DM me or visit ruttens.com</div>
+    </div>
+  </div>
+
+  <div class="messages-container" id="msgs-followup">
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">FU Email 1</span>
+        <span class="message-card-title">Post-Call Follow-Up (24 hrs after discovery call)</span>
+        <button class="copy-btn" onclick="copyMsg('fu1')">Copy</button>
+      </div>
+      <div class="message-body" id="fu1">Subject: Good talking today — next step
+
+[First name],
+
+Good conversation. Here's what I said I'd send:
+
+The Pipeline Engine — what's included:
+— 12 weekly sessions (90 min each)
+— Workbook for every session
+— Access to all templates, sequences, and frameworks
+— Cohort community (Slack — stays open after the programme)
+— One 90-day post-cohort check-in
+
+Price: €3,450 founding / €6,900 full (after cohort fills)
+Start: September 2026
+Format: Remote, weekly
+
+To secure your seat: [PAYMENT LINK or "Reply to confirm"]
+
+If you have any questions before deciding, reply here. I'll get back to you same day.
+
+Phil</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">FU Email 2</span>
+        <span class="message-card-title">7 Days No Response After Call</span>
+        <button class="copy-btn" onclick="copyMsg('fu2')">Copy</button>
+      </div>
+      <div class="message-body" id="fu2">Subject: Still thinking it over?
+
+[First name],
+
+Checking in on the cohort conversation from last week.
+
+The founding price closes when the last seat fills. Currently at 5/8.
+
+Two questions:
+1. Is there anything that would make it a clearer yes?
+2. Is the timing or price the blocker?
+
+Happy to talk either through. Reply here or grab 15 minutes: [LINK]
+
+Phil</div>
+    </div>
+
+    <div class="message-card">
+      <div class="message-card-header">
+        <span class="message-type-badge">FU Email 3</span>
+        <span class="message-card-title">14 Days — Last Follow-Up Before Close</span>
+        <button class="copy-btn" onclick="copyMsg('fu3')">Copy</button>
+      </div>
+      <div class="message-body" id="fu3">Subject: Last note on this
+
+[First name],
+
+I'll keep this short — last note on the cohort.
+
+If September works and the founding price makes sense — the link is below.
+
+If the timing's off — no problem. The next cohort will run in Q1 2027 at full price.
+
+[PAYMENT LINK]
+
+Phil</div>
+    </div>
+  </div>
+</div>
+
+<!-- SPECS PANEL -->
+<div class="panel" id="panel-specs">
+  <div class="section-title">Programme Specifications</div>
+  <div class="specs-grid">
+    <div class="spec-card">
+      <div class="spec-card-title">Cohort Details</div>
+      <div class="spec-row"><span class="spec-label">Name</span><span class="spec-val">The Pipeline Engine</span></div>
+      <div class="spec-row"><span class="spec-label">Subtitle</span><span class="spec-val">Build a B2B Pipeline Engine in 90 Days</span></div>
+      <div class="spec-row"><span class="spec-label">Format</span><span class="spec-val">12 weekly sessions · 90 min each</span></div>
+      <div class="spec-row"><span class="spec-label">Seats</span><span class="spec-val accent">8 (founding cohort)</span></div>
+      <div class="spec-row"><span class="spec-label">Start</span><span class="spec-val">September 2026</span></div>
+      <div class="spec-row"><span class="spec-label">Delivery</span><span class="spec-val">Remote · Live sessions</span></div>
+      <div class="spec-row"><span class="spec-label">Founding Price</span><span class="spec-val accent">€3,450</span></div>
+      <div class="spec-row"><span class="spec-label">Full Price</span><span class="spec-val">€6,900</span></div>
+      <div class="spec-row"><span class="spec-label">Contact</span><span class="spec-val">hello@ruttens.com</span></div>
+      <div class="spec-row"><span class="spec-label">Website</span><span class="spec-val">ruttens.com</span></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-title">Post-Cohort Options</div>
+      <div class="spec-row"><span class="spec-label">Community</span><span class="spec-val">Slack channel — included, stays open</span></div>
+      <div class="spec-row"><span class="spec-label">MAX Retainer</span><span class="spec-val accent">From €3,990/month</span></div>
+      <div class="spec-row"><span class="spec-label">Quarterly Call</span><span class="spec-val">Standalone 60-min review</span></div>
+      <div class="spec-row"><span class="spec-label">Nov 30 Health Check</span><span class="spec-val">5-metric engine review (first quarterly)</span></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-title">Slide Deck Status</div>
+      <ul class="milestone-list">
+        <li class="milestone-item"><span class="milestone-date" style="color:#10B981">W01–W06 ✅</span><span class="milestone-text">Complete (Session 5)</span></li>
+        <li class="milestone-item"><span class="milestone-date" style="color:#F59E0B">W07–W09 ❓</span><span class="milestone-text">Status uncertain — workbooks exist</span></li>
+        <li class="milestone-item"><span class="milestone-date" style="color:#10B981">W10 ✅</span><span class="milestone-text">Complete — 20 slides</span></li>
+        <li class="milestone-item"><span class="milestone-date" style="color:#10B981">W11 ✅</span><span class="milestone-text">Complete — 17 slides</span></li>
+        <li class="milestone-item"><span class="milestone-date" style="color:#10B981">W12 ✅</span><span class="milestone-text">Complete — 18 slides (graduation)</span></li>
+      </ul>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-card-title">Key Dates</div>
+      <ul class="milestone-list">
+        <li class="milestone-item"><span class="milestone-date">Sep 2026</span><span class="milestone-text">Cohort starts — Week 1 sessions begin</span></li>
+        <li class="milestone-item"><span class="milestone-date">End Sep</span><span class="milestone-text">First monthly pipeline check-in</span></li>
+        <li class="milestone-item"><span class="milestone-date">End Oct</span><span class="milestone-text">Second monthly check + sequence refresh</span></li>
+        <li class="milestone-item"><span class="milestone-date">Nov 30</span><span class="milestone-text">First quarterly review — 90-day results</span></li>
+        <li class="milestone-item"><span class="milestone-date">Q1 2027</span><span class="milestone-text">Next cohort at full price (€6,900)</span></li>
+      </ul>
+    </div>
+
+    <div class="spec-card" style="grid-column:span 2;">
+      <div class="spec-card-title">Brand Spec</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:32px;height:32px;background:#0A0A0A;border-radius:6px;"></div>
+          <div><div style="font-size:12px;font-weight:600;">#0A0A0A</div><div style="font-size:11px;color:var(--text-muted)">TRUE BLACK</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:32px;height:32px;background:#38B6FF;border-radius:6px;"></div>
+          <div><div style="font-size:12px;font-weight:600;">#38B6FF</div><div style="font-size:11px;color:var(--text-muted)">ACCENT</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:32px;height:32px;background:#F5F6F8;border-radius:6px;border:1px solid var(--border);"></div>
+          <div><div style="font-size:12px;font-weight:600;">#F5F6F8</div><div style="font-size:11px;color:var(--text-muted)">BACKGROUND</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="padding:6px 12px;background:var(--black);border-radius:4px;">
+            <span style="font-family:'Oswald',sans-serif;color:white;font-size:13px;font-weight:700;">Oswald</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted)">Headlines</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="padding:6px 12px;background:var(--bg2);border-radius:4px;">
+            <span style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;">IBM Plex Sans</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted)">Body</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARCO PANEL -->
+<div class="panel" id="panel-marco">
+  <div class="marco-header">
+    <div class="marco-avatar">M</div>
+    <div class="marco-info">
+      <div class="marco-name">Marco de Vries · CLARO</div>
+      <div class="marco-subtitle">B2B SaaS Founder · Amsterdam · 18 FTE · €1.2M ARR · GTM Animal: 🐆 Cheetah</div>
+      <div class="marco-tags">
+        <span class="marco-tag">Project Management SaaS</span>
+        <span class="marco-tag">Dutch Manufacturing / Logistics</span>
+        <span class="marco-tag">ICP: Operations Directors</span>
+        <span class="marco-tag">Multi-site · 90+ employees</span>
+        <span class="marco-tag">90-day target: €25,500</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Pipeline Dashboard — Week 10 Baseline</div>
+  <div class="pipeline-metrics">
+    <div class="metric-card">
+      <div class="metric-val red">2/wk</div>
+      <div class="metric-label">Pipeline Entries</div>
+      <div class="metric-target">Target: 3–10</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val yellow">62%</div>
+      <div class="metric-label">Conv → Call</div>
+      <div class="metric-target">Target: 30–60%</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val green">45%</div>
+      <div class="metric-label">Call → Proposal</div>
+      <div class="metric-target">Target: 40–70%</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val red">22%</div>
+      <div class="metric-label">Proposal → Close</div>
+      <div class="metric-target">Target: 25–50%</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val red">67d</div>
+      <div class="metric-label">Avg Days to Close</div>
+      <div class="metric-target">Target: &lt;45 days</div>
+    </div>
+  </div>
+
+  <div class="section-title">Recognition Sentence</div>
+  <div style="background:var(--black);border-radius:10px;padding:20px 24px;margin-bottom:20px;border-left:3px solid var(--accent);">
+    <p style="font-family:'Oswald',sans-serif;font-size:16px;color:white;font-weight:500;line-height:1.5;">"If your operations and finance teams have different numbers for the same project — you don't have a project management problem. You have a visibility problem."</p>
+  </div>
+
+  <div class="section-title">90-Day Plan (November 30 Targets)</div>
+  <div style="background:white;border-radius:10px;border:1px solid var(--border);padding:20px 24px;margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+      <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--accent);">5/wk</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Pipeline Entries Target</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--accent);">3 deals</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Deals Closed Target</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--accent);">€25,500</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Revenue Target (3×€8,500)</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+      <strong style="color:var(--text);">Primary constraint:</strong> Stage 4→5 — proposals stalling. Fix by October 1: advance or kill both stalled proposals (Jansen B.V. + Hendriksen). Secondary: pipeline entries too low at 2/week — needs outbound at 5 new connections/week consistently.
+    </div>
+  </div>
+
+  <div class="section-title">Programme Role Across All Sessions</div>
+  <div style="background:white;border-radius:10px;border:1px solid var(--border);overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="background:var(--bg);">
+          <th style="padding:10px 14px;text-align:left;font-weight:600;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);">Session</th>
+          <th style="padding:10px 14px;text-align:left;font-weight:600;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);">Marco's role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W01–W02</td><td style="padding:8px 14px;color:var(--text-muted);">GTM baseline + ICP definition (CLARO, Dutch manufacturing Ops Directors)</td></tr>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W03–W04</td><td style="padding:8px 14px;color:var(--text-muted);">Messaging House + 3-Line Offer + backward pipeline math (11 messages/week needed vs 2–3/month actual)</td></tr>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W05–W07</td><td style="padding:8px 14px;color:var(--text-muted);">2-channel plan (LinkedIn organic + DM sequences to Tier 1 Ops Directors)</td></tr>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W08–W09</td><td style="padding:8px 14px;color:var(--text-muted);">Revenue Scan Call + proposal framework + 6-step follow-up on stalled proposals</td></tr>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W10</td><td style="padding:8px 14px;color:var(--text-muted);">Live dashboard with his numbers — constraint diagnosed as Stage 4→5</td></tr>
+        <tr style="border-bottom:1px solid var(--bg2);"><td style="padding:8px 14px;font-weight:500;">W11</td><td style="padding:8px 14px;color:var(--text-muted);">Weekly Run Sheet fully populated — Tuesdays = visibility gap content, Wednesday = manufacturing outbound</td></tr>
+        <tr><td style="padding:8px 14px;font-weight:500;">W12</td><td style="padding:8px 14px;color:var(--text-muted);">90-Day Plan: €25,500 by Nov 30, fix Stage 4→5 by Oct 1, quarterly review Nov 30</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FILES PANEL -->
+<div class="panel" id="panel-files">
+  <div class="section-title">Slide Deck Files</div>
+  <div class="file-grid">
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W01.md</div><div class="file-meta">SCAN · 22 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W02.md</div><div class="file-meta">SCAN · 24 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W03.md</div><div class="file-meta">LAB · 24 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W04.md</div><div class="file-meta">LAB · 22 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W05.md</div><div class="file-meta">MAP · 22 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W06.md</div><div class="file-meta">MAP · 23 slides</div></div></div>
+    <div class="file-card" style="opacity:0.5;"><div class="file-icon file-icon-md">⚠️</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W07.md</div><div class="file-meta">MAP · Pending</div></div></div>
+    <div class="file-card" style="opacity:0.5;"><div class="file-icon file-icon-md">⚠️</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W08.md</div><div class="file-meta">SPRINT · Pending</div></div></div>
+    <div class="file-card" style="opacity:0.5;"><div class="file-icon file-icon-md">⚠️</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W09.md</div><div class="file-meta">SPRINT · Pending</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W10.md</div><div class="file-meta">SPRINT · 20 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W11.md</div><div class="file-meta">MAX · 17 slides</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📄</div><div class="file-info"><div class="file-name">COHORT_SLIDES_W12.md</div><div class="file-meta">MAX · 18 slides</div></div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:28px;">Workbook Files</div>
+  <div class="file-grid">
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W01.md</div><div class="file-meta">SCAN — Baseline</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W02.md</div><div class="file-meta">SCAN — ICP</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W03.md</div><div class="file-meta">LAB — Positioning</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W04.md</div><div class="file-meta">LAB — Offer</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W10.md</div><div class="file-meta">SPRINT — Dashboard</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W11.md</div><div class="file-meta">MAX — Execution Sprint</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">📋</div><div class="file-info"><div class="file-name">COHORT_WORKBOOK_W12.md</div><div class="file-meta">MAX — Graduation</div></div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:28px;">Handover Files</div>
+  <div class="file-grid">
+    <div class="file-card"><div class="file-icon file-icon-md">🗂️</div><div class="file-info"><div class="file-name">HANDOVER_W01-W06.md</div><div class="file-meta">Session 5 · 2026-06-14</div></div></div>
+    <div class="file-card"><div class="file-icon file-icon-md">🗂️</div><div class="file-info"><div class="file-name">HANDOVER_W10-W12.md</div><div class="file-meta">Session 7 · 2026-06-14</div></div></div>
+  </div>
+
+  <div style="background:var(--bg2);border-radius:8px;padding:14px 18px;margin-top:20px;font-size:12px;color:var(--text-muted);line-height:1.6;">
+    <strong style="color:var(--text);">File location:</strong> All slide decks at <code style="background:white;padding:1px 5px;border-radius:3px;border:1px solid var(--border);">RUTTENS+OS/AYA x PHIL/cohort-slides/</code> · Workbooks at <code style="background:white;padding:1px 5px;border-radius:3px;border:1px solid var(--border);">RUTTENS+OS/AYA x PHIL/cohort-workbooks/</code> · Handovers at <code style="background:white;padding:1px 5px;border-radius:3px;border:1px solid var(--border);">RUTTENS+OS/_HANDOVERS/2026-06/</code>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <div class="modal-title" id="modal-title">Session Title</div>
+        <div class="modal-subtitle" id="modal-subtitle">Phase · Week X</div>
+      </div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const sessions = [
+  {
+    week: "W01", phase: "SCAN", phaseCls: "badge-scan", title: "Baseline & The Number",
+    goal: "GTM Animal archetype + 7-Pillar audit + specific 90-day revenue number",
+    slides: 22, status: "done",
+    file: "COHORT_SLIDES_W01.md",
+    concepts: ["GTM Animal", "7-Pillar Audit", "Go Dark Test", "90-Day Revenue Number", "Honest Baseline"],
+    probe: "If you went completely dark for 30 days — no posts, no DMs, no outreach — what would still come in?",
+    deliverable: "One specific number: the revenue target for the next 90 days, and the gap between now and there."
+  },
+  {
+    week: "W02", phase: "SCAN", phaseCls: "badge-scan", title: "ICP & Segmentation",
+    goal: "Testable ICP definition + 20 named Tier 1 accounts",
+    slides: 24, status: "done",
+    file: "COHORT_SLIDES_W02.md",
+    concepts: ["ICP Definition", "Tier 1/2/3 Framework", "Pain Trigger Mapping", "20 Named Accounts"],
+    probe: "Who is your Tier 1 — and can you name 20 right now?",
+    deliverable: "Written ICP definition + 20 named Tier 1 accounts with company + contact role."
+  },
+  {
+    week: "W03", phase: "LAB", phaseCls: "badge-lab", title: "Positioning & Messaging",
+    goal: "Working positioning statement + Messaging House",
+    slides: 24, status: "done",
+    file: "COHORT_SLIDES_W03.md",
+    concepts: ["Positioning Statement", "Messaging House", "Recognition Sentence", "Failure Modes", "Pain Language"],
+    probe: "Read me your website's first sentence. Which failure mode does it fit?",
+    deliverable: "Positioning statement + Messaging House with 3 pain pillars + recognition sentence."
+  },
+  {
+    week: "W04", phase: "LAB", phaseCls: "badge-lab", title: "Offer & Pipeline Math",
+    goal: "3-Line Offer + backward pipeline math + messages/week target",
+    slides: 22, status: "done",
+    file: "COHORT_SLIDES_W04.md",
+    concepts: ["3-Line Offer", "Pipeline Math", "Messages/Week Target", "Backward Calculation", "Price Anchoring"],
+    probe: "If someone asked you what you do in 3 lines or fewer — could you say it?",
+    deliverable: "3-Line Offer + pipeline math showing exactly how many messages/week you need."
+  },
+  {
+    week: "W05", phase: "MAP", phaseCls: "badge-map", title: "Channel Strategy",
+    goal: "Focused 2-channel plan mapped to ICP + kill condition set",
+    slides: 22, status: "done",
+    file: "COHORT_SLIDES_W05.md",
+    concepts: ["2-Channel Plan", "Kill Condition (6 weeks)", "Channel Scoring", "ICP Reach Analysis"],
+    probe: "Which two channels reach your Tier 1 most directly — and how do you know?",
+    deliverable: "2-channel plan with kill condition: 6 weeks, specific metric, named replacement action."
+  },
+  {
+    week: "W06", phase: "MAP", phaseCls: "badge-map", title: "Content Engine",
+    goal: "4-week content schedule + 3 post types + content-to-pipeline bridge",
+    slides: 23, status: "done",
+    file: "COHORT_SLIDES_W06.md",
+    concepts: ["3 Post Types", "Hook Patterns", "4-Week Schedule", "Content-to-Pipeline Bridge", "Inbound Signal Detection"],
+    probe: "What's the last post you wrote that generated a real conversation with a Tier 1 account?",
+    deliverable: "4-week content schedule + 3 post templates + content-to-pipeline bridge protocol."
+  },
+  {
+    week: "W07", phase: "MAP", phaseCls: "badge-map", title: "Outbound System",
+    goal: "Trigger-based DM sequences + DM → discovery bridge",
+    slides: null, status: "unknown",
+    file: "COHORT_SLIDES_W07.md (PENDING)",
+    concepts: ["Trigger-Based Personalisation", "DM Sequence", "Connection Note", "FU1/FU2/Breakup", "LinkedHelper Setup"],
+    probe: "How many DMs did you send last week to Tier 1 accounts — and what triggered each one?",
+    deliverable: "3-step DM sequence with trigger + personalisation + call-to-action for each step."
+  },
+  {
+    week: "W08", phase: "SPRINT", phaseCls: "badge-sprint", title: "Sales Alignment",
+    goal: "Revenue Scan Call framework + Conversion Path build",
+    slides: null, status: "unknown",
+    file: "COHORT_SLIDES_W08.md (PENDING)",
+    concepts: ["Revenue Scan Call", "Conversion Path", "Qualification Framework", "DM → Call Bridge"],
+    probe: "What's the exact message you send when someone engages with your content?",
+    deliverable: "Conversion Path: the exact message sequence from DM signal to Revenue Scan Call."
+  },
+  {
+    week: "W09", phase: "SPRINT", phaseCls: "badge-sprint", title: "Proposal & Close",
+    goal: "Proposal framework + Handoff Protocol + 6-step follow-up",
+    slides: null, status: "unknown",
+    file: "COHORT_SLIDES_W09.md (PENDING)",
+    concepts: ["Proposal Framework", "Handoff Protocol", "6-Step Follow-Up", "Breakup Message", "Deal Advancement"],
+    probe: "What happens to a deal after you send the proposal?",
+    deliverable: "Proposal framework + Handoff Protocol + 6-step follow-up sequence with timing."
+  },
+  {
+    week: "W10", phase: "SPRINT", phaseCls: "badge-sprint", title: "Measurement & Dashboard",
+    goal: "Live pipeline dashboard + 5-metric baseline + Monday Review booked",
+    slides: 20, status: "done",
+    file: "COHORT_SLIDES_W10.md",
+    concepts: ["5 Pipeline Metrics", "Pipeline Dashboard", "Monday Review (15 min)", "Constraint Rule", "Signal vs Vanity Metrics"],
+    probe: "The metric I've been avoiding looking at is ____",
+    deliverable: "Live pipeline dashboard (Google Sheets/Notion) + Monday Review booked as recurring event."
+  },
+  {
+    week: "W11", phase: "MAX", phaseCls: "badge-max", title: "Execution Sprint",
+    goal: "Written SOPs + Weekly Run Sheet + Person vs. System score",
+    slides: 17, status: "done",
+    file: "COHORT_SLIDES_W11.md",
+    concepts: ["SOP 4-Part Structure", "Weekly Run Sheet (140 min)", "Person vs. System Test", "Delegation Test", "3 Reasons Engines Break"],
+    probe: "If you had a high-fever day tomorrow — what would still run?",
+    deliverable: "Content Engine SOP + Outbound System SOP + Weekly Run Sheet (personalised)."
+  },
+  {
+    week: "W12", phase: "MAX", phaseCls: "badge-max", title: "90-Day Plan & Graduation",
+    goal: "90-Day Operating Plan + Pipeline Engine Summary + Graduation Statement",
+    slides: 18, status: "done",
+    file: "COHORT_SLIDES_W12.md",
+    concepts: ["3 MAX Principles", "90-Day Operating Model", "November 30 Health Check", "Graduation Statement", "Go Dark Test Revisit"],
+    probe: "If you went completely dark for 30 days — what would still come in? (Same question. Different answer.)",
+    deliverable: "90-Day Operating Plan + Pipeline Engine Summary Doc (one page) + Graduation Statement."
+  }
+];
+
+// Populate full sessions panel
+const sessionsFull = document.getElementById('sessions-full-grid');
+sessions.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'session-card';
+  card.onclick = () => openModal(i);
+  card.innerHTML = `
+    <div class="session-card-top">
+      <div class="session-meta"><span class="session-week">${s.week}</span><span class="phase-badge ${s.phaseCls}">${s.phase}</span></div>
+      <div class="session-title">${s.title}</div>
+    </div>
+    <div class="session-card-body">
+      <div class="session-goal">${s.goal}</div>
+      <div class="session-footer">
+        <span class="slide-count"><span>${s.slides || '—'}</span> slides</span>
+        <span class="status-dot ${s.status === 'done' ? 'status-done' : 'status-unknown'}"></span>
+      </div>
+    </div>
+  `;
+  sessionsFull.appendChild(card);
+});
+
+function openModal(i) {
+  const s = sessions[i];
+  document.getElementById('modal-title').textContent = `${s.week} — ${s.title}`;
+  document.getElementById('modal-subtitle').textContent = `${s.phase} Phase · ${s.slides ? s.slides + ' slides' : 'Slides pending'} · ${s.status === 'done' ? '✅ Complete' : '⚠️ Status unknown'}`;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-title">Session Goal</div>
+      <p style="font-size:13px;line-height:1.6;">${s.goal}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Key Probe Question</div>
+      <div style="background:#F5F6F8;border-left:3px solid #38B6FF;border-radius:0 6px 6px 0;padding:12px 14px;font-size:13px;font-style:italic;color:#0A0A0A;line-height:1.6;">"${s.probe}"</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Key Concepts</div>
+      <div class="key-concepts">${s.concepts.map(c => `<span class="concept-tag">${c}</span>`).join('')}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Session Deliverable</div>
+      <p style="font-size:13px;line-height:1.6;">${s.deliverable}</p>
+    </div>
+    <div class="modal-section">
+      <div class="detail-row"><span class="detail-label">File</span><span class="detail-val">${s.file}</span></div>
+      <div class="detail-row"><span class="detail-label">Phase</span><span class="detail-val">${s.phase}</span></div>
+      <div class="detail-row"><span class="detail-label">Slides</span><span class="detail-val">${s.slides || 'Pending'}</span></div>
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+}
+
+function closeModalBtn() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function switchPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function switchMsgTab(id) {
+  document.querySelectorAll('.messages-container').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.msg-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('msgs-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function copyMsg(id) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>

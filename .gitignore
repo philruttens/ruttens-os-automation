@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Office temp files
+*.~lock.*
+
+# Artifact thumbnails and version history (keep index.html only)
+Artifacts/*/thumbnail.png
+Artifacts/*/versions/
+
+# Python
+__pycache__/
+*.pyc

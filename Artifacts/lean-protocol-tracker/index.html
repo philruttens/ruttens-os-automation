@@ -1,0 +1,452 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Lean Protocol Tracker",
+  "schemaVersion": 1,
+  "description": "Interactive 8-week lean protocol tracker for Phil. Week-by-week checkboxes for Sunday prep, daily protein/fiber/water/training habits, weekly weight log with delta vs previous week, combo reference, and snack bar. All state persists via localStorage.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-Week Lean Protocol Tracker</title>
+<style>
+:root { color-scheme: light; --blue:#38B6FF; --black:#0a0a0a; --green:#4CAF50; --orange:#FF9800; --purple:#9C27B0; --red:#f44; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f2f0;color:#1a1a1a;min-height:100vh;}
+#app{max-width:880px;margin:0 auto;padding:14px 14px 60px;}
+
+/* Header */
+.hdr{background:var(--black);color:#fff;border-radius:12px;padding:16px 20px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.hdr h1{font-size:19px;font-weight:800;letter-spacing:-0.3px;}
+.hdr-sub{font-size:11px;color:#888;margin-top:3px;}
+.prog-wrap{text-align:right;min-width:180px;}
+.prog-lbl{font-size:11px;color:#aaa;margin-bottom:5px;}
+.prog-bar{height:8px;background:#2a2a2a;border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--blue);border-radius:4px;transition:width 0.4s;}
+
+/* Macro bar */
+.mbar{background:#fff;border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;overflow-x:auto;box-shadow:0 1px 3px rgba(0,0,0,.07);}
+.mi{display:flex;flex-direction:column;align-items:center;padding:4px 14px;border-right:1px solid #f0f0f0;min-width:64px;flex-shrink:0;}
+.mi:last-child{border-right:none;}
+.mi-val{font-size:15px;font-weight:800;}
+.mi-lbl{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;white-space:nowrap;}
+
+/* Week tabs */
+.wtabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:3px;}
+.wtab{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:7px 9px;border-radius:10px;border:2px solid #e0e0e0;background:#fff;cursor:pointer;min-width:70px;font-family:inherit;transition:all 0.15s;position:relative;}
+.wtab:hover{border-color:#bbb;transform:translateY(-1px);}
+.wtab.active{color:#fff;}
+.wt-n{font-size:13px;font-weight:800;}
+.wt-s{font-size:10px;opacity:0.85;margin-top:1px;}
+.wt-p{font-size:10px;opacity:0.75;margin-top:3px;}
+.now-dot{position:absolute;top:4px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;}
+
+/* Week card header */
+.wk-hdr{border-radius:10px;padding:14px 18px;margin-bottom:10px;border-left:5px solid #ccc;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);}
+.set-bdg{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;color:#fff;margin-right:6px;}
+.wk-name{font-size:15px;font-weight:700;}
+.wk-dates{font-size:12px;color:#777;margin-top:2px;}
+.wt-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#666;flex-wrap:wrap;}
+.wt-row input{width:72px;padding:5px 8px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;font-weight:700;text-align:center;font-family:inherit;}
+.wt-row input:focus{outline:none;border-color:var(--blue);}
+.wt-change{font-size:12px;font-weight:700;padding:3px 8px;border-radius:8px;}
+.wt-pos{background:#fef9e7;color:#c67c00;}
+.wt-neg{background:#edfaed;color:#1a7a1a;}
+
+/* Section */
+.sect{background:#fff;border-radius:10px;padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sh h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.sh .sub{font-size:11px;color:#aaa;margin-left:auto;}
+
+/* Prep items */
+.prep-item{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;border:1px solid #f0f0f0;margin-bottom:6px;cursor:pointer;transition:all 0.15s;background:#fafafa;}
+.prep-item:hover{background:#f3f3f3;}
+.prep-item.done{background:#edfaed;border-color:#b8e6c0;}
+.prep-item.done .pt{text-decoration:line-through;color:#999;}
+.prep-item input[type=checkbox]{width:16px;height:16px;cursor:pointer;flex-shrink:0;margin-top:2px;accent-color:var(--green);}
+.pb{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;background:#f0f0f0;color:#555;flex-shrink:0;margin-top:2px;}
+.pb.d1{background:#e8f4ff;color:#0055a0;}
+.pb.d2{background:#fff4e0;color:#a05000;}
+.pb.dn{background:#f5eaff;color:#6a00a0;}
+.pt{font-size:13px;line-height:1.45;}
+
+/* Combos */
+.combo{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:5px;font-size:13px;line-height:1.4;}
+.cb-bowl{background:#edfaed;}
+.cb-keto{background:#e8f4ff;}
+.cb-tapas{background:#fff4e0;}
+.cb-quick{background:#f5f5f5;}
+.cb-airfry{background:#f5eaff;}
+.ci{font-size:15px;flex-shrink:0;margin-top:1px;}
+
+/* Daily tracker */
+.day-row{display:grid;grid-template-columns:82px 1fr 44px;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;margin-bottom:5px;border:1px solid #ececec;background:#fafafa;transition:all 0.15s;}
+.day-row.done-all{background:#edfaed;border-color:#b8e6c0;}
+.day-row.is-today{border:2px solid var(--blue);background:#f0f8ff;}
+.d-name{font-size:13px;font-weight:700;}
+.d-date{font-size:11px;color:#888;}
+.d-tags{display:flex;gap:3px;margin-top:3px;}
+.dtag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;}
+.dtag-now{background:var(--blue);color:#fff;}
+.dtag-prep{background:var(--orange);color:#fff;}
+.habits{display:flex;gap:5px;flex-wrap:wrap;}
+.hbt{display:flex;flex-direction:column;align-items:center;justify-content:center;width:50px;height:42px;border-radius:9px;border:2px solid #e0e0e0;cursor:pointer;font-size:17px;background:#fff;transition:all 0.12s;user-select:none;gap:1px;}
+.hbt:hover{border-color:#aaa;transform:scale(1.05);}
+.hbt.on{background:#edfaed;border-color:var(--green);}
+.hbt.on.t{background:#e8f4ff;border-color:var(--blue);}
+.hbt .hl{font-size:8px;color:#bbb;line-height:1;}
+.hbt.on .hl{color:#4a4a4a;}
+.d-score{font-size:12px;font-weight:800;color:#ccc;text-align:center;}
+.d-score.full{color:var(--green);}
+
+/* Notes */
+.notes-ta{width:100%;min-height:72px;padding:10px 12px;border:1px solid #e8e8e8;border-radius:8px;font-size:13px;font-family:inherit;resize:vertical;color:#333;background:#fafafa;}
+.notes-ta:focus{outline:none;border-color:var(--blue);background:#fff;}
+
+/* Two col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* Snack bar */
+.snack-bar{background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.snack-bar h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#aaa;margin-bottom:8px;}
+.sc-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.sc{background:#f5f5f5;padding:5px 11px;border-radius:20px;font-size:12px;color:#333;white-space:nowrap;}
+
+/* Reset button */
+.reset-btn{background:none;border:1px solid #e0e0e0;border-radius:8px;padding:5px 12px;font-size:11px;color:#aaa;cursor:pointer;font-family:inherit;transition:all 0.15s;}
+.reset-btn:hover{background:#fff0f0;color:var(--red);border-color:var(--red);}
+
+@media(max-width:600px){
+  .two-col{grid-template-columns:1fr;}
+  .hdr{flex-direction:column;}
+  .prog-wrap{min-width:100%;text-align:left;}
+  .day-row{grid-template-columns:70px 1fr 36px;}
+  .hbt{width:44px;height:40px;font-size:15px;}
+  .wtab{min-width:62px;}
+}
+</style>
+</head>
+<body>
+<div style="background:#16a34a;color:#fff;padding:10px 20px;text-align:center;font-size:13px;font-weight:700;letter-spacing:0.5px;">&#x1F7E2; WEEK 1 LIVE &middot; Day 6/56 &middot; Jun 8&ndash;14, 2026 &middot; Set A: Mediterranean Base</div>
+<div id="app"></div>
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const START = new Date('2026-06-08T00:00:00');
+
+const SETS = {
+  A:{
+    name:'Mediterranean Base', color:'#38B6FF', bg:'#deeefb',
+    prep:[
+      {b:'D1', c:'d1', t:'20× turkey-herb balls — 500g turkey mince + 1 egg (50g) + 1 tsp cumin + 10g fresh parsley · 180°C 15 min'},
+      {b:'D1', c:'d1', t:'20× tuna-cauliflower balls — 2 cans tuna (320g drained) + 150g riced cauliflower + 1 egg (50g) + 1 tsp dried dill · 180°C 14 min'},
+      {b:'D2', c:'d2', t:'Roast: 1 head broccoli (~400g) + 1 head cauliflower (~600g) + 2 zucchini (~400g) · drizzle 2 tbsp olive oil · 200°C 15 min — Sync Finish'},
+      {b:'Pot', c:'', t:'Cook 100g quinoa (dry) → ~250g cooked · store in container'},
+      {b:'Fridge', c:'dn', t:'PB bites: 64g (4 tbsp) peanut butter + 30g (1 scoop) protein powder + 20g (2 tbsp) coconut flour + 1 tsp cinnamon · roll 12 balls + freeze'}
+    ],
+    combos:[
+      {y:'bowl', i:'🥗', t:'Bowl: Quinoa base + turkey balls + roasted broccoli + tahini dressing (training days)'},
+      {y:'keto', i:'🥗', t:'Keto Bowl: Spinach base + turkey balls + roasted cauliflower + herb oil (rest days)'},
+      {y:'tapas', i:'🍽️', t:'Tapas plate: 5–6 turkey balls + roasted zucchini + olive oil + lemon'},
+      {y:'quick', i:'⚡', t:'Quick: Sardines (can) + cucumber rounds + cherry tomatoes'},
+      {y:'airfry', i:'🔥', t:'Fresh Air Fry: Chicken strips D1 200°C 14 min + green beans D2 190°C 10 min'}
+    ]
+  },
+  B:{
+    name:'Clean Low-Carb', color:'#4CAF50', bg:'#e0f5e0',
+    prep:[
+      {b:'D1', c:'d1', t:'20× chicken-spinach balls — 500g minced chicken + 80g wilted spinach (squeezed dry) + 1 egg (50g) + 2 garlic cloves (10g) · 180°C 16 min'},
+      {b:'D1', c:'d1', t:'15× sardine patties — 3 cans sardines (360g drained) + 1 egg (50g) + zest of 1 lemon + 15g fresh herbs · 180°C 12 min, flip at 6 min'},
+      {b:'D2', c:'d2', t:'Roast: 1 large eggplant (~400g, cubed) + ½ cabbage (~400g, wedges) + 3 bell peppers (~300g, strips) · drizzle 2 tbsp olive oil · 200°C 15 min'},
+      {b:'Note', c:'dn', t:'No grain this week — use fresh spinach (~100g) or mixed greens as bowl base (low-carb phase)'}
+    ],
+    combos:[
+      {y:'keto', i:'🥗', t:'Keto Bowl: Spinach + chicken balls + roasted eggplant + tahini dressing'},
+      {y:'keto', i:'🥗', t:'Keto Bowl: Roasted cabbage base + sardine patties + peppers + herb oil'},
+      {y:'tapas', i:'🍽️', t:'Tapas: 4–5 sardine patties + cucumber rounds + ½ avocado'},
+      {y:'quick', i:'⚡', t:'Quick: Sliced turkey + celery + a handful of olives'},
+      {y:'airfry', i:'🔥', t:'Fresh Air Fry: Chicken thigh D1 200°C 22 min + green beans D2 190°C 10 min'}
+    ]
+  },
+  C:{
+    name:'Protein Reload', color:'#FF9800', bg:'#fdefd9',
+    prep:[
+      {b:'D1', c:'d1', t:'20× tuna-herb balls — 3 cans tuna (480g drained) + 1 egg (50g) + 20g fresh parsley + 10g fresh dill + black pepper · 180°C 14 min'},
+      {b:'D2', c:'d2', t:'Roast: 300g green beans + 250g cherry tomatoes + 1 head broccoli (~400g, florets) · drizzle 2 tbsp olive oil · 190°C 13 min — Sync Finish'},
+      {b:'Pot', c:'', t:'Cook 100g green lentils (dry) → ~250g cooked · store in container'},
+      {b:'Fridge', c:'dn', t:'Hard-boil 6 eggs (~50g each) · portion 30g nuts into individual bags (snacks ready all week)'}
+    ],
+    combos:[
+      {y:'bowl', i:'🥗', t:'Bowl: Lentil base + tuna balls + roasted green beans + herb oil (training days)'},
+      {y:'keto', i:'🥗', t:'Keto Bowl: Spinach + tuna balls + roasted cherry tomatoes + tahini (rest days)'},
+      {y:'tapas', i:'🍽️', t:'Tapas: 5–6 tuna balls + roasted broccoli + lemon + olive oil'},
+      {y:'quick', i:'⚡', t:'Quick: Sardines (can) + celery sticks + olives'},
+      {y:'airfry', i:'🔥', t:'Fresh Air Fry: Turkey slices D1 190°C 16 min + zucchini rounds D2 190°C 11 min'}
+    ]
+  },
+  D:{
+    name:'Power Finish', color:'#9C27B0', bg:'#ecdff5',
+    prep:[
+      {b:'D1', c:'d1', t:'20× mixed fish balls — 2 cans tuna (320g drained) + 1 can sardines (120g drained) + 1 egg (50g) + zest of 1 lemon + 15g mixed fresh herbs · 180°C 15 min'},
+      {b:'D2', c:'d2', t:'Roast: 1 head cauliflower (~600g, florets) + 2 zucchini (~400g, 1cm slices) · drizzle 2 tbsp olive oil · 200°C 15 min — Sync Finish'},
+      {b:'Fridge', c:'dn', t:'Rinse 1 can chickpeas (400g can → ~240g drained) → portion into 3× 80g containers'},
+      {b:'Fridge', c:'dn', t:'PB bites: 64g (4 tbsp) peanut butter + 30g (1 scoop) protein powder + 20g (2 tbsp) coconut flour + 1 tsp cinnamon · roll 12 balls + freeze'}
+    ],
+    combos:[
+      {y:'bowl', i:'🥗', t:'Bowl: Chickpea base + fish balls + roasted cauliflower + tahini dressing'},
+      {y:'keto', i:'🥗', t:'Keto Bowl: Spinach base + fish balls + roasted zucchini + herb oil'},
+      {y:'tapas', i:'🍽️', t:'Tapas: 5–6 fish balls + roasted cauliflower + sliced avocado'},
+      {y:'quick', i:'⚡', t:'Quick: Sliced turkey breast + cherry tomatoes + olives'},
+      {y:'airfry', i:'🔥', t:'Fresh Air Fry: Chicken thigh D1 200°C 22 min + cauliflower D2 200°C 14 min'}
+    ]
+  }
+};
+
+const WS = ['','A','A','B','B','C','C','D','D'];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+let S = {};
+try { S = JSON.parse(localStorage.getItem('lp2026v2')||'{}'); } catch(e) { S={}; }
+function save(){ localStorage.setItem('lp2026v2', JSON.stringify(S)); }
+function gs(k,d){ return S[k]!==undefined ? S[k] : d; }
+function ss(k,v){ S[k]=v; save(); }
+
+function autoWk(){
+  const d = Date.now()-START.getTime();
+  if(d<0) return 1;
+  return Math.min(8,Math.max(1,Math.floor(d/604800000)+1));
+}
+let aw = gs('aw', autoWk());
+
+function wkDates(w){
+  const r=[];
+  for(let i=0;i<7;i++){
+    r.push(new Date(START.getTime()+(w-1)*7*86400000+i*86400000));
+  }
+  return r;
+}
+
+function dayName(d){ return ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][((d.getDay()+6)%7)]; }
+function fmtD(d){ return `${d.getDate()}/${d.getMonth()+1}`; }
+function isToday(d){ const n=new Date(); return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear(); }
+function isSun(d){ return d.getDay()===0; }
+
+function escape(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─── PROGRESS ────────────────────────────────────────────────────────────────
+
+function wkProg(w){
+  const set=SETS[WS[w]]; let done=0,tot=0;
+  set.prep.forEach((_,i)=>{ tot++; if(gs(`p${w}_${i}`,false)) done++; });
+  for(let d=0;d<7;d++){
+    ['pr','fi','wa'].forEach(h=>{ tot++; if(gs(`h${w}_${d}_${h}`,false)) done++; });
+  }
+  return {done,tot};
+}
+
+function totProg(){
+  let done=0,tot=0;
+  for(let w=1;w<=8;w++){ const p=wkProg(w); done+=p.done; tot+=p.tot; }
+  return {done,tot};
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function render(){
+  const w=aw;
+  const set=SETS[WS[w]];
+  const dates=wkDates(w);
+  const {done:td,tot:tt}=totProg();
+  const tpct=Math.round(td/tt*100);
+  const {done:wd,tot:wt}=wkProg(w);
+  const wpct=Math.round(wd/wt*100);
+  const wtVal=gs(`wt${w}`,'');
+  const wtPrev=w>1?gs(`wt${w-1}`,''):'';
+  const notes=gs(`no${w}`,'');
+
+  // Weight change indicator
+  let wtChange='';
+  if(wtVal && wtPrev){
+    const diff=(parseFloat(wtVal)-parseFloat(wtPrev)).toFixed(1);
+    const sign=diff>0?'+':'';
+    const cls=diff<=0?'wt-neg':'wt-pos';
+    wtChange=`<span class="wt-change ${cls}">${sign}${diff} kg vs Wk${w-1}</span>`;
+  } else if(wtVal) {
+    const diff=(parseFloat(wtVal)-78).toFixed(1);
+    const sign=diff>0?'+':'';
+    const cls=diff<=0?'wt-neg':'wt-pos';
+    wtChange=`<span class="wt-change ${cls}">${sign}${diff} kg vs start</span>`;
+  }
+
+  document.getElementById('app').innerHTML=`
+    <div class="hdr">
+      <div>
+        <h1>🥗 8-Week Lean Protocol Tracker</h1>
+        <div class="hdr-sub">Mon Jun 8 → Sun Aug 2 2026 &nbsp;·&nbsp; Phil, 78 kg → ~74 kg &nbsp;·&nbsp; BF 11% → 8.5%</div>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-lbl">Overall ${td}/${tt} checked &nbsp;·&nbsp; ${tpct}% complete</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${tpct}%"></div></div>
+      </div>
+    </div>
+
+    <div class="mbar">
+      <div class="mi"><div class="mi-val" style="color:#1a1a1a">2,100</div><div class="mi-lbl">kcal/day</div></div>
+      <div class="mi"><div class="mi-val" style="color:#4CAF50">160g</div><div class="mi-lbl">protein</div></div>
+      <div class="mi"><div class="mi-val" style="color:#FF9800">135g</div><div class="mi-lbl">fat</div></div>
+      <div class="mi"><div class="mi-val" style="color:#9C27B0">60g</div><div class="mi-lbl">net carbs</div></div>
+      <div class="mi"><div class="mi-val" style="color:#38B6FF">35g</div><div class="mi-lbl">fiber</div></div>
+      <div class="mi"><div class="mi-val">2.5L</div><div class="mi-lbl">water</div></div>
+      <div class="mi"><div class="mi-val" style="color:#f44">−300</div><div class="mi-lbl">deficit kcal</div></div>
+    </div>
+
+    <div class="wtabs">
+      ${[1,2,3,4,5,6,7,8].map(wn=>{
+        const sn=WS[wn]; const sc=SETS[sn].color;
+        const pr=wkProg(wn); const isA=(wn===w); const isN=(wn===autoWk());
+        return `<button class="wtab${isA?' active':''}"
+          style="${isA?`background:${sc};border-color:${sc};`:''}"
+          onclick="selWk(${wn})">
+          ${isN?'<div class="now-dot"></div>':''}
+          <div class="wt-n">Wk ${wn}</div>
+          <div class="wt-s">Set ${sn}</div>
+          <div class="wt-p">${pr.done}/${pr.tot}</div>
+        </button>`;
+      }).join('')}
+    </div>
+
+    <div class="wk-hdr" style="border-left-color:${set.color};background:${set.bg}">
+      <div>
+        <span class="set-bdg" style="background:${set.color}">SET ${WS[w]}</span>
+        <span class="wk-name">Week ${w}: ${set.name}</span>
+        <div class="wk-dates">${dayName(dates[0])} ${fmtD(dates[0])} → ${dayName(dates[6])} ${fmtD(dates[6])} &nbsp;·&nbsp; ${wd}/${wt} (${wpct}%) done this week</div>
+      </div>
+      <div class="wt-row">
+        <span>⚖️</span>
+        <input type="number" value="${escape(wtVal)}" placeholder="78.0" step="0.1" min="60" max="120"
+          oninput="ss('wt${w}',this.value);render()" />
+        <span style="font-size:12px;color:#888">kg</span>
+        ${wtChange}
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="sect">
+        <div class="sh"><span>📦</span><h2>Sunday Prep</h2><span class="sub">Ninja Dual · ~40 min</span></div>
+        ${set.prep.map((item,i)=>{
+          const done=gs(`p${w}_${i}`,false);
+          return `<label class="prep-item${done?' done':''}">
+            <input type="checkbox" ${done?'checked':''} onchange="togPrep(${w},${i},this.checked)">
+            <span class="pb ${item.c}">${item.b}</span>
+            <span class="pt">${item.t}</span>
+          </label>`;
+        }).join('')}
+      </div>
+
+      <div class="sect">
+        <div class="sh"><span>🍽️</span><h2>This Week's Combos</h2><span class="sub">Mix &amp; repeat</span></div>
+        ${set.combos.map(c=>`
+          <div class="combo cb-${c.y}">
+            <span class="ci">${c.i}</span>
+            <span>${c.t}</span>
+          </div>`).join('')}
+        <div style="margin-top:10px;padding:8px 10px;background:#f5f5f5;border-radius:8px;font-size:12px;color:#666;">
+          <strong>🏋️ Training days</strong> → use grain bowl · add 1 extra protein portion<br>
+          <strong>🛋️ Rest days</strong> → keto bowl only · no grain base
+        </div>
+      </div>
+    </div>
+
+    <div class="sect">
+      <div class="sh"><span>📅</span><h2>Daily Habits Tracker</h2><span class="sub">Tap to check off each day</span></div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;font-size:11px;color:#888;">
+        <span>💪 = Protein 160g</span>
+        <span>🥦 = Fiber 35g</span>
+        <span>💧 = Water 2.5L</span>
+        <span>🏋️ = Training day bonus protein</span>
+      </div>
+      ${dates.map((date,d)=>{
+        const today=isToday(date); const sun=isSun(date);
+        const pr=gs(`h${w}_${d}_pr`,false);
+        const fi=gs(`h${w}_${d}_fi`,false);
+        const wa=gs(`h${w}_${d}_wa`,false);
+        const tr=gs(`h${w}_${d}_tr`,false);
+        const core=(pr&&fi&&wa);
+        return `<div class="day-row${core?' done-all':''}${today?' is-today':''}">
+          <div>
+            <div class="d-name">${dayName(date)}</div>
+            <div class="d-date">${fmtD(date)}</div>
+            <div class="d-tags">
+              ${today?'<span class="dtag dtag-now">TODAY</span>':''}
+              ${sun?'<span class="dtag dtag-prep">PREP</span>':''}
+            </div>
+          </div>
+          <div class="habits">
+            <div class="hbt${pr?' on':''}" onclick="togH(${w},${d},'pr')" title="Protein 160g hit">
+              💪<span class="hl">protein</span>
+            </div>
+            <div class="hbt${fi?' on':''}" onclick="togH(${w},${d},'fi')" title="Fiber 35g hit">
+              🥦<span class="hl">fiber</span>
+            </div>
+            <div class="hbt${wa?' on':''}" onclick="togH(${w},${d},'wa')" title="Water 2.5L done">
+              💧<span class="hl">water</span>
+            </div>
+            <div class="hbt${tr?' on t':''}" onclick="togH(${w},${d},'tr')" title="Training day — add extra protein">
+              🏋️<span class="hl">+protein</span>
+            </div>
+          </div>
+          <div class="d-score${core?' full':''}">${[pr,fi,wa].filter(Boolean).length}/3${core?'<br>✅':''}</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="sect">
+      <div class="sh"><span>📝</span><h2>Week ${w} Notes</h2><span class="sub">Energy · weight · what worked</span></div>
+      <textarea class="notes-ta"
+        placeholder="How did this week go? Energy levels, hunger, what worked, what to tweak..."
+        oninput="ss('no${w}',this.value)">${escape(notes)}</textarea>
+    </div>
+
+    <div class="snack-bar">
+      <h3>Snack Quick-Ref (use on training days or if hungry)</h3>
+      <div class="sc-chips">
+        <span class="sc">🥜 PB bites ×2 → 160 kcal · 10g P</span>
+        <span class="sc">🥤 Protein smoothie → 180 kcal · 28g P</span>
+        <span class="sc">🥚 2 eggs + celery → 160 kcal · 14g P</span>
+        <span class="sc">🥑 Avocado + ½ can tuna → 220 kcal · 20g P</span>
+        <span class="sc">🐟 Sardine can → 190 kcal · 23g P · 0g nc</span>
+        <span class="sc">🌰 Nuts 30g → 230 kcal · 7g P · 3g nc</span>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <button class="reset-btn" onclick="resetWeek(${w})">Reset Week ${w} checkboxes</button>
+    </div>
+  `;
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────────────────────────
+
+function selWk(w){ aw=w; ss('aw',w); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function togPrep(w,i,v){ ss(`p${w}_${i}`,v); render(); }
+
+function togH(w,d,h){ ss(`h${w}_${d}_${h}`,!gs(`h${w}_${d}_${h}`,false)); render(); }
+
+function resetWeek(w){
+  if(!confirm(`Reset all checkboxes for Week ${w}? Weight and notes will be kept.`)) return;
+  const set=SETS[WS[w]];
+  set.prep.forEach((_,i)=>ss(`p${w}_${i}`,false));
+  for(let d=0;d<7;d++) ['pr','fi','wa','tr'].forEach(h=>ss(`h${w}_${d}_${h}`,false));
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

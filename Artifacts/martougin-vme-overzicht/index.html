@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Martougin Vme Overzicht",
+  "schemaVersion": 1,
+  "description": "Den Martougin VME dossier overview (static). 4 tabs: A Summary for Raf (print-friendly), B email timeline (11-13 Jun highlighted), C sortable 44-owner share table from the Couckuyt SIMULATIEROOSTER, D coalition map vs 2,000q threshold. Sources: RUTTENS+OS/Martougin 2026 Drive files + master simulation xlsx + RvMe nota."
+}
+</script>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Martougin VME — Dossier-overzicht</title>
+<style>
+:root{ color-scheme: light; --bg:#f6f7f9; --card:#ffffff; --ink:#1d2330; --muted:#5b6472;
+  --line:#e3e7ee; --accent:#1f6feb; --accentbg:#eaf1fe;
+  --ally:#137a4b; --allybg:#e7f6ee; --opp:#b42318; --oppbg:#fbeae8; --swing:#b06a00; --swingbg:#fdf3e4;
+  --hi:#fff7d6; --hiline:#f2d98a; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:18px 20px 60px}
+header.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+h1{font-size:21px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 18px;border-bottom:1px solid var(--line)}
+.tabs button{appearance:none;border:0;background:none;padding:9px 14px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 14px}
+.card h2{font-size:15px;margin:0 0 10px;letter-spacing:.01em}
+.card h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:4px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .n{font-size:20px;font-weight:700}.kpi .l{font-size:12px;color:var(--muted)}
+.dl{display:flex;flex-direction:column;gap:8px}
+.deadline{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;background:#fbfcfe}
+.deadline.urgent{border-left-color:var(--opp);background:var(--oppbg)}
+.deadline .d{font-weight:700;white-space:nowrap}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;vertical-align:middle}
+.b-ally{color:var(--ally);background:var(--allybg)}.b-opp{color:var(--opp);background:var(--oppbg)}
+.b-swing{color:var(--swing);background:var(--swingbg)}.b-acc{color:var(--accent);background:var(--accentbg)}
+.b-gray{color:var(--muted);background:#eef1f5}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
+th.sorted::after{content:" \25B4";color:var(--accent)}th.sorted.desc::after{content:" \25BE"}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.coal{background:var(--allybg)}
+.up{color:var(--ally);font-weight:600}.down{color:var(--opp);font-weight:600}.flat{color:var(--muted)}
+.tl{position:relative;margin-left:6px;padding-left:20px;border-left:2px solid var(--line)}
+.tl .ev{position:relative;margin:0 0 14px}
+.tl .ev::before{content:"";position:absolute;left:-27px;top:3px;width:11px;height:11px;border-radius:50%;background:#c7cedb;border:2px solid #fff}
+.tl .ev.hi::before{background:var(--accent);width:13px;height:13px;left:-28px}
+.tl .ev.hi{background:var(--hi);border:1px solid var(--hiline);border-radius:8px;padding:10px 12px;margin-left:-6px}
+.ev .dt{font-size:12px;font-weight:700;color:var(--accent)}
+.ev .ti{font-weight:600;margin:1px 0 2px}
+.ev .to{font-size:12px;color:var(--muted)}
+.ev .sm{font-size:13px;margin-top:4px}
+.filterbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:13px}
+.filterbar input{padding:6px 9px;border:1px solid var(--line);border-radius:6px;font-size:13px;min-width:180px}
+.legend{font-size:12px;color:var(--muted);margin-top:8px;display:flex;gap:12px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--muted);background:#fbfcfe;border:1px dashed var(--line);border-radius:6px;padding:8px 10px;margin-top:10px}
+.flag{font-size:11px;color:#7a4d00;background:#fdf3e4;border:1px solid #f2d98a;border-radius:6px;padding:8px 10px;margin-top:8px}
+.printbtn{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:7px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer}
+.coalbar{height:26px;border-radius:6px;background:#eef1f5;position:relative;overflow:hidden;border:1px solid var(--line)}
+.coalbar .fill{height:100%;background:linear-gradient(90deg,#137a4b,#1f9d63)}
+.coalbar .thr{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--opp)}
+.maprow{display:grid;grid-template-columns:1fr;gap:12px}
+.mapcol h3{margin-bottom:6px}
+.person{display:flex;justify-content:space-between;gap:8px;padding:6px 9px;border:1px solid var(--line);border-radius:6px;margin:5px 0;font-size:13px;background:#fff}
+.person .q{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+.foot{color:var(--muted);font-size:11px;margin-top:20px;text-align:center}
+.rag{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px;flex:0 0 auto}
+.rag.r{background:#d92d20}.rag.a{background:#e08a00}.rag.g{background:#12805c}
+.raglegend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:4px}
+.raglegend span{display:flex;align-items:center}
+.tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:5px;margin-right:6px}
+.tag.r{color:#912018;background:#fbeae8}.tag.a{color:#8a5300;background:#fdf3e4}.tag.g{color:#0a5c43;background:#e7f6ee}
+.ragli{display:flex;align-items:flex-start;gap:0;margin:7px 0}
+.ragli .rag{margin-top:6px}
+ul.chk{list-style:none;padding:0;margin:8px 0 0}
+ul.chk li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+ul.chk li:last-child{border-bottom:0}
+ul.chk input[type=checkbox]{margin-top:2px;width:17px;height:17px;flex:0 0 auto;cursor:pointer;accent-color:var(--ally)}
+ul.chk label{cursor:pointer;flex:1}
+ul.chk li.done label{text-decoration:line-through;color:var(--muted)}
+.deadline.amber{border-left-color:#e08a00;background:#fdf6e9}
+.deadline .who{display:flex;align-items:center;gap:0}
+@media print{
+  body{background:#fff}
+  ul.chk input[type=checkbox]{-webkit-appearance:checkbox;appearance:checkbox}
+  .tabs,.no-print,.printbtn{display:none!important}
+  .panel{display:none!important}
+  #panelA{display:block!important}
+  .card{break-inside:avoid;border-color:#ccc}
+  .wrap{max-width:100%;padding:0}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Den Martougin — VME-dossier overzicht</h1>
+      <div class="sub">Helmstraat 107–109 + Schapenstraat 24–26, 2140 Borgerhout · Phil Ruttens (B 3.2 + P1-10/11 · 360q) · stand <strong>14 juni 2026</strong></div>
+    </div>
+    <button class="printbtn no-print" onclick="window.print()">&#128424; Print Tab A</button>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-t="A" class="active">A · Samenvatting voor Raf</button>
+    <button data-t="B">B · E-mail tijdlijn</button>
+    <button data-t="C">C · Aandelen per appartement</button>
+    <button data-t="D">D · Coalitiekaart</button>
+  </nav>
+
+  <!-- ================= TAB A ================= -->
+  <section class="panel active" id="panelA">
+    <div class="card" style="border-left:4px solid var(--accent)">
+      <h2>Samenvatting voor Raf &middot; BAV dinsdag 16 juni, 19:00</h2>
+      <div class="sub" style="margin-bottom:10px">Eén-pagina overzicht van wat per e-mail werd afgehandeld (11–13 juni), de open punten, de deadlines en de volgende acties. Bedoeld om af te drukken.</div>
+      <div class="grid3" style="margin-bottom:6px">
+        <div class="kpi"><div class="n">16 jun</div><div class="l">BAV — basisakte / aandelen</div></div>
+        <div class="kpi"><div class="n">2.000q</div><div class="l">1/5-drempel · coalitie zit er net onder</div></div>
+        <div class="kpi"><div class="n">&gt;30 dgn</div><div class="l">Lift buiten dienst (Mac&nbsp;Puarsa)</div></div>
+      </div>
+      <div class="raglegend"><span><span class="rag r"></span>Rood = dringend / risico / blokkerend</span><span><span class="rag a"></span>Oranje = open vraag / waakzaam</span><span><span class="rag g"></span>Groen = beslist / standpunt vast</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="tag g">Beslist</span>Kernbeslissingen / standpunt</h3>
+        <div class="ragli"><span class="rag g"></span><div><strong>Stem JA</strong> op alle BAV-punten via volmacht (Raf) — Phil is ook zelf aanwezig op 16/6. Drie voorwaarden bij 2.10 (landmeter): deadline &le;12&nbsp;mnd, beëdigd expert, kwartaalrapportering.</div></div>
+        <div class="ragli"><span class="rag g"></span><div><strong>Veto-macht</strong> op de unanimiteitspunten (2.3–2.8) is onze echte hefboom — niet luid maken, gewoon laten noteren.</div></div>
+        <div class="ragli"><span class="rag a"></span><div><strong>Lift / TKE:</strong> kosten 2025 (€4.020) + offerte (€3.344) betwist als niet-aanrekenbaar (Mac&nbsp;Puarsa). Machinebreukpolis (€50.000) niet gedeclareerd — antwoord syndicus open.</div></div>
+        <div class="ragli"><span class="rag g"></span><div><strong>Aanwezigheid:</strong> Phil in persoon op BAV (16/6) én RvMe (30/6). Overige correspondentie blijft schriftelijk per e-mail.</div></div>
+      </div>
+      <div class="card">
+        <h3><span class="tag r">Risico</span><span class="tag a">Vraag</span>Open punten</h3>
+        <div class="ragli"><span class="rag r"></span><div><span class="badge b-swing">SWING</span> Nathan Samson (+55%) &amp; Koen Ruiters (+35%) — steun nog onzeker. Contactgegevens nog op te vragen bij Raf.</div></div>
+        <div class="ragli"><span class="rag r"></span><div><span class="badge b-opp">PIVOT</span> Guy Redig (331q) bepaalt of coalitie boven/onder 2.000q zit.</div></div>
+        <div class="ragli"><span class="rag a"></span><div>Oproepingsbrief BAV + offertebundels gevelwerken/parking (€106.952) nog te ontvangen van Evares.</div></div>
+        <div class="ragli"><span class="rag a"></span><div>Waterinfiltratie B 3.2 — definitieve conclusie + interne schadevergoeding nog open.</div></div>
+        <div class="ragli"><span class="rag r"></span><div>Beroep bouwvergunning Hans Rens — beslissen vóór 24/6: bezwaar of documenteren?</div></div>
+        <div class="ragli"><span class="rag a"></span><div><strong>Bouwmisdrijven:</strong> 2 PV's (2006 + 2010) nog van kracht op Helmstraat 109/Schapenstraat — geen regularisatie gemeld. Stad (11/6): "wellicht niet meer handhavend." Hefboom voor basisakte, maar raakt mogelijk ook bondgenoten.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Harde deadlines <span style="font-weight:400;color:var(--muted);font-size:11px">(kleur = urgentie)</span></h3>
+      <div class="dl">
+        <div class="deadline urgent"><span class="who"><span class="rag r"></span>Koffie Raf (Butchers) — voorbereiding BAV (Phil toont overzicht)</span><span class="d">ma 15 jun · 10:00</span></div>
+        <div class="deadline urgent"><span class="who"><span class="rag r"></span>Volmacht → Raf (brievenbus Schapenstr. 26) + kopie Galle</span><span class="d">za/zo 14–15 jun</span></div>
+        <div class="deadline urgent"><span class="who"><span class="rag r"></span>BAV — stemming basisakte / aandelen (Phil aanwezig)</span><span class="d">di 16 jun 2026</span></div>
+        <div class="deadline urgent"><span class="who"><span class="rag r"></span>Beroepstermijn bouwvergunning Hans Rens (OMV 2025147871)</span><span class="d">24 jun 2026</span></div>
+        <div class="deadline amber"><span class="who"><span class="rag a"></span>RvMe — Phil <strong>aanwezig in persoon</strong></span><span class="d">30 jun 2026</span></div>
+        <div class="deadline urgent"><span class="who"><span class="rag r"></span>TKE-onderhoudscontract — jaarlijkse verlenging → tijdig opzeggen</span><span class="d">1 jul 2026</span></div>
+        <div class="deadline amber"><span class="who"><span class="rag a"></span>Verslag beëdigd landmeter (streefdatum)</span><span class="d">&lt; 1 okt 2026</span></div>
+        <div class="deadline amber"><span class="who"><span class="rag a"></span>Wijzigende basisakte / akte — opstalrecht vervalt</span><span class="d">20 dec 2026</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Volgende acties <span style="font-weight:400;color:var(--muted);font-size:11px">(vink af — blijft bewaard)</span></h3>
+      <ul class="chk" id="actions">
+        <li data-id="a0"><input type="checkbox"><label><span class="rag r"></span><strong>Phil:</strong> voorbereidingsmail naar Raf sturen (resterende vragen) + overzicht tonen op scherm — ma 10:00.</label></li>
+        <li data-id="a1"><input type="checkbox"><label><span class="rag r"></span><strong>Phil:</strong> ondertekende volmacht in brievenbus Raf + kopie Galle (vóór 15/6).</label></li>
+        <li data-id="a2"><input type="checkbox"><label><span class="rag r"></span><strong>Raf:</strong> contactgegevens Nathan &amp; Koen doorgeven; benadering dit weekend.</label></li>
+        <li data-id="a3"><input type="checkbox"><label><span class="rag r"></span><strong>Samen:</strong> beslissen vóór 24/6 — bezwaar bouwvergunning Rens of documenteren.</label></li>
+        <li data-id="a4"><input type="checkbox"><label><span class="rag a"></span><strong>Raf:</strong> na BAV → opzegbrief TKE vóór 1/7 activeren.</label></li>
+        <li data-id="a5"><input type="checkbox"><label><span class="rag a"></span><strong>Samen:</strong> bij koffie — Redig-scenario + extra coalitielid (&ge;61q).</label></li>
+        <li data-id="a6"><input type="checkbox"><label><span class="rag g"></span><strong>Op vergadering:</strong> geen confrontatie; alles laten notuleren.</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= TAB B ================= -->
+  <section class="panel" id="panelB">
+    <div class="card">
+      <h2>Wat per e-mail werd afgehandeld</h2>
+      <div class="sub" style="margin-bottom:4px">Gemarkeerd = laatste 3–4 dagen (11–13 juni). Status per bronbestand; bevestig verzending in Gmail.</div>
+      <div class="legend"><span><span class="badge b-acc">11–13 JUN</span> recente focus</span><span><span class="badge b-gray">eerder</span> achtergrond</span></div>
+    </div>
+    <div class="card">
+      <div class="tl" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- ================= TAB C ================= -->
+  <section class="panel" id="panelC">
+    <div class="card">
+      <h2>Aandelen per appartement — SIMULATIEROOSTER (coëfficiënten Couckuyt)</h2>
+      <div class="sub">44 mede-eigendommen · totaal 10.000 aandelen (incl. forfaitaire parkings/kelders 825q). Klik een kolomtitel om te sorteren. Coalitiegenoten gemarkeerd.</div>
+      <div class="filterbar no-print">
+        <input id="search" placeholder="Zoek eigenaar of lot…" oninput="renderTable()">
+        <label><input type="checkbox" id="onlyCoal" onchange="renderTable()"> alleen coalitie</label>
+        <span class="legend" style="margin:0"><span class="up">&#9650; te weinig (gaat omhoog)</span> · <span class="down">&#9660; te veel (gaat omlaag)</span></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="shareTable">
+          <thead><tr>
+            <th data-k="bldg">Geb.</th><th data-k="lot">Lot</th><th data-k="bus">Bus</th>
+            <th data-k="owner">Eigenaar</th>
+            <th data-k="cur" class="num">Huidig</th>
+            <th data-k="corr" class="num">Voorstel</th>
+            <th data-k="delta" class="num">&Delta;</th>
+            <th data-k="status">Richting</th>
+          </tr></thead>
+          <tbody id="shareBody"></tbody>
+        </table>
+      </div>
+      <div class="flag"><strong>Twee methodes — niet door elkaar halen.</strong> Dit rooster is de volledige Couckuyt-hersimulatie (lange-termijn doel via beëdigd landmeter). De BAV van 16/6 stemt enkel over de <em>specifieke</em> regularisaties uit de RvMe-nota (C1.1 218→225,5 · C1.2 213→220,5 · A4.1 +77q in blok B · kelder K36 · parkeerzones 4&amp;5). De definitieve quotiteiten volgen pas uit het landmeterverslag.</div>
+      <div class="note"><strong>Lift:</strong> dit rooster bevat géén lift-kostenkolom — liftkosten worden per quotiteit binnen blok&nbsp;B verdeeld. Zie het aparte aggregaatpaneel hieronder.</div>
+    </div>
+
+    <div class="card">
+      <h3>Lift — kosten (aggregaat, geen per-appartement verdeling in de bron)</h3>
+      <div class="grid3">
+        <div class="kpi"><div class="n">€19.326</div><div class="l">totale liftkosten 2021–2025</div></div>
+        <div class="kpi"><div class="n">€4.020</div><div class="l">niet-contractuele herstellingen 2025</div></div>
+        <div class="kpi"><div class="n">€3.344</div><div class="l">lopende TKE-offerte (excl. btw)</div></div>
+      </div>
+      <ul class="tight" style="margin-top:10px">
+        <li>Kosten verdrievoudigd: €2.286 (2022) → €6.488 (2025).</li>
+        <li>Merk <strong>Mac Puarsa</strong> (Spaans) — TKE kent installatie niet. Schapenstraat 26 stapte 2023 over naar MP&nbsp;Lifts Belgium → sindsdien geen panne.</li>
+        <li>Machinebreukpolis 53025705 (Federale/BDM) dekt tot €50.000 — niet gedeclareerd.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= TAB D ================= -->
+  <section class="panel" id="panelD">
+    <div class="card">
+      <h2>Coalitiekaart — 1/5-drempel (art. 3.87 §2 BW)</h2>
+      <div class="sub">Drempel = 2.000 / 10.000 quotiteiten. De coalitie van bevestigde bondgenoten zit er net onder — Guy Redig (331q) is de pivot.</div>
+      <div style="margin:14px 0 6px">
+        <div class="coalbar"><div class="fill" id="coalFill" style="width:0%"></div><div class="thr" id="coalThr"></div></div>
+        <div class="legend"><span id="coalLbl"></span><span style="color:var(--opp)">| 2.000q drempel</span></div>
+      </div>
+      <div class="flag"><strong>Cijfer-nota.</strong> Bondgenoten samen ≈ <strong>1.968q</strong> (huidige quotiteiten, incl. Phil's parkings). De analyse van 12/6 noteerde 1.939q / 61q tekort (appartement-only voor Phil). Beide conclusies komen overeen: <strong>net onder 2.000q</strong> — minstens één extra eigenaar (&ge;61q) of Redig nodig.</div>
+    </div>
+
+    <div class="grid3">
+      <div class="card mapcol">
+        <h3 style="color:var(--ally)">Bondgenoten (overpayers)</h3>
+        <div id="mapAlly"></div>
+      </div>
+      <div class="card mapcol">
+        <h3 style="color:var(--swing)">Swing — beslissend</h3>
+        <div id="mapSwing"></div>
+        <div class="note">Nathan &amp; Koen <em>winnen</em> aandelen → aarzeling is relationeel, niet financieel. Koen: tuinberging + zonnecollectoren (B3.3) nog niet geregulariseerd — directe persoonlijke hefboom.</div>
+      </div>
+      <div class="card mapcol">
+        <h3 style="color:var(--opp)">Oppositie / waakzaam</h3>
+        <div id="mapOpp"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Tegenpartijen</h3>
+      <ul class="tight">
+        <li><strong>Syndicus Evares BV</strong> — Louis Galle (senior) + Britt Lauryssen (boekhouding) · Rubenslei 34A, 2018 Antwerpen.</li>
+        <li><strong>Coördinator bondgenoten</strong> — Raf Heylen + Ritje Van Putte (B 3.4, 337q).</li>
+        <li><strong>RvMe 2026</strong> — Lieve, Lief, Femke Van Wezel, Paul, Karien Maes, Louis, Guy Redig. Raf is geen lid.</li>
+        <li><strong>Governance-vraag</strong> — Evares + VME-verzekeringsmakelaar zouden dezelfde zaakvoerders hebben (AV-tarieflijst p.11) → relevant voor niet-gedeclareerde machinebreuk.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="foot">Bron: Drive-bestanden Phil &amp; Raf (RUTTENS+OS/Martougin 2026) + SIMULATIEROOSTER Couckuyt (vme.martougin) + RvMe-nota 23/4/2026. Intern overzicht — geen uitgaande communicatie.</div>
+</div>
+
+<script>
+/* ---------- TABS ---------- */
+document.querySelectorAll('#tabs button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('#tabs button').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+    document.getElementById('panel'+b.dataset.t).classList.add('active');
+  });
+});
+
+/* ---------- TAB B: timeline ---------- */
+var TL=[
+ {dt:'14 jun',hi:true,ti:'Raf’s Drive-map geanalyseerd + voorbereidingsmail',to:'Statuten/Bouwplannen → E-mail 7 (koffie 15/6)',sm:'Map "Statuten en Bouwplannen" doorgenomen; resterende vragen gebundeld voor de koffie; overzicht klaar om op scherm te tonen.'},
+ {dt:'12 jun',hi:true,ti:'Bouwmisdrijven-dossier (van Raf)',to:'2 PV’s nog van kracht + A4.1-vergunningen 2011/2026',sm:'Stad Antwerpen (28/5 + 11/6): PV AN.66.LB.029150/2006 (11002_2006_27062) en PV AN.66.LB.162356/2010 (11002_2010_45775) blijven van kracht — geen herstel/regularisatie gemeld; "wellicht niet meer handhavend gezien tijdsverloop."'},
+ {dt:'13 jun',hi:true,ti:'E-mail 6 → Raf — aanvulling',to:'Koen Ruiters + beroepstermijn Hans Rens',sm:'Sterker argument voor Koen: tuinberging + zonnecollectoren B3.3 nog niet geregulariseerd. Rens-beroepstermijn verstrijkt 24/6.'},
+ {dt:'13 jun',hi:true,ti:'Cheat sheets BAV gefinaliseerd',to:'Phil + buren-versie (EN+NL)',sm:'Stem-logica per agendapunt (2.2–2.10), met fallback-argumentatie.'},
+ {dt:'12 jun',hi:true,ti:'E-mail 4 → Raf',to:'Volmacht · koffie · Guy Redig · TKE-deadline',sm:'Volmacht dit weekend (back-up — Phil komt zelf); koffie bij Butchers; Redig-scenario’s A/B/C (coalitie net onder 2.000q); TKE opzegvenster 1/7. ⓘ Phil aanwezig in persoon op 16/6 én RvMe 30/6.'},
+ {dt:'12 jun',hi:true,ti:'E-mail 5 → Raf — strategie',to:'Nathan & Koen + tactiek vergadering',sm:'Waarom ze twijfelen ondanks winst; benaderingsboodschappen; rolverdeling op de avond (aanwezig = stemkracht, alles notuleren).'},
+ {dt:'12 jun',hi:true,ti:'Outreach Nathan & Koen — opgesteld',to:'Direct (parallel aan Raf)',sm:'Berichten klaar. ⚠ Contactgegevens niet in dossier — op te vragen bij Raf.'},
+ {dt:'12 jun',hi:true,ti:'Analyse BAV 16/06',to:'Intern',sm:'Coalitiedrempel, volmacht-deadline 15/6, TKE 19-dagenvenster, Galle-aannames gedocumenteerd.'},
+ {dt:'11 jun',hi:true,ti:'E-mail 2 → Evares (Galle/Lauryssen)',to:'Reactie documenten + inzagevragen (art. 3.90 BW)',sm:'Saldo €1.148,12 onder voorbehoud; offertes gevelwerken/parking (€106.952); TKE-betwisting (Mac Puarsa) + machinebreuk; Proximus; basisakte-tijdlijn; governance-vraag.'},
+ {dt:'11 jun',hi:true,ti:'E-mail 3 → Femke Van Wezel (RvMe)',to:'5 agendapunten RvMe 30/6',sm:'Lift, machinebreuk, basisakte-tijdlijn, waterinfiltratie B3.2, governance verzekeringsmakelaar.'},
+ {dt:'11 jun',hi:true,ti:'Dossier geconsolideerd',to:'MARTOUGIN_DOSSIER_11JUN',sm:'Volledige stand van zaken (lift, basisakte, settlement, Proximus).'},
+ {dt:'8 jun',hi:false,ti:'Lift-strategie memo + burenbrieven',to:'Achtergrond',sm:'Plan A→D, MP Lifts-bewijscase Schapenstraat 26, getrapte besluitvorming.'},
+ {dt:'9 mei',hi:false,ti:'Voorbehoud van alle rechten',to:'Evares',sm:'Blijft integraal van toepassing op alle latere correspondentie.'}
+];
+(function(){var h='';TL.forEach(function(e){
+  h+='<div class="ev'+(e.hi?' hi':'')+'"><div class="dt">'+e.dt+'</div><div class="ti">'+e.ti+'</div><div class="to">'+e.to+'</div><div class="sm">'+e.sm+'</div></div>';
+});document.getElementById('timeline').innerHTML=h;})();
+
+/* ---------- TAB C: per-apartment shares (SIMULATIEROOSTER) ---------- */
+/* cur=huidig aandeel, corr=voorgesteld (duplex = gecombineerd cijfer zoals in dossier), role=coalitie */
+var OW=[
+ {bldg:'A',lot:'A 0.1',bus:'1',owner:'Notariaat De Vil',cur:731,corr:819,role:''},
+ {bldg:'A',lot:'A 2.1',bus:'201',owner:'Kurt Herreygers',cur:166,corr:139,role:''},
+ {bldg:'A',lot:'A 2.2',bus:'202',owner:'Femke Van Wezel',cur:122,corr:104,role:''},
+ {bldg:'A',lot:'A 2.3',bus:'203',owner:'Steph Spiessens',cur:131,corr:115,role:''},
+ {bldg:'A',lot:'A 3.1',bus:'301',owner:'Marie Van Durmen',cur:138,corr:109,role:''},
+ {bldg:'A',lot:'A 3.2',bus:'302',owner:'Catherine Cammaer',cur:111,corr:109,role:''},
+ {bldg:'A',lot:'A 3.3',bus:'303',owner:'Grisha Verlinden',cur:119,corr:121,role:''},
+ {bldg:'A',lot:'A 4.1',bus:'401',owner:'Hans Rens',cur:317,corr:296,role:'opp'},
+ {bldg:'B',lot:'B T.1',bus:'1',owner:'YXY Media (verhuurd)',cur:152,corr:158,role:''},
+ {bldg:'B',lot:'B T.2',bus:'2',owner:'Paul De Wyngaert',cur:263,corr:268,role:''},
+ {bldg:'B',lot:'B 1.1',bus:'101',owner:'Dorien Stoffels',cur:164,corr:167,role:''},
+ {bldg:'B',lot:'B 1.2',bus:'102',owner:'Steven Buelens',cur:261,corr:283,role:''},
+ {bldg:'B',lot:'B 2.1',bus:'205',owner:'Moric Butstraen',cur:188,corr:175,role:'ally'},
+ {bldg:'B',lot:'B 2.2',bus:'204',owner:'Frans Cuypers (opv. Ellen Geens)',cur:295,corr:298,role:''},
+ {bldg:'B',lot:'B 3.1',bus:'305',owner:'Ann Hanssen',cur:188,corr:184,role:'ally'},
+ {bldg:'B',lot:'B 3.2',bus:'304',owner:'Philippe Ruttens',cur:330,corr:313,role:'ally'},
+ {bldg:'B',lot:'B 0.1',bus:'1',owner:'Du Four & Redig (Guy Redig)',cur:331,corr:294,role:'opp'},
+ {bldg:'B',lot:'B T.3',bus:'2',owner:'Maarten Deconinck',cur:196,corr:194,role:''},
+ {bldg:'B',lot:'B 1.3',bus:'101',owner:'Tom Smeyers',cur:192,corr:205,role:''},
+ {bldg:'B',lot:'B 1.4',bus:'102',owner:'Ilya Verpoorte',cur:291,corr:275,role:'ally'},
+ {bldg:'B',lot:'B 2.3',bus:'201',owner:'Rolf Gerlach',cur:215,corr:215,role:''},
+ {bldg:'B',lot:'B 2.4',bus:'202',owner:'Ruud Van Der Heyden',cur:307,corr:290,role:'ally'},
+ {bldg:'B',lot:'B 3.3',bus:'301',owner:'Koen Ruiters (ex-Joost Maegerman)',cur:238,corr:321,role:'swing'},
+ {bldg:'B',lot:'B 3.4',bus:'302',owner:'Raf Heylen + Ritje Van Putte',cur:337,corr:304,role:'ally'},
+ {bldg:'B',lot:'B 1.5',bus:'105',owner:'Danielle Gijs',cur:175,corr:182,role:''},
+ {bldg:'B',lot:'B 1.6',bus:'106',owner:'Joppe Matyn (verhuurd)',cur:123,corr:129,role:''},
+ {bldg:'B',lot:'B 1.7',bus:'107',owner:'Ethel Mortelmans',cur:124,corr:130,role:''},
+ {bldg:'B',lot:'B 1.8',bus:'108',owner:'Niels Delammote',cur:126,corr:127,role:''},
+ {bldg:'B',lot:'B 2.5',bus:'201',owner:'Nathan Samson',cur:253,corr:392,role:'swing'},
+ {bldg:'B',lot:'B 2.6',bus:'202',owner:'Isabel Del Mazo',cur:288,corr:294,role:''},
+ {bldg:'B',lot:'B 2.7',bus:'203',owner:'Bart Meysmans',cur:148,corr:123,role:'ally'},
+ {bldg:'B',lot:'B 2.8',bus:'204',owner:'Filip / Sofie Provoost',cur:149,corr:119,role:'ally'},
+ {bldg:'B',lot:'B 3.5',bus:'301',owner:'Karien Maes',cur:342,corr:379,role:'opp'},
+ {bldg:'B',lot:'St 3-6',bus:'—',owner:'4 Studios aangepast wonen',cur:200,corr:118,role:''},
+ {bldg:'C',lot:'C 0.1',bus:'—',owner:'Ondo',cur:430,corr:419,role:''},
+ {bldg:'C',lot:'St 1-2',bus:'—',owner:'2 Studios aangepast wonen',cur:100,corr:104,role:''},
+ {bldg:'C',lot:'C 1.1',bus:'101',owner:'Ruud Bruynen',cur:218,corr:228,role:''},
+ {bldg:'C',lot:'C 1.2',bus:'102',owner:'Patrick Hennau',cur:213,corr:181,role:''},
+ {bldg:'C',lot:'C 1.3',bus:'103',owner:'Luc Brusselmans',cur:259,corr:255,role:''},
+ {bldg:'C',lot:'C 1.4',bus:'104',owner:'Janna El Dik',cur:244,corr:225,role:''}
+];
+var sortKey='lot',sortDesc=false;
+function statusLabel(d){
+  if(d>=20)return['te weinig &raquo;20%','up'];
+  if(d>0)return['te weinig','up'];
+  if(d<=-20)return['te veel &raquo;20%','down'];
+  if(d<0)return['te veel','down'];
+  return['~ ongewijzigd','flat'];
+}
+function renderTable(){
+  var q=(document.getElementById('search').value||'').toLowerCase();
+  var only=document.getElementById('onlyCoal').checked;
+  var rows=OW.filter(function(o){
+    if(only && !o.role)return false;
+    return (o.owner+' '+o.lot).toLowerCase().indexOf(q)>-1;
+  }).map(function(o){o.delta=o.corr-o.cur;o.pct=o.cur?Math.round(o.delta/o.cur*100):0;return o;});
+  rows.sort(function(a,b){
+    var x=a[sortKey],y=b[sortKey];
+    if(typeof x==='string'){x=x.toLowerCase();y=y.toLowerCase();}
+    if(x<y)return sortDesc?1:-1; if(x>y)return sortDesc?-1:1; return 0;
+  });
+  var h='';
+  rows.forEach(function(o){
+    var s=statusLabel(o.pct);
+    var sign=o.delta>0?'+':'';
+    h+='<tr class="'+(o.role?'coal':'')+'">'+
+       '<td>'+o.bldg+'</td><td>'+o.lot+'</td><td>'+o.bus+'</td>'+
+       '<td>'+o.owner+(o.role==='ally'?' <span class="badge b-ally">coalitie</span>':o.role==='swing'?' <span class="badge b-swing">swing</span>':o.role==='opp'?' <span class="badge b-opp">opp/waak</span>':'')+'</td>'+
+       '<td class="num">'+o.cur+'</td><td class="num">'+o.corr+'</td>'+
+       '<td class="num '+s[1]+'">'+sign+o.delta+' <span style="font-size:11px">('+sign+o.pct+'%)</span></td>'+
+       '<td class="'+s[1]+'">'+s[0]+'</td></tr>';
+  });
+  document.getElementById('shareBody').innerHTML=h;
+  document.querySelectorAll('#shareTable th').forEach(function(th){
+    th.classList.toggle('sorted',th.dataset.k===sortKey);
+    th.classList.toggle('desc',th.dataset.k===sortKey&&sortDesc);
+  });
+}
+document.querySelectorAll('#shareTable th').forEach(function(th){
+  th.addEventListener('click',function(){
+    if(sortKey===th.dataset.k)sortDesc=!sortDesc;else{sortKey=th.dataset.k;sortDesc=false;}
+    renderTable();
+  });
+});
+renderTable();
+
+/* ---------- TAB D: coalition ---------- */
+var allies=OW.filter(function(o){return o.role==='ally'});
+var allyQ=allies.reduce(function(s,o){return s+o.cur;},0)+30; /* +30 = Phil P1-10/11 parkings */
+var THR=2000, SCALEMAX=2400;
+document.getElementById('coalFill').style.width=Math.min(100,allyQ/SCALEMAX*100)+'%';
+document.getElementById('coalThr').style.left=(THR/SCALEMAX*100)+'%';
+document.getElementById('coalLbl').innerHTML='Bondgenoten ≈ <strong>'+allyQ+'q</strong> (incl. Phil parkings)';
+function plist(arr){return arr.map(function(o){return '<div class="person"><span>'+o.owner+' &middot; '+o.lot+'</span><span class="q">'+o.cur+'q</span></div>';}).join('');}
+document.getElementById('mapAlly').innerHTML=plist(allies)+'<div class="person" style="font-weight:700;background:var(--allybg)"><span>Subtotaal (incl. Phil parkings 30q)</span><span class="q">'+allyQ+'q</span></div>';
+document.getElementById('mapSwing').innerHTML=plist(OW.filter(function(o){return o.role==='swing'}));
+document.getElementById('mapOpp').innerHTML=plist(OW.filter(function(o){return o.role==='opp'}))+'<div class="note" style="margin-top:6px">Karien Maes (B 3.5) stemde 13/5 tegen de landmeter-route — als waakzaam gemarkeerd.</div>';
+
+/* ---------- checkbox persistence ---------- */
+(function(){
+  var KEY='martougin_actions_v1', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){saved={};}
+  document.querySelectorAll('#actions li').forEach(function(li){
+    var id=li.dataset.id, cb=li.querySelector('input');
+    cb.checked=!!saved[id];
+    li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){
+      li.classList.toggle('done',cb.checked);
+      saved[id]=cb.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>

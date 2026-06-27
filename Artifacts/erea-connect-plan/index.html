@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Erea Connect Plan",
+  "schemaVersion": 1,
+  "description": "EREA Connect LinkedIn Outreach Plan — live artifact with 3-KPI dashboard, week-by-week task table (Herman/Sales/Phil/Tunity), SharePoint handover action, message templates, and W/O-based timeline. June–July 2026."
+}
+</script>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EREA Connect — LinkedIn Outreach Plan</title>
+<style>
+:root{color-scheme:light;--blue:#38B6FF;--navy:#123044;--navy2:#1B4360;--ink:#4A5B6B;--fog:#E2E6EE;--paper:#F7F8FA;--white:#fff;--green:#16a34a;--red:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--paper);color:#000;font-size:14px}
+
+nav{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:2px solid var(--fog);padding:10px 28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+nav .logo{font-size:15px;font-weight:900;color:#000;text-decoration:none;letter-spacing:.04em;text-transform:uppercase;margin-right:4px}
+nav .logo span{color:var(--blue)}
+nav a.anchor{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);text-decoration:none;padding:3px 0;border-bottom:2px solid transparent;transition:all 150ms}
+nav a.anchor:hover{border-bottom-color:var(--blue);color:#000}
+
+/* HERO */
+.hero{background:var(--navy);padding:44px 36px}
+.hero-tag{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.hero h1{font-size:52px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;line-height:1;margin-bottom:8px;color:#fff}
+.hero h1 span{color:var(--blue)}
+.hero-sub{font-size:13px;color:#9ab4c8;margin-bottom:24px}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{padding:6px 14px;border:1.5px solid rgba(255,255,255,.22);color:#fff;font-size:11px;font-weight:700;border-radius:2px;letter-spacing:.04em}
+.pill-blue{background:var(--blue);border-color:var(--blue);color:var(--navy)}
+
+/* SECTIONS */
+section{padding:40px 36px}
+section:nth-child(even){background:var(--white)}
+.sec-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--blue);margin-bottom:6px}
+.sec-h{font-size:22px;font-weight:900;text-transform:uppercase;margin-bottom:6px;letter-spacing:.04em}
+.sec-sub{font-size:12px;color:var(--ink);margin-bottom:20px;max-width:600px;line-height:1.6}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.grid3-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--fog);border-radius:2px;padding:18px}
+.card-dark{background:var(--navy2);border-color:var(--navy2)}
+.card h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.card p{font-size:12px;color:var(--ink);line-height:1.6}
+.card-dark h3{color:var(--blue)}
+.card-dark p{color:#9ab4c8}
+.badge{display:inline-block;padding:2px 7px;font-size:10px;font-weight:700;border-radius:2px;margin-bottom:7px;letter-spacing:.05em}
+.badge-red{background:#fef2f2;color:#b91c1c}
+.badge-yellow{background:#fffbeb;color:#92400e}
+
+/* KPI DASHBOARD */
+.kpi-card{background:var(--navy);border-radius:2px;padding:22px 18px;text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+.kpi-num{font-size:36px;font-weight:900;color:var(--blue);line-height:1;margin-bottom:4px}
+.kpi-label{font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.kpi-target{font-size:10px;color:#9ab4c8;font-weight:600}
+.kpi-bar-bg{background:rgba(255,255,255,.12);border-radius:2px;height:4px;margin-top:10px}
+.kpi-bar-fill{background:var(--blue);height:4px;border-radius:2px;width:0%;transition:width 1s ease}
+
+/* TASK TABLE */
+.task-table{width:100%;border-collapse:collapse;font-size:12px}
+.task-table thead tr{background:var(--navy)}
+.task-table th{padding:10px 14px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#fff}
+.task-table td{padding:10px 14px;border-bottom:1px solid var(--fog);vertical-align:top}
+.task-table tr:last-child td{border-bottom:none}
+.task-table tr:hover td{background:rgba(56,182,255,.04)}
+.who-chip{display:inline-block;padding:2px 8px;font-size:10px;font-weight:700;border-radius:2px;white-space:nowrap}
+.who-herman{background:#dbeafe;color:#1d4ed8}
+.who-sales{background:#dcfce7;color:#15803d}
+.who-phil{background:#fef3c7;color:#b45309}
+.who-tunity{background:#f3e8ff;color:#7c3aed}
+.freq-chip{display:inline-block;padding:2px 8px;font-size:10px;font-weight:600;border-radius:2px;background:var(--paper);color:var(--ink);border:1px solid var(--fog)}
+.week-header td{background:var(--blue) !important;color:#fff !important;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px}
+
+/* SEQUENCE STEPS */
+.steps-col{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--fog)}
+.step:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-title{font-size:12px;font-weight:800;color:#000;margin-bottom:2px}
+.step-day{font-size:10px;color:var(--blue);font-weight:700}
+.step-txt{font-size:11px;color:var(--ink);line-height:1.55;margin-top:2px}
+
+/* MESSAGES */
+.bubble{background:var(--paper);border:1px solid var(--fog);border-radius:0 8px 8px 8px;padding:10px 14px;font-size:11px;line-height:1.65;color:#000;margin-bottom:7px}
+.bubble-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);margin-bottom:4px}
+.seg-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid var(--blue)}
+
+/* TOOLS DARK */
+.tools-sec{background:var(--navy);padding:40px 36px}
+.tools-sec .sec-h{color:#fff}
+.tools-sec .sec-sub{color:#9ab4c8}
+.rule-list{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.rule{display:flex;gap:9px;align-items:flex-start;font-size:11px;line-height:1.55;color:#e2e8f0}
+.rule strong{color:#fff}
+.rule-num{width:20px;height:20px;border-radius:50%;background:var(--blue);color:var(--navy);font-weight:900;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:var(--fog)}
+.tl{display:flex;gap:16px;padding:11px 0;position:relative}
+.tl-dot{width:30px;height:30px;border-radius:50%;background:var(--white);border:2px solid var(--fog);display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;font-size:9px;font-weight:800;color:var(--ink)}
+.tl-dot.done{border-color:var(--blue);background:var(--blue);color:#fff}
+.tl-dot.warn{border-color:var(--red);background:var(--red);color:#fff}
+.tl-date{font-size:11px;font-weight:800;color:var(--blue);margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em}
+.tl-txt{font-size:12px;color:#000;line-height:1.5}
+.tl-who{font-size:10px;color:var(--ink);margin-top:2px}
+
+/* GDPR */
+.gdpr{background:rgba(56,182,255,.08);border:1px solid rgba(56,182,255,.3);border-radius:2px;padding:10px 14px;font-size:11px;color:var(--navy2);margin-top:14px;line-height:1.6}
+
+/* SHAREPOINT CALLOUT */
+.sp-callout{background:#fff4e5;border:1px solid #fb923c;border-radius:2px;padding:12px 16px;font-size:12px;color:#7c2d12;margin-top:16px;line-height:1.7}
+.sp-callout strong{color:#92400e}
+
+footer{background:var(--navy);color:#9ab4c8;text-align:center;padding:22px 36px;font-size:11px;line-height:1.8}
+footer strong{color:#fff}
+footer a{color:var(--blue);text-decoration:none}
+
+@media(max-width:640px){
+  .hero{padding:28px 20px}
+  .hero h1{font-size:36px}
+  section,.tools-sec,footer{padding:28px 20px}
+  nav{padding:8px 16px;gap:12px}
+  .grid3-kpi{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">RUTTENS<span>+</span></a>
+  <a class="anchor" href="#dashboard">Dashboard</a>
+  <a class="anchor" href="#taken">Takenoverzicht</a>
+  <a class="anchor" href="#segments">Doelgroepen</a>
+  <a class="anchor" href="#tools">Tools</a>
+  <a class="anchor" href="#sequence">Sequentie</a>
+  <a class="anchor" href="#messages">Berichten</a>
+  <a class="anchor" href="#timeline">Tijdlijn</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">RUTTENS+ · Voor EREA × Tunity · Vertrouwelijk</div>
+  <h1>EREA <span>Connect</span></h1>
+  <div class="hero-sub">LinkedIn Outreach Plan · v2.0 · Juni–Juli 2026</div>
+  <div class="pills">
+    <div class="pill pill-blue">4 Doelgroepen</div>
+    <div class="pill">5 Landen</div>
+    <div class="pill">6-Weekse Pilot</div>
+    <div class="pill">6.000 Prospects</div>
+    <div class="pill">Handover: W/O 7 juli</div>
+  </div>
+</div>
+
+<!-- KPI DASHBOARD -->
+<section id="dashboard" style="background:var(--paper)">
+  <div class="sec-tag">Campagneopvolging — 3 KPIs</div>
+  <div class="sec-h">Wekelijks Dashboard</div>
+  <div class="sec-sub">Elke vrijdag 10 minuten invullen. Wie: Herman. Hoe: LinkedHelper dashboard → kopieer de 3 cijfers hieronder.</div>
+  <div class="grid3-kpi">
+    <div class="kpi-card">
+      <div class="kpi-label">Acceptatiegraad</div>
+      <div class="kpi-num">&gt;35%</div>
+      <div class="kpi-target">Van connectieverzoeken geaccepteerd · Target: minstens 35%</div>
+      <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:35%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Reacties ontvangen</div>
+      <div class="kpi-num">&gt;15</div>
+      <div class="kpi-target">Antwoorden op berichten (stap 2–4) · Target: 15 na 6 weken</div>
+      <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:20%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Gesprekken geboekt</div>
+      <div class="kpi-num">&gt;2</div>
+      <div class="kpi-target">Echte salescalls of meetings gepland · Target: 2+ na pilot</div>
+      <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:10%"></div></div>
+    </div>
+  </div>
+  <div style="background:var(--white);border:1px solid var(--fog);border-radius:2px;padding:14px 18px;margin-top:14px;font-size:12px;color:var(--ink);line-height:1.7">
+    📋 <strong>Hoe rapporteren?</strong> Elke vrijdag: open LinkedHelper → klik "Statistics" → noteer Acceptance Rate + Replies + zet eventuele meetings in agenda. Stuur 1 WhatsApp aan Tunity: <em>"Week X: [X]% acceptatie · [X] reacties · [X] meetings."</em>
+  </div>
+</section>
+
+<!-- TAKEN PER WEEK -->
+<section id="taken" style="background:var(--white)">
+  <div class="sec-tag">Wie doet wat wanneer</div>
+  <div class="sec-h">Takenoverzicht Per Week</div>
+  <div class="sec-sub">Concrete stappen, per persoon. Kleur = wie. Duur staat erbij.</div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+    <span class="who-chip who-herman">Herman</span>
+    <span class="who-chip who-sales">Sales team</span>
+    <span class="who-chip who-phil">Phil (RUTTENS+)</span>
+    <span class="who-chip who-tunity">Tunity</span>
+  </div>
+
+  <table class="task-table">
+    <thead>
+      <tr><th>Taak</th><th>Wie</th><th>Frequentie / Duur</th><th>Hoe</th></tr>
+    </thead>
+    <tbody>
+      <!-- WEEK 1 -->
+      <tr class="week-header"><td colspan="4">W/O 22 Juni — Opstart</td></tr>
+      <tr><td>LinkedIn Sales Navigator activeren (1 account)</td><td><span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Eénmalig · 20 min</span></td><td>Via linkedin.com/sales → kies 1-maand proefversie</td></tr>
+      <tr><td>LinkedHelper 2 installeren in Chrome</td><td><span class="who-chip who-phil">Phil</span> + <span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Eénmalig · 30 min</span></td><td>linkedhelper.com → Chrome extensie → inloggen met Herman's LinkedIn</td></tr>
+      <tr><td>LinkedIn profiel updaten (foto, headline, "about")</td><td><span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Eénmalig · 45 min</span></td><td>Headline = "EREA | Elektrisch materiaal voor technische teams in BE, NL, FR, DE"</td></tr>
+      <tr><td>Batch 1 filteren uit prospectlijst (BE, Seg A+B, ~300 namen)</td><td><span class="who-chip who-tunity">Tunity</span></td><td><span class="freq-chip">Eénmalig · 1u</span></td><td>Excel filter op land=BE + job=Technisch directeur/adviseur → CSV export</td></tr>
+      <tr><td>CSV uploaden naar Sales Navigator</td><td><span class="who-chip who-phil">Phil</span></td><td><span class="freq-chip">Eénmalig · 15 min</span></td><td>Sales Nav → "Lists" → "Upload a list" → wacht op match (~40-60%)</td></tr>
+
+      <!-- WEEK 2 -->
+      <tr class="week-header"><td colspan="4">W/O 29 Juni — Eerste Berichten</td></tr>
+      <tr><td>LinkedHelper campagne aanmaken (Batch 1)</td><td><span class="who-chip who-phil">Phil</span></td><td><span class="freq-chip">Eénmalig · 1u</span></td><td>LH → New campaign → connectieverzoek template Segment A → 25 req/dag max</td></tr>
+      <tr><td>Campagne starten — eerste 25 verzoeken/dag</td><td><span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Elke dag · 5 min</span></td><td>LinkedHelper open houden in Chrome → campagne op "Running" laten</td></tr>
+      <tr><td>Reacties beantwoorden (handmatig)</td><td><span class="who-chip who-herman">Herman</span> / <span class="who-chip who-sales">Sales</span></td><td><span class="freq-chip">Dagelijks · 10 min</span></td><td>LinkedIn notifications → antwoord persoonlijk, gebruik templates als basis</td></tr>
+      <tr><td>Eerste wekelijkse KPI-check</td><td><span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Elke vrijdag · 10 min</span></td><td>LH Statistics → noteer % acceptatie + reacties → WhatsApp Tunity</td></tr>
+
+      <!-- WEEK 3 -->
+      <tr class="week-header"><td colspan="4">W/O 6 Juli — Opvolging + Handover prep</td></tr>
+      <tr><td>Follow-up berichten naar geaccepteerde connecties</td><td><span class="who-chip who-herman">Herman</span></td><td><span class="freq-chip">Elke dag · 10 min</span></td><td>LH stuurt automatisch stap 2 (bedankje) + stap 3 (waardebericht) per schema</td></tr>
+      <tr><td>Batch 2 voorbereiden (BE, Aankoop)</td><td><span class="who-chip who-tunity">Tunity</span></td><td><span class="freq-chip">Eénmalig · 45 min</span></td><td>Zelfde CSV-flow als Batch 1, filter op Procurement/Aankoop</td></tr>
+      <tr><td>Alle deliverables naar SharePoint EREA overdragen</td><td><span class="who-chip who-phil">Phil</span></td><td><span class="freq-chip">Eénmalig · 2u</span></td><td>Google Drive "EREA x Phil" → selecteer files → upload naar EREA SharePoint via hotmail-account (zie actie hieronder)</td></tr>
+      <tr><td>Volledige campagne overdracht + briefing Tunity</td><td><span class="who-chip who-phil">Phil</span> → <span class="who-chip who-tunity">Tunity</span></td><td><span class="freq-chip">Eénmalig · 2u</span></td><td>Call + LH login overdragen + alle templates + campagnerapport W/O 7 jul</td></tr>
+      <tr><td>KPI week 3 + eindevaluatie pilot (na 6 weken: augustus)</td><td><span class="who-chip who-tunity">Tunity</span></td><td><span class="freq-chip">Na 6 weken</span></td><td>Rapport met acceptatie%, reacties, meetings → beslissing schaal NL/FR/DE</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sp-callout">
+    🗂️ <strong>SharePoint overdracht (actie Phil — W/O 6 juli):</strong> Selecteer alle EREA-files uit Google Drive "EREA x Phil" → download ZIP → upload naar EREA SharePoint / OneDrive via Phil's hotmail.com account. Te overdragen files: Playbook · Message Library HTML · EN Campaign Brief · Survey Proposal · 1-pager · Handover notes. Vraag Tunity of Herman voor de SharePoint-map-link vóór 1 juli.
+  </div>
+</section>
+
+<!-- DOELGROEPEN -->
+<section id="segments">
+  <div class="sec-tag">Wie spreken we aan</div>
+  <div class="sec-h">4 Doelgroepen</div>
+  <div class="sec-sub">Start altijd met de rode (hoge prioriteit). Pas uitbreiden naar geel als de rode goed loopt.</div>
+  <div class="grid2">
+    <div class="card"><span class="badge badge-red">🔴 Start hier</span><h3>A — Technische Directeurs</h3><p>Directeur Technische Dienst · Head of Technical · CTO. Beslissen over budget én leveranciers. Aanpak: collega-to-collega toon.</p></div>
+    <div class="card"><span class="badge badge-red">🔴 Start hier</span><h3>B — Technische Adviseurs</h3><p>Technisch Adviseur · Engineer · Ingenieur. Adviseren hun directeur. Aanpak: technische relevantie tonen.</p></div>
+    <div class="card"><span class="badge badge-yellow">🟡 Wacht op goede start A+B</span><h3>C — Aankoop / Procurement</h3><p>Aankoop Manager · Buyer. Koopt op prijs, levertijd, betrouwbaarheid. Aanpak: businessvoordeel centraal.</p></div>
+    <div class="card"><span class="badge badge-yellow">🟡 Wacht op goede start A+B</span><h3>D — Technische Specialisten</h3><p>Technical Specialist · Projectleider. Werkt dagelijks met materiaal. Aanpak: praktisch en operationeel.</p></div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;align-items:center">
+    <span style="font-size:22px">🇧🇪</span><span style="font-size:22px">🇳🇱</span><span style="font-size:22px">🇫🇷</span><span style="font-size:22px">🇩🇪</span><span style="font-size:22px">🇸🇪</span>
+    <span style="font-size:11px;color:var(--ink);font-weight:600">Sectoren: elektrische installatie · industriële productie · bouw & engineering · facility management</span>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<div class="tools-sec" id="tools">
+  <div class="sec-tag" style="color:var(--blue)">Technologie</div>
+  <div class="sec-h">2 Tools — ~€130/maand</div>
+  <div class="sec-sub">1 gewonnen deal = volledig jaar terugverdiend.</div>
+  <div class="grid2" style="margin-bottom:20px">
+    <div class="card card-dark"><h3>LinkedIn Sales Navigator</h3><p>~€90–120/maand. Zoeken op functietitel, land, sector. CSV "Upload a list" voor matching met de 6.000 prospects.</p></div>
+    <div class="card card-dark"><h3>LinkedHelper 2</h3><p>~€15–45/maand. Chrome extensie. Verstuurt automatisch connectieverzoeken + follow-ups. Dashboard met statistieken.</p></div>
+  </div>
+  <div style="color:#fff;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">5 Regels — nooit overtreden</div>
+  <div class="rule-list">
+    <div class="rule"><div class="rule-num">1</div><span>Max <strong>25–30 verzoeken per dag</strong> — meer = LinkedIn blokkeert je.</span></div>
+    <div class="rule"><div class="rule-num">2</div><span>Altijd een <strong>persoonlijk bericht</strong> bij elk verzoek — nooit leeg.</span></div>
+    <div class="rule"><div class="rule-num">3</div><span><strong>Week 1: handmatig beginnen</strong> — opwarmen, laag volume.</span></div>
+    <div class="rule"><div class="rule-num">4</div><span>Elk segment heeft <strong>eigen bericht</strong> — nooit hetzelfde voor iedereen.</span></div>
+    <div class="rule"><div class="rule-num">5</div><span>LinkedIn-waarschuwing? → <strong>Onmiddellijk stoppen.</strong> Bel Phil.</span></div>
+  </div>
+</div>
+
+<!-- SEQUENTIE -->
+<section id="sequence">
+  <div class="sec-tag">De 4 stappen</div>
+  <div class="sec-h">Wat Verstuurt LinkedHelper Automatisch</div>
+  <div class="sec-sub">Eén keer instellen, daarna loopt het vanzelf. Herman hoeft alleen de reacties te beantwoorden.</div>
+  <div class="grid2">
+    <div class="steps-col">
+      <div class="step"><div class="step-num">1</div><div><div class="step-title">Connectieverzoek</div><div class="step-day">Dag 1 · Automatisch</div><div class="step-txt">Kort persoonlijk bericht, max 300 tekens. Referentie naar sector. Geen pitch.</div></div></div>
+      <div class="step"><div class="step-num">2</div><div><div class="step-title">Bedankje na acceptatie</div><div class="step-day">Dag 2–3 · Automatisch</div><div class="step-txt">Kort bedankbericht. Geen verkoopspitch. Bouwt vertrouwen.</div></div></div>
+    </div>
+    <div class="steps-col">
+      <div class="step"><div class="step-num">3</div><div><div class="step-title">Waardebericht</div><div class="step-day">Dag 10–14 · Automatisch</div><div class="step-txt">Relevant artikel of sector-update van EREA. Zachte naamsbekendheid.</div></div></div>
+      <div class="step"><div class="step-num">4</div><div><div class="step-title">Zachte introductie</div><div class="step-day">Dag 21–30 · Automatisch</div><div class="step-txt">Korte vraag over hun situatie of supply chain. Uitnodiging tot gesprek.</div></div></div>
+    </div>
+  </div>
+  <div style="background:rgba(56,182,255,.07);border:1px solid rgba(56,182,255,.25);border-radius:2px;padding:11px 16px;margin-top:14px;font-size:12px;color:var(--navy2)">
+    💡 <strong>Herman hoeft alleen:</strong> 's ochtends 10 min LinkedIn openen → reacties beantwoorden → LinkedHelper draait de rest. Elke vrijdag 5 min de stats noteren.
+  </div>
+</section>
+
+<!-- MESSAGES -->
+<section id="messages" style="background:var(--white)">
+  <div class="sec-tag">Berichtenbibliotheek</div>
+  <div class="sec-h">3 Voorbeeldberichten</div>
+  <div class="sec-sub">Volledige bibliotheek (4 segmenten × NL/EN × 4 stappen + email) staat in de aparte Message Library HTML tool.</div>
+  <div class="grid3">
+    <div>
+      <div class="seg-title">Seg A — Technische Directeurs · NL</div>
+      <div class="bubble"><div class="bubble-lbl">Stap 1 — Connectieverzoek</div>"Dag [naam], ik zie dat je actief bent in [sector] in [regio]. Bij EREA helpen we technische teams aan snel en betrouwbaar elektrisch materiaal. Graag connecten!"</div>
+      <div class="bubble"><div class="bubble-lbl">Stap 2 — Na acceptatie</div>"Bedankt voor de connectie — geen pitch, gewoon dankbaar. Mocht er ooit een vraag zijn, je weet me te vinden. Fijne week!"</div>
+    </div>
+    <div>
+      <div class="seg-title">Seg C — Aankoop · NL</div>
+      <div class="bubble"><div class="bubble-lbl">Stap 1 — Connectieverzoek</div>"Dag [naam], ik zie dat je aankoop doet in [sector]. Bij EREA helpen we aankoopteams met snelle levering en betrouwbare stock van elektrisch materiaal. Graag connecten!"</div>
+      <div class="bubble"><div class="bubble-lbl">Stap 2 — Na acceptatie</div>"Bedankt! Leveringstijden zijn vaak een uitdaging. Niet meteen een pitch — maar handig als referentie voor de toekomst. Fijne dag!"</div>
+    </div>
+    <div>
+      <div class="seg-title">Internationaal · EN</div>
+      <div class="bubble"><div class="bubble-lbl">Step 1 — Connection request</div>"Hi [name], I came across your profile while looking at [sector] professionals in [country]. At EREA we supply electrical installation materials with fast delivery across BE, NL, FR &amp; DE. Happy to connect — no pitch, just building my network."</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIJDLIJN -->
+<section id="timeline">
+  <div class="sec-tag">Planning</div>
+  <div class="sec-h">3 Weken — Concrete Tijdlijn</div>
+  <div class="sec-sub">Per week, niet per dag. Laatste week = handover aan Tunity.</div>
+  <div class="timeline">
+    <div class="tl"><div class="tl-dot done">✓</div><div><div class="tl-date">W/O 20 Juni ✅</div><div class="tl-txt">EREA Connect plan volledig klaar — playbook, berichtenbibliotheek, EN brief, survey voorstel, 1-pager</div><div class="tl-who">Phil · RUTTENS+</div></div></div>
+    <div class="tl"><div class="tl-dot" style="font-size:8px">W1</div><div><div class="tl-date">W/O 22 Juni — Opstart</div><div class="tl-txt">Tools installeren · profielen updaten · Batch 1 filteren en uploaden naar Sales Navigator</div><div class="tl-who">Phil + Herman + Tunity</div></div></div>
+    <div class="tl"><div class="tl-dot" style="font-size:8px">W2</div><div><div class="tl-date">W/O 29 Juni — Eerste berichten</div><div class="tl-txt">LinkedHelper campagne live · 25 verzoeken/dag · eerste reacties beantwoorden · KPI check vrijdag</div><div class="tl-who">Herman (dagelijks)</div></div></div>
+    <div class="tl"><div class="tl-dot warn">★</div><div><div class="tl-date" style="color:var(--red)">W/O 7 Juli — Handover EREA</div><div class="tl-txt">Alle deliverables naar SharePoint · campagne overdracht aan Tunity · briefing + login overdragen</div><div class="tl-who">Phil → Tunity · Contract eindigt</div></div></div>
+    <div class="tl"><div class="tl-dot" style="font-size:8px">aug</div><div><div class="tl-date">Begin Augustus — Evaluatie</div><div class="tl-txt">6-weekse pilotevaluatie · beslissing schaalvergroting naar NL, FR, DE, Scandinavië</div><div class="tl-who">Herman + Tunity + EREA Management</div></div></div>
+  </div>
+
+  <div class="sp-callout" style="margin-top:20px">
+    📁 <strong>Overdracht aan EREA SharePoint (Phil · W/O 7 juli):</strong> Files uit Google Drive "EREA x Phil" downloaden → uploaden naar EREA SharePoint/OneDrive via hotmail-account. Vraag Tunity of Herman voor de SharePoint link vóór einde juni. Te overdragen: Playbook · Message Library · EN Brief · Survey Proposal · 1-pager · Handover ZIP.
+  </div>
+</section>
+
+<footer>
+  <strong>Philippe Ruttens · RUTTENS+</strong> · <a href="mailto:phil@ruttens.com">phil@ruttens.com</a> · <a href="https://ruttens.com">ruttens.com</a><br>
+  Vertrouwelijk — EREA × Tunity · Juni 2026
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Client Weekly Erea",
+  "schemaVersion": 1,
+  "description": "EREA/Tunity weekly client dashboard — Wk 20, One Template Forever layout. Phase 1 audit in progress, hard deadline May 13."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EREA/Tunity — Client Weekly Dashboard Wk 21</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Inter, system-ui, sans-serif; background: #f4f6f8; color: #1a1a2e; display: flex; min-height: 100vh; font-size: 14px; }
+
+  .sidebar { width: 220px; min-width: 220px; background: #0D1B2A; color: #fff; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; padding: 24px 0; }
+  .sidebar-brand { padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-brand h2 { font-size: 13px; font-weight: 700; color: #0EA5A0; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sidebar-brand p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .sidebar nav { padding: 16px 0; flex: 1; }
+  .sidebar nav a { display: flex; align-items: center; gap: 10px; padding: 9px 20px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12.5px; font-weight: 500; transition: all 0.15s; border-left: 3px solid transparent; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: #fff; background: rgba(14,165,160,0.15); border-left-color: #0EA5A0; }
+  .sidebar nav a .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); flex-shrink: 0; }
+  .sidebar nav a:hover .dot, .sidebar nav a.active .dot { background: #0EA5A0; }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  .main { flex: 1; overflow-y: auto; }
+  .section { padding: 36px 40px; border-bottom: 1px solid #e5e9ef; scroll-margin-top: 0; }
+  .section:last-child { border-bottom: none; }
+
+  .section-label { font-size: 10px; font-weight: 700; color: #0EA5A0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .section-title { font-size: 22px; font-weight: 700; color: #0D1B2A; margin-bottom: 4px; }
+  .section-sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+
+  .title-section { background: #0D1B2A; color: #fff; padding: 32px 40px; }
+  .title-section h1 { font-size: 28px; font-weight: 800; color: #fff; }
+  .title-section .badge { display: inline-block; background: #0EA5A0; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 12px; vertical-align: middle; }
+  .title-section .meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 12px; }
+  .title-section .meta-item { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .title-section .meta-item span { color: #0EA5A0; font-weight: 600; }
+
+  .urgent-banner { background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .urgent-banner strong { color: #047857; font-size: 14px; }
+  .urgent-banner span { color: #6b7280; font-size: 12px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: #fff; border-radius: 10px; padding: 20px; border: 1px solid #e5e9ef; }
+  .card-label { font-size: 11px; color: #6b7280; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+  .card-value { font-size: 28px; font-weight: 800; color: #0D1B2A; margin: 6px 0 2px; }
+  .card-sub { font-size: 12px; color: #6b7280; }
+  .card.accent { border-top: 3px solid #0EA5A0; }
+  .card.green { border-top: 3px solid #10b981; }
+  .card.red { border-top: 3px solid #ef4444; }
+  .card.yellow { border-top: 3px solid #f59e0b; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th { background: #f8f9fb; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e5e9ef; }
+  td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+
+  .badge-done { display: inline-block; background: #d1fae5; color: #065f46; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-open { display: inline-block; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-blocked { display: inline-block; background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-tbc { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-real { display: inline-block; background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+
+  .timeline { list-style: none; padding: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 18px; top: 0; bottom: 0; width: 2px; background: #e5e9ef; }
+  .timeline li { position: relative; padding: 0 0 20px 48px; }
+  .timeline li::before { content: ''; position: absolute; left: 10px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #e5e9ef; }
+  .timeline li.done::before { background: #10b981; border-color: #10b981; }
+  .timeline li.active::before { background: #0EA5A0; border-color: #0EA5A0; }
+  .timeline li.urgent::before { background: #ef4444; border-color: #ef4444; }
+  .timeline-date { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+  .timeline-title { font-size: 14px; font-weight: 600; color: #0D1B2A; margin: 2px 0; }
+  .timeline-desc { font-size: 12px; color: #6b7280; }
+
+  .prose { font-size: 14px; line-height: 1.7; color: #374151; }
+  .prose p { margin-bottom: 12px; }
+  .prose strong { color: #0D1B2A; }
+
+  .metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .metric { flex: 1; min-width: 140px; background: #fff; border: 1px solid #e5e9ef; border-radius: 8px; padding: 14px 16px; }
+  .metric-label { font-size: 11px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .metric-val { font-size: 22px; font-weight: 800; color: #0D1B2A; margin-top: 4px; }
+  .metric-target { font-size: 11px; color: #9ca3af; }
+  .progress-wrap { background: #e5e9ef; border-radius: 100px; height: 8px; margin-top: 8px; overflow: hidden; }
+  .progress-bar { height: 100%; border-radius: 100px; background: #0EA5A0; }
+
+  .divider { height: 1px; background: #e5e9ef; margin: 20px 0; }
+  .tag { display: inline-block; background: #f3f4f6; color: #374151; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin: 2px; }
+  hr { border: none; border-top: 1px solid #e5e9ef; margin: 24px 0; }
+  .cb { width:15px; height:15px; border:1.5px solid #a8a29e; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-top:2px; user-select:none; }
+  .cb.done { background:#10b981; border-color:#10b981; }
+  .cb.done::after { content:'✓'; color:#fff; font-size:10px; font-weight:700; }
+  tr.row-done td:not(:first-child) { text-decoration: line-through; opacity: 0.45; }
+  li.li-done .action-text, li.li-done .al-text { text-decoration: line-through; opacity: 0.45; }
+  .action-check.done ~ .action-text { text-decoration: line-through; opacity: 0.45; }
+</style>
+</head>
+<body>
+<div id="holiday-banner" style="background:#fff3cd;border-left:5px solid #f59e0b;padding:12px 24px;font-size:13px;font-weight:700;color:#92400e;display:flex;align-items:center;gap:12px;">
+  &#x2705; EREA D1 APPROVED &mdash; Mon 9 Jun 2026 · LH job titles confirmed (technical advisors/owners/directors/specialists, BE+NL live) · Revenue +35.4% (€2,736,528) · Orders -6.4% (854) · AOV +44.6% · <strong style="color:#78350f;">D2 go/no-go Jun 15 · Testimonial pending Herman approval</strong>
+  <span style="font-weight:400;color:#a16207;margin-left:auto;font-size:11px;">Refreshed: 9 Jun 2026</span>
+</div>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>EREA / Tunity</h2>
+    <p>Client · Wk 23 · 2026</p>
+  </div>
+  <nav>
+    <a href="#title" class="active"><span class="dot"></span> Overview</a>
+    <a href="#summary"><span class="dot"></span> Executive Summary</a>
+    <a href="#decisions"><span class="dot"></span> Key Decisions</a>
+    <a href="#actions"><span class="dot"></span> Action Items</a>
+    <a href="#timeline"><span class="dot"></span> Timeline & Milestones</a>
+    <a href="#budget"><span class="dot"></span> Budget / Investment</a>
+    <a href="#metrics"><span class="dot"></span> Success Metrics</a>
+    <a href="#next"><span class="dot"></span> Next Steps</a>
+    <a href="#appendix"><span class="dot"></span> Appendix</a>
+  </nav>
+  <div class="sidebar-footer">Phil Ruttens · EREA Phase 1 → Phase 2<br>D1 APPROVED · D2 Jun 15</div>
+</aside>
+
+<main class="main">
+  <div id="prog-banner" style="position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 32px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;white-space:nowrap;">Week Progress</span>
+    <div style="flex:1;background:#f3f4f6;border-radius:3px;height:9px;overflow:hidden;min-width:80px;">
+      <div id="prog-bar" style="height:100%;width:0%;border-radius:3px;background:#ef4444;transition:width .4s,background .4s;"></div>
+    </div>
+    <span id="prog-pct" style="font-size:14px;font-weight:800;color:#ef4444;min-width:38px;text-align:right;">0%</span>
+    <span id="prog-label" style="font-size:11px;color:#9ca3af;white-space:nowrap;">0 / 0 done</span>
+    <button onclick="resetProgress()" title="Reset all checkboxes" style="background:none;border:1px solid #e5e7eb;border-radius:3px;padding:2px 8px;font-size:10px;color:#9ca3af;cursor:pointer;white-space:nowrap;">&#8635; Reset</button>
+  </div>
+
+  <section class="title-section" id="title">
+    <h1>EREA / Tunity <span class="badge">Wk 24 · Jun 9</span></h1>
+    <div class="meta">
+      <div class="meta-item">Phase: <span>Phase 1 — COMPLETE</span></div>
+      <div class="meta-item">Audit Review: <span>✅ Held May 13</span></div>
+      <div class="meta-item">Next: <span>Phase 2 kickoff mid-July</span></div>
+      <div class="meta-item">Updated: <span>2026-06-09</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="summary">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Executive Summary</div>
+    <div class="section-sub">D1 APPROVED Mon 9 Jun — LH job titles confirmed (technical advisors/owners/directors/specialists) · BE+NL live · Revenue +35.4% (€2,736,528) · Orders -6.4% (854 orders) · AOV +44.6% · D2 go/no-go Jun 15 · Testimonial pending Herman · Phase 2 kickoff mid-July (⚠ Zita leave 13 Jul → 2 Aug)</div>
+
+    <div class="urgent-banner">
+      <strong>✅ D1 APPROVED — 9 Jun 2026 · LH Sequence D1 live · Revenue +35.4% · AOV +44.6%</strong>
+      <span>Job titles confirmed: technical advisors / owners / directors / specialists · BE+NL live · D2 go/no-go Jun 15 · Testimonial text drafted — send Option A to Herman for approval · Phase 2 kickoff mid-July (⚠ Zita OOO 13 Jul)</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-label">Audit Review Meeting</div>
+        <div class="card-value">✅ Done</div>
+        <div class="card-sub">Held May 13 — Phase 1 closed</div>
+      </div>
+      <div class="card accent">
+        <div class="card-label">LinkedIn Prospects Surveyed</div>
+        <div class="card-value">24+</div>
+        <div class="card-sub">Survey post live · final tally TBC</div>
+      </div>
+      <div class="card green">
+        <div class="card-label">Google Ads Conversions</div>
+        <div class="card-value">4</div>
+        <div class="card-sub">€315 spent · &lt;€100 CPA <span class="badge-real">[REAL]</span></div>
+      </div>
+      <div class="card yellow">
+        <div class="card-label">Phase 2 Kickoff</div>
+        <div class="card-value">Mid-Jul</div>
+        <div class="card-sub">Scope locked at May 13 review</div>
+      </div>
+    </div>
+    <div class="card-grid" style="margin-top:12px;">
+      <div class="card green">
+        <div class="card-label">Revenue (LH Period)</div>
+        <div class="card-value">+35.4%</div>
+        <div class="card-sub">€2,736,528 vs baseline <span class="badge-real">[D1 REAL]</span></div>
+      </div>
+      <div class="card red">
+        <div class="card-label">Orders</div>
+        <div class="card-value">-6.4%</div>
+        <div class="card-sub">854 orders — lower volume, higher value</div>
+      </div>
+      <div class="card green">
+        <div class="card-label">AOV</div>
+        <div class="card-value">+44.6%</div>
+        <div class="card-sub">Average order value up — quality over volume</div>
+      </div>
+      <div class="card accent">
+        <div class="card-label">D2 Go/No-Go</div>
+        <div class="card-value">Jun 15</div>
+        <div class="card-sub">D1 APPROVED · Testimonial pending Herman</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p><strong>Phase 1 closed.</strong> Audit Review meeting held May 13 with Herman Nollet, Zita Vennekens, Jeroen Goetschalckx and Philippe Oorts. Audit deck reviewed and signed off. Phase 1 deliverables (Facebook Ads live Apr 23, LinkedIn Ads BE+NL live Apr 30, survey campaign, Google Ads at &lt;€100 CPA, EREA IP exclusion 212.123.12.229, 5,873-contact LI prospect list FR/BE+NL/DE) all delivered.</p>
+      <p><strong>Open items handed back to EREA team:</strong> Continue running the survey lead-gen on the 5,873-contact list during May–June. €300 LinkedIn credit redemption still requires LinkedIn account-level fix — owner: Phil, picked up Jun 5.</p>
+      <p><strong>Phase 2:</strong> Kickoff scheduled post-holiday, target mid-July 2026. Scope to be finalised in a Phase 2 kick-off call once Phil is back. No client work runs during May 15 → Jun 4.</p>
+    </div>
+  </section>
+
+  <section class="section" id="decisions">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Key Decisions</div>
+    <div class="section-sub">Phase 1 — locked / closed</div>
+
+    <table>
+      <thead><tr><th>Decision</th><th>What was decided</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Facebook Ads</strong></td>
+          <td>Launched Apr 23 — running through Phase 1 campaign window</td>
+          <td><span class="badge-done">LIVE since Apr 23</span></td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn Ads scope</strong></td>
+          <td>Launched Apr 30 targeting BE + NL markets simultaneously</td>
+          <td><span class="badge-done">LIVE since Apr 30</span></td>
+        </tr>
+        <tr>
+          <td><strong>Survey audience</strong></td>
+          <td>~40 LinkedIn prospects + ~10 customers — survey campaign running on full 5,873-contact list</td>
+          <td><span class="badge-done">CAMPAIGN LIVE</span></td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn €300 credit block</strong></td>
+          <td>LinkedIn account-level issue — still open, Phil to resolve post-holiday (Jun 5)</td>
+          <td><span class="badge-blocked">BLOCKED — Jun 5</span></td>
+        </tr>
+        <tr>
+          <td><strong>Phase 1 Audit Review</strong></td>
+          <td>Held May 13 with Herman / Zita / Jeroen / Philippe Oorts — deck signed off</td>
+          <td><span class="badge-done">✅ DONE May 13</span></td>
+        </tr>
+        <tr>
+          <td><strong>Website recommendations</strong></td>
+          <td>5-slide deck sent May 8 to Herman/Jeroen/Jelle/Zita — reviewed at May 13 audit</td>
+          <td><span class="badge-done">REVIEWED</span></td>
+        </tr>
+        <tr>
+          <td><strong>EREA IP exclusion</strong></td>
+          <td>212.123.12.229 received from Herman — GA4 + Clarity exclusion filter set May 8</td>
+          <td><span class="badge-done">DONE</span></td>
+        </tr>
+        <tr>
+          <td><strong>LI Prospect list (June/July)</strong></td>
+          <td>5,873 contacts (FR 4000 · BE+NL 1003 · DE) handed to Herman/Jeroen/Zita on May 9 for survey lead gen</td>
+          <td><span class="badge-done">HANDED OVER</span></td>
+        </tr>
+        <tr>
+          <td><strong>Phase 2 kickoff</strong></td>
+          <td>Mid-July 2026 — scope outline from May 13 audit. Final scope locked in kickoff call.</td>
+          <td><span class="badge-open">SCHEDULED</span></td>
+        </tr>
+        <tr>
+          <td><strong>LH Sequence D1 — Job Titles</strong></td>
+          <td>Technical advisors / owners / directors / specialists confirmed. BE+NL sequences live.</td>
+          <td><span class="badge-done">✅ APPROVED Jun 9</span></td>
+        </tr>
+        <tr>
+          <td><strong>LH Sequence D2 — Go/No-Go</strong></td>
+          <td>Review LH performance data w/ Herman before expanding. Testimonial to Herman for approval.</td>
+          <td><span class="badge-open">⏳ Jun 15</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="actions">
+    <div class="section-label">Section 4</div>
+    <div class="section-title">Action Items</div>
+    <div class="section-sub">Every item: Who | What | When (specific date)</div>
+
+    <table>
+      <thead><tr><th style="width:28px"></th><th>Who</th><th>What</th><th>When</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Weekly call held, recap received, website recs sent, EREA IP set in GA4/Clarity</td>
+          <td>May 8</td>
+          <td><span class="badge-done">✅ Done</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Sent 5,873 LinkedIn prospect list (FR/BE+NL/DE) to Herman/Jeroen/Zita</td>
+          <td>May 9</td>
+          <td><span class="badge-done">✅ Done</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Claude</strong></td>
+          <td>Phase 1 audit deck drafted → /RUTTENS+OS/05_Clients/EREA/</td>
+          <td>May 9–11</td>
+          <td><span class="badge-done">✅ Done</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Sent Phase 1 audit deck pre-read to Herman / Zita / Jeroen</td>
+          <td>May 11</td>
+          <td><span class="badge-done">✅ Done</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Herman / Phil</strong></td>
+          <td>EREA Phase 1 Audit Review meeting</td>
+          <td>May 13</td>
+          <td><span class="badge-done">✅ Held</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Send Phase 1 wrap email to Herman + holiday OOO note + Phase 2 mid-July outline</td>
+          <td>May 14</td>
+          <td><span class="badge-open">⏳ TODAY</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Resolve €300 LinkedIn credit redemption block</td>
+          <td>Jun 5+</td>
+          <td><span class="badge-blocked">POST-HOLIDAY</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil / Herman</strong></td>
+          <td>Phase 2 kickoff call — scope, fee, timeline</td>
+          <td>Mid-Jul</td>
+          <td><span class="badge-open">SCHEDULED</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb done"></div></td>
+          <td><strong>Phil + EREA</strong></td>
+          <td>LH D1 APPROVED — job titles confirmed, BE+NL sequences live, revenue +35.4% / AOV +44.6%</td>
+          <td>Jun 9</td>
+          <td><span class="badge-done">✅ Done</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Send testimonial Option A to Herman for approval (drafted Jun 9)</td>
+          <td>Jun 9–10</td>
+          <td><span class="badge-open">⏳ Phil Action</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil + Herman</strong></td>
+          <td>D2 go/no-go — review LH sequence performance + decide on expansion</td>
+          <td>Jun 15</td>
+          <td><span class="badge-open">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td><strong>Phil</strong></td>
+          <td>Activate EREA LH BE/NL sequences (Phil action — confirmed Jun 9)</td>
+          <td>Jun 9</td>
+          <td><span class="badge-open">⏳ Phil Action</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="timeline">
+    <div class="section-label">Section 5</div>
+    <div class="section-title">Timeline & Milestones</div>
+    <div class="section-sub">Phase 1 closed → Phase 2 mid-July</div>
+
+    <ul class="timeline">
+      <li class="done">
+        <div class="timeline-date">Apr 23 — DONE</div>
+        <div class="timeline-title">Facebook Ads Approved & Launched</div>
+        <div class="timeline-desc">Campaign live across target audience <span class="badge-real">[REAL]</span></div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Apr 30 — DONE</div>
+        <div class="timeline-title">LinkedIn Ads Launched — BE + NL</div>
+        <div class="timeline-desc">Campaign live in Belgium + Netherlands simultaneously <span class="badge-real">[REAL]</span></div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Wk 19 (May 4–10) — DONE</div>
+        <div class="timeline-title">Survey Push + Audit Deck Draft</div>
+        <div class="timeline-desc">24+ survey responses · Google Ads 4 conversions · 5,873 LI list handed to EREA</div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Mon May 11</div>
+        <div class="timeline-title">Audit deck sent to EREA team</div>
+        <div class="timeline-desc">Pre-read for Herman · Zita · Jeroen · Philippe Oorts</div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Wed May 13 — DONE</div>
+        <div class="timeline-title">Phase 1 Audit Review Meeting</div>
+        <div class="timeline-desc">Held with Herman Nollet · Philippe Oorts · Zita Vennekens · Jeroen Goetschalckx — deck signed off</div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Thu May 14 — DONE</div>
+        <div class="timeline-title">Phase 1 wrap-up email + OOO note</div>
+        <div class="timeline-desc">Phil's last working day. Sent close-out email + Phase 2 mid-July outline.</div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">May 15 → Jun 4</div>
+        <div class="timeline-title">Phil on holiday — EREA paused</div>
+        <div class="timeline-desc">EREA team continued survey lead-gen on 5,873-contact list. Phil returned Jun 5.</div>
+      </li>
+      <li class="done">
+        <div class="timeline-date">Mon Jun 9 — DONE</div>
+        <div class="timeline-title">LH Sequence D1 APPROVED</div>
+        <div class="timeline-desc">Job titles confirmed (technical advisors/owners/directors/specialists) · BE+NL live · Revenue +35.4% (€2,736,528) · Orders -6.4% (854) · AOV +44.6% · Testimonial drafted → Herman for approval</div>
+      </li>
+      <li class="active">
+        <div class="timeline-date">Sun Jun 15 — D2 GO/NO-GO</div>
+        <div class="timeline-title">LH Sequence D2 Review</div>
+        <div class="timeline-desc">Review LH performance data w/ Herman. Decide on expansion. Testimonial approval expected before this.</div>
+      </li>
+      <li class="urgent">
+        <div class="timeline-date">Mid-July 2026</div>
+        <div class="timeline-title">Phase 2 Kickoff</div>
+        <div class="timeline-desc">Scope outline from May 13 audit. ⚠ Zita OOO 13 Jul → 2 Aug — confirm timing. Final fee and timeline locked at kickoff.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section" id="budget">
+    <div class="section-label">Section 6</div>
+    <div class="section-title">Budget / Investment</div>
+    <div class="section-sub">Phase 1 actuals — Phase 2 scope TBC</div>
+
+    <table>
+      <thead><tr><th>Channel</th><th>Spend</th><th>Result</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Google Ads</strong></td>
+          <td>€315 <span class="badge-real">[REAL]</span></td>
+          <td>4 conversions · CPA &lt;€100</td>
+          <td><span class="badge-done">On target</span></td>
+        </tr>
+        <tr>
+          <td><strong>Facebook Ads</strong></td>
+          <td><span class="badge-tbc">TBC — pull from Meta for final Phase 1 report</span></td>
+          <td><span class="badge-tbc">TBC</span></td>
+          <td><span class="badge-done">Phase 1 complete</span></td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn Ads</strong></td>
+          <td><span class="badge-tbc">TBC</span></td>
+          <td><span class="badge-tbc">TBC</span></td>
+          <td><span class="badge-blocked">€300 credit blocked → Jun 5</span></td>
+        </tr>
+        <tr>
+          <td><strong>Phil's Time (Toggl)</strong></td>
+          <td>49h27m Jan–Feb <span class="badge-real">[REAL]</span></td>
+          <td>Mar–May TBC for Phase 1 close-out</td>
+          <td><span class="badge-tbc">Pull pre-Phase 2 kickoff</span></td>
+        </tr>
+        <tr>
+          <td><strong>Advisory Fee — Phase 2</strong></td>
+          <td><span class="badge-tbc">TBC — scoped mid-July</span></td>
+          <td>Phase 2 scope locked at kickoff</td>
+          <td><span class="badge-tbc">TBC</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#6b7280;margin-top:12px;"><strong>Note:</strong> Never fabricate spend or fee figures. Pull from Meta/Google dashboards and invoicing records.</p>
+  </section>
+
+  <section class="section" id="metrics">
+    <div class="section-label">Section 7</div>
+    <div class="section-title">Success Metrics</div>
+    <div class="section-sub">Phase 1 outcomes — measurable</div>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Survey responses</div>
+        <div class="metric-val">24+</div>
+        <div class="metric-target">Target: 50 (campaign continues)</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:48%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Google Ads CPA</div>
+        <div class="metric-val">&lt;€100</div>
+        <div class="metric-target">Target met ✅</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Google Ads conversions</div>
+        <div class="metric-val">4</div>
+        <div class="metric-target">Phase 1 baseline locked</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:80%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Audit deck delivered</div>
+        <div class="metric-val">1/1</div>
+        <div class="metric-target">Reviewed May 13 ✅</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Metric</th><th>Current</th><th>Target</th><th>By</th></tr></thead>
+      <tbody>
+        <tr><td>LinkedIn survey responses</td><td>24+ <span class="badge-real">[REAL]</span></td><td>50 (campaign live)</td><td>Campaign ongoing</td></tr>
+        <tr><td>Facebook Ads spend efficiency</td><td><span class="badge-tbc">TBC for close-out</span></td><td>CPA benchmark TBC</td><td>Pre-Phase 2 kickoff</td></tr>
+        <tr><td>LinkedIn Ads reach</td><td><span class="badge-tbc">TBC</span></td><td>BE+NL audience coverage</td><td>Pre-Phase 2 kickoff</td></tr>
+        <tr><td>Google Ads conversions</td><td>4 @ €315 <span class="badge-real">[REAL]</span></td><td>On track</td><td>Ongoing</td></tr>
+        <tr><td>Phase 1 audit deck</td><td>✅ Delivered + reviewed</td><td>Reviewed May 13</td><td>May 13</td></tr>
+        <tr><td>€300 LinkedIn credit</td><td><span class="badge-blocked">Blocked</span></td><td>Redeemed + active</td><td>Jun 5</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="next">
+    <div class="section-label">Section 8</div>
+    <div class="section-title">Next Steps & Dependencies</div>
+    <div class="section-sub">From Phase 1 close-out to mid-July Phase 2 kickoff</div>
+
+    <div class="prose">
+      <p><strong>Done (Jun 9):</strong> LH D1 APPROVED. Job titles confirmed, BE+NL sequences live, revenue +35.4% (€2,736,528), AOV +44.6%. Testimonial Option A drafted.</p>
+      <p><strong>This week (Jun 9–10):</strong> Phil sends testimonial Option A to Herman for approval. Phil activates EREA LH BE/NL sequences (Phil action).</p>
+      <p><strong>Jun 15 — D2 Go/No-Go:</strong> Review LH sequence performance with Herman. Decide on expansion (broader targeting, FR market, content upgrade). Testimonial should be approved by this date.</p>
+      <p><strong>Mid-July 2026:</strong> Phase 2 kickoff call. Lock scope, fee, timeline. ⚠ Confirm Zita availability — she's OOO 13 Jul → 2 Aug. Phase 2 may need to start without her or slip to Aug.</p>
+      <p><strong>Dependencies:</strong> D2 expansion depends on D1 data review. Phase 2 scope depends on Herman + Zita availability. Testimonial depends on Herman approval.</p>
+    </div>
+  </section>
+
+  <section class="section" id="appendix">
+    <div class="section-label">Section 9</div>
+    <div class="section-title">Appendix</div>
+    <div class="section-sub">Contacts, drive paths, stack reference</div>
+
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">👥 EREA Contacts</strong>
+    <table>
+      <thead><tr><th>Name</th><th>Role</th><th>Entity</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Herman Nollet</strong></td><td>Sales / Marketing Director</td><td>EREA</td></tr>
+        <tr><td><strong>Philippe Oorts</strong></td><td>Strategy</td><td>Strategus</td></tr>
+        <tr><td><strong>Zita Vennekens</strong></td><td>Contact</td><td>Tunity</td></tr>
+        <tr><td><strong>Jelle Schuermans</strong></td><td>Contact</td><td>Tunity</td></tr>
+        <tr><td><strong>Jeroen Goetschalckx</strong></td><td>Contact</td><td>EREA</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">📁 Key Drive Paths</strong>
+    <table>
+      <thead><tr><th>Path</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>/RUTTENS+OS/05_Clients/EREA/</td><td>EREA client folder — all Phase 1 deliverables + audit deck final</td></tr>
+        <tr><td>erea-briefing-2026.netlify.app</td><td>Live Netlify dashboard</td></tr>
+        <tr><td>/RUTTENS+OS/CLAUDE/EREA_Session_Handover.md</td><td>Context for EREA Phase 2 kickoff session</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">📋 Data Labels</strong>
+    <div>
+      <span class="tag">[REAL] = verified data</span>
+      <span class="tag">[TBC] = data missing — provide before publishing</span>
+      <span class="tag">[DEMO] = placeholder only — never publish</span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<script>
+(function(){
+  var KEY = 'cbState_v2_' + (document.title||'artifact').replace(/\s+/g,'_').substring(0,40);
+  function stableKey(el,i){var tr=el.closest('tr');if(tr){var cells=tr.querySelectorAll('td');for(var c=1;c<cells.length;c++){var t=cells[c].textContent.trim();if(t.length>2)return t.slice(0,60);}}var li=el.closest('li');if(li)return li.textContent.trim().slice(0,60);return String(i);}
+  function saveState(){ var s={}; document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){ if(el.classList.contains('done')) s[stableKey(el,i)]=1; }); try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} }
+  function restoreState(){ var s={}; try{ s=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){} document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){ if(s[stableKey(el,i)]){ el.classList.add('done'); var tr=el.closest('tr'); if(tr) tr.classList.add('row-done'); var li=el.closest('li'); if(li) li.classList.add('li-done'); } }); updateProgress(); }
+  window.updateProgress = function(){ var all=document.querySelectorAll('.cb,.action-check,.al-check'); var done=[].filter.call(all,function(el){return el.classList.contains('done');}).length; var total=all.length; var pct=total?Math.round(done/total*100):0; var bar=document.getElementById('prog-bar'); var pctEl=document.getElementById('prog-pct'); var lbl=document.getElementById('prog-label'); var col=pct===100?'#10b981':pct>=75?'#38B6FF':pct>=40?'#f59e0b':'#ef4444'; if(bar){bar.style.width=pct+'%';bar.style.background=col;} if(pctEl){pctEl.textContent=pct+'%';pctEl.style.color=col;} if(lbl) lbl.textContent=done+' / '+total+' done'; };
+  window.resetProgress = function(){ document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el){ el.classList.remove('done'); var tr=el.closest('tr'); if(tr) tr.classList.remove('row-done'); var li=el.closest('li'); if(li) li.classList.remove('li-done'); }); try{ localStorage.removeItem(KEY); }catch(e){} updateProgress(); };
+  document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el){ el.addEventListener('click',function(){ el.classList.toggle('done'); var tr=el.closest('tr'); if(tr) tr.classList.toggle('row-done',el.classList.contains('done')); var li=el.closest('li'); if(li) li.classList.toggle('li-done',el.classList.contains('done')); saveState(); updateProgress(); }); });
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',restoreState); } else { restoreState(); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Personal Weekly Dashboard",
+  "schemaVersion": 1,
+  "description": "Philippe Ruttens personal weekly dashboard — W25 (Jun 16–20, 2026). Full sprint mode: AYA Phase 2 active, Site deployment done, Cohort Session 1 complete, Finance: Acerta Jun 19, GoDaddy Jun 21."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Weekly Dashboard · Wk 25</title>
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --accent: #E63946;
+    --gold: #F4A261;
+    --teal: #2EC4B6;
+    --green: #06D6A0;
+    --purple: #7B2D8B;
+    --slate: #457B9D;
+    --bg: #F8F9FA;
+    --card: #FFFFFF;
+    --text: #1D3557;
+    --muted: #6C757D;
+    --border: #DEE2E6;
+    --sidebar-w: 220px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow-x: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .sidebar-brand {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+  }
+  .sidebar-brand h2 { font-size: 14px; font-weight: 700; letter-spacing: 0.05em; color: var(--gold); }
+  .sidebar-brand p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .sidebar nav a {
+    display: block;
+    padding: 8px 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar nav a:hover, .sidebar nav a.active {
+    color: #fff;
+    border-left-color: var(--gold);
+    background: rgba(255,255,255,0.05);
+  }
+  .main {
+    margin-left: var(--sidebar-w);
+    width: calc(100% - var(--sidebar-w));
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  #top-banner {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 32px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  #top-banner strong { color: var(--gold); }
+  .banner-tag {
+    background: rgba(255,255,255,0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+  .banner-tag.red { background: var(--accent); color: #fff; }
+  .banner-tag.gold { background: var(--gold); color: var(--navy); }
+  .banner-tag.green { background: var(--green); color: var(--navy); }
+
+  .overdue-alert {
+    background: #FFF3CD;
+    border-left: 4px solid #FFC107;
+    padding: 10px 32px;
+    font-size: 12px;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .overdue-alert strong { color: var(--accent); }
+
+  .section { padding: 32px 32px 8px; }
+  .section + .section { border-top: 1px solid var(--border); }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  h1 { font-size: 24px; font-weight: 800; color: var(--navy); }
+  h1 .badge {
+    font-size: 12px;
+    background: var(--navy);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+  .meta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+  .meta-item { font-size: 12px; color: var(--muted); }
+  .meta-item strong { color: var(--text); }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card.accent-left { border-left: 4px solid var(--accent); }
+  .card.accent-gold { border-left: 4px solid var(--gold); }
+  .card.accent-green { border-left: 4px solid var(--green); }
+  .card.accent-teal { border-left: 4px solid var(--teal); }
+  .card.accent-purple { border-left: 4px solid var(--purple); }
+  .card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .card-value { font-size: 20px; font-weight: 800; color: var(--navy); }
+  .card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+  th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 6px 10px; background: var(--bg); border-bottom: 1px solid var(--border); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.015); }
+
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .pill-green { background: #D4EDDA; color: #155724; }
+  .pill-red { background: #FFE0E0; color: var(--accent); }
+  .pill-gold { background: #FFF3CD; color: #856404; }
+  .pill-grey { background: #E9ECEF; color: var(--muted); }
+  .pill-teal { background: #D1ECF1; color: #0c5460; }
+
+  .success-box {
+    background: #D4EDDA;
+    border: 1px solid #C3E6CB;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #155724;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .warn-box {
+    background: #FFE0E0;
+    border: 1px solid #FFAAAA;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .info-box {
+    background: #D1ECF1;
+    border: 1px solid #BEE5EB;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #0c5460;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>RUTTENS+OS</h2>
+    <p>Wk 25 · 2026</p>
+  </div>
+  <nav>
+    <a href="#title" class="active">Overview</a>
+    <a href="#summary">W25 Summary</a>
+    <a href="#decisions">Decisions</a>
+    <a href="#clients">Clients</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#next">Next Steps</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <div id="top-banner">
+    <strong>W25 · Jun 16–20, 2026</strong>
+    <span class="banner-tag gold">SITE DEPLOYMENT ✅</span>
+    <span class="banner-tag green">AYA PHASE 2 ACTIVE</span>
+    <span class="banner-tag">Updated 17 Jun 2026</span>
+  </div>
+
+  <div class="overdue-alert">
+    ⚠️ <strong>Upcoming:</strong>
+    Acerta €2,240.73 due Jun 19 (2 days) &nbsp;|&nbsp;
+    GoDaddy domain renew check ~Jun 21 (4 days) &nbsp;|&nbsp;
+    LH subscription renewal decision needed
+  </div>
+
+  <div class="section" id="title">
+    <p class="section-title">Personal Weekly Dashboard</p>
+    <h1>RUTTENS+ Operations <span class="badge">Wk 25</span></h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Week:</strong> Jun 16–20, 2026</div>
+      <div class="meta-item"><strong>Sprint:</strong> W25 active · post-deployment</div>
+      <div class="meta-item"><strong>Phase:</strong> Full sprint · client delivery + site live + finance</div>
+      <div class="meta-item"><strong>Updated:</strong> 2026-06-17 (Tue)</div>
+    </div>
+  </div>
+
+  <div class="section" id="summary">
+    <p class="section-title">W25 Summary</p>
+
+    <div class="success-box">✅ W24/W25 Wins: Site deployed (Jun 14-15), AYA Phase 2 approved + active, EREA D1 delivered, Cohort Session 1 complete, XiltriX Backgrounder v2 shipped</div>
+    <div class="warn-box">⚠️ Upcoming: Acerta payment Jun 19, GoDaddy check Jun 21, LH subscription renewal decision, Cohort webinar date pending</div>
+
+    <div class="card-grid">
+      <div class="card accent-green">
+        <div class="card-label">EREA D1 Revenue</div>
+        <div class="card-value">€2.74M</div>
+        <div class="card-sub">+35.4% vs baseline · APPROVED</div>
+      </div>
+      <div class="card accent-teal">
+        <div class="card-label">AYA Phase 2</div>
+        <div class="card-value">€4,000</div>
+        <div class="card-sub">40h/mo @ €100/h · Option B approved</div>
+      </div>
+      <div class="card accent-gold">
+        <div class="card-label">Site Status</div>
+        <div class="card-value">LIVE</div>
+        <div class="card-sub">Deployed Jun 14-15 · all pages live</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-label">Next Payment</div>
+        <div class="card-value">€2,240.73</div>
+        <div class="card-sub">Acerta · due Jun 19 (2 days)</div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Area</th><th>Status</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>EREA</td><td><span class="pill pill-green">DELIVERED</span></td><td>D1 +35.4% rev, D2 delivered Jun 15</td></tr>
+        <tr><td>AYA</td><td><span class="pill pill-green">ACTIVE</span></td><td>Phase 2 Option B: 40h/mo €4k/mo @ €100/h</td></tr>
+        <tr><td>Ruttens Site</td><td><span class="pill pill-green">DEPLOYED</span></td><td>All pages live, nav fixed, Netlify updated</td></tr>
+        <tr><td>Cohort</td><td><span class="pill pill-teal">SESSION 1 DONE</span></td><td>5 enrolment assets complete, S2 running, webinar date TBD</td></tr>
+        <tr><td>XiltriX</td><td><span class="pill pill-green">SHIPPED</span></td><td>Backgrounder v2 GTM Radar (Jun 16)</td></tr>
+        <tr><td>Finance</td><td><span class="pill pill-gold">UPCOMING</span></td><td>Acerta Jun 19, GoDaddy Jun 21</td></tr>
+        <tr><td>LH</td><td><span class="pill pill-red">EXPIRED</span></td><td>Subscription lapsed, renewal decision needed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="decisions">
+    <p class="section-title">Open Decisions</p>
+
+    <table>
+      <thead><tr><th>Decision</th><th>Options</th><th>Deadline</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>LH subscription renewal</strong></td>
+          <td>Renew for Phase 2 (Jun 22+) OR manual engagement alternative</td>
+          <td><span class="pill pill-gold">Jun 22</span></td>
+          <td>Phil</td>
+        </tr>
+        <tr>
+          <td><strong>Cohort webinar date</strong></td>
+          <td>Schedule webinar for Session 1 conclusions · pending confirmation</td>
+          <td><span class="pill pill-gold">EOW Jun 20</span></td>
+          <td>Phil</td>
+        </tr>
+        <tr>
+          <td><strong>Fineko invoices</strong></td>
+          <td>DO NOT PAY until written confirmation received</td>
+          <td><span class="pill pill-red">Open</span></td>
+          <td>Phil</td>
+        </tr>
+        <tr>
+          <td><strong>Zen Doc review</strong></td>
+          <td>Complete lifestyle/strategy reset (DEFERRED but important)</td>
+          <td><span class="pill pill-grey">TBD</span></td>
+          <td>Phil</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="clients">
+    <p class="section-title">Client Status</p>
+
+    <table>
+      <thead><tr><th>Client</th><th>Status</th><th>W25 Focus</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>EREA</strong></td>
+          <td><span class="pill pill-green">DELIVERED</span></td>
+          <td>Next milestone TBD</td>
+          <td>D1 approved (€2.74M, +35.4% rev), D2 delivered Jun 15</td>
+        </tr>
+        <tr>
+          <td><strong>AYA</strong></td>
+          <td><span class="pill pill-green">ACTIVE</span></td>
+          <td>Phase 2 execution · ongoing delivery</td>
+          <td>Option B approved: 40h/mo €4k/mo @ €100/h. Portal 148176566 EU1 ONLY. Invoices PAID.</td>
+        </tr>
+        <tr>
+          <td><strong>Ruttens+</strong></td>
+          <td><span class="pill pill-green">DEPLOYED</span></td>
+          <td>Monitoring live performance</td>
+          <td>Site live (Jun 14-15): index, solutions, pricing, mastery, testimonials, nav all deployed</td>
+        </tr>
+        <tr>
+          <td><strong>Cohort (Pipeline Engine)</strong></td>
+          <td><span class="pill pill-teal">SESSION 1 DONE</span></td>
+          <td>Session 2 running · confirm webinar date</td>
+          <td>S1 assets: landing page, scorecard, form, fit-call script, handover. Pending: HTML slide conversion, webinar date</td>
+        </tr>
+        <tr>
+          <td><strong>XiltriX</strong></td>
+          <td><span class="pill pill-green">SHIPPED</span></td>
+          <td>—</td>
+          <td>Backgrounder v2 GTM Radar one-pager (Jun 16): bigger radar + 2×2 + emoji agenda + RUTTENS+ brand</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="metrics">
+    <p class="section-title">W25 Metrics & Health</p>
+    <div class="card-grid">
+      <div class="card accent-green">
+        <div class="card-label">EREA D1 Revenue</div>
+        <div class="card-value">€2.74M</div>
+        <div class="card-sub">+35.4% · APPROVED</div>
+      </div>
+      <div class="card accent-teal">
+        <div class="card-label">AYA Phase 2 Value</div>
+        <div class="card-value">€4,000/mo</div>
+        <div class="card-sub">40h @ €100/h · Option B</div>
+      </div>
+      <div class="card accent-gold">
+        <div class="card-label">Cash Available</div>
+        <div class="card-value">€30k</div>
+        <div class="card-sub">Current liquid</div>
+      </div>
+      <div class="card accent-purple">
+        <div class="card-label">Cash Upcoming</div>
+        <div class="card-value">€24k</div>
+        <div class="card-sub">Outstanding / in pipeline</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      📊 <strong>Offer ladder (locked):</strong> SCAN €499 → Pipeline Sprint €2,590+ → LAB €2,990 → MAP €6,990+ → SPRINT €15,900+ → MAX €3,990+/mo
+    </div>
+    <div class="info-box">
+      🎓 <strong>Cohort status:</strong> Session 1 enrolment assets ✅ · Session 2 running · webinar date pending
+    </div>
+  </div>
+
+  <div class="section" id="next">
+    <p class="section-title">Immediate Next Steps (This Week · EOW Jun 20)</p>
+
+    <ul style="list-style: none; padding: 0;">
+      <li style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;"><strong>Jun 19 (Thu):</strong> Acerta payment €2,240.73 — prepare and process</li>
+      <li style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;"><strong>Jun 19 (Thu):</strong> Cohort webinar date — confirm with facilitators</li>
+      <li style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;"><strong>Jun 20 (Fri):</strong> LH renewal decision — commit to Phase 2 engagement plan</li>
+      <li style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;"><strong>Jun 21 (Sat):</strong> GoDaddy auto-renew check — verify domain renewals</li>
+      <li style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;"><strong>W25 EOW:</strong> Pipeline Sheet fix (rows 21-35 E/F) — manual data entry</li>
+      <li style="padding: 8px 0; font-size: 13px;"><strong>W25/W26:</strong> AYA Phase 2 execution begins — full engagement</li>
+    </ul>
+  </div>
+
+</main>
+
+<script>
+// Placeholder for future checkbox persistence if needed
+</script>
+
+</body>
+</html>

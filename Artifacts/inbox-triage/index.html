@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Inbox Triage",
+  "schemaVersion": 1,
+  "description": "Live inbox triage v2.2 — domain-matched. Pulls unread Gmail (last 7d), flags client mail by sender domain (wayfina.com, aya.energy, erea.be, solutions.erea.be, aeglecoaching.com) as REPLY NOW, excludes self-mail from Phil's own domains/aliases, applies SKILL_03 triage rules, detects recruiters (workingnomads, haystack, mercuriurval, high5hire, mon-consultant) for auto-archive. Storage: Google Drive RUTTENS+OS/Artifacts only.",
+  "mcpTools": [
+    "mcp__ce50545b-07e8-48e1-8715-68b76a09e9ef__search_threads"
+  ],
+  "mcpServerNames": [
+    "Gmail"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox Triage | Phil Ruttens | Jun 17 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            border-bottom: 2px solid #38b6ff;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-radius: 8px 8px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 16px 0 0 0;
+        }
+
+        .stat-box {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #38b6ff;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-top: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #38b6ff;
+        }
+
+        .tab.active {
+            color: #38b6ff;
+            border-bottom-color: #38b6ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .email-group {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .group-header {
+            background: #f9f9f9;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .email-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: background 0.15s;
+        }
+
+        .email-item:hover {
+            background: #fafafa;
+        }
+
+        .email-item:last-child {
+            border-bottom: none;
+        }
+
+        .email-checkbox {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .email-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .email-from {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a0a0a;
+            margin-bottom: 4px;
+        }
+
+        .email-subject {
+            font-size: 13px;
+            color: #222;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .email-snippet {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .email-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .email-date {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .email-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .badge-reply-now {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-today {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-week {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .badge-archive {
+            background: #f0f0f0;
+            color: #6c757d;
+        }
+
+        .badge-unsubscribe {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 20px;
+            padding: 12px;
+        }
+
+        input[type="checkbox"]:checked + .email-content {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Inbox Triage</h1>
+            <p>Phil Ruttens | Gmail | Updated Jun 17 2026</p>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-label">Total Unread</div>
+                    <div class="stat-value">59</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Reply Now</div>
+                    <div class="stat-value">1</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Today</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">This Week</div>
+                    <div class="stat-value">20</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Archive</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Unsubscribe</div>
+                    <div class="stat-value">23</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(event, 'reply-now')">Reply Now (1)</button>
+            <button class="tab" onclick="switchTab(event, 'today')">Today (3)</button>
+            <button class="tab" onclick="switchTab(event, 'week')">This Week (20)</button>
+            <button class="tab" onclick="switchTab(event, 'archive')">Archive (12)</button>
+            <button class="tab" onclick="switchTab(event, 'unsubscribe')">Unsubscribe (23)</button>
+        </div>
+
+        <!-- REPLY NOW TAB -->
+        <div id="reply-now" class="tab-content active">
+            <div class="email-group">
+                <div class="group-header">Redwired (1)</div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-redwired-1">
+                    <div class="email-content">
+                        <div class="email-from">Maarten van Dijk (maarten@redwired.nl)</div>
+                        <div class="email-subject">Kennismaken Philippe - Maarten (Redwired)</div>
+                        <div class="email-snippet">Hi Philippe, Leuk dat je interesse hebt om mee te bouwen aan het Redwired collectief. Ik stuur je bijgaand alvast wat extra achtergrond over het partnership met Redwired. Tot de 17e...</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-reply-now">REPLY NOW</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODAY TAB -->
+        <div id="today" class="tab-content">
+            <div class="email-group">
+                <div class="group-header">Recruiters & Job Alerts (3)</div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-recruiter-1">
+                    <div class="email-content">
+                        <div class="email-from">LinkedIn Job Alerts (jobalerts-noreply@linkedin.com)</div>
+                        <div class="email-subject">Head of Marketing at Bluecrux</div>
+                        <div class="email-snippet">Bluecrux Head of Marketing: Job DescriptionAbout the roleAs Head of…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-today">TODAY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-recruiter-2">
+                    <div class="email-content">
+                        <div class="email-from">Mercuri Urval (no-reply@mercuriurval.com)</div>
+                        <div class="email-subject">Mercuri Urval Assignment Bulletin</div>
+                        <div class="email-snippet">Mercuri Urval Assignment Bulletin Openly published current assignments that match your subscription profile…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-today">TODAY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-recruiter-3">
+                    <div class="email-content">
+                        <div class="email-from">Djinni.co (magic@djinni.co)</div>
+                        <div class="email-subject">Djinni statistics for the week</div>
+                        <div class="email-snippet">Djinni.co Search results VP / Head of Marketing, Growth, GTM or Revenue, from $7000 in a week…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-today">TODAY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THIS WEEK TAB -->
+        <div id="week" class="tab-content">
+            <div class="email-group">
+                <div class="group-header">Newsletter & Learning Content (20)</div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-1">
+                    <div class="email-content">
+                        <div class="email-from">Mindstream (hello@mindstream.news)</div>
+                        <div class="email-subject">We dive deep into Claude</div>
+                        <div class="email-snippet">+ Our complete Claude at Work guide!</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-2">
+                    <div class="email-content">
+                        <div class="email-from">Human in the Loop (hi@humanintheloop.online)</div>
+                        <div class="email-subject">The highest-leverage upgrades you can make to your AI</div>
+                        <div class="email-snippet">PLUS: Anthropic's Claude Fable 5 gets pulled + Stanford puts CS153 Frontier Systems online</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-3">
+                    <div class="email-content">
+                        <div class="email-from">Sifted (sifted@sifted.eu)</div>
+                        <div class="email-subject">What the SpaceX IPO means for Europe</div>
+                        <div class="email-snippet">+ The team behind Ineffable Intelligence; NIF makes a new hire</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-4">
+                    <div class="email-content">
+                        <div class="email-from">Medium (subscriptions@medium.com)</div>
+                        <div class="email-subject">The Best Annual SaaS AE Data We've Seen</div>
+                        <div class="email-snippet">The Bridge Group puts together an annual survey of software sales teams. The 2025 survey includes data from 158 B2B SaaS companies…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-5">
+                    <div class="email-content">
+                        <div class="email-from">Toggl Track (support@track.toggl.com)</div>
+                        <div class="email-subject">Your Weekly Overview of Tracked Time | 08-06-2026 - 14-06-2026</div>
+                        <div class="email-snippet">Time tracked last week from 08-06-2026 to 14-06-2026…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-6">
+                    <div class="email-content">
+                        <div class="email-from">Kieran Flanagan (kieranflanagan@substack.com)</div>
+                        <div class="email-subject">3 Marketing Jobs Worth Paying 2x For: A Fable 5 UseCase Guide</div>
+                        <div class="email-snippet">Fable 5 is out. The internet is a buzz with use cases. But, is it really worth paying the extra premium for if you're a marketer?</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-7">
+                    <div class="email-content">
+                        <div class="email-from">GTM Strategist (gtmstrategist@substack.com)</div>
+                        <div class="email-subject">You're Probably Scaling at the Wrong Time and Speed</div>
+                        <div class="email-snippet">50% of founders scale too late and too slow. Here is how to use your performance data to optimize your scale.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-8">
+                    <div class="email-content">
+                        <div class="email-from">Roberto Ferraro (robertoferraro@substack.com)</div>
+                        <div class="email-subject">The vanity trap in leadership. Why our attention spans are shrinking.</div>
+                        <div class="email-snippet">One "must" for this week: The vanity trap in leadership: when the manager believes himself to be indispensable</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-9">
+                    <div class="email-content">
+                        <div class="email-from">Sahil Bloom (sahil@sahilbloom.com)</div>
+                        <div class="email-subject">A Mental Model for Life: Winner's vs. Loser's Game</div>
+                        <div class="email-snippet">By Sahil Bloom Winner's Game vs. Loser's Game watch on YouTube or read and listen on sahilbloom.com</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-10">
+                    <div class="email-content">
+                        <div class="email-from">Ben Meer (hi@mail.benmeer.com)</div>
+                        <div class="email-subject">I made something just for you.</div>
+                        <div class="email-snippet">A special thank-you for being one of my most engaged readers. Plus, announcing my debut book!</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-11">
+                    <div class="email-content">
+                        <div class="email-from">Ben Meer (hi@mail.benmeer.com)</div>
+                        <div class="email-subject">My debut book is finally available for pre-order</div>
+                        <div class="email-snippet">Plus, my $297 course is free for the first 5000 pre-orders</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-12">
+                    <div class="email-content">
+                        <div class="email-from">Workflows Weekly (fivos@newsletter.workflows.io)</div>
+                        <div class="email-subject">Workflows Weekly #26</div>
+                        <div class="email-snippet">June 12, 2026 | Read online Workflows Weekly #26 🚀 Every Friday, we send an exclusive email…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-13">
+                    <div class="email-content">
+                        <div class="email-from">PE Insights (sebastian.tollak@pe-insights.com)</div>
+                        <div class="email-subject">Pictet Group closes sixth co-investment fund at $1.53bn, its largest yet</div>
+                        <div class="email-snippet">Read this week's most relevant news from the Private Equity industry…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-14">
+                    <div class="email-content">
+                        <div class="email-from">Mindstream (hello@mindstream.news)</div>
+                        <div class="email-subject">This VP is managing 9,000 partners through the AI transistion</div>
+                        <div class="email-snippet">14 Jun Matt V, Maria G & Adam B Update: Last Sunday, we noted that our dear colleague…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-15">
+                    <div class="email-content">
+                        <div class="email-from">Mindstream (hello@mindstream.news)</div>
+                        <div class="email-subject">Uber already burned its 2026 AI budget</div>
+                        <div class="email-snippet">+ DoorDash thinks you're indecisive (and it's right)</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-16">
+                    <div class="email-content">
+                        <div class="email-from">Mindstream (hello@mindstream.news)</div>
+                        <div class="email-subject">Google's AI lied, now it's paying</div>
+                        <div class="email-snippet">+ Gemini just found buried treasure</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-17">
+                    <div class="email-content">
+                        <div class="email-from">Substack (no-reply@substack.com)</div>
+                        <div class="email-subject">How to Make Money With Claude in 2026 and 9 more</div>
+                        <div class="email-snippet">From Frank Andrade, Sachin Jha, Excellent AI Prompts, Michael Batko, and Substack Team</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-18">
+                    <div class="email-content">
+                        <div class="email-from">Zen Habits (leo@zenhabits.net)</div>
+                        <div class="email-subject">Navigating Through the Uncertainty of Life's Transitions</div>
+                        <div class="email-snippet">zen habits read this article on my blog Navigating Through the Uncertainty of Life's Transitions…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-19">
+                    <div class="email-content">
+                        <div class="email-from">The GTM Newsletter (thegtmnewsletter@substack.com)</div>
+                        <div class="email-subject">How to Use Sales Comp as a GTM Lever | Siva Rajamani (Everstage CEO)</div>
+                        <div class="email-snippet">He has seen 300+ sales comp plans and 90% make the same mistake.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-week-20">
+                    <div class="email-content">
+                        <div class="email-from">Rich Litvin (hello@richlitvin.com)</div>
+                        <div class="email-subject">Two Scholarships</div>
+                        <div class="email-snippet">Phil, for 20 years I've offered quiet scholarships. Sometimes for newer coaches who needed a little support…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-week">WEEK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARCHIVE TAB -->
+        <div id="archive" class="tab-content">
+            <div class="email-group">
+                <div class="group-header">System & Transactional (12)</div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-1">
+                    <div class="email-content">
+                        <div class="email-from">GoDaddy Renewals (renewals@godaddy.com)</div>
+                        <div class="email-subject">Je domein verloopt binnenkort.</div>
+                        <div class="email-snippet">Philippe Ruttens, je hebt nog 30 dagen, of je bent je domein voor altijd kwijt. Wacht niet en verleng meteen.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-2">
+                    <div class="email-content">
+                        <div class="email-from">Netlify (noreply@netlify.com)</div>
+                        <div class="email-subject">Payment received for Netlify, Inc. invoice (#LNANLI-00006)</div>
+                        <div class="email-snippet">Your invoice has been paid. $9.00 has been charged to your payment method. Invoice No. LNANLI-00006…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-3">
+                    <div class="email-content">
+                        <div class="email-from">Amazon (order-update@amazon.com.be)</div>
+                        <div class="email-subject">Delivered: 'KSM-66 Ashwagandha & Lion's...'</div>
+                        <div class="email-snippet">Delivered: 'KSM-66 Ashwagandha & Lion's...'</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-4">
+                    <div class="email-content">
+                        <div class="email-from">Booking.com (noreply@booking.com)</div>
+                        <div class="email-subject">Your review of Twinn Downtown Piraeus, Santikos Collection</div>
+                        <div class="email-snippet">[Payment confirmation / Review request]</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-5">
+                    <div class="email-content">
+                        <div class="email-from">Skool (noreply@skool.com)</div>
+                        <div class="email-subject">Weekly digest for Wed, Jun 10 2026</div>
+                        <div class="email-snippet">High Vibe Tribe skool logo Weekly Digest Aaron Doughty Want to go through the High Vibe Starter kit starting tomorrow??</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-6">
+                    <div class="email-content">
+                        <div class="email-from">Skool (noreply@skool.com)</div>
+                        <div class="email-subject">Weekly digest for Wed, Jun 10 2026 (Agent J)</div>
+                        <div class="email-snippet">Agent J skool logo Weekly Digest John Peslar New members this week : 73…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-7">
+                    <div class="email-content">
+                        <div class="email-from">Circle Alumni (no-reply@notification.circle.so)</div>
+                        <div class="email-subject">RSVP FM Alumni call Tuesday, June 23, 2026</div>
+                        <div class="email-snippet">RSVP FM Alumni call Tuesday, June 23, 2026 Jill Binder Posted in FM Alumni Connection…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-8">
+                    <div class="email-content">
+                        <div class="email-from">Substack (no-reply@substack.com)</div>
+                        <div class="email-subject">Carolus is on Substack</div>
+                        <div class="email-snippet">Carolus is on Substack…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-9">
+                    <div class="email-content">
+                        <div class="email-from">Substack (no-reply@substack.com)</div>
+                        <div class="email-subject">Live video with Scott Galloway now: America at 250: What Comes Next?</div>
+                        <div class="email-snippet">Scott Galloway is live on Substack now: "America at 250: What Comes Next?..."</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-10">
+                    <div class="email-content">
+                        <div class="email-from">Substack (no-reply@substack.com)</div>
+                        <div class="email-subject">Live video with Scott Galloway now (pruttens@gmail.com)</div>
+                        <div class="email-snippet">Scott Galloway is live on Substack now: "America at 250: What Comes Next?..."</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-11">
+                    <div class="email-content">
+                        <div class="email-from">Evolving AI (evolvingai@mail.beehiiv.com)</div>
+                        <div class="email-subject">U.S. BANS Mythos in 72 Hours After Launch</div>
+                        <div class="email-snippet">Also: AI Just Made 12000 Degrees Useless</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-archive-12">
+                    <div class="email-content">
+                        <div class="email-from">Christopher Titmuss (christophertitmuss@substack.com)</div>
+                        <div class="email-subject">See photo of top of desk at home. What is this?</div>
+                        <div class="email-snippet">You won't find the Buddha claiming mindfulness means moment to moment attention…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-archive">ARCHIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UNSUBSCRIBE TAB -->
+        <div id="unsubscribe" class="tab-content">
+            <div class="email-group">
+                <div class="group-header">Low Priority / Personal Development (23)</div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-1">
+                    <div class="email-content">
+                        <div class="email-from">Marketing Harry (info@marketingharry.com)</div>
+                        <div class="email-subject">The No-BS Marketing #127</div>
+                        <div class="email-snippet">Practical marketing lessons in 5 minutes or less</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-2">
+                    <div class="email-content">
+                        <div class="email-from">Superhuman (superhuman@mail.joinsuperhuman.ai)</div>
+                        <div class="email-subject">🐊 Scientists discover ancient giant croc</div>
+                        <div class="email-snippet">June 14, 2026 | Read online Welcome back, Superhuman. It's been nearly 25 years since the iconic Concorde jet…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-3">
+                    <div class="email-content">
+                        <div class="email-from">Superhuman (superhuman@mail.joinsuperhuman.ai)</div>
+                        <div class="email-subject">🌋 Humanoid robot summits 20K-foot volcano</div>
+                        <div class="email-snippet">June 13, 2026 | Read online Welcome back, Superhuman. Robots are going where few men have gone before…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-4">
+                    <div class="email-content">
+                        <div class="email-from">Superhuman (superhuman@mail.joinsuperhuman.ai)</div>
+                        <div class="email-subject">💰 An AI price war may be brewing</div>
+                        <div class="email-snippet">ALSO: How to automate any task with OpenAI Codex</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 12, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-5">
+                    <div class="email-content">
+                        <div class="email-from">Daily Motivation (support@dailymotivation.site)</div>
+                        <div class="email-subject">Hey Friend, your weekly wrapup is here!</div>
+                        <div class="email-snippet">Life becomes richer when you stop living in your thoughts and fully appreciate the beauty of the present moment.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-6">
+                    <div class="email-content">
+                        <div class="email-from">Daily Motivation (support@dailymotivation.site)</div>
+                        <div class="email-subject">Hey Friend, It's Your DailyMotivation Time!</div>
+                        <div class="email-snippet">Choosing trust again and again, especially during difficult moments, strengthens your resilience and inner stability.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-7">
+                    <div class="email-content">
+                        <div class="email-from">Be More With Less (support@bemorewithless.com)</div>
+                        <div class="email-subject">❤️  Weekend Favorites: how to break impulse shopping habits + 27 road trip snack recipes</div>
+                        <div class="email-snippet">Wishing you a fun weekend.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 13, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-8">
+                    <div class="email-content">
+                        <div class="email-from">Be More With Less (support@bemorewithless.com)</div>
+                        <div class="email-subject">Simplifying doesn't mean all or nothing</div>
+                        <div class="email-snippet">And a few questions to ask about your stuff.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 14, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-9">
+                    <div class="email-content">
+                        <div class="email-from">All The Hacks (chris@allthehacks.com)</div>
+                        <div class="email-subject">💰 My Top Picks, Recommendation & More (6/15/26)</div>
+                        <div class="email-snippet">4x New 100k+ Point Welcome Offers, Father's Day Gift Ideas, $1250 Brokerage Bonus and More.</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-10">
+                    <div class="email-content">
+                        <div class="email-from">1% Better (colby@percentbetter.com)</div>
+                        <div class="email-subject">1% Better: 63 Principles for Life, Do it For The Story, and Elfing</div>
+                        <div class="email-snippet">By Colby Kultgen 63 Principles for Life, Do it For The Story, and Elfing Read online / Read time: 4 minutes…</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 15, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-11">
+                    <div class="email-content">
+                        <div class="email-from">Ruben Substack (ruben@substack.com)</div>
+                        <div class="email-subject">Vibecoding.</div>
+                        <div class="email-snippet">(for people who will never, ever code)</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-12">
+                    <div class="email-content">
+                        <div class="email-from">New Economies (neweconomies@substack.com)</div>
+                        <div class="email-subject">Replit's President & Head of AI | Michele Catasta</div>
+                        <div class="email-snippet">Listen now (50 mins) | Why vibe coding is bigger than coding — and what Replit is building next</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-13">
+                    <div class="email-content">
+                        <div class="email-from">ProfG Media (profgmedia@substack.com)</div>
+                        <div class="email-subject">America at 250, with Heather Cox Richardson</div>
+                        <div class="email-snippet">We're live today at 12:15 pm ET</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-14">
+                    <div class="email-content">
+                        <div class="email-from">Observatoire (observatoire@multinationales.org)</div>
+                        <div class="email-subject">À quoi servent vos dons ?</div>
+                        <div class="email-snippet">Aidez-nous à atteindre notre objectif de 300 nouveaux donateurs mensuels d'ici l'été !</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 16, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <input type="checkbox" class="email-checkbox" data-key="email-unsub-15">
+                    <div class="email-content">
+                        <div class="email-from">Job Alerts (info@jobs.totaljobsmail.com)</div>
+                        <div class="email-subject">3 new "head" jobs in London</div>
+                        <div class="email-snippet">Don't miss out on your chance to find the right job!</div>
+                        <div class="email-meta">
+                            <span class="email-date">Jun 17, 2026</span>
+                            <span class="email-badge badge-unsubscribe">UNSUBSCRIBE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Inbox Triage v2.5 | Last updated Jun 17 2026 | localStorage: inbox-triage-jun17 | Total threads: 59 unread
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'inbox-triage-jun17';
+
+        // Load checkbox state from localStorage
+        function loadCheckboxState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+
+            const checked = JSON.parse(saved);
+            Object.keys(checked).forEach(key => {
+                const checkbox = document.querySelector(`input[data-key="${key}"]`);
+                if (checkbox) {
+                    checkbox.checked = checked[key];
+                }
+            });
+        }
+
+        // Save checkbox state to localStorage
+        function saveCheckboxState() {
+            const checked = {};
+            document.querySelectorAll('.email-checkbox').forEach(checkbox => {
+                const key = checkbox.getAttribute('data-key');
+                checked[key] = checkbox.checked;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+        }
+
+        // Attach change listeners to all checkboxes
+        document.querySelectorAll('.email-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', saveCheckboxState);
+        });
+
+        // Switch tabs
+        function switchTab(event, tabName) {
+            event.preventDefault();
+
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active from all tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Load state on page load
+        document.addEventListener('DOMContentLoaded', loadCheckboxState);
+    </script>
+</body>
+</html>

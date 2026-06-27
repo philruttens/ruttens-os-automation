@@ -1,0 +1,831 @@
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Investment Dashboard",
+  "schemaVersion": 1,
+  "description": "RUTTENS+ Investment Dashboard — Jun 24 2026. Portfolio €669,883 | FI Gap €80,117 | FY25 Close: 6 urgent Fineko actions added (R/C €14k, SPF €6.4k, wage €4.4k, MeDirect+Keytrade reviews, Acerta list, EUR 150 wage search) — all due by 27 Jun. DCA €2,500/mo"
+}
+</script>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f7f4;color:#1a1a1a;padding:14px;font-size:13px;line-height:1.5}
+.tabs{display:flex;gap:4px;background:#e8e7e2;border-radius:10px;padding:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:80px;padding:7px 10px;background:transparent;border:none;border-radius:7px;font-size:12px;font-weight:500;color:#666;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab-btn.active{background:#fff;color:#2F5496;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tab-btn:hover:not(.active){background:#fffc;color:#333}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.grid{display:grid;gap:12px;margin-bottom:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:#fff;border:.5px solid #e0dfd8;border-radius:10px;padding:14px 16px}
+.metric{background:#f3f2ee;border-radius:8px;padding:11px 12px;text-align:center}
+.metric .lbl{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.metric .val{font-size:20px;font-weight:700}.metric .sub{font-size:10px;color:#888;margin-top:1px}
+.green{color:#1D9E75}.amber{color:#BA7517}.red{color:#A32D2D}.blue{color:#2F5496}
+.bar-bg{background:#e8e7e2;border-radius:6px;height:20px;overflow:hidden;margin:6px 0;position:relative}
+.bar-fill{height:100%;border-radius:6px;transition:width .6s;background:linear-gradient(90deg,#2F5496,#1D9E75)}
+.bar-label{position:absolute;right:8px;top:2px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 0 4px rgba(0,0,0,.4)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-weight:600;color:#555;padding:5px 8px;border-bottom:1.5px solid #e0dfd8;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+td{padding:5px 8px;border-bottom:.5px solid #f0efea;vertical-align:middle}
+td.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.tr-total{font-weight:700;border-top:2px solid #2F5496;background:#f7f9fe}
+tr.tr-total td{color:#2F5496}
+input.val{width:94px;text-align:right;border:1px solid #ddd;border-radius:4px;padding:3px 6px;font-size:12px;font-variant-numeric:tabular-nums;background:#fffde7}
+input.val:focus{outline:2px solid #2F5496;border-color:#2F5496;background:#fffad0}
+input.vsm{width:60px}input.vpct{width:50px;text-align:center}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.t-urg{background:#FCEBEB;color:#A32D2D}.t-hi{background:#FCE4D6;color:#993C1D}.t-med{background:#FAEEDA;color:#854F0B}.t-lo{background:#EAF3DE;color:#3B6D11}
+.t-done{background:#DCEFE0;color:#1D6D2E}.t-prog{background:#E3EAF7;color:#2F5496}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#2F5496;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.btn:hover{background:#1e3a6e}.btn-g{background:#1D9E75}.btn-g:hover{background:#147a5a}.btn-sm{padding:5px 12px;font-size:11px}
+.pbox{background:#f0f4fa;border:1.5px dashed #2F5496;border-radius:8px;padding:12px 14px;font-size:12px;color:#2F5496;cursor:pointer;line-height:1.5}
+.pbox:hover{background:#e4ecf7}.pbox strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px;opacity:.7}
+h3{font-size:11px;font-weight:700;margin-bottom:8px;color:#555;text-transform:uppercase;letter-spacing:.4px}
+.disclaimer{font-size:10px;color:#999;margin-top:14px;padding:8px 12px;background:#fef9f0;border-radius:6px;border-left:3px solid #e0c068}
+.chart-wrap{position:relative;width:100%;height:240px;margin:12px 0}
+.copy-btn{padding:5px 14px;background:#555;color:#fff;border:none;border-radius:5px;font-size:11px;cursor:pointer}
+.copy-btn:hover{background:#333}
+.ph{display:flex;align-items:center;padding:10px 14px 10px;margin:-14px -16px 12px;border-radius:10px 10px 0 0;border-bottom:.5px solid #e8e7e2;gap:10px}
+.ph-md{background:linear-gradient(135deg,#dceefa,#bde0f7)}.ph-kt{background:linear-gradient(135deg,#fef0ea,#fdddd0)}.ph-vb{background:linear-gradient(135deg,#e5ebf5,#c8d7ee)}.ph-oth{background:linear-gradient(135deg,#edf7f1,#d6eee0)}
+.ph-name{font-size:13px;font-weight:700;color:#1a1a1a}.ph-sub{font-size:10px;color:#888;margin-top:1px}
+.logo-lg{width:40px;height:40px;flex-shrink:0}
+.logo-sm{width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0}
+.banner{background:linear-gradient(135deg,#dceefa,#cfe9d7);border:1px solid #bde0f7;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:12px;color:#2F5496}
+.banner strong{font-weight:700;color:#1D9E75}
+.flow{font-family:'SF Mono','Monaco',monospace;font-size:11px;background:#f8f7f4;padding:10px 12px;border-radius:6px;line-height:1.7;white-space:pre;overflow-x:auto}
+  .cb { width:15px; height:15px; border:1.5px solid #a8a29e; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; user-select:none; }
+  .cb.done { background:#1D9E75; border-color:#1D9E75; }
+  .cb.done::after { content:'✓'; color:#fff; font-size:10px; font-weight:700; }
+  tr.row-done td:not(:first-child) { text-decoration: line-through; opacity: 0.45; }
+  li.li-done .action-text,
+  li.li-done .al-text { text-decoration: line-through; opacity: 0.45; }
+  .action-check.done ~ .action-text { text-decoration: line-through; opacity: 0.45; }
+/* Market Intel specific */
+.scen-card{border-radius:10px;padding:12px 14px;margin-bottom:10px;border:1.5px solid}
+.scen-green{background:#edf7f1;border-color:#1D9E75}
+.scen-amber{background:#fef9ec;border-color:#BA7517}
+.scen-red{background:#fcebeb;border-color:#A32D2D}
+.scen-title{font-size:13px;font-weight:800;margin-bottom:4px}
+.prob-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-left:8px}
+.pb-green{background:#1D9E75;color:#fff}.pb-amber{background:#BA7517;color:#fff}.pb-red{background:#A32D2D;color:#fff}
+.action-row-buy{background:#edf7f1}
+.action-row-hold{background:#e3eaf7}
+.action-row-exit{background:#fef9ec}
+.action-row-no{background:#f8f7f4;opacity:.7}
+.signal-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
+.sd-green{background:#1D9E75}.sd-amber{background:#BA7517}.sd-red{background:#A32D2D}
+</style>
+
+<div id="prog-banner" style="position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid #e5e7eb;padding:8px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;white-space:nowrap;">Actions Progress</span><div style="flex:1;background:#f3f4f6;border-radius:3px;height:9px;overflow:hidden;"><div id="prog-bar" style="height:100%;width:0%;border-radius:3px;background:#ef4444;transition:width .4s,background .4s;"></div></div><span id="prog-pct" style="font-size:14px;font-weight:800;color:#ef4444;min-width:38px;text-align:right;">0%</span><span id="prog-label" style="font-size:11px;color:#9ca3af;white-space:nowrap;">0 / 21 done</span><button onclick="resetProgress()" style="background:none;border:1px solid #e5e7eb;border-radius:3px;padding:2px 8px;font-size:10px;color:#9ca3af;cursor:pointer;">↺ Reset</button></div>
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+  <div>
+    <div style="font-size:18px;font-weight:800;color:#2F5496">RUTTENS+ Investment Dashboard</div>
+    <div style="font-size:11px;color:#888">Phil Ruttens &middot; FI target &#8364;800k &middot; &#8364;40k/yr passive income from 2027&ndash;28 &middot; Gap ~&#8364;128k &middot; Last updated: <span id="lastUpdate">&mdash;</span></div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-sm" onclick="recalc()">&#8635; Recalculate</button>
+    <button class="btn btn-sm btn-g" onclick="sendPrompt('Update my RUTTENS+ investment tracker with latest dashboard values. Show FI progress, recalculate projections to April 2028, recommend DCA changes.')">Sync to Claude &#8599;</button>
+  </div>
+</div>
+
+<div class="banner" style="background:linear-gradient(135deg,#edf7f1,#d6eee0);border-color:#1D9E75;color:#1D6D2E;"><span style="font-size:18px">&#128200;</span><div><strong style="color:#1D9E75">MARKET INTEL UPDATED &mdash; Jun 13, 2026 &middot; Portfolio &#8364;669,883 &middot; Gap &#8364;80,117</strong> &mdash; Iran peace deal final text reportedly agreed Jun 12. <strong>Action: Buy DFEU &#8364;8k + VWCE &#8364;8k on MeDirect Monday Jun 16. Only ~&#8364;2k cash remains after trades — use July DCA for seasonal dip.</strong> See &#128200; Market Intel tab for full analysis &amp; execution checklist.</div></div>
+<div class="banner"><span style="font-size:18px">&#9989;</span><div><strong>FY 2025 closing status</strong> &mdash; Dividend &#8364;132,292.70 declared (VVPRbis 15%, RV &#8364;19,843.91 paid 27/12/2025). Net &#8364;112,448.79: &#8364;30k paid to MeDirect 9/2/2026; ~&#8364;18.4k still due via R/C+salary.</div></div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('ov',this)">&#128202; Overview</button>
+  <button class="tab-btn" onclick="switchTab('ho',this)">&#127974; Holdings</button>
+  <button class="tab-btn" onclick="switchTab('dc',this)">&#128197; DCA Plan</button>
+  <button class="tab-btn" onclick="switchTab('bv',this)">&#129534; BV &amp; Tax</button>
+  <button class="tab-btn" onclick="switchTab('fy',this)">&#128203; FY25 Close</button>
+  <button class="tab-btn" onclick="switchTab('ac',this)">&#9989; Actions</button>
+  <button class="tab-btn" onclick="switchTab('mi',this)" style="background:#1D9E75;color:#fff;font-weight:800;">&#128200; Market Intel</button>
+  <button class="tab-btn" onclick="switchTab('sn',this)">&#128203; Snapshot</button>
+</div>
+
+<div id="tab-ov" class="tab-pane active">
+  <div class="grid g4" id="topMetrics" style="margin-bottom:14px"></div>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <h3 style="margin-bottom:0">FI Progress &mdash; <span id="fiPct" class="blue">0%</span> of &#8364;800,000</h3>
+      <span style="font-size:11px;color:#888">April 2028</span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="fiBar" style="width:0%"></div><span class="bar-label" id="fiBarLbl">0%</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:3px"><span>&#8364;0</span><span>&#8364;200k</span><span>&#8364;500k</span><span>&#8364;800k &#10003;</span></div>
+  </div>
+  <div class="grid g4" id="platSummary" style="margin-bottom:14px"></div>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+      <h3 style="margin-bottom:0">FI Projection to April 2028</h3>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <label style="font-size:11px;color:#666">Monthly DCA &#8364;<input class="val vsm" id="monthlyContrib" value="2500" onchange="recalc()" style="width:70px"></label>
+        <label style="font-size:11px;color:#666">Extra cash &#8364;<input class="val vsm" id="cashNow" value="16000" onchange="recalc()" style="width:80px"></label>
+        <span style="font-size:11px;color:#888">Months left: <strong id="mLeft" class="blue">&mdash;</strong></span>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="projChart"></canvas></div>
+    <div id="scenTable" style="margin-top:10px"></div>
+  </div>
+  <div class="grid g2">
+    <div class="pbox" onclick="sendPrompt('I have €18k cash at MeDirect to deploy now (Jun 2026). Actual plan: DFEU €8k + VWCE €8k = €16k total. Only ~€2k dry powder remains after trades. Iran war may resolve by Sep 2026. Confirm this allocation for my FI goal of €800k by Apr 2028.')"><strong>&#128184; Deploy &#8364;18k now &mdash; Jun 2026 plan</strong>DFEU &#8364;8k + VWCE &#8364;8k = &#8364;16k. Only ~&#8364;2k dry powder remains. Confirm.</div>
+    <div class="pbox" onclick="sendPrompt('Check my FI progress. Run 3 scenarios (3%, 6%, 10%) to April 2028. What do I need to do to close the gap to €800k? I need €40k/yr passive income from 2027-2028.')"><strong>&#128200; Check FI progress</strong>Run 3 scenarios, show gap to &#8364;800k, give the action plan.</div>
+    <div class="pbox" onclick="sendPrompt('Build a data dashboard summary of my RUTTENS+ portfolio. Show platform breakdown, allocation %, FI progress, monthly run-rate. Format clearly for review.')"><strong>&#128202; Portfolio summary</strong>Full data summary &mdash; platform breakdown, allocation %, FI progress.</div>
+    <div class="pbox" onclick="sendPrompt('Update FY25 close status: did Lien Kuppens confirm the dividend bookkeeping (R/C bestuurders interpretation)? Did the EUR 14k R/C balance + EUR 4.4k salary debt arrive on my private account? Update tracker accordingly.')"><strong>&#9989; FY25 close follow-up</strong>Did Lien confirm? Did R/C+salary arrive? Update tracker.</div>
+  </div>
+</div>
+
+<div id="tab-ho" class="tab-pane">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:9px 14px;background:#fff;border:.5px solid #e0dfd8;border-radius:8px">
+    <span style="font-size:11px;color:#888;flex:1">&#9999;&#65039; Edit yellow cells then click Recalculate. Platform totals update automatically.</span>
+    <button class="btn btn-sm" onclick="recalc()">&#8635; Recalculate all</button>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="ph ph-md">
+        <svg class="logo-lg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="9" fill="#005B99"/>
+          <rect x="4" y="4" width="32" height="32" rx="6" fill="#0072B8"/>
+          <text x="20" y="17" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="12" font-weight="900" fill="white">me</text>
+          <text x="20" y="28" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" font-weight="400" fill="#9DD4F5" letter-spacing="0.8">Direct</text>
+        </svg>
+        <div><div class="ph-name">MeDirect</div><div class="ph-sub">Primary &mdash; Belgian bank &middot; Cash: &#8364;18k (update post-trade Mon Jun 16)</div></div>
+      </div>
+      <table>
+        <tr><th>Account / Fund</th><th style="text-align:right">Value (&#8364;)</th></tr>
+        <tr><td>GREEN Fund</td><td class="r"><input class="val" id="med_green" value="48966" onchange="recalc()"></td></tr>
+        <tr><td>MijnKapitaal Flexer</td><td class="r"><input class="val" id="med_flexer" value="70027" onchange="recalc()"></td></tr>
+        <tr><td>Portefeuille 2017</td><td class="r"><input class="val" id="med_port" value="65038" onchange="recalc()"></td></tr>
+        <tr><td>Morning Star Capital</td><td class="r"><input class="val" id="med_mstar" value="45898" onchange="recalc()"></td></tr>
+        <tr><td>Fond 1 2017</td><td class="r"><input class="val" id="med_fond1" value="14123" onchange="recalc()"></td></tr>
+        <tr><td>Medium High</td><td class="r"><input class="val" id="med_medhigh" value="68255" onchange="recalc()"></td></tr>
+        <tr><td>MeManaged 2024</td><td class="r"><input class="val" id="med_managed" value="16179" onchange="recalc()"></td></tr>
+        <tr><td>Cash on account <span style="color:#1D9E75;font-size:10px">&#43;&#8364;30k 9/2</span></td><td class="r"><input class="val" id="med_cash" value="18000" onchange="recalc()"></td></tr>
+        <tr class="tr-total"><td>MeDirect TOTAL</td><td class="r" id="medT">&mdash;</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ph ph-kt">
+        <svg class="logo-lg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="9" fill="#C83A10"/>
+          <rect x="2" y="2" width="36" height="36" rx="8" fill="#E84818"/>
+          <circle cx="16" cy="16" r="7" fill="none" stroke="white" stroke-width="2.5"/>
+          <circle cx="16" cy="16" r="3.2" fill="white"/>
+          <rect x="22.5" y="15" width="11" height="2.8" rx="1.4" fill="white"/>
+          <rect x="30" y="17.8" width="3.5" height="2.5" rx="1" fill="white"/>
+          <rect x="26.5" y="17.8" width="3" height="4" rx="1" fill="white"/>
+        </svg>
+        <div><div class="ph-name">Keytrade Bank</div><div class="ph-sub">Secondary &mdash; online broker</div></div>
+      </div>
+      <table>
+        <tr><th>Account / Fund</th><th style="text-align:right">Value (&#8364;)</th></tr>
+        <tr><td>Equilibre</td><td class="r"><input class="val" id="key_equil" value="39263" onchange="recalc()"></td></tr>
+        <tr><td>My Mix 2017</td><td class="r"><input class="val" id="key_mix" value="34296" onchange="recalc()"></td></tr>
+        <tr><td>KEYPLAN</td><td class="r"><input class="val" id="key_plan" value="18307" onchange="recalc()"></td></tr>
+        <tr><td>KEYPLAN 2020</td><td class="r"><input class="val" id="key_plan20" value="32413" onchange="recalc()"></td></tr>
+        <tr><td>KEYPRIVATE</td><td class="r"><input class="val" id="key_priv" value="33508" onchange="recalc()"></td></tr>
+        <tr><td>Cash on account</td><td class="r"><input class="val" id="key_cash" value="2194" onchange="recalc()"></td></tr>
+        <tr class="tr-total"><td>Keytrade TOTAL</td><td class="r" id="keyT">&mdash;</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ph ph-vb" style="gap:8px">
+        <svg class="logo-lg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="9" fill="#002A62"/>
+          <rect x="2" y="2" width="36" height="36" rx="8" fill="#003F8A"/>
+          <path d="M20 8 L30 12 L30 22 Q30 30 20 34 Q10 30 10 22 L10 12 Z" fill="none" stroke="white" stroke-width="2"/>
+          <text x="20" y="23" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="9" font-weight="900" fill="white">VB</text>
+        </svg>
+        <div style="flex:1"><div class="ph-name">Bank Van Breda</div><div class="ph-sub">Privé only &mdash; BV C+F sold dec 25/jan 26</div></div>
+        <svg style="width:34px;height:34px;flex-shrink:0" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+          <rect width="34" height="34" rx="7" fill="#4A1D8C"/>
+          <text x="17" y="14" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#B38FE0">DELEN</text>
+          <path d="M10 18 L10 28 L16 28 Q22 28 22 23 Q22 18 16 18 Z" fill="white"/>
+          <path d="M12 20 L16 20 Q20 20 20 23 Q20 26 16 26 L12 26 Z" fill="#4A1D8C"/>
+        </svg>
+      </div>
+      <table>
+        <tr><th>Account / Fund</th><th style="text-align:right">Value (&#8364;)</th></tr>
+        <tr><td>Medium Invest Bond <span style="color:#888;font-size:10px">privé</span></td><td class="r"><input class="val" id="vb_bond" value="100250" onchange="recalc()"></td></tr>
+        <tr><td>C+F World Equities <span style="color:#A32D2D;font-size:10px">BV - sold</span></td><td class="r"><input class="val" id="vb_cf" value="0" onchange="recalc()"></td></tr>
+        <tr><td>Universal Invest (346068) <span style="color:#888;font-size:10px">empty</span></td><td class="r"><input class="val" id="vb_uni" value="0" onchange="recalc()"></td></tr>
+        <tr><td>Savings EUR <span style="color:#888;font-size:10px">privé</span></td><td class="r"><input class="val" id="vb_sav" value="1000" onchange="recalc()"></td></tr>
+        <tr class="tr-total"><td>Van Breda TOTAL <span style="color:#888;font-size:10px;font-weight:400">privé only</span></td><td class="r" id="vbT">&mdash;</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ph ph-oth">
+        <span style="font-size:28px">&#128184;</span>
+        <div><div class="ph-name">Other Liquid Assets</div><div class="ph-sub">Insurance, shares &amp; bonds</div></div>
+      </div>
+      <table>
+        <tr><th>Asset</th><th style="text-align:right">Value (&#8364;)</th></tr>
+        <tr><td>
+          <svg class="logo-sm" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#006CB7"/><circle cx="9" cy="9" r="6" fill="none" stroke="white" stroke-width="1.5"/><text x="9" y="12.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" font-weight="700" fill="white">SL</text></svg>
+          Standard Life (K2082447)
+        </td><td class="r"><input class="val" id="oth_stdlife" value="23116" onchange="recalc()"></td></tr>
+        <tr><td>
+          <svg class="logo-sm" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#A100FF"/><polyline points="5,5 12,9 5,13" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          Accenture shares
+        </td><td class="r"><input class="val" id="oth_acc" value="6520" onchange="recalc()"></td></tr>
+        <tr><td>
+          <svg class="logo-sm" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#00008F"/><text x="9" y="12.5" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="7" font-weight="900" fill="white">AXA</text></svg>
+          AXA / Phoenix Bond
+        </td><td class="r"><input class="val" id="oth_axa" value="17000" onchange="recalc()"></td></tr>
+        <tr class="tr-total"><td>Other liquid TOTAL</td><td class="r" id="othT">&mdash;</td></tr>
+      </table>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px dashed #e0dfd8">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:20px">&#127970;</span>
+          <div><div style="font-size:12px;font-weight:700;color:#854F0B">Business / BV</div><div style="font-size:10px;color:#888">Separate entity &mdash; not in FI total</div></div>
+        </div>
+        <table><tr><th>Account</th><th style="text-align:right">Value (&#8364;)</th></tr>
+        <tr><td>BV business accounts <span style="color:#888;font-size:10px">Qonto+BvB+Wise post-dividend</span></td><td class="r"><input class="val" id="oth_biz" value="22000" onchange="recalc()"></td></tr></table>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="background:#f7f9fe;border-color:#2F5496">
+    <div class="grid g4">
+      <div class="metric"><div class="lbl">Liquid total</div><div class="val blue" id="gtLiq">&mdash;</div><div class="sub">For FI calculation</div></div>
+      <div class="metric"><div class="lbl">FI gap</div><div class="val amber" id="gtGap">&mdash;</div><div class="sub">to &#8364;800k target</div></div>
+      <div class="metric"><div class="lbl">Total incl. BV</div><div class="val" id="gtAll">&mdash;</div><div class="sub">All accounts</div></div>
+      <div class="metric"><div class="lbl">FI progress</div><div class="val green" id="gtPct">&mdash;</div><div class="sub">of target reached</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-dc" class="tab-pane">
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+      <div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.3px">Monthly DCA total</div>
+        <div style="font-size:24px;font-weight:800;color:#2F5496">&#8364;<span id="dcaDisp">2,500</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <label style="font-size:12px;color:#666">Change &#8364;</label>
+        <input class="val" id="dcaIn" value="2500" onchange="syncDCA()" style="font-size:14px;width:80px">
+      </div>
+    </div>
+    <table>
+      <tr><th>ETF</th><th>ISIN</th><th style="text-align:center">%</th><th style="text-align:right">Monthly &#8364;</th><th>Platform</th><th style="font-size:10px;color:#888">Theme</th></tr>
+      <tr><td><svg class="logo-sm" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#005B99"/><text x="9" y="12.5" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="6" font-weight="900" fill="white">me</text></svg><strong>IWDA</strong> MSCI World</td><td style="font-size:10px;color:#888">IE00B4L5Y983</td><td style="text-align:center"><input class="val vpct" id="pct_iwda" value="35" onchange="recalc()">%</td><td class="r" id="d_iwda">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">Core global</td></tr>
+      <tr><td><svg class="logo-sm" viewBox="0 0 18 18"><rect width="18" height="18" rx="4" fill="#005B99"/><text x="9" y="12.5" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="6" font-weight="900" fill="white">me</text></svg><strong>CSPX</strong> S&amp;P 500</td><td style="font-size:10px;color:#888">IE00B5BMR087</td><td style="text-align:center"><input class="val vpct" id="pct_cspx" value="15" onchange="recalc()">%</td><td class="r" id="d_cspx">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">US large cap</td></tr>
+      <tr><td>&#129756; <strong>IGLN</strong> Physical Gold</td><td style="font-size:10px;color:#888">IE00B4ND3602</td><td style="text-align:center"><input class="val vpct" id="pct_igln" value="15" onchange="recalc()">%</td><td class="r" id="d_igln">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">Hedge</td></tr>
+      <tr><td>&#127758; <strong>EMIM</strong> Emerging Mkts</td><td style="font-size:10px;color:#888">IE00BKM4GZ66</td><td style="text-align:center"><input class="val vpct" id="pct_emim" value="10" onchange="recalc()">%</td><td class="r" id="d_emim">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">EM growth</td></tr>
+      <tr><td>&#128179; <strong>IBGS</strong> EUR Bonds 1-3yr</td><td style="font-size:10px;color:#888">IE00B14X4Q57</td><td style="text-align:center"><input class="val vpct" id="pct_ibgs" value="10" onchange="recalc()">%</td><td class="r" id="d_ibgs">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">Stability</td></tr>
+      <tr><td>&#128300; <strong>IBB</strong> Biotech</td><td style="font-size:10px;color:#888">IE00BYXG2H39</td><td style="text-align:center"><input class="val vpct" id="pct_ibb" value="8" onchange="recalc()">%</td><td class="r" id="d_ibb">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">AI/health</td></tr>
+      <tr><td>&#9889; <strong>INRG</strong> Clean Energy</td><td style="font-size:10px;color:#888">IE00B1XNHC34</td><td style="text-align:center"><input class="val vpct" id="pct_inrg" value="4" onchange="recalc()">%</td><td class="r" id="d_inrg">&mdash;</td><td>MeDirect</td><td style="font-size:10px;color:#888">Thematic</td></tr>
+      <tr><td>&#128176; Cash buffer</td><td style="font-size:10px;color:#888">&mdash;</td><td style="text-align:center"><input class="val vpct" id="pct_cash" value="3" onchange="recalc()">%</td><td class="r" id="d_cash">&mdash;</td><td>&mdash;</td><td style="font-size:10px;color:#888">Liquidity</td></tr>
+      <tr class="tr-total"><td colspan="2"><strong>Total</strong></td><td style="text-align:center;font-weight:700" id="dcaPct">&mdash;</td><td class="r" id="dcaAmt">&mdash;</td><td colspan="2"></td></tr>
+    </table>
+    <div id="dcaWarn" style="display:none;margin-top:8px;padding:6px 10px;background:#fcebeb;color:#a32d2d;border-radius:6px;font-size:11px;font-weight:600">&#9888; Percentages don&apos;t sum to 100%</div>
+  </div>
+  <div class="pbox" onclick="sendPrompt('Review my RUTTENS+ DCA allocations given June 2026 market conditions: Iran geopolitics resolving, ECB rate hike, AI sector strength. Current: IWDA 35%, CSPX 15%, IGLN 15%, EMIM 10%, IBGS 10%, IBB 8%, INRG 4%, Cash 3%. Should I add DFEU (iShares Europe Defence) as a satellite?')"><strong>&#129302; Review DCA with Claude &mdash; Jun 2026</strong>Iran scenario, ECB hike, DFEU satellite allocation &mdash; get rebalancing advice.</div>
+</div>
+
+<div id="tab-bv" class="tab-pane">
+  <div class="grid g2" style="margin-bottom:14px">
+    <div class="card">
+      <h3>Revenue input (2026 YTD)</h3>
+      <table>
+        <tr><th>Field</th><th style="text-align:right">Value</th></tr>
+        <tr><td>Revenue to date (&#8364;)</td><td class="r"><input class="val" id="bv_rev" value="33709" onchange="recalcBV()"></td></tr>
+        <tr><td>Months of data (1&ndash;12)</td><td class="r"><input class="val vsm" id="bv_mo" value="4" onchange="recalcBV()"></td></tr>
+        <tr><td>Annual cost base (&#8364;)</td><td class="r"><input class="val" id="bv_cost" value="25000" onchange="recalcBV()"></td></tr>
+        <tr><td>Corp tax rate % (BE: 25%)</td><td class="r"><input class="val vsm" id="bv_tax" value="20" onchange="recalcBV()">%</td></tr>
+        <tr><td>Net salary / year (&#8364;)</td><td class="r"><input class="val" id="bv_sal" value="22700" onchange="recalcBV()"></td></tr>
+      </table>
+      <p style="font-size:10px;color:#888;margin-top:6px">YTD: AYA &#8364;12,826 + EREA &#8364;5,324 + EREA &#8364;3,146 + Wayfina USD &#8364;5,000 (&asymp; &#8364;4,500) + smaller. Tax rate 20% (KMO first &#8364;100k profit).</p>
+    </div>
+    <div class="card"><h3>Estimated annual financials</h3><div class="grid g2" id="bvM"></div></div>
+  </div>
+  <div class="card">
+    <h3>Belgian advance tax payments 2026</h3>
+    <table>
+      <tr><th>Quarter</th><th>Due</th><th style="text-align:right">Amount (&#8364;)</th><th>Status</th></tr>
+      <tr><td>Q1 2026 &mdash; VA1</td><td>10 Apr 2026</td><td class="r" id="tq1">&mdash;</td><td><span style="color:#BA7517;font-size:11px;font-weight:600">Check paid</span></td></tr>
+      <tr><td>Q2 2026 &mdash; VA2</td><td>10 Jul 2026</td><td class="r" id="tq2">&mdash;</td><td><span style="color:#888;font-size:11px">Upcoming</span></td></tr>
+      <tr><td>Q3 2026 &mdash; VA3</td><td>10 Oct 2026</td><td class="r" id="tq3">&mdash;</td><td><span style="color:#888;font-size:11px">Future</span></td></tr>
+      <tr><td>Q4 2026 &mdash; VA4</td><td>20 Dec 2026</td><td class="r" id="tq4">&mdash;</td><td><span style="color:#888;font-size:11px">Future</span></td></tr>
+      <tr class="tr-total"><td colspan="2">Annual obligation</td><td class="r" id="ttot">&mdash;</td><td></td></tr>
+    </table>
+    <p style="font-size:10px;color:#999;margin-top:8px">&#9888; Profit = annualised revenue &minus; costs &minus; salary. Confirm with Fineko.</p>
+  </div>
+  <div style="margin-top:12px"><div class="pbox" onclick="sendPrompt('Update my BV financials Q2 2026. Recalculate annual profit, Belgian corporate tax 20% (KMO), quarterly advance payments VA1-VA4, net available for new dividend in dec 2026 / DCA. Also confirm Q1 VA1 status.')"><strong>&#129534; Full BV Q2 review</strong>Recalculate BV financials and confirm Belgian quarterly advance tax status.</div></div>
+</div>
+
+<div id="tab-fy" class="tab-pane">
+  <div class="card" style="margin-bottom:14px">
+    <h3>FY 2025 closing &mdash; status</h3>
+    <div class="grid g4">
+      <div class="metric"><div class="lbl">BV Net result 2025</div><div class="val green">&#8364;24,850</div><div class="sub">Added to reserves</div></div>
+      <div class="metric"><div class="lbl">Gross dividend</div><div class="val blue">&#8364;132,293</div><div class="sub">Declared 17/12/2025</div></div>
+      <div class="metric"><div class="lbl">RV (15% VVPRbis)</div><div class="val amber">&#8364;19,844</div><div class="sub">Paid FOD 27/12/2025</div></div>
+      <div class="metric"><div class="lbl">Net dividend Phil</div><div class="val green">&#8364;112,449</div><div class="sub">After RV</div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <h3>Cash flow dec 2025 - feb 2026 (reconciled)</h3>
+    <div class="flow">17/12/25 · Notulen tussentijds dividend €132,293 (OkiOki)
+17/12/25 · Qonto BV     -€5,000      » Voorafbetaling Ven.B. VA4
+23/12/25 · BvB BV       +€39,678     « Verkoop 257 C+F WORLD EQUITIES @154.39
+23/12/25 · BvB → Qonto -€25,000     » Intern BV
+24/12/25 · BvB → Qonto -€13,000     » Intern BV
+24/12/25 · Qonto BV     -€3,253      » VAPZ AG Insurance
+27/12/25 · Qonto BV     -€19,844     » RV 15% VVPRbis → FOD ✓
+20/01/26 · BvB BV       +€36,399     « Verkoop 227 C+F WORLD EQUITIES @160.35
+20/01/26 · BvB → Qonto -€30,000     » Intern BV
+22/01/26 · BvB → Qonto -€6,399      » Intern BV
+09/02/26 · Qonto BV     -€30,000     » MeDirect privé (deel netto-dividend) ✓</div>
+  </div>
+  <div class="grid g2" style="margin-bottom:14px">
+    <div class="card">
+      <h3>R/C bestuurders flow</h3>
+      <table>
+        <tr><td>Pre-dividend Phil debet (geschat)</td><td class="r">~&#8364;-68,430</td></tr>
+        <tr><td>+ Dividend BV &rarr; Phil</td><td class="r" style="color:#1D9E75">+&#8364;112,449</td></tr>
+        <tr><td>= Eindsaldo R/C 31/12/2025 (PDF &check;)</td><td class="r"><strong>&#8364;44,019</strong></td></tr>
+        <tr><td>- Betaling 9/2/2026 &rarr; MeDirect</td><td class="r" style="color:#A32D2D">-&#8364;30,000</td></tr>
+        <tr class="tr-total"><td>Resterend BV verschuldigd aan Phil</td><td class="r"><strong>~&#8364;14,019</strong></td></tr>
+      </table>
+      <p style="font-size:10px;color:#888;margin-top:6px;font-style:italic">&#9888; Werkende interpretatie &mdash; te bevestigen door Lien (email 5/5/2026)</p>
+    </div>
+    <div class="card">
+      <h3>Cash inkomend Q2 2026 (verwacht)</h3>
+      <table>
+        <tr><th>Bron</th><th style="text-align:right">Bedrag</th><th>ETA</th></tr>
+        <tr><td>R/C bestuurders restant</td><td class="r"><strong>&#8364;14,019</strong></td><td>Mei-Juni</td></tr>
+        <tr><td>Loonschuld 455000</td><td class="r"><strong>&#8364;4,400</strong></td><td>Mei</td></tr>
+        <tr><td>Tegoed Ven.B. (412000)</td><td class="r">&#8364;2,771</td><td>FOD-tijd</td></tr>
+        <tr><td>IPB-teruggave 2025 (geschat)</td><td class="r">&#8364;2,830</td><td>Eind 2026</td></tr>
+        <tr class="tr-total"><td>Totaal verwacht</td><td class="r"><strong>~&#8364;24,020</strong></td><td></td></tr>
+      </table>
+      <p style="font-size:10px;color:#888;margin-top:6px">Plus reeds beschikbaar: &#8364;30k MeDirect cash (uit dividend 9/2)</p>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <h3>FY25 close checklist</h3>
+    <table>
+      <tr><th style="width:60px">Status</th><th>Item</th><th style="width:90px">Owner</th></tr>
+      <tr><td><span class="tag t-done">Done</span></td><td>Reconciliatie BvB BV + Qonto BV + Wise BV + loonfiche</td><td><span style="font-size:11px;color:#888">Phil &middot; 5/5</span></td></tr>
+      <tr><td><span class="tag t-done">Done</span></td><td>VVPRbis 15% bevestigd via Qonto RV-betaling &#8364;19,844</td><td><span style="font-size:11px;color:#888">Phil &middot; 5/5</span></td></tr>
+      <tr><td><span class="tag t-done">Done</span></td><td>11-punts e-mail draft Lien (Re: afsluiting 31.12.25)</td><td><span style="font-size:11px;color:#888">Claude &middot; 5/5</span></td></tr>
+      <tr><td><span class="tag t-prog">In progress</span></td><td>Verstuur e-mail naar Lien met 11 bijlagen</td><td><span style="font-size:11px;color:#888">Phil</span></td></tr>
+      <tr><td><span class="tag t-hi">High</span></td><td>Ontvang Lien&apos;s bevestiging boekhoudkundige verwerking dividend</td><td><span style="font-size:11px;color:#888">Lien</span></td></tr>
+      <tr><td><span class="tag t-hi">High</span></td><td>Ontvang R/C terugbetaling ~&#8364;14,019 + loonschuld &#8364;4,400</td><td><span style="font-size:11px;color:#888">BV &rarr; Phil</span></td></tr>
+      <tr><td><span class="tag t-med">Medium</span></td><td>Resolve Fineko factuur 25003880 (&#8364;1,512.50)</td><td><span style="font-size:11px;color:#888">Phil + Lien</span></td></tr>
+      <tr><td><span class="tag t-med">Medium</span></td><td>Verslagen jaarrekening ondertekenen</td><td><span style="font-size:11px;color:#888">Phil</span></td></tr>
+      <tr><td><span class="tag t-med">Medium</span></td><td>Tax-on-web IPB 2025 indienen (verwachte teruggava ~&#8364;2,830)</td><td><span style="font-size:11px;color:#888">Phil &middot; juli 2026</span></td></tr>
+      <tr><td><span class="tag t-urg">Urgent</span></td><td>EUR 14.019,27 R/C transfer naar MeDirect (GOEDGEKEURD door Lien 24/6)</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+      <tr><td><span class="tag t-urg">Urgent</span></td><td>EUR 6.449,88 SPF transfer naar privé (BE27 6451 0886 6973)</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+      <tr><td><span class="tag t-urg">Urgent</span></td><td>EUR 4.400,07 loonschuld transfer naar privé (BE27 6451 0886 6973)</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+      <tr><td><span class="tag t-hi">High</span></td><td>MeDirect + Keytrade 2025 Annual Reviews downloaden &rarr; Fineko sturen</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+      <tr><td><span class="tag t-hi">High</span></td><td>Acerta 050/xxx supplier list van Qonto extracten &rarr; Accountable boeken</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+      <tr><td><span class="tag t-hi">High</span></td><td>Priv&eacute;records controleren voor EUR 150 augustus 2025 loon &rarr; rapport</td><td><span style="font-size:11px;color:#888">Phil &middot; v&oacute;&oacute;r 27/6</span></td></tr>
+    </table>
+  </div>
+  <div class="grid g2">
+    <div class="pbox" onclick="sendPrompt('Deploy €18k MeDirect cash Jun 16 2026. Plan: DFEU €8k + VWCE €8k = €16k. Only ~€2k dry powder remains. Iran peace deal likely Sep 2026. Confirm execution steps on MeDirect.')"><strong>&#128184; Deploy &#8364;18k MeDirect &mdash; Jun 16</strong>DFEU &#8364;8k + VWCE &#8364;8k. ~&#8364;2k dry powder only &mdash; confirm &amp; execute.</div>
+    <div class="pbox" onclick="sendPrompt('Plan a year-end 2026 dividend (interim) for Life & Co BV under VVPRbis. Estimate gross/RV/net amounts. Compare with new bezoldiging. Include Fineko prep checklist.')"><strong>&#128202; Plan 2026 jaarend dividend</strong>VVPRbis vs salary &mdash; estimate &amp; checklist.</div>
+  </div>
+</div>
+
+<div id="tab-ac" class="tab-pane">
+  <div class="card">
+    <h3>Priority action list (June 2026)</h3>
+    <table>
+      <tr><th style="width:28px"></th><th style="width:85px">Priority</th><th>Action</th><th style="width:90px">Status</th></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-urg">Urgent</span></td><td>&#128200; <strong>MeDirect:</strong> Buy DFEU (iShares Europe Defence) &#8364;8,000 &mdash; ISIN IE000IAXNM41, Euronext Amsterdam</td><td><span style="color:#BA7517;font-size:11px">Monday</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-urg">Urgent</span></td><td>&#128200; <strong>MeDirect:</strong> Buy VWCE (Vanguard All-World) &#8364;8,000 &mdash; ISIN IE00BK5BQT80</td><td><span style="color:#BA7517;font-size:11px">Monday</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-urg">Urgent</span></td><td>&#128200; <strong>MeDirect:</strong> Confirm cash balance after buys — only ~&#8364;2k remains (&#8364;18k - &#8364;16k trades)</td><td><span style="color:#BA7517;font-size:11px">Monday Jun 16</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-urg">Urgent</span></td><td>Verstuur 11-punts e-mail aan Lien Kuppens (Fineko) met alle bijlagen</td><td><span class="tag t-prog">In progress</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-urg">Urgent</span></td><td>Confirm Q1 2026 advance tax (VA1) paid &mdash; per BV cash flow check</td><td><span style="color:#BA7517;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Set price alert: VWCE drops 7%+ &rarr; boost July DCA to &#8364;3k+/mo into VWCE (only ~&#8364;2k cash left)</td><td><span style="color:#BA7517;font-size:11px">Set Mon Jun 16</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Set exit alert: Iran deal formally signed &rarr; trim/sell DFEU</td><td><span style="color:#BA7517;font-size:11px">Watch</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Ontvang R/C bestuurder restant &#8364;14k + loonschuld &#8364;4.4k van BV</td><td><span style="color:#BA7517;font-size:11px">Wachten op Lien</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Set up monthly &#8364;2,500&ndash;3,000 DCA op MeDirect (IWDA + CSPX + IGLN)</td><td><span style="color:#BA7517;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Resolve Fineko factuur 25003880 (&#8364;1,512.50) &mdash; goedkeuring of betwisting</td><td><span style="color:#BA7517;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Open Gold ETF (IGLN) op MeDirect</td><td><span style="color:#888;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-hi">High</span></td><td>Contact Standard Life K2082447 withdrawal (~&#8364;23k)</td><td><span style="color:#888;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-med">Medium</span></td><td>Tax-on-web IPB 2025 aangifte indienen (juli 2026)</td><td><span style="color:#888;font-size:11px">Future</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-med">Medium</span></td><td>Plan 2026 jaarend interim dividend (najaar overleg met Lien)</td><td><span style="color:#888;font-size:11px">Q4 2026</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-med">Medium</span></td><td>Sluit BvB BV-effectenrekening (saldo &#8364;2,094 &rarr; Qonto)</td><td><span style="color:#888;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-med">Medium</span></td><td>Compare Keytrade vs MeDirect fees &mdash; consolidate?</td><td><span style="color:#888;font-size:11px">Todo</span></td></tr>
+      <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><span class="tag t-lo">Low</span></td><td>Research Curvo as automated DCA complement</td><td><span style="color:#888;font-size:11px">Todo</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ MARKET INTEL TAB ══════════════════════════════════════════════════ -->
+<div id="tab-mi" class="tab-pane">
+
+  <!-- Header metrics -->
+  <div class="grid g4" style="margin-bottom:14px">
+    <div class="metric" style="background:#edf7f1;border:1.5px solid #1D9E75">
+      <div class="lbl">Portfolio Jun 13</div>
+      <div class="val green">&#8364;669,883</div>
+      <div class="sub">Update Monday</div>
+    </div>
+    <div class="metric" style="background:#fcebeb;border:1.5px solid #A32D2D">
+      <div class="lbl">FI Gap</div>
+      <div class="val red">&#8364;80,117</div>
+      <div class="sub">to &#8364;800k</div>
+    </div>
+    <div class="metric" style="background:#fef9ec;border:1.5px solid #BA7517">
+      <div class="lbl">Cash to Deploy</div>
+      <div class="val amber">~&#8364;18,000</div>
+      <div class="sub">MeDirect (&#8364;2k after trades)</div>
+    </div>
+    <div class="metric" style="background:#e3eaf7;border:1.5px solid #2F5496">
+      <div class="lbl">Iran Deal Prob.</div>
+      <div class="val blue">~65%</div>
+      <div class="sub">by Sep 2026</div>
+    </div>
+  </div>
+
+  <!-- Market Performance -->
+  <div class="card" style="margin-bottom:14px">
+    <h3>&#127758; Market Performance — Last 3 Months (Mar–Jun 2026)</h3>
+    <table>
+      <tr><th>Index / ETF</th><th style="text-align:right">3M Return</th><th style="text-align:right">YTD</th><th>Key driver</th></tr>
+      <tr><td>&#127482;&#127480; S&amp;P 500</td><td class="r" style="color:#1D9E75">+14%</td><td class="r" style="color:#1D9E75">+13%</td><td style="font-size:11px;color:#888">AI mega-cap + US-China truce</td></tr>
+      <tr><td>&#127758; MSCI World (IWDA)</td><td class="r" style="color:#1D9E75">+10%</td><td class="r" style="color:#1D9E75">+9%</td><td style="font-size:11px;color:#888">Broad recovery</td></tr>
+      <tr><td>&#127466;&#127482; Euro Stoxx 50</td><td class="r" style="color:#1D9E75">+8%</td><td class="r" style="color:#1D9E75">+6%</td><td style="font-size:11px;color:#888">ECB hike headwind</td></tr>
+      <tr><td>&#128300; Nasdaq 100</td><td class="r" style="color:#1D9E75">+17%</td><td class="r" style="color:#1D9E75">+15%</td><td style="font-size:11px;color:#888">AI infrastructure boom</td></tr>
+      <tr style="background:#edf7f1"><td>&#128737;&#65039; <strong>DFEU</strong> iShares Europe Defence</td><td class="r" style="color:#1D9E75;font-weight:700">+32%</td><td class="r" style="color:#1D9E75;font-weight:700">+42%</td><td style="font-size:11px;color:#888">Ukraine/Iran geopolitics</td></tr>
+      <tr><td>&#127758; EMIM Emerging Mkts</td><td class="r" style="color:#1D9E75">+6%</td><td class="r" style="color:#1D9E75">+4%</td><td style="font-size:11px;color:#888">China drag, India strong</td></tr>
+      <tr><td>&#129756; Gold (IGLN)</td><td class="r" style="color:#1D9E75">+11%</td><td class="r" style="color:#1D9E75">+18%</td><td style="font-size:11px;color:#888">Safe haven + USD weak</td></tr>
+      <tr style="background:#fcebeb"><td>&#128722; Brent Oil</td><td class="r" style="color:#A32D2D">-20% from peak</td><td class="r" style="color:#A32D2D">-8%</td><td style="font-size:11px;color:#888">Iran deal speculation</td></tr>
+    </table>
+    <p style="font-size:10px;color:#888;margin-top:8px">&#9888; Key catalysts: US-China tariff truce May 12 &middot; Iran deal final text Jun 12 &middot; ECB +25bp Jun 11 &middot; AI capex guidance raised by MSFT/GOOG/META</p>
+  </div>
+
+  <!-- Iran Scenario Tracker -->
+  <div class="card" style="margin-bottom:14px">
+    <h3>&#127470;&#127479; Iran Geopolitical Scenario Tracker — Jun 13, 2026</h3>
+    <div style="margin-bottom:8px;padding:8px 12px;background:#edf7f1;border-radius:8px;border:1.5px solid #1D9E75">
+      <div style="font-size:12px;font-weight:800;color:#1D6D2E;margin-bottom:3px">&#129351; Scenario A — Peace deal materialises <span style="background:#1D9E75;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;margin-left:8px">~65% BASE CASE</span></div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Final text reportedly agreed Jun 12. Trump political incentive: US midterms Nov 2026. Timeline: formal signing <strong>Aug–Sep 2026</strong>.<br>
+      &#128200; <strong>Market impact:</strong> Global risk-on rally +3–5%. <strong>Exit DFEU</strong> when deal signed — defence premium deflates fast. Deploy July DCA into VWCE (only ~&#8364;2k dry powder after Jun trades).</div>
+    </div>
+    <div style="margin-bottom:8px;padding:8px 12px;background:#fef9ec;border-radius:8px;border:1.5px solid #BA7517">
+      <div style="font-size:12px;font-weight:800;color:#854F0B;margin-bottom:3px">&#9203; Scenario B — Talks drag, no deal by Oct <span style="background:#BA7517;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;margin-left:8px">~25%</span></div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Negotiations stall post-summer. Oil flat to +5%. Market range-bound.<br>
+      &#128200; <strong>Strategy:</strong> Hold DFEU position. Hold ~&#8364;2k remaining. Boost DCA to &#8364;3k/mo. Re-evaluate Q4 2026.</div>
+    </div>
+    <div style="padding:8px 12px;background:#fcebeb;border-radius:8px;border:1.5px solid #A32D2D">
+      <div style="font-size:12px;font-weight:800;color:#A32D2D;margin-bottom:3px">&#128308; Scenario C — Escalation / Hormuz closure <span style="background:#A32D2D;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;margin-left:8px">~10% TAIL RISK</span></div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Strait of Hormuz closes. Oil +20–30%. Global shock -10–15%.<br>
+      &#128200; <strong>Hedge:</strong> IGLN gold ETF already in DCA. Deploy July DCA aggressively as buying opportunity. Do NOT panic sell.</div>
+    </div>
+  </div>
+
+  <!-- Action Table -->
+  <div class="card" style="margin-bottom:14px">
+    <h3>&#9989; Monday Execution Plan — MeDirect</h3>
+    <table>
+      <tr><th style="width:28px"></th><th>Action</th><th style="text-align:right">Amount</th><th>ETF / ISIN</th><th>Platform</th><th>Trigger</th></tr>
+      <tr class="action-row-buy">
+        <td style="text-align:center;padding:8px 4px"><div class="cb"></div></td>
+        <td><span class="tag t-done" style="background:#1D9E75">&#128722; BUY</span> iShares Europe Defence ETF</td>
+        <td class="r" style="font-weight:700;color:#1D9E75">&#8364;8,000</td>
+        <td style="font-size:11px"><strong>DFEU</strong><br><span style="color:#888">IE000IAXNM41</span></td>
+        <td style="font-size:11px"><strong>MeDirect</strong><br><span style="color:#888">Euronext AMS</span></td>
+        <td style="font-size:11px;color:#888">This week</td>
+      </tr>
+      <tr class="action-row-buy">
+        <td style="text-align:center;padding:8px 4px"><div class="cb"></div></td>
+        <td><span class="tag t-done" style="background:#1D9E75">&#128722; BUY</span> Vanguard FTSE All-World</td>
+        <td class="r" style="font-weight:700;color:#1D9E75">&#8364;8,000</td>
+        <td style="font-size:11px"><strong>VWCE</strong><br><span style="color:#888">IE00BK5BQT80</span></td>
+        <td style="font-size:11px"><strong>MeDirect</strong><br><span style="color:#888">Xetra / Euronext</span></td>
+        <td style="font-size:11px;color:#888">This week</td>
+      </tr>
+      <tr class="action-row-hold">
+        <td style="text-align:center;padding:8px 4px"><div class="cb"></div></td>
+        <td><span class="tag t-prog">&#128181; HOLD</span> Remaining cash after trades</td>
+        <td class="r" style="font-weight:700;color:#2F5496">~&#8364;2,000</td>
+        <td style="font-size:11px">Cash at MeDirect</td>
+        <td style="font-size:11px"><strong>MeDirect</strong></td>
+        <td style="font-size:11px;color:#888">&#9888; Nearly depleted</td>
+      </tr>
+      <tr class="action-row-hold">
+        <td style="text-align:center;padding:8px 4px"><div class="cb"></div></td>
+        <td><span class="tag t-prog">&#128200; DEPLOY</span> July DCA boost on 5–10% dip</td>
+        <td class="r" style="font-weight:700;color:#2F5496">July DCA</td>
+        <td style="font-size:11px"><strong>VWCE</strong> top-up<br><span style="color:#888">IE00BK5BQT80</span></td>
+        <td style="font-size:11px"><strong>MeDirect</strong></td>
+        <td style="font-size:11px;color:#BA7517">Price alert -7%</td>
+      </tr>
+      <tr class="action-row-exit">
+        <td style="text-align:center;padding:8px 4px"><div class="cb"></div></td>
+        <td><span class="tag t-urg">&#128308; EXIT</span> Trim/sell DFEU on Iran deal</td>
+        <td class="r" style="color:#BA7517">Sell DFEU</td>
+        <td style="font-size:11px">DFEU position</td>
+        <td style="font-size:11px"><strong>MeDirect</strong></td>
+        <td style="font-size:11px;color:#A32D2D">Deal signed</td>
+      </tr>
+      <tr class="action-row-no" style="opacity:.6">
+        <td></td>
+        <td>&#10060; DO NOT BUY Energy ETFs (XOIL/IERY)</td>
+        <td class="r" style="color:#888">&mdash;</td>
+        <td style="font-size:11px;color:#888">Oil -20% from peak</td>
+        <td style="font-size:11px;color:#888">Missed entry</td>
+        <td style="font-size:11px;color:#888">Skip</td>
+      </tr>
+      <tr class="action-row-no" style="opacity:.6">
+        <td></td>
+        <td>&#10060; DO NOT BUY BWET Tanker ETF</td>
+        <td class="r" style="color:#888">&mdash;</td>
+        <td style="font-size:11px;color:#888">+411% already</td>
+        <td style="font-size:11px;color:#888">Too late</td>
+        <td style="font-size:11px;color:#888">Skip</td>
+      </tr>
+    </table>
+    <div style="margin-top:10px;padding:10px 12px;background:#e3eaf7;border-radius:8px;font-size:11px;color:#2F5496">
+      <strong>&#128203; MeDirect execution notes:</strong> Search DFEU on Euronext Amsterdam (EUR). Search VWCE on Xetra or Euronext Amsterdam. Use <strong>limit orders</strong> set ~0.5% above ask. Belgian TOB: <strong>0.12%</strong> on both (UCITS Irish-domiciled ETFs). TOB deducted automatically.
+    </div>
+  </div>
+
+  <!-- Risk & Valuation -->
+  <div class="card" style="margin-bottom:14px">
+    <h3>&#9889; Risk &amp; Valuation Watch</h3>
+    <table>
+      <tr><th>Indicator</th><th style="text-align:right">Current</th><th>Signal</th><th>Action</th></tr>
+      <tr><td>S&amp;P 500 Shiller CAPE</td><td class="r">~35x</td><td><span class="tag t-hi">Elevated</span></td><td style="font-size:11px;color:#888">Reduce CSPX if &gt;38x</td></tr>
+      <tr><td>ECB rate (post Jun 11 hike)</td><td class="r">2.65%</td><td><span class="tag t-med">Watch</span></td><td style="font-size:11px;color:#888">Headwind for growth stocks</td></tr>
+      <tr><td>VIX (volatility)</td><td class="r">~16</td><td><span class="tag t-lo">Calm</span></td><td style="font-size:11px;color:#888">Complacency risk</td></tr>
+      <tr><td>Gold (IGLN)</td><td class="r">$3,300/oz</td><td><span class="tag t-med">Near ATH</span></td><td style="font-size:11px;color:#888">Hold existing DCA</td></tr>
+      <tr><td>Seasonal pattern May–Oct</td><td class="r">-3 to -5% avg</td><td><span class="tag t-med">Dip likely</span></td><td style="font-size:11px;color:#888">~&#8364;2k cash + July DCA ready</td></tr>
+    </table>
+  </div>
+
+  <!-- Exit triggers -->
+  <div class="card" style="margin-bottom:14px">
+    <h3>&#128680; Exit &amp; Deploy Triggers — Watch List</h3>
+    <table>
+      <tr><th>Signal</th><th>Action</th><th>ETF</th></tr>
+      <tr><td>&#128308; Trump formally signs Iran deal</td><td style="font-weight:700;color:#A32D2D">Trim / sell DFEU immediately</td><td>DFEU &#8594; redeploy into VWCE</td></tr>
+      <tr><td>&#128308; Iran deal fails, Hormuz closure</td><td style="font-weight:700;color:#A32D2D">Buy oil ETF (XOIL / IERY)</td><td>Pivot to energy hedge</td></tr>
+      <tr><td>&#128993; S&amp;P drops 5–10% (Jul–Sep)</td><td style="font-weight:700;color:#2F5496">Deploy July DCA (boost to &#8364;3k) into VWCE</td><td>VWCE top-up</td></tr>
+      <tr><td>&#128993; CAPE hits 38x+</td><td style="font-weight:700;color:#BA7517">Reduce CSPX in monthly DCA</td><td>Shift to EMIM / bonds</td></tr>
+      <tr><td>&#128994; Portfolio reaches &#8364;730k</td><td style="font-weight:700;color:#1D9E75">Shift to 60/40 defensive posture</td><td>Near FI &mdash; reduce risk</td></tr>
+    </table>
+  </div>
+
+  <!-- FI Impact -->
+  <div class="card" style="background:#f7f9fe;border-color:#2F5496">
+    <h3>&#127919; FI Impact of Jun 2026 Deployment (&#8364;669,883 base + &#8364;16k now)</h3>
+    <table>
+      <tr><th>Scenario</th><th style="text-align:right">Portfolio Apr 2028</th><th style="text-align:right">vs &#8364;800k</th><th>Verdict</th></tr>
+      <tr><td>Conservative 3%/yr</td><td class="r">~&#8364;821k</td><td class="r" style="color:#1D9E75">+&#8364;71k</td><td><span class="green" style="font-weight:700">&#10003; FI reached</span></td></tr>
+      <tr><td>Base 6%/yr</td><td class="r">~&#8364;866k</td><td class="r" style="color:#1D9E75">+&#8364;116k</td><td><span class="green" style="font-weight:700">&#10003; FI reached</span></td></tr>
+      <tr><td>Optimistic 10%/yr</td><td class="r">~&#8364;940k</td><td class="r" style="color:#1D9E75">+&#8364;190k</td><td><span class="green" style="font-weight:700">&#10003; FI reached</span></td></tr>
+    </table>
+    <p style="font-size:11px;color:#2F5496;margin-top:10px;padding:8px 10px;background:#e4ecf7;border-radius:6px">
+      <strong>&#127882; All 3 scenarios hit &#8364;800k FI target — even conservative 3%.</strong> Deploying &#8364;16k now (DFEU + VWCE) accelerates gap closure by ~&#8364;15–20k vs holding cash. Iran tail-risk scenario: IGLN gold hedge + July DCA boost provide downside buffer. Only ~&#8364;2k dry powder remains after &#8364;16k trades from &#8364;18k total.
+    </p>
+  </div>
+
+  <div style="margin-top:14px"><div class="pbox" onclick="sendPrompt('Jun 14 2026 market update: Iran peace deal final text agreed Jun 12. I plan to buy DFEU €8k + VWCE €8k on MeDirect Monday Jun 16. MeDirect cash = €18k total, only ~€2k remains after €16k trades. Confirm this is optimal given: ECB hiked +25bp Jun 11, S&P CAPE 35x, seasonal weakness expected. What should I watch for exit signals on DFEU? How do I deploy July DCA for the seasonal dip?')"><strong>&#128200; Confirm Jun 2026 strategy with Claude</strong>Validate DFEU + VWCE deployment, &#8364;18k cash reality, exit triggers &amp; July DCA plan.</div></div>
+</div>
+
+<div id="tab-sn" class="tab-pane">
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <h3 style="margin-bottom:0">Data snapshot &mdash; paste into Claude to update tracker</h3>
+      <button class="copy-btn" onclick="copySnap()">&#128203; Copy all</button>
+    </div>
+    <div id="snapOut" style="background:#f8f7f4;border-radius:8px;padding:12px;font-size:12px;line-height:1.7;white-space:pre-wrap;font-family:'SF Mono',monospace;color:#333;max-height:500px;overflow-y:auto"></div>
+  </div>
+  <div class="pbox" onclick="sendSnapPrompt()"><strong>&#128640; Send to Claude</strong>Open new session with full snapshot &mdash; update Excel, run projections, get investment advice.</div>
+</div>
+
+<div class="disclaimer">&#128204; Informational only &mdash; NOT financial advice. Verify with Fineko. Belgian tax rules (TOB 0.12%, Reynders, VVPRbis) apply. Market Intel updated Jun 13, 2026.</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<script>
+const EUR = 'EUR';
+const FI_T = 800000;
+let ch = null;
+
+function v(id){ const e=document.getElementById(id); return parseFloat(e?e.value:0)||0; }
+function fmt(n){ return EUR+Math.round(n).toLocaleString('en-GB'); }
+function set(id,val){ const e=document.getElementById(id); if(e) e.textContent=val; }
+function mLeft(){ const n=new Date(),t=new Date(2028,3,1); return Math.max(1,Math.round((t-n)/(30.4375*24*60*60*1000))); }
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='sn') buildSnap();
+}
+
+function recalc(){
+  const mi=['med_green','med_flexer','med_port','med_mstar','med_fond1','med_medhigh','med_managed','med_cash'];
+  const ki=['key_equil','key_mix','key_plan','key_plan20','key_priv','key_cash'];
+  const vi=['vb_cf','vb_bond','vb_uni','vb_sav'];
+  const oi=['oth_stdlife','oth_acc','oth_axa'];
+  const mT=mi.reduce((s,i)=>s+v(i),0), kT=ki.reduce((s,i)=>s+v(i),0);
+  const vT=vi.reduce((s,i)=>s+v(i),0), oT=oi.reduce((s,i)=>s+v(i),0);
+  const biz=v('oth_biz');
+  set('medT',fmt(mT)); set('keyT',fmt(kT)); set('vbT',fmt(vT)); set('othT',fmt(oT));
+  const liq=mT+kT+vT+oT, all=liq+biz;
+  const gap=Math.max(0,FI_T-liq), pct=Math.min(100,Math.round(liq/FI_T*100));
+  document.getElementById('topMetrics').innerHTML=[
+    {l:'Liquid portfolio',v:fmt(liq),c:'blue'},
+    {l:'FI target',v:fmt(FI_T),c:''},
+    {l:'Gap to close',v:fmt(gap),c:gap<=0?'green':'amber'},
+    {l:'Total incl. BV',v:fmt(all),c:''},
+  ].map(m=>'<div class="metric"><div class="lbl">'+m.l+'</div><div class="val '+m.c+'">'+m.v+'</div></div>').join('');
+  const plats=[
+    {l:'MeDirect',v:fmt(mT),s:'Primary',svg:'<svg viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#005B99"/><text x="20" y="18" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="12" font-weight="900" fill="white">me</text><text x="20" y="29" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="#9DD4F5" letter-spacing="0.8">Direct</text></svg>'},
+    {l:'Keytrade',v:fmt(kT),s:'Secondary',svg:'<svg viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#E84818"/><circle cx="16" cy="17" r="7" fill="none" stroke="white" stroke-width="2.5"/><circle cx="16" cy="17" r="3.2" fill="white"/><rect x="22.5" y="16" width="11" height="2.8" rx="1.4" fill="white"/><rect x="30" y="18.8" width="3.5" height="2.5" rx="1" fill="white"/><rect x="26.5" y="18.8" width="3" height="4" rx="1" fill="white"/></svg>'},
+    {l:'Van Breda',v:fmt(vT),s:'Privé only',svg:'<svg viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#003F8A"/><path d="M20 8 L30 12 L30 22 Q30 30 20 34 Q10 30 10 22 L10 12 Z" fill="none" stroke="white" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="9" font-weight="900" fill="white">VB</text></svg>'},
+    {l:'Other liquid',v:fmt(oT),s:'Std Life + etc',svg:'<svg viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#2dad52"/><text x="20" y="26" text-anchor="middle" font-family="Arial,sans-serif" font-size="20">&#128184;</text></svg>'},
+  ];
+  document.getElementById('platSummary').innerHTML=plats.map(p=>'<div class="metric" style="text-align:left;display:flex;align-items:center;gap:10px;padding:10px 12px"><div style="width:40px;height:40px;flex-shrink:0">'+p.svg+'</div><div><div class="lbl" style="text-align:left">'+p.l+'</div><div class="val" style="font-size:16px;text-align:left">'+p.v+'</div><div class="sub" style="text-align:left">'+p.s+'</div></div></div>').join('');
+  set('fiPct',pct+'%'); document.getElementById('fiBar').style.width=pct+'%'; set('fiBarLbl',pct+'%');
+  set('gtLiq',fmt(liq)); set('gtGap',fmt(gap)); set('gtAll',fmt(all)); set('gtPct',pct+'%');
+  const ml=mLeft(); set('mLeft',ml);
+  const mo=v('monthlyContrib'), cn=v('cashNow'), base=liq+cn;
+  const sc=[{r:0.03,l:'Conservative 3%/yr',c:'#B4B2A9'},{r:0.06,l:'Base 6%/yr',c:'#2F5496'},{r:0.10,l:'Optimistic 10%/yr',c:'#1D9E75'}];
+  const lb=[]; const ds=sc.map((s,si)=>{
+    const d=[]; let p=base,mr=s.r/12;
+    for(let m=0;m<=ml;m++){
+      d.push(Math.round(p));
+      if(si===0){ if(m===0)lb.push('Now'); else{ const mo2=(new Date().getMonth()+m)%12,yr=new Date().getFullYear()+Math.floor((new Date().getMonth()+m)/12); lb.push((m%3===0||m===ml)?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][mo2]+' '+(yr%100):''); }}
+      if(m<ml) p=(p+mo)*(1+mr);
+    }
+    return{label:s.l,data:d,borderColor:s.c,backgroundColor:s.c+'18',fill:si===1,tension:0.35,pointRadius:0,borderWidth:2.5};
+  });
+  ds.push({label:'FI target '+EUR+'750k',data:Array(ml+1).fill(FI_T),borderColor:'#E24B4A',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false});
+  if(ch)ch.destroy();
+  ch=new Chart(document.getElementById('projChart'),{type:'line',data:{labels:lb,datasets:ds},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:n=>EUR+Math.round(n/1000)+'k',font:{size:10}},grid:{color:'#f0efea'}},x:{ticks:{maxRotation:0,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,padding:12,font:{size:11}}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmt(ctx.parsed.y)}}}}});
+  const rows=sc.map(s=>{
+    let p=base,mr=s.r/12; for(let m=0;m<ml;m++) p=(p+mo)*(1+mr);
+    const g=p-FI_T,pct2=Math.round(p/FI_T*100);
+    return '<tr><td>'+s.l+'</td><td class="r">'+fmt(p)+'</td><td class="r" style="color:'+(g>=0?'#1D9E75':'#A32D2D')+'">'+(g>=0?'+':'')+fmt(g)+'</td><td class="r">'+pct2+'%</td><td>'+(pct2>=100?'<span class="green" style="font-weight:700">&#10003; FI reached</span>':pct2>=95?'<span class="amber">&#9889; Nearly</span>':'<span class="red">&#9888; Gap</span>')+'</td></tr>';
+  });
+  let pl=base,mr6=0.06/12; for(let m=0;m<ml;m++) pl=(pl+mo)*(1+mr6); pl+=150000;
+  rows.push('<tr style="border-top:2px solid #2F5496"><td><strong>Base + Loft (+'+EUR+'150k)</strong></td><td class="r">'+fmt(pl)+'</td><td class="r" style="color:#1D9E75">+'+fmt(pl-FI_T)+'</td><td class="r">'+Math.round(pl/FI_T*100)+'%</td><td><span class="green" style="font-weight:700">&#10003; Exceeds</span></td></tr>');
+  document.getElementById('scenTable').innerHTML='<div class="card" style="padding:8px 0 0"><table><tr><th>Scenario</th><th style="text-align:right">Portfolio Apr 2028</th><th style="text-align:right">vs Target</th><th style="text-align:right">FI %</th><th>Verdict</th></tr>'+rows.join('')+'</table></div>';
+  recalcDCA(); recalcBV();
+  set('lastUpdate','Jun 13, 2026 · Market Intel updated · Enter Monday values');
+}
+
+function syncDCA(){ const e=document.getElementById('monthlyContrib'); if(e)e.value=v('dcaIn'); recalcDCA(); }
+function recalcDCA(){
+  const mo=v('monthlyContrib')||v('dcaIn')||2500;
+  const di=document.getElementById('dcaIn'); if(di)di.value=mo;
+  const pi=['pct_iwda','pct_cspx','pct_igln','pct_emim','pct_ibgs','pct_ibb','pct_inrg','pct_cash'];
+  const ai=['d_iwda','d_cspx','d_igln','d_emim','d_ibgs','d_ibb','d_inrg','d_cash'];
+  const tp=pi.reduce((s,i)=>s+v(i),0);
+  pi.forEach((p,i)=>set(ai[i],fmt(Math.round(mo*v(p)/100))));
+  set('dcaPct',Math.round(tp)+'%'); set('dcaAmt',fmt(pi.reduce((s,i)=>s+Math.round(mo*v(i)/100),0)));
+  set('dcaDisp',Math.round(mo).toLocaleString('en-GB'));
+  const w=document.getElementById('dcaWarn'); if(w)w.style.display=Math.abs(tp-100)>1?'block':'none';
+}
+
+function recalcBV(){
+  const r=v('bv_rev'),mo=Math.max(1,v('bv_mo')),c=v('bv_cost'),tx=v('bv_tax')/100,sl=v('bv_sal');
+  const fy=Math.round(r/mo*12), pr=Math.max(0,fy-c-sl), tax=Math.round(pr*tx), qa=Math.round(tax/4), net=pr-tax;
+  const el=document.getElementById('bvM');
+  if(el) el.innerHTML=[{l:'FY revenue est.',v:fmt(fy),c:'blue',s:'Based on '+mo+' months'},{l:'Taxable profit',v:fmt(pr),c:'',s:'Rev - costs - salary'},{l:'Annual corp. tax',v:fmt(tax),c:'amber',s:v('bv_tax')+'% of profit'},{l:'Net after tax',v:fmt(net),c:'green',s:'Available for dividend/DCA'}].map(m=>'<div class="metric"><div class="lbl">'+m.l+'</div><div class="val '+m.c+'" style="font-size:15px">'+m.v+'</div><div class="sub">'+m.s+'</div></div>').join('');
+  set('tq1',fmt(qa));set('tq2',fmt(qa));set('tq3',fmt(qa));set('tq4',fmt(qa));set('ttot',fmt(tax));
+}
+
+function buildSnap(){
+  const d=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const lines=['RUTTENS+ PORTFOLIO SNAPSHOT - '+d,'FI Target: '+EUR+'800,000 by April 2028','Market Intel: Jun 13, 2026 — DFEU+VWCE deploy plan active','',
+    '== MARKET INTEL JUN 2026 ==',
+    'Iran deal: Final text reportedly agreed Jun 12 — base case 65% signed by Sep 2026',
+    'Action: BUY DFEU EUR8k + VWCE EUR8k on MeDirect Mon Jun 16',
+    'Only ~EUR2k dry powder after EUR16k trades (EUR18k total cash). Use July DCA for dip.',
+    'Exit trigger: Trim DFEU when Iran deal formally signed',
+    '',
+    '== FY25 CLOSING STATUS ==',
+    'BV net result 2025: '+EUR+'24,850 (added to reserves)',
+    'Gross dividend declared 17/12/25: '+EUR+'132,293',
+    'RV 15% VVPRbis paid 27/12/25: '+EUR+'19,844',
+    'Net dividend Phil: '+EUR+'112,449',
+    'Cash paid to MeDirect 9/2/26: '+EUR+'30,000',
+    'Remaining R/C BV->Phil: ~'+EUR+'14,019 (estimated)',
+    'Salary debt 455000: '+EUR+'4,400',
+    '',
+    '-- MeDirect --',
+    'GREEN Fund: '+EUR+Math.round(v('med_green')).toLocaleString('en-GB'),
+    'MijnKapitaal Flexer: '+EUR+Math.round(v('med_flexer')).toLocaleString('en-GB'),
+    'Portefeuille 2017: '+EUR+Math.round(v('med_port')).toLocaleString('en-GB'),
+    'Morning Star Capital: '+EUR+Math.round(v('med_mstar')).toLocaleString('en-GB'),
+    'Fond 1 2017: '+EUR+Math.round(v('med_fond1')).toLocaleString('en-GB'),
+    'Medium High: '+EUR+Math.round(v('med_medhigh')).toLocaleString('en-GB'),
+    'MeManaged 2024: '+EUR+Math.round(v('med_managed')).toLocaleString('en-GB'),
+    'Cash: '+EUR+Math.round(v('med_cash')).toLocaleString('en-GB'),
+    'TOTAL: '+(document.getElementById('medT')||{}).textContent,'',
+    '-- Keytrade --',
+    'Equilibre: '+EUR+Math.round(v('key_equil')).toLocaleString('en-GB'),
+    'My Mix 2017: '+EUR+Math.round(v('key_mix')).toLocaleString('en-GB'),
+    'KEYPLAN: '+EUR+Math.round(v('key_plan')).toLocaleString('en-GB'),
+    'KEYPLAN 2020: '+EUR+Math.round(v('key_plan20')).toLocaleString('en-GB'),
+    'KEYPRIVATE: '+EUR+Math.round(v('key_priv')).toLocaleString('en-GB'),
+    'Cash: '+EUR+Math.round(v('key_cash')).toLocaleString('en-GB'),
+    'TOTAL: '+(document.getElementById('keyT')||{}).textContent,'',
+    '-- Van Breda (prive only) --',
+    'Medium Invest Bond: '+EUR+Math.round(v('vb_bond')).toLocaleString('en-GB'),
+    'TOTAL: '+(document.getElementById('vbT')||{}).textContent,'',
+    '-- Other Liquid --',
+    'Standard Life K2082447: '+EUR+Math.round(v('oth_stdlife')).toLocaleString('en-GB'),
+    'Accenture: '+EUR+Math.round(v('oth_acc')).toLocaleString('en-GB'),
+    'AXA / Phoenix Bond: '+EUR+Math.round(v('oth_axa')).toLocaleString('en-GB'),'',
+    '-- Business BV --',
+    'BV accounts (post-dividend): '+EUR+Math.round(v('oth_biz')).toLocaleString('en-GB'),'',
+    '-- Summary --',
+    'LIQUID PORTFOLIO: '+(document.getElementById('gtLiq')||{}).textContent,
+    'FI GAP: '+(document.getElementById('gtGap')||{}).textContent,
+    'FI PROGRESS: '+(document.getElementById('gtPct')||{}).textContent,'',
+    '-- DCA --',
+    'Monthly DCA: '+EUR+Math.round(v('monthlyContrib')).toLocaleString('en-GB'),
+    'Extra cash to deploy: '+EUR+Math.round(v('cashNow')).toLocaleString('en-GB'),
+    'Months to April 2028: '+mLeft(),
+  ];
+  const s=lines.join('\n');
+  const el=document.getElementById('snapOut'); if(el)el.textContent=s;
+  return s;
+}
+function copySnap(){ const s=buildSnap(); if(navigator.clipboard)navigator.clipboard.writeText(s).then(()=>{ const b=document.querySelector('.copy-btn'); if(b){b.textContent='Copied!';setTimeout(()=>b.textContent='Copy all',2000);}}); }
+function sendSnapPrompt(){ const s=buildSnap(); if(typeof sendPrompt==='function') sendPrompt('Here is my latest RUTTENS+ portfolio snapshot (Jun 14, 2026). Market Intel: Buy DFEU EUR8k + VWCE EUR8k on MeDirect Mon Jun 16. Cash = EUR18k, only ~EUR2k remains after trades. Update my Excel tracker, recalculate FI projections to April 2028, and confirm the dual-scenario deployment plan.\n\n'+s); }
+
+recalc();
+</script>
+<script>
+(function(){
+  var KEY = 'cbState_v3_' + (document.title||'artifact').replace(/\s+/g,'_').substring(0,40);
+
+  function stableKey(el,i){
+    var tr=el.closest('tr');
+    if(tr){var cells=tr.querySelectorAll('td');for(var c=1;c<cells.length;c++){var t=cells[c].textContent.trim();if(t.length>2)return t.slice(0,60);}}
+    var li=el.closest('li');
+    if(li) return li.textContent.trim().slice(0,60);
+    return String(i);
+  }
+
+  function saveState(){
+    var s={};
+    document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){
+      if(el.classList.contains('done')) s[stableKey(el,i)]=1;
+    });
+    try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){}
+  }
+
+  function restoreState(){
+    var s={};
+    try{ s=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+    document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){
+      if(s[stableKey(el,i)]){
+        el.classList.add('done');
+        var tr=el.closest('tr'); if(tr) tr.classList.add('row-done');
+        var li=el.closest('li'); if(li) li.classList.add('li-done');
+      }
+    });
+    updateProgress();
+  }
+
+  window.updateProgress = function(){
+    var all=document.querySelectorAll('.cb,.action-check,.al-check');
+    var done=[].filter.call(all,function(el){return el.classList.contains('done');}).length;
+    var total=all.length;
+    var pct=total?Math.round(done/total*100):0;
+    var bar=document.getElementById('prog-bar');
+    var pctEl=document.getElementById('prog-pct');
+    var lbl=document.getElementById('prog-label');
+    var col=pct===100?'#10b981':pct>=75?'#38B6FF':pct>=40?'#f59e0b':'#ef4444';
+    if(bar){bar.style.width=pct+'%';bar.style.background=col;}
+    if(pctEl){pctEl.textContent=pct+'%';pctEl.style.color=col;}
+    if(lbl) lbl.textContent=done+' / '+total+' done';
+  };
+
+  window.resetProgress = function(){
+    document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el){
+      el.classList.remove('done');
+      var tr=el.closest('tr'); if(tr) tr.classList.remove('row-done');
+      var li=el.closest('li'); if(li) li.classList.remove('li-done');
+    });
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    updateProgress();
+  };
+
+  document.querySelectorAll('.cb').forEach(function(cb){
+    cb.addEventListener('click',function(){
+      cb.classList.toggle('done');
+      var tr=cb.closest('tr'); if(tr) tr.classList.toggle('row-done',cb.classList.contains('done'));
+      var li=cb.closest('li'); if(li) li.classList.toggle('li-done',cb.classList.contains('done'));
+      saveState(); updateProgress();
+    });
+  });
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',restoreState);
+  } else {
+    restoreState();
+  }
+})();
+</script>

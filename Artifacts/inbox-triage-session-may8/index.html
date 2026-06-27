@@ -1,0 +1,202 @@
+<!doctype html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Inbox Triage Session May8",
+  "schemaVersion": 1,
+  "description": "Session checklist for the 8 May 2026 inbox-triage refresh. Tracks what's done (v2.1 build, SKILL_04 recipe, handover docs), what needs Phil (drag SKILL_04 into Drive, confirm AEGLE domain), what needs a new session (Outlook connector, schedule wiring, archive buttons). Static checkbox table — no live data."
+}
+</script>
+<html lang="en"><head><meta charset="utf-8"/><title>Inbox Triage Session — 8 May 2026</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif; background:#fafaf9; color:#1c1917; font-size:14px; line-height:1.5; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 24px; }
+h1 { margin:0 0 4px; font-size:22px; font-weight:600; letter-spacing:-0.01em; }
+h2 { margin:24px 0 10px; font-size:14px; font-weight:600; color:#44403c; text-transform:uppercase; letter-spacing:0.06em; }
+.sub { color:#78716c; font-size:13px; margin-bottom:18px; }
+table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #e7e5e4; border-radius:10px; overflow:hidden; margin-bottom:16px; }
+th, td { padding:10px 14px; text-align:left; border-bottom:1px solid #f5f5f4; font-size:13px; vertical-align:top; }
+th { background:#fafaf9; font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; color:#78716c; }
+tr:last-child td { border-bottom:none; }
+.cb { width:18px; height:18px; border:1.5px solid #a8a29e; border-radius:4px; display:inline-block; vertical-align:middle; cursor:pointer; user-select:none; text-align:center; line-height:14px; font-size:12px; color:#fff; background:#fff; }
+.cb.done { background:#10b981; border-color:#10b981; }
+.cb.done::after { content:'✓'; }
+.who { font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; display:inline-block; }
+.who.claude { background:#ecfdf5; color:#065f46; }
+.who.phil { background:#eff6ff; color:#1e40af; }
+.who.session { background:#fef3c7; color:#92400e; }
+.note { color:#78716c; font-size:12px; margin-top:4px; }
+.legend { font-size:12px; color:#57534e; margin-top:8px; display:flex; gap:14px; flex-wrap:wrap; }
+.legend span { display:inline-flex; gap:6px; align-items:center; }
+.row-done td { background:#f9fafb; color:#78716c; }
+.row-done td:nth-child(2) { text-decoration:line-through; }
+.callout { padding:14px 16px; border-radius:10px; background:#fffbeb; border:1px solid #fde68a; color:#78350f; margin-bottom:14px; font-size:13px; }
+.callout b { color:#451a03; }
+.callout.info { background:#eff6ff; border-color:#bfdbfe; color:#1e40af; }
+.callout.info b { color:#1e3a8a; }
+.callout.warn { background:#fef2f2; border-color:#fecaca; color:#991b1b; }
+.callout.warn b { color:#7f1d1d; }
+.domains { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+.domain { background:#fff; border:1px solid #e7e5e4; padding:3px 10px; border-radius:999px; font-size:12px; }
+.domain.client { border-color:#6ee7b7; background:#ecfdf5; color:#065f46; font-weight:500; }
+.domain.self { border-color:#bfdbfe; background:#eff6ff; color:#1e40af; }
+</style></head>
+<body>
+<div class="wrap">
+
+<div style="background:#fee2e2;border:2px solid #dc2626;border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:center;">
+  <div style="font-size:24px;">🗄️</div>
+  <div>
+    <div style="font-size:14px;font-weight:800;color:#7f1d1d;letter-spacing:0.02em;">ARCHIVED — One-shot session from 8 May 2026</div>
+    <div style="font-size:12.5px;color:#991b1b;margin-top:3px;">Superseded by the live <b>inbox-triage</b> artifact (v2.3, refreshed daily). Historical content preserved below for reference. Banner added 14 May 2026 pre-holiday meta-sprint.</div>
+  </div>
+</div>
+
+<h1>Inbox Triage Session Checklist <span style="font-size:11px;color:#a8a29e;font-weight:500;background:#f5f5f4;padding:2px 8px;border-radius:4px;margin-left:8px;">ARCHIVED</span></h1>
+<div class="sub">8 May 2026 · v2.1 build · domain-matched · self-mail excluded · <b style="color:#7f1d1d">No longer maintained — see live inbox-triage</b></div>
+
+<div class="callout info">
+<b>Confirmed inputs from Phil.</b>
+<div class="domains">
+  <span class="domain client">wayfina.com</span>
+  <span class="domain client">aya.energy</span>
+  <span class="domain client">erea.be</span>
+  <span class="domain client">solutions.erea.be</span>
+  <span class="domain self">ruttens.com (self)</span>
+  <span class="domain self">rrevos.com (self)</span>
+</div>
+<div class="note" style="margin-top:8px">Also auto-detected as self: <code>pruttens@gmail.com</code>, <code>Philippe.Ruttens@aya.energy</code> (your AYA alias — used to send to clients, so excluded from inbound triage), <code>philipperuttens@hotmail.com</code> (hotmail/personal).</div>
+</div>
+
+<h2>✓ Completed this session</h2>
+<table>
+  <thead><tr><th style="width:36px"></th><th>Task</th><th>Owner</th><th>Where</th></tr></thead>
+  <tbody>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>v1 → v2 client whitelist (name regex), SKILL_03 triage decisions, recruiter auto-archive, Apollo draft hints</td><td><span class="who claude">Claude</span></td><td>Cowork artifact <code>inbox-triage</code></td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>v2 → v2.1 domain-based matching (wayfina.com / aya.energy / erea.be / solutions.erea.be)</td><td><span class="who claude">Claude</span></td><td>Cowork artifact <code>inbox-triage</code></td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Self-mail exclusion (ruttens.com / rrevos.com / Phil@aya.energy alias / hotmail)</td><td><span class="who claude">Claude</span></td><td>Cowork artifact <code>inbox-triage</code></td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Expanded recruiter detection (workingnomads, haystack, mercuriurval, high5hire, mon-consultant)</td><td><span class="who claude">Claude</span></td><td>Cowork artifact <code>inbox-triage</code></td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Created SKILL_04 recipe for build/refresh of artifact</td><td><span class="who claude">Claude</span></td><td><code>outputs/SKILL_inbox-triage-artifact.md</code></td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Saved v2 + v2.1 handover docs</td><td><span class="who claude">Claude</span></td><td><code>outputs/inbox-triage-v2-handover.md</code> + this file</td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Memory updated with skill reference</td><td><span class="who claude">Claude</span></td><td>Cowork memory index</td></tr>
+    <tr class="row-done"><td><span class="cb done"></span></td><td>Pulled Gmail snapshot last 30d for client domains (confirmed EREA = active, AYA = active, Wayfina = 0 mail)</td><td><span class="who claude">Claude</span></td><td>Conversation</td></tr>
+  </tbody>
+</table>
+
+<h2>⏳ Still to do — needs Phil</h2>
+<table>
+  <thead><tr><th style="width:36px"></th><th>Task</th><th>Owner</th><th>How</th></tr></thead>
+  <tbody>
+    <tr><td><span class="cb"></span></td><td><b>Drag the SKILL_04 .md into your Drive Skills folder</b> (MCP can't write to sync-managed folders). Drop <code>SKILL_inbox-triage-artifact.md</code> next to <code>SKILL_03_email-triage.md</code> and rename to <code>SKILL_04_inbox-triage-artifact.md</code>.</td><td><span class="who phil">Phil</span></td><td>Workspace folder → Drive Finder, drag-drop</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Confirm AEGLE domain</b> (currently kept as name-regex placeholder; need a domain to make it consistent with the others)</td><td><span class="who phil">Phil</span></td><td>Reply with the domain</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Decide on the legacy v1 inbox-triage in old Drive Artifacts folder</b> (id <code>1ssn551aZ8rwSV-YXIP9ILowypGPeaw5a</code>). Either delete (it's stale) or leave (no harm).</td><td><span class="who phil">Phil</span></td><td>Drive web UI</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Wayfina = 0 unread mail in 30d.</b> Is the relationship active? If yes, expect mail at <code>@wayfina.com</code> — currently the whitelist will catch it. If dormant, no action needed.</td><td><span class="who phil">Phil</span></td><td>Reply with status</td></tr>
+  </tbody>
+</table>
+
+<h2>🆕 Needs a NEW session</h2>
+<div class="callout warn">
+<b>Why a new session for the next batch:</b> this conversation is already long; further work (Outlook integration, schedule wiring, in-artifact archive buttons) is best done in a fresh chat where Claude starts with a clean context, the SKILL_04 file in Drive, and these handover notes attached. To carry context forward, attach <b>SKILL_inbox-triage-artifact.md</b> + <b>inbox-triage-v2-handover.md</b> in the new chat.
+</div>
+
+<table>
+  <thead><tr><th style="width:36px"></th><th>Task</th><th>Owner</th><th>Why new session</th></tr></thead>
+  <tbody>
+    <tr><td><span class="cb"></span></td><td><b>Outlook / Microsoft 365 inbox integration.</b> Right now Outlook isn't connected as an MCP. Two paths: (a) install the Microsoft 365 connector in Cowork settings (recommended, gives me full read access), or (b) forward Outlook → Gmail with a filter and let this artifact pick it up.</td><td><span class="who phil">Phil sets up</span> + <span class="who session">new session</span></td><td>Needs OAuth flow + connector test</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Update <code>inbox-digest-morning</code> SKILL.md</b> to mirror v2.1 logic (domain matching, self-exclusion). I have a draft ready (see notes below); needs a Drive upload Phil does manually.</td><td><span class="who claude">Claude</span> + <span class="who phil">Phil</span></td><td>Drive sync-managed folders block MCP writes</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Wire daily 7am scheduled run</b> of inbox-digest-morning to email Phil + post to Slack (if connected).</td><td><span class="who session">new session</span></td><td>Needs scheduled-tasks MCP setup</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Inline "Mark read" / "Archive" buttons</b> in the artifact (using Gmail modify_labels). Would let Phil triage without leaving the page.</td><td><span class="who session">new session</span></td><td>Needs feature-build cycle</td></tr>
+    <tr><td><span class="cb"></span></td><td><b>Apollo enrichment</b> on warm-reply senders (look up company info, deal stage).</td><td><span class="who session">new session</span></td><td>Apollo MCP integration</td></tr>
+  </tbody>
+</table>
+
+<h2>📊 What I observed in your inbox right now</h2>
+<table>
+  <thead><tr><th>Client</th><th>Domain</th><th>Last 30d</th><th>Most active sender(s)</th></tr></thead>
+  <tbody>
+    <tr><td><b>EREA</b></td><td><code>erea.be</code></td><td>~12 threads</td><td>Herman Nollet, finance@erea.be (+ Tunity / Strategus partners on CC)</td></tr>
+    <tr><td><b>AYA</b></td><td><code>aya.energy</code></td><td>~10 threads (most are Phil sending)</td><td>Phil's outbound; Pieter Callebaut, Louis Langerock as expected inbound</td></tr>
+    <tr><td><b>Wayfina</b></td><td><code>wayfina.com</code></td><td><b>0</b></td><td>none — relationship status?</td></tr>
+    <tr><td><b>AEGLE</b></td><td>(domain TBC)</td><td>n/a</td><td>need domain</td></tr>
+  </tbody>
+</table>
+
+<h2>🛑 Outlook — honest status</h2>
+<div class="callout warn">
+<b>I can't read your Outlook inbox in this session.</b> The Microsoft 365 / Outlook MCP connector is <b>not connected</b> to Cowork. Even though you have <code>https://outlook.live.com/mail/</code> open in Comet, my browser-control access to Comet/Chrome is read-only (screenshots only, no DOM-level read of mail content). I won't pretend I can — please pick a path:
+<ul style="margin-top:6px">
+<li><b>Recommended:</b> install the Microsoft 365 connector in Cowork settings → Connectors. Then a fresh session can read Outlook directly.</li>
+<li><b>Workaround:</b> set a forward rule in Outlook → forward client mail to <code>pruttens@gmail.com</code>. Then this artifact picks it up automatically.</li>
+<li><b>Manual:</b> copy-paste 10-20 subject + sender lines from your Outlook tab into a new chat — I'll triage them on-the-fly using SKILL_03 logic.</li>
+</ul>
+</div>
+
+<h2>🗂 Files produced this session (in your Cowork outputs folder)</h2>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>inbox-triage-v2.1.html</code></td><td>Source HTML for the live artifact (also pushed to Cowork)</td></tr>
+    <tr><td><code>inbox-triage-v2-handover.md</code></td><td>v2 handover notes (still valid; v2.1 layered on top)</td></tr>
+    <tr><td><code>SKILL_inbox-triage-artifact.md</code></td><td>Skill recipe — drag into Drive next to SKILL_03</td></tr>
+    <tr><td><code>inbox-triage-session-checklist.html</code></td><td>This page</td></tr>
+  </tbody>
+</table>
+
+<div class="legend" style="margin-top:18px">
+<span><span class="cb"></span> Pending</span>
+<span><span class="cb done"></span> Done</span>
+<span><span class="who claude">Claude</span> me</span>
+<span><span class="who phil">Phil</span> you</span>
+<span><span class="who session">new session</span> needs fresh chat</span>
+</div>
+
+<div style="margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+  <span class="note">Click checkboxes to toggle. <b>State persists</b> across reloads via localStorage.</span>
+  <button id="reset-checks" style="font-family:inherit;font-size:12px;padding:5px 12px;background:#fff;border:1px solid #e7e5e4;border-radius:6px;color:#57534e;cursor:pointer">Reset all checkboxes</button>
+  <span id="last-saved" style="font-size:11px;color:#a8a29e"></span>
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = 'cowork-inbox-triage-session-may8-v1';
+  const lastSavedEl = document.getElementById('last-saved');
+
+  const loadState = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } };
+  const saveState = (s) => { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); lastSavedEl.textContent = 'Saved ' + new Date().toLocaleTimeString(); };
+
+  // Assign stable ids to each checkbox (index-based; survives reload because DOM order is stable)
+  const checkboxes = Array.from(document.querySelectorAll('.cb'));
+  checkboxes.forEach((cb, i) => cb.dataset.id = `task-${i}`);
+
+  // Hydrate from localStorage — overrides default class state
+  const state = loadState();
+  checkboxes.forEach(cb => {
+    const id = cb.dataset.id;
+    if (id in state) {
+      cb.classList.toggle('done', !!state[id]);
+      cb.closest('tr')?.classList.toggle('row-done', !!state[id]);
+    }
+  });
+  if (Object.keys(state).length) lastSavedEl.textContent = 'Restored from localStorage';
+
+  // Click → toggle + persist
+  checkboxes.forEach(cb => cb.addEventListener('click', () => {
+    cb.classList.toggle('done');
+    const isDone = cb.classList.contains('done');
+    cb.closest('tr')?.classList.toggle('row-done', isDone);
+    const s = loadState();
+    s[cb.dataset.id] = isDone;
+    saveState(s);
+  }));
+
+  // Reset
+  document.getElementById('reset-checks').addEventListener('click', () => {
+    if (!confirm('Reset all checkboxes to their default state?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+})();
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Client Weekly Wayfina",
+  "schemaVersion": 1,
+  "description": "Wayfina weekly client dashboard — One Template Forever layout, purple accent, Session 8 debrief, Wk 20 (May 4–10, 2026)"
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wayfina — Wk 25 Dashboard · Jun 9–13, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --r-blue: #38B6FF;
+    --accent: #38B6FF;
+    --accent-light: #6DCEFF;
+    --accent-pale: rgba(56,182,255,0.08);
+    --navy: #1C1C2E;
+    --white: #FFFFFF;
+    --off-white: #FAFAFA;
+    --paper: #F5F3EF;
+    --text: #1A1A1A;
+    --text-mid: #444444;
+    --text-light: #777777;
+    --line: #E0DDD8;
+    --green: #16A34A;
+    --orange: #EA580C;
+    --red: #DC2626;
+    --blue: #2563EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--off-white); color: var(--text); display: flex; min-height: 100vh; }
+
+  .sidebar { width: 220px; min-height: 100vh; background: var(--navy); position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; }
+  .sidebar-brand { padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sidebar-brand .client-name { font-family: 'Oswald', sans-serif; font-size: 20px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; }
+  .sidebar-brand .wk-label { font-size: 11px; color: var(--accent-light); font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
+  .sidebar-brand .accent-bar { width: 32px; height: 3px; background: var(--accent); margin-top: 12px; border-radius: 1px; }
+  .sidebar nav { flex: 1; padding: 12px 0; }
+  .sidebar nav a { display: block; padding: 10px 20px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.55); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; }
+  .sidebar nav a:hover { color: var(--white); background: rgba(255,255,255,0.06); border-left-color: var(--accent-light); }
+  .sidebar nav a.active { color: var(--white); border-left-color: var(--accent); background: rgba(56,182,255,0.1); }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 10px; color: rgba(255,255,255,0.3); font-family: 'IBM Plex Mono', monospace; }
+
+  .main { margin-left: 220px; flex: 1; padding: 0 0 80px 0; }
+  .top-banner { background: var(--accent); color: var(--white); padding: 10px 40px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+
+  .section { padding: 40px 40px 0; scroll-margin-top: 24px; }
+  .section + .section { border-top: 1px solid var(--line); margin-top: 40px; }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+  .section-title { font-weight: 700; font-family: 'Oswald', sans-serif; font-size: 28px; color: var(--navy); text-transform: uppercase; margin-bottom: 24px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 2px; padding: 20px; }
+  .card-accent { border-top: 3px solid var(--accent); }
+  .card-green  { border-top: 3px solid var(--green); }
+  .card-orange { border-top: 3px solid var(--orange); }
+  .card-red    { border-top: 3px solid var(--red); }
+  .card-blue   { border-top: 3px solid var(--blue); }
+  .card .card-label { font-size: 10px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 8px; }
+  .card .card-value { font-size: 28px; font-family: 'Oswald', sans-serif; color: var(--navy); line-height: 1; margin-bottom: 4px; }
+  .card .card-sub { font-size: 11px; color: var(--text-light); }
+
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 2px; font-size: 10px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; }
+  .tag-done    { background: #DCFCE7; color: #166534; }
+  .tag-pending { background: #FEF3C7; color: #92400E; }
+  .tag-tbc     { background: #FEE2E2; color: #991B1B; }
+  .tag-ok      { background: #DBEAFE; color: #1E40AF; }
+
+  .data-table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid var(--line); border-radius: 2px; font-size: 13px; margin-bottom: 24px; }
+  .data-table th { background: var(--navy); color: rgba(255,255,255,0.7); font-size: 10px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 1px; padding: 10px 16px; text-align: left; font-weight: 400; }
+  .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--paper); }
+
+  .decision-block { background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 2px; padding: 20px 24px; margin-bottom: 16px; }
+  .decision-block .decision-q { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 8px; }
+  .decision-options { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .option-pill { border: 1.5px solid var(--line); padding: 4px 14px; border-radius: 2px; font-size: 12px; font-weight: 500; color: var(--text-mid); }
+  .option-pill.preferred { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+  .action-list { list-style: none; }
+  .action-list li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: var(--white); border: 1px solid var(--line); border-radius: 2px; margin-bottom: 8px; font-size: 13px; }
+  .action-check { width: 16px; height: 16px; border: 2px solid var(--accent); border-radius: 1px; flex-shrink: 0; margin-top: 1px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .action-text { flex: 1; color: var(--text); line-height: 1.5; }
+  .action-due { font-size: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--orange); font-weight: 600; white-space: nowrap; padding: 2px 8px; background: #FFF7ED; border-radius: 2px; border: 1px solid #FED7AA; flex-shrink: 0; }
+  .action-due.urgent { color: var(--red); background: #FEF2F2; border-color: #FECACA; }
+  .action-due.done { color: var(--green); background: #DCFCE7; border-color: #BBF7D0; }
+
+  .highlight-box { background: var(--accent-pale); border-left: 4px solid var(--accent); border-radius: 2px; padding: 16px 20px; margin-bottom: 16px; font-size: 13px; color: var(--text); line-height: 1.6; }
+  .highlight-box strong { color: var(--accent); }
+
+  .workstream-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .ws-card { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 2px; padding: 20px; }
+  .ws-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .ws-title { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 8px; }
+  .ws-body { font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+
+  .deadline-alert { background: #FEF2F2; border: 1px solid #FECACA; border-left: 4px solid var(--red); border-radius: 2px; padding: 14px 20px; margin-bottom: 24px; font-size: 13px; font-weight: 500; color: var(--red); }
+  .deadline-alert span { font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+
+  @media (max-width: 800px) { .sidebar { display: none; } .main { margin-left: 0; } }
+  .action-check.done { background:#10b981; border-color:#10b981; }
+  .action-check.done::after { content:'✓'; color:#fff; font-size:10px; font-weight:700; }
+  tr.row-done td:not(:first-child) { text-decoration: line-through; opacity: 0.45; }
+  li.li-done .action-text, li.li-done .al-text { text-decoration: line-through; opacity: 0.45; }
+  .action-check.done ~ .action-text { text-decoration: line-through; opacity: 0.45; }
+  .cb { width:15px; height:15px; border:1.5px solid #a8a29e; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-top:2px; user-select:none; }
+  .cb.done { background:#10b981; border-color:#10b981; }
+  .cb.done::after { content:'✓'; color:#fff; font-size:10px; font-weight:700; }
+</style>
+</head>
+
+<body>
+<div id="holiday-banner" style="background:#d1fae5;border-left:5px solid #10b981;padding:12px 24px;font-size:13px;font-weight:700;color:#065f46;display:flex;align-items:center;gap:12px;">
+  &#x1F7E2; S9 DONE &middot; Jun 12 &middot; Investor focus CONFIRMED &middot; October campaign AGREED &middot; Action today: send email to Alex with ruttens.com/services + testimonial + October seed
+  <span style="font-weight:400;color:#047857;margin-left:auto;font-size:11px;">Refreshed: 13 Jun 2026</span>
+</div>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="client-name">Wayfina</div>
+    <div class="wk-label">WK 25 · JUN 9–13, 2026</div>
+    <div class="accent-bar"></div>
+  </div>
+  <nav>
+    <a href="#overview" class="active">01 · Overview</a>
+    <a href="#session9">02 · Session 9 Debrief</a>
+    <a href="#workstreams">03 · Workstreams</a>
+    <a href="#decisions">04 · Key Decisions</a>
+    <a href="#actions-alex">05 · Actions — Alexander</a>
+    <a href="#actions-phil">06 · Actions — Philippe</a>
+    <a href="#next-week">07 · Next Week (Wk 26)</a>
+    <a href="#pipeline">08 · Pipeline &amp; Revenue</a>
+    <a href="#notes">09 · Engagement Notes</a>
+  </nav>
+  <div class="sidebar-footer">RUTTENS+OS · v1.1<br>Updated 13 Jun, 2026</div>
+</aside>
+
+<main class="main">
+  <div id="prog-banner" style="position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 32px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;white-space:nowrap;">Week Progress</span>
+    <div style="flex:1;background:#f3f4f6;border-radius:3px;height:9px;overflow:hidden;min-width:80px;">
+      <div id="prog-bar" style="height:100%;width:0%;border-radius:3px;background:#ef4444;transition:width .4s,background .4s;"></div>
+    </div>
+    <span id="prog-pct" style="font-size:14px;font-weight:800;color:#ef4444;min-width:38px;text-align:right;">0%</span>
+    <span id="prog-label" style="font-size:11px;color:#9ca3af;white-space:nowrap;">0 / 0 done</span>
+    <button onclick="resetProgress()" title="Reset all checkboxes" style="background:none;border:1px solid #e5e7eb;border-radius:3px;padding:2px 8px;font-size:10px;color:#9ca3af;cursor:pointer;white-space:nowrap;">&#8635; Reset</button>
+  </div>
+
+  <div class="top-banner">
+    &#x2691; WK 25 &middot; JUN 9&ndash;13 &mdash; S9 DONE Jun 12. Investor focus CONFIRMED. October campaign AGREED. Action: send email to Alex today with ruttens.com/services + testimonial + October seed.
+  </div>
+
+  <section class="section" id="overview">
+    <div class="section-label">01 · Client Overview</div>
+    <div class="section-title">Wayfina — Alexander Novik</div>
+
+    <div class="card-grid">
+      <div class="card card-accent">
+        <div class="card-label">Current Session</div>
+        <div class="card-value">S9</div>
+        <div class="card-sub">Session 9 · Jun 12, 2026</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">Contract Status</div>
+        <div class="card-value">&#x2705; Confirmed</div>
+        <div class="card-sub">Investor focus confirmed S9 Jun 12</div>
+      </div>
+      <div class="card card-blue">
+        <div class="card-label">Active Workstreams</div>
+        <div class="card-value">5</div>
+        <div class="card-sub">App / Launch / Investors / Webinar / LinkedIn</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">Next Active Window</div>
+        <div class="card-value">Jun 16</div>
+        <div class="card-sub">Chase email sent Jun 13</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Status — Wk 25, 13 Jun 2026.</strong> Session 9 held Jun 12 (~21 min). <strong>Investor focus CONFIRMED. October campaign AGREED.</strong> Contract: 3-month investor focus confirmed. Action today: <strong>send email to Alex with ruttens.com/services + testimonial request + October seed.</strong> Follow up Mon Jun 16 if no reply.
+    </div>
+  </section>
+
+  <section class="section" id="session9">
+    <div class="section-label">02 · Session 9 Debrief</div>
+    <div class="section-title">Jun 12, 2026 — Call Summary (~21 min)</div>
+
+    <div style="background:#d1fae5;border:1px solid #86efac;border-left:4px solid #10b981;border-radius:2px;padding:14px 20px;margin-bottom:24px;font-size:13px;font-weight:500;color:#065f46;">
+      &#x2705; S9 DONE &middot; Jun 12 &middot; ~21 min &middot; Investor focus CONFIRMED &middot; October campaign AGREED &middot; Contract: 3 months investor focus
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Topic</th><th>Key Discussion Points</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Digital Farmer App</strong></td>
+          <td>Farmer advice platform: nutrition guidance, marketplace, AI photo/video monitoring. Aggregate small farm supply to larger off-takers.</td>
+          <td><span class="tag tag-ok">In Progress</span></td>
+        </tr>
+        <tr>
+          <td><strong>Zambezi Botanica Launch</strong></td>
+          <td>African functional drinks + snacks → Germany, Belgium, Scandinavia. Shopify store + authentic video content. Revenue-first focus.</td>
+          <td><span class="tag tag-pending">Preparing</span></td>
+        </tr>
+        <tr>
+          <td><strong>Investor Outreach</strong></td>
+          <td>Investor focus confirmed S9. Target 2nd/3rd-level managers. African VC deals study as lookalike ICP reference. Roadshow pitch format. October campaign agreed.</td>
+          <td><span class="tag tag-done">CONFIRMED</span></td>
+        </tr>
+        <tr>
+          <td><strong>Webinar / October Campaign</strong></td>
+          <td>October 2026 investor webinar campaign AGREED S9 Jun 12. Quality &amp; traceability of African produce. Panel format.</td>
+          <td><span class="tag tag-done">AGREED — Oct 2026</span></td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn + Brand Positioning</strong></td>
+          <td>Premium, traceable, longevity-market angle. Ground-reality stories (not polished corporate). LinkedHelper automation for invitations.</td>
+          <td><span class="tag tag-ok">Aligned</span></td>
+        </tr>
+        <tr>
+          <td><strong>Contract Renewal</strong></td>
+          <td>3-month engagement confirmed S9 Jun 12. Investor focus scope. Next step: Phil to send email today with ruttens.com/services + testimonial + October seed.</td>
+          <td><span class="tag tag-done">CONFIRMED</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="workstreams">
+    <div class="section-label">03 · Active Workstreams</div>
+    <div class="section-title">5 Strategic Threads — Wk 25</div>
+
+    <div class="workstream-grid">
+      <div class="ws-card">
+        <div class="ws-num">Workstream 01</div>
+        <div class="ws-title">Digital Farmer App</div>
+        <div class="ws-body">AI-powered crop monitoring via photos/videos. Nutrition + marketplace features. Aggregate small farm supply to larger off-takers. Ground-level farmer advisory layer.</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-num">Workstream 02</div>
+        <div class="ws-title">Zambezi Botanica — EU Launch</div>
+        <div class="ws-body">African functional drinks &amp; snacks → Germany, Belgium, Scandinavia. Shopify + authentic video. Alex to prepare herbs/plants list. Philippe to build contact lists from ICP.</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-num">Workstream 03</div>
+        <div class="ws-title">Investor Outreach — Roadshow</div>
+        <div class="ws-body">CONFIRMED S9. Target 2nd/3rd-level managers. African VC deals study as ICP reference. Roadshow pitch format (not cold email to CEOs). October campaign agreed.</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-num">Workstream 04</div>
+        <div class="ws-title">October Investor Campaign</div>
+        <div class="ws-body">Panel: quality &amp; traceability, African produce credibility. AGREED S9 Jun 12. October 2026 target. Philippe to seed today in email to Alex with services + testimonial.</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-num">Workstream 05</div>
+        <div class="ws-title">LinkedIn + Brand</div>
+        <div class="ws-body">Premium + traceable + longevity positioning. Ground-reality stories &gt; polished content. LinkedHelper for automated invitations. Philippe to set up Wk 26.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="decisions">
+    <div class="section-label">04 · Key Decisions</div>
+    <div class="section-title">Confirmed S9 Jun 12</div>
+
+    <div class="decision-block">
+      <div class="decision-q">Decision 1 — Investor Campaign: GO</div>
+      <div style="font-size:13px; color: var(--text-mid); line-height:1.6; margin-bottom:8px;">
+        October 2026 investor campaign AGREED S9 Jun 12. Panel-format on quality &amp; traceability of African produce. Philippe to seed in today's email to Alex.
+      </div>
+      <div class="decision-options">
+        <div class="option-pill preferred">YES — AGREED S9 Jun 12 — October campaign</div>
+      </div>
+      <div style="font-size:11px; color: #16a34a; margin-top:10px; font-family: 'IBM Plex Mono', monospace;">&#x2705; CONFIRMED S9 Jun 12 — October 2026</div>
+    </div>
+
+    <div class="decision-block">
+      <div class="decision-q">Decision 2 — Contract Duration</div>
+      <div style="font-size:13px; color: var(--text-mid); line-height:1.6; margin-bottom:8px;">
+        3-month investor focus engagement CONFIRMED S9 Jun 12. Philippe to send formalisation email today.
+      </div>
+      <div class="decision-options">
+        <div class="option-pill preferred">3 Months CONFIRMED — investor focus</div>
+      </div>
+      <div style="font-size:11px; color: #16a34a; margin-top:10px; font-family: 'IBM Plex Mono', monospace;">&#x2705; CONFIRMED S9 Jun 12 — investor focus</div>
+    </div>
+
+    <div class="decision-block">
+      <div class="decision-q">Decision 3 — Zambezi Botanica Target Markets</div>
+      <div style="font-size:13px; color: var(--text-mid); line-height:1.6; margin-bottom:8px;">
+        Confirm EU entry markets. Alexander to share ICP criteria for Apollo + Sales Navigator prospecting.
+      </div>
+      <div class="decision-options">
+        <div class="option-pill preferred">Germany</div>
+        <div class="option-pill preferred">Belgium</div>
+        <div class="option-pill preferred">Scandinavia</div>
+      </div>
+      <div style="font-size:11px; color: #16a34a; margin-top:10px; font-family: 'IBM Plex Mono', monospace;">&#x2705; AGREED — Alex to share ICP criteria</div>
+    </div>
+  </section>
+
+  <section class="section" id="actions-alex">
+    <div class="section-label">05 · Action Items</div>
+    <div class="section-title">Alexander Novik — Owner</div>
+
+    <ul class="action-list">
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Reply to Phil's Jun 13 email — confirm services + testimonial + October seed</div>
+        <div class="action-due urgent">WK 25–26</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Share ICP criteria for Belgium / Germany / Scandinavia (for Apollo + Sales Navigator targeting)</div>
+        <div class="action-due">WK 26</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Share African VC deals study / report with Philippe (investor ICP reference)</div>
+        <div class="action-due">WK 26</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Adjust LinkedIn content to ground-reality stories — authentic over polished corporate</div>
+        <div class="action-due">Ongoing</div>
+      </li>
+      <li>
+        <div class="action-check done"></div>
+        <div class="action-text">Confirm investor focus engagement + October campaign — confirmed S9 Jun 12</div>
+        <div class="action-due done">DONE S9</div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section" id="actions-phil">
+    <div class="section-label">06 · Action Items</div>
+    <div class="section-title">Philippe (Ruttens+) — Today &amp; This Week</div>
+
+    <ul class="action-list">
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Send email to Alex with ruttens.com/services + testimonial request + October seed — TODAY JUN 13</div>
+        <div class="action-due urgent">TODAY JUN 13</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Follow up Alex if no reply — check inbox Mon Jun 16</div>
+        <div class="action-due">MON JUN 16</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Investor outreach planning — build contact lists via Apollo + Sales Navigator per ICP (BE/DE/Scandinavia)</div>
+        <div class="action-due">WK 26</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">October campaign planning — structure, panel format, promotion plan</div>
+        <div class="action-due">Jul 2026</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Connect Alexander with Belgium health/longevity contacts (Zambezi Botanica EU positioning)</div>
+        <div class="action-due">WK 26</div>
+      </li>
+      <li>
+        <div class="action-check"></div>
+        <div class="action-text">Set up LinkedHelper for automated LinkedIn connection invitations (Alexander's profile)</div>
+        <div class="action-due">WK 26</div>
+      </li>
+      <li>
+        <div class="action-check done"></div>
+        <div class="action-text">Share AYA webinar example with Alexander (format reference) — done pre-holiday</div>
+        <div class="action-due done">DONE</div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section" id="next-week">
+    <div class="section-label">07 · Next Active Window</div>
+    <div class="section-title">Wk 26 · Jun 16–20, 2026</div>
+
+    <div class="highlight-box" style="border-color: #10b981; background: #d1fae5; color: #065f46;">
+      <strong>S9 Summary:</strong> Jun 12 &middot; ~21 min &middot; Investor focus CONFIRMED &middot; October campaign AGREED &middot; 3-month contract confirmed. Action today: email to Alex with services + testimonial + October seed. Follow up Mon Jun 16 if no reply.
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:28px"></th>
+          <th>Focus Area</th>
+          <th>Priority</th>
+          <th>Owner</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td>Follow up Alex — reply to Jun 13 services + testimonial email</td>
+          <td style="color: var(--red); font-weight:600;">Critical</td>
+          <td>Philippe</td>
+          <td><span class="tag tag-pending">If No Reply</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td>Apollo prospecting (BE/DE/Scandinavia) — investor ICP</td>
+          <td style="color: var(--orange); font-weight:600;">High</td>
+          <td>Philippe</td>
+          <td><span class="tag tag-pending">Waiting ICP</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td>October campaign — structure &amp; panel format planning</td>
+          <td style="color: var(--orange); font-weight:600;">High</td>
+          <td>Philippe</td>
+          <td><span class="tag tag-ok">In Planning</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td>Belgium contacts for Zambezi Botanica EU positioning</td>
+          <td style="color: #CA8A04; font-weight:600;">Medium</td>
+          <td>Philippe</td>
+          <td><span class="tag tag-pending">WK 26</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;padding:10px 4px"><div class="cb"></div></td>
+          <td>LinkedHelper setup + LinkedIn content shift</td>
+          <td style="color: #CA8A04; font-weight:600;">Medium</td>
+          <td>Both</td>
+          <td><span class="tag tag-pending">In Planning</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="pipeline">
+    <div class="section-label">08 · Pipeline &amp; Revenue</div>
+    <div class="section-title">Engagement Financials</div>
+
+    <div class="card-grid">
+      <div class="card card-green">
+        <div class="card-label">Engagement (Confirmed)</div>
+        <div class="card-value">3 Months</div>
+        <div class="card-sub">Investor focus — confirmed S9 Jun 12</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-label">Light Option</div>
+        <div class="card-value">€10K</div>
+        <div class="card-sub">Base — investor focus scope</div>
+      </div>
+      <div class="card card-blue">
+        <div class="card-label">October Campaign</div>
+        <div class="card-value">Oct 2026</div>
+        <div class="card-sub">AGREED S9 — investor panel webinar</div>
+      </div>
+      <div class="card card-green">
+        <div class="card-label">Next Step</div>
+        <div class="card-value">Email Today</div>
+        <div class="card-sub">Services + testimonial + October seed</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Revenue:</strong> 3-month investor focus engagement confirmed S9. Zambezi Botanica EU launch via Shopify is Alexander's own revenue stream — drives scope of Philippe's work but is separate from engagement fee.
+    </div>
+  </section>
+
+  <section class="section" id="notes">
+    <div class="section-label">09 · Engagement Notes</div>
+    <div class="section-title">Context &amp; Background</div>
+
+    <table class="data-table">
+      <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Client</strong></td><td>Alexander Novik · Wayfina / Zambezi Botanica</td></tr>
+        <tr><td><strong>Engagement</strong></td><td>Session 9 of 10 · Coaching + GTM advisory</td></tr>
+        <tr><td><strong>Primary Focus</strong></td><td>Investor outreach + October campaign, EU market entry (Zambezi Botanica), digital farmer platform, African produce credibility</td></tr>
+        <tr><td><strong>Alex Style Preference</strong></td><td>Authentic, ground-level content. Lighter engagement over heavy retainer. Real stories over polished corporate.</td></tr>
+        <tr><td><strong>LinkedIn Strategy</strong></td><td>Ground-reality stories. LinkedHelper for automated outreach. Longevity + premium + traceability positioning.</td></tr>
+        <tr><td><strong>Last Session</strong></td><td>Session 9 · Jun 12, 2026 · ~21 min · Investor focus CONFIRMED · October campaign AGREED</td></tr>
+        <tr><td><strong>Webinar Value</strong></td><td>Positions Alex as EU African produce expert. Credibility + lead gen. Panel format → quality/traceability → October 2026.</td></tr>
+        <tr><td><strong>Template</strong></td><td>One Template Forever · v1.1 · RUTTENS+OS · Refreshed 13 Jun 2026</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.sidebar nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+<script>
+(function(){
+  var KEY = 'cbState_v2_' + (document.title||'artifact').replace(/\s+/g,'_').substring(0,40);
+  function stableKey(el,i){var tr=el.closest('tr');if(tr){var cells=tr.querySelectorAll('td');for(var c=1;c<cells.length;c++){var t=cells[c].textContent.trim();if(t.length>2)return t.slice(0,60);}}var li=el.closest('li');if(li)return li.textContent.trim().slice(0,60);return String(i);}
+  function saveState(){ var s={}; document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){ if(el.classList.contains('done')) s[stableKey(el,i)]=1; }); try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} }
+  function restoreState(){ var s={}; try{ s=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){} document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el,i){ if(s[stableKey(el,i)]){ el.classList.add('done'); var tr=el.closest('tr'); if(tr) tr.classList.add('row-done'); var li=el.closest('li'); if(li) li.classList.add('li-done'); } }); updateProgress(); }
+  window.updateProgress = function(){ var all=document.querySelectorAll('.cb,.action-check,.al-check'); var done=[].filter.call(all,function(el){return el.classList.contains('done');}).length; var total=all.length; var pct=total?Math.round(done/total*100):0; var bar=document.getElementById('prog-bar'); var pctEl=document.getElementById('prog-pct'); var lbl=document.getElementById('prog-label'); var col=pct===100?'#10b981':pct>=75?'#38B6FF':pct>=40?'#f59e0b':'#ef4444'; if(bar){bar.style.width=pct+'%';bar.style.background=col;} if(pctEl){pctEl.textContent=pct+'%';pctEl.style.color=col;} if(lbl) lbl.textContent=done+' / '+total+' done'; };
+  window.resetProgress = function(){ document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el){ el.classList.remove('done'); var tr=el.closest('tr'); if(tr) tr.classList.remove('row-done'); var li=el.closest('li'); if(li) li.classList.remove('li-done'); }); try{ localStorage.removeItem(KEY); }catch(e){} updateProgress(); };
+  document.querySelectorAll('.cb,.action-check,.al-check').forEach(function(el){ el.addEventListener('click',function(){ el.classList.toggle('done'); var tr=el.closest('tr'); if(tr) tr.classList.toggle('row-done',el.classList.contains('done')); var li=el.closest('li'); if(li) li.classList.toggle('li-done',el.classList.contains('done')); saveState(); updateProgress(); }); });
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',restoreState); } else { restoreState(); }
+})();
+</script>
+</body>
+</html>

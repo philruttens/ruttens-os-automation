@@ -1,0 +1,2609 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Q3 Outreach V1",
+  "schemaVersion": 1,
+  "description": "Q3 Outreach Hub — all LH sequences, manual DMs, recruiter responses, quiz outreach, coffee DMs + ICP chips + L1/L2 badges"
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RUTTENS+ · Q3 Outreach Hub 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;--navy2:#12233a;--navy3:#1a2f45;
+  --amber:#F5A623;--blue:#38B6FF;--green:#22c55e;
+  --red:#ef4444;--white:#fff;--gray:#8a9ab0;--light:#e8edf2;
+  --black:#0A0A0A;
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;display:flex;overflow:hidden}
+
+/* SIDEBAR */
+#sidebar{width:220px;min-width:220px;background:var(--navy);border-right:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow-y:auto;padding:0 0 24px}
+.brand{padding:18px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.brand-name{font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;color:var(--white);letter-spacing:0.5px}
+.brand-sub{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.section-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray);padding:16px 16px 6px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;cursor:pointer;border-left:3px solid transparent;transition:all 0.12s;font-size:12px;font-weight:500;color:rgba(255,255,255,0.7)}
+.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--white)}
+.nav-item.active{background:rgba(245,166,35,0.12);border-left-color:var(--amber);color:var(--amber)}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;background:rgba(255,255,255,0.1);border-radius:8px;padding:1px 6px;font-size:9px;color:var(--gray)}
+
+/* MAIN */
+#main{flex:1;overflow-y:auto;padding:24px 28px}
+.page-header{margin-bottom:24px}
+.page-title{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--white)}
+.page-sub{font-size:12px;color:var(--gray);margin-top:4px}
+
+/* CAMPAIGN MAP */
+.map-table{width:100%;border-collapse:collapse;font-size:12px}
+.map-table th{text-align:left;padding:8px 12px;background:rgba(255,255,255,0.05);color:var(--gray);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.map-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:top}
+.map-table tr:hover td{background:rgba(255,255,255,0.02)}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-p0{background:rgba(56,182,255,0.15);color:var(--blue)}
+.badge-p1{background:rgba(245,166,35,0.15);color:var(--amber)}
+.badge-rec{background:rgba(34,197,94,0.15);color:var(--green)}
+.badge-dm{background:rgba(255,255,255,0.1);color:var(--white)}
+
+/* SEQUENCE CARDS */
+.campaign-block{margin-bottom:32px}
+.campaign-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;color:var(--amber);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.campaign-meta{font-size:11px;color:var(--gray);margin-bottom:16px;padding-left:2px}
+.campaign-meta strong{color:var(--white)}
+.steps{display:flex;flex-direction:column;gap:12px}
+.step-card{background:var(--navy2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden}
+.step-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06)}
+.step-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px}
+.step-label.conn{color:var(--blue)}
+.step-label.m1{color:var(--amber)}
+.step-label.fu1{color:var(--gray)}
+.step-label.fu2{color:var(--gray)}
+.step-timing{font-size:10px;color:var(--gray)}
+.step-body{padding:12px 14px}
+.step-body pre{font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.7;white-space:pre-wrap;color:rgba(255,255,255,0.88)}
+.copy-btn{background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.6);font-size:10px;font-weight:600;padding:4px 10px;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:all 0.12s;flex-shrink:0}
+.copy-btn:hover{background:var(--amber);color:var(--black)}
+.copy-btn.copied{background:var(--green);color:var(--white)}
+
+/* RECRUITER CARDS */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rec-card{background:var(--navy2);border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden}
+.rec-card-header{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center}
+.rec-version{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px}
+.rec-version.va{color:var(--amber)}
+.rec-version.vb{color:var(--blue)}
+.rec-version.vc{color:var(--green)}
+.rec-context{font-size:10px;color:var(--gray)}
+.rec-card-body{padding:12px 14px}
+.rec-card-body pre{font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;line-height:1.7;white-space:pre-wrap;color:rgba(255,255,255,0.88)}
+.rec-usage{font-size:10px;color:var(--gray);padding:6px 14px 10px;border-top:1px solid rgba(255,255,255,0.05);font-style:italic}
+
+/* PERSONA DM */
+.persona-block{margin-bottom:32px}
+.persona-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--blue);margin-bottom:3px}
+.persona-desc{font-size:11px;color:var(--gray);margin-bottom:14px}
+.dm-steps{display:grid;grid-template-columns:1fr;gap:10px}
+
+/* CONFIG */
+.config-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:24px}
+.config-table th{text-align:left;padding:8px 12px;background:rgba(255,255,255,0.05);color:var(--gray);font-weight:600;font-size:10px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.08)}
+.config-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px}
+.config-table td:first-child{color:var(--gray);width:220px}
+.config-table td:last-child{color:var(--white)}
+.rules-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
+.rules-list li{font-size:12px;color:rgba(255,255,255,0.8);padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:3px solid var(--amber)}
+.rules-list li strong{color:var(--white)}
+.section-h2{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--amber);margin:20px 0 12px}
+
+/* TAB SECTIONS */
+.tab-section{display:none}
+.tab-section.active{display:block}
+.divider{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:24px 0}
+.phase-label{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:10px;margin-bottom:12px}
+.phase-p0{background:rgba(56,182,255,0.15);color:var(--blue)}
+.phase-p1{background:rgba(245,166,35,0.15);color:var(--amber)}
+
+/* ICP / PERSONA CHIPS */
+.icp-chips{display:flex;flex-wrap:wrap;gap:6px;margin:-2px 0 14px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;line-height:1}
+.chip-icp{background:rgba(245,166,35,0.14);color:var(--amber);border:1px solid rgba(245,166,35,0.28)}
+.chip-animal{background:rgba(56,182,255,0.12);color:var(--blue);border:1px solid rgba(56,182,255,0.22)}
+.chip-count{background:rgba(255,255,255,0.06);color:var(--gray);border:1px solid rgba(255,255,255,0.1);font-weight:400;font-size:10px}
+
+/* CONNECTION LEVEL BADGES */
+.lv-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;vertical-align:middle;margin-left:5px;letter-spacing:0.4px}
+.lv-l2{background:rgba(56,182,255,0.2);color:var(--blue)}
+.lv-l1{background:rgba(34,197,94,0.2);color:#22c55e}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="brand">
+    <div class="brand-name">RUTTENS+</div>
+    <div class="brand-sub">Q3 Outreach Hub 2026</div>
+  </div>
+  <div class="section-label">Overview</div>
+  <div class="nav-item active" onclick="showTab('map',this)"><span class="nav-icon">🗺️</span> Campaign Map</div>
+  <div class="section-label">LH Sequences</div>
+  <div class="nav-item" onclick="showTab('lh-p0',this)"><span class="nav-icon">🌱</span> Phase 0 — ICP TOFU <span class="nav-badge">5 ICPs</span></div>
+  <div class="nav-item" onclick="showTab('lh-lab',this)"><span class="nav-icon">🔬</span> Phase 1 — LAB <span class="nav-badge">3 variants</span></div>
+  <div class="nav-item" onclick="showTab('lh-map',this)"><span class="nav-icon">🗺️</span> Phase 1 — MAP <span class="nav-badge">3 variants</span></div>
+  <div class="nav-item" onclick="showTab('lh-max',this)"><span class="nav-icon">⚡</span> Phase 1 — MAX <span class="nav-badge">3 variants</span></div>
+  <div class="section-label">Manual DMs</div>
+  <div class="nav-item" onclick="showTab('icp-dms',this)"><span class="nav-icon">💬</span> ICP Connection DMs <span class="nav-badge">5</span></div>
+  <div class="nav-item" onclick="showTab('animal-dms',this)"><span class="nav-icon">🐾</span> GTM Animal DMs <span class="nav-badge">5</span></div>
+  <div class="section-label">♻️ Warm-Up</div>
+  <div class="nav-item" onclick="showTab('warmup-industrial',this)"><span class="nav-icon">🏭</span> Industrial / SME</div>
+  <div class="nav-item" onclick="showTab('warmup-tech',this)"><span class="nav-icon">💻</span> Tech Scale-up</div>
+  <div class="nav-item" onclick="showTab('warmup-pevc',this)"><span class="nav-icon">🏦</span> PE/VC Portfolio</div>
+  <div class="section-label">☀️ Summer Scan</div>
+  <div class="nav-item" onclick="showTab('summer-scan-dm1',this)"><span class="nav-icon">💬</span> DM 1: Connection</div>
+  <div class="nav-item" onclick="showTab('summer-scan-dm2',this)"><span class="nav-icon">💬</span> DM 2: Follow-up</div>
+  <div class="section-label">🏢 Enterprise</div>
+  <div class="nav-item" onclick="showTab('enterprise-posts',this)"><span class="nav-icon">🏢</span> LI Posts — All 7 <span class="nav-badge">7</span></div>
+  <div class="section-label">Inbound</div>
+  <div class="nav-item" onclick="showTab('recruiter',this)"><span class="nav-icon">👔</span> Recruiter Responses <span class="nav-badge">6</span></div>
+  <div class="section-label">LH Helpers</div>
+  <div class="nav-item" onclick="showTab('lh-campaigns',this)"><span class="nav-icon">📋</span> Campaign Scripts <span class="nav-badge">5</span></div>
+  <div class="nav-item" onclick="showTab('quiz-outreach',this)"><span class="nav-icon">🎯</span> Quiz Outreach <span class="nav-badge">3×4</span></div>
+  <div class="nav-item" onclick="showTab('coffee-dms',this)"><span class="nav-icon">☕</span> Coffee DMs <span class="nav-badge">3 ver</span></div>
+  <div class="section-label">Reference</div>
+  <div class="nav-item" onclick="showTab('config',this)"><span class="nav-icon">⚙️</span> Config &amp; Rules</div>
+</div>
+
+<div id="main">
+
+<!-- CAMPAIGN MAP -->
+<div id="tab-map" class="tab-section active">
+  <div class="page-header">
+    <div class="page-title">Campaign Map</div>
+    <div class="page-sub">Q3 2026 · All outreach channels · LH + Manual DMs + Inbound responses</div>
+  </div>
+  <table class="map-table">
+    <thead><tr><th>#</th><th>Campaign</th><th>Phase</th><th>Offer / CTA</th><th>Audience</th><th>Period</th></tr></thead>
+    <tbody>
+      <tr><td>P0-1</td><td>RUTTENS_ICP_Industrial</td><td><span class="badge badge-p0">Phase 0</span></td><td>Tally qualifier → Revenue Scan</td><td>Industrial MD/COO · BE/NL/DACH</td><td>Active → ongoing</td></tr>
+      <tr><td>P0-2</td><td>RUTTENS_ICP_Startup</td><td><span class="badge badge-p0">Phase 0</span></td><td>Tally qualifier → Revenue Scan</td><td>Startup CEO/Founder · Europe</td><td>Active → ongoing</td></tr>
+      <tr><td>P0-3</td><td>RUTTENS_ICP_SaaS</td><td><span class="badge badge-p0">Phase 0</span></td><td>Tally qualifier → Revenue Scan</td><td>SaaS CMO/CEO · Series B/C</td><td>Active → ongoing</td></tr>
+      <tr><td>P0-4</td><td>RUTTENS_ICP_PE</td><td><span class="badge badge-p0">Phase 0</span></td><td>Tally qualifier → Revenue Scan</td><td>PE/VC Partner · Fund ≤€250M</td><td>Active → ongoing</td></tr>
+      <tr><td>P0-5</td><td>RUTTENS_ICP_Agency</td><td><span class="badge badge-p0">Phase 0</span></td><td>Tally qualifier → Revenue Scan</td><td>Agency MD · 10–60 FTE</td><td>Active → ongoing</td></tr>
+      <tr><td>P1-A</td><td>RUTTENS_LAB_Outreach</td><td><span class="badge badge-p1">Phase 1</span></td><td>LAB €1,995 · 2 weeks</td><td>Industrial · Startup · Agency</td><td>Jun 5 → ongoing</td></tr>
+      <tr><td>P1-B</td><td>RUTTENS_MAP_Outreach</td><td><span class="badge badge-p1">Phase 1</span></td><td>MAP €7,990–€13,990 · 3 months</td><td>SaaS · PE/VC · Industrial (large)</td><td>Jun 5 → ongoing</td></tr>
+      <tr><td>P1-C</td><td>RUTTENS_MAX_Outreach</td><td><span class="badge badge-p1">Phase 1</span></td><td>MAX €2,499–€3,990/mo · 6–12mo</td><td>SaaS CEO · CMO/VP · PE portfolio</td><td>Jun 5 → ongoing</td></tr>
+      <tr><td>DM-5</td><td>ICP Connection DMs — Manual</td><td><span class="badge badge-dm">Manual</span></td><td>Pipeline quiz + free tools</td><td>All 5 ICP personas</td><td>Ongoing · 1:1</td></tr>
+      <tr><td>DM-A</td><td>GTM Animal Sequences</td><td><span class="badge badge-dm">Manual / LH</span></td><td>ruttens.com/quiz</td><td>All 5 ICPs (animal-mapped)</td><td>Ongoing</td></tr>
+      <tr><td>REC</td><td>Recruiter Responses — Inbound</td><td><span class="badge badge-rec">Inbound</span></td><td>ruttens.com/cmo + about + quiz</td><td>Perm + Interim/Fractional</td><td>On demand</td></tr>
+      <tr><td>WU-1</td><td>Warm-Up — Industrial / SME</td><td><span class="badge badge-dm">Manual</span></td><td>Revenue Scan → ruttens.com/scan</td><td>Ex-prospects · CEO/CFO/CCO · Industrial</td><td>Jun 23 → ongoing</td></tr>
+      <tr><td>WU-2</td><td>Warm-Up — Tech Scale-up</td><td><span class="badge badge-dm">Manual</span></td><td>Revenue Scan → ruttens.com/scan</td><td>Ex-prospects · CEO/CFO/CRO · Series A–C</td><td>Jun 23 → ongoing</td></tr>
+      <tr><td>WU-3</td><td>Warm-Up — PE/VC Portfolio</td><td><span class="badge badge-dm">Manual</span></td><td>Revenue Scan → ruttens.com/scan</td><td>Ex-prospects · CEO/CFO/CCO · PE-backed</td><td>Jun 23 → ongoing</td></tr>
+      <tr><td>ENT-1</td><td>Enterprise LI Posts (7) — CEO/CFO + CMO tracks</td><td><span class="badge badge-p1">Content</span></td><td>Revenue Scan → ruttens.com/scan</td><td>CEO/CFO 3k–10k FTE · CMO/CRO 10k+ FTE · Microsoft-locked</td><td>Jul 1 → Jul 17</td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+  <div class="section-h2">LH Daily Limits</div>
+  <table class="config-table">
+    <thead><tr><th>Campaign</th><th>Connects/day</th></tr></thead>
+    <tbody>
+      <tr><td>P0-1 Industrial</td><td>4</td></tr>
+      <tr><td>P0-2 Startup</td><td>4</td></tr>
+      <tr><td>P0-3 SaaS</td><td>4</td></tr>
+      <tr><td>P0-4 PE/VC</td><td>4</td></tr>
+      <tr><td>P0-5 Agency</td><td>4</td></tr>
+      <tr><td><strong>TOTAL</strong></td><td><strong>20/day ← safe limit</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="section-h2">CTA Map</div>
+  <table class="config-table">
+    <thead><tr><th>Phase / Step</th><th>CTA URL</th></tr></thead>
+    <tbody>
+      <tr><td>Phase 0 · M1</td><td>https://tally.so/r/Xx185Y (qualifier)</td></tr>
+      <tr><td>Phase 0 · FU1</td><td>https://tally.so/r/0Qj0b0 (Revenue Scan)</td></tr>
+      <tr><td>Phase 1 · all</td><td>BOOK A REVENUE SCAN · RUTTENS.COM</td></tr>
+      <tr><td>GTM Animal DMs · M1</td><td>ruttens.com/pipeline-leaks + ruttens.com/quiz</td></tr>
+      <tr><td>Recruiter responses</td><td>ruttens.com/cmo · ruttens.com/about · ruttens.com/quiz</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LH PHASE 0 -->
+<div id="tab-lh-p0" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">LH Phase 0 — ICP TOFU Sequences</div>
+    <div class="page-sub">Top-of-funnel qualification · No service pitch · Tally qualifier CTA · 5 ICP campaigns</div>
+  </div>
+  <div class="phase-label phase-p0">Phase 0 · Connection Note + M1 + FU1 + FU2</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🏭 P0-1 — RUTTENS_ICP_Industrial</div>
+    <div class="campaign-meta"><strong>Target:</strong> Manufacturing · Industrial · MD/COO/CEO · BE/NL/DACH/FR/UK · 10–250 FTE<br><strong>Pain:</strong> No GTM system · can't measure marketing ROI · pipeline depends on who calls who first</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · Sent with invite</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, I work with industrial leaders in BE/NL/DACH on the gap between strong sales execution and predictable pipeline. Happy to connect — Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+One pattern I see consistently in industrial B2B: strong product, experienced sales team — but no systematic way to generate new pipeline. Revenue depends on who calls who first, and every quarter feels like starting from scratch.
+
+I put together a short diagnostic — 3 minutes — that helps B2B leaders identify exactly where their pipeline is leaking.
+
+No pitch, no service push. Just useful to know where the gaps are.
+
+Worth a look?
+→ ruttens.com/scan or https://tally.so/r/Xx185Y
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7 · different angle</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+A stat I keep coming back to: most industrial B2B companies generate 70–80% of revenue from existing accounts — but have no system to replace them if one reduces spend or leaves.
+
+If it's a useful 3-minute diagnostic: https://tally.so/r/0Qj0b0
+
+Happy to stay in touch either way.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10 · soft close, no link</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, last message from me.
+
+If a GTM or pipeline conversation comes up in 2026, feel free to reach out — happy to spend 20 minutes on it.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🚀 P0-2 — RUTTENS_ICP_Startup</div>
+    <div class="campaign-meta"><strong>Target:</strong> B2B SaaS/Tech · CEO/Founder · Europe · 10–50 FTE · Seed/Pre-Series A<br><strong>Pain:</strong> Founder doing it all · no repeatable pipeline · urgent revenue in 90 days</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, I work with B2B startup founders on building repeatable pipeline before they need to hire a full team. Happy to connect — Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+The trap most B2B founders hit at your stage: you're closing deals yourself and it's working — but there's no system behind it. So it doesn't scale when you step back or when you hand it to someone else.
+
+I built a short diagnostic for founders to spot their top 3 GTM gaps before they become a real scaling problem. Takes 3 minutes, no pitch.
+
+Worth a look?
+→ https://tally.so/r/Xx185Y
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+One thing I see in most B2B startups at €1–3M ARR: the founder is still the best salesperson on the team — and no one has documented why deals close. That's the bottleneck for the next stage.
+
+The diagnostic flags this if it's your situation too.
+→ https://tally.so/r/0Qj0b0
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, last note from me.
+
+If 2026 GTM or fundraise prep is on your radar and you want an outside view, happy to connect on it.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">💻 P0-3 — RUTTENS_ICP_SaaS</div>
+    <div class="campaign-meta"><strong>Target:</strong> SaaS · CMO/VP Marketing/CEO/CRO · Europe · 40–250 FTE · Series B/C<br><strong>Pain:</strong> No revenue predictability · RevOps misalignment · lead-to-deal stuck under 15%</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, I work with B2B SaaS leaders on pipeline predictability and revenue alignment across marketing and sales. Happy to connect — Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+One question I ask every SaaS leader I meet: "Do you know which channel generated your last 10 closed deals?"
+
+Most can't answer it precisely. And without that clarity, it's very hard to know where to invest more — or what to cut.
+
+I built a short GTM diagnostic for SaaS leaders — 3 minutes — that shows where the pipeline gaps are before they become next quarter's miss.
+
+Worth trying?
+→ https://tally.so/r/Xx185Y
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+A pattern I keep seeing at Series B/C: marketing generates MQLs, sales closes some of them — but the lead-to-deal conversion is stuck under 15% and no one knows which lever to pull.
+
+If that resonates:
+→ https://tally.so/r/0Qj0b0
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, last message on this.
+
+If 2026 GTM planning is on the table and you want an outside perspective on your pipeline setup, happy to connect on it.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">💼 P0-4 — RUTTENS_ICP_PE</div>
+    <div class="campaign-meta"><strong>Target:</strong> PE/VC · Investment Director/Partner/Portfolio Manager · Europe · Fund ≤€250M<br><strong>Pain:</strong> Portfolio companies burning €10–20K/mo on agencies · no pipeline attribution</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, I work with PE/VC investors on improving pipeline ROI from portfolio companies' marketing — before it becomes a board issue. Happy to connect — Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+One pattern I see consistently in PE portfolio companies: they're spending €10–20K/month on agencies or marketing with no clear pipeline attribution. The fund puts pressure on growth, but no one owns the GTM strategy internally.
+
+I built a short diagnostic that identifies the top 3 pipeline gaps for B2B companies — useful when you need a fast read on a portfolio company's commercial engine.
+
+→ https://tally.so/r/Xx185Y
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+The typical situation I find post-investment: good product, busy sales team, marketing budget — but no systematic connection between them. Pipeline relies on founder relationships and 1–2 senior reps.
+
+Worth a quick diagnostic if you have a company in that situation:
+→ https://tally.so/r/0Qj0b0
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, last note from me.
+
+If a portfolio company's GTM comes up as a gap at your next review, happy to spend 20 minutes on it.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🦝 P0-5 — RUTTENS_ICP_Agency</div>
+    <div class="campaign-meta"><strong>Target:</strong> Marketing/Digital Agency · MD/CEO/New Business Director · BE/NL/UK · 10–60 FTE<br><strong>Pain:</strong> Own pipeline = referrals only · content without conversion · no new business system</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, I help agency leaders build their own new business pipeline — not just deliver it for clients. Happy to connect — Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Something I've noticed with most agencies: you're excellent at generating pipeline for clients — but haven't applied the same rigour to your own new business.
+
+I built a short diagnostic specifically for agency leaders — 3 minutes, identifies your top 3 new business pipeline gaps. No pitch on the back of it.
+
+Worth a look?
+→ https://tally.so/r/Xx185Y
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+The most common gap I find in agency pipelines: 80% of revenue concentrated in 2–3 clients, with no systematic way to replace them if one reduces scope.
+
+If that's your situation:
+→ https://tally.so/r/0Qj0b0
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {{firstName}}, last message from me.
+
+If new business growth is a 2026 priority for the agency, I'm happy to spend 20 minutes on it — no pitch.
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LH PHASE 1 LAB -->
+<div id="tab-lh-lab" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">LH Phase 1 — RUTTENS+LAB</div>
+    <div class="page-sub">Direct offer · €1,995 fixed fee · 2-week GTM audit · 3 ICP variants</div>
+  </div>
+  <div class="phase-label phase-p1">Phase 1 · Run from Jun 5 · For warm Phase 0 contacts + pre-qualified fresh leads</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🏭 A1 — Industrial MD/COO</div>
+    <div class="campaign-meta"><strong>Target:</strong> BE/NL/DE/FR/UK · 50–200 FTE · Manufacturing/Industrial<br><strong>Pain:</strong> No GTM strategy · No analytics · No AI integration</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I work with industrial and manufacturing leaders in BE/NL/DACH building their first real pipeline system. Noticed {{companyName}} — worth a connect? Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Most industrial MDs I speak to face the same three problems: no clear ICP, no way to measure what marketing is generating, and a sales team doing everything manually.
+
+I ran a 2-week GTM audit for a Belgian industrial firm (€12M turnover). They had zero pipeline visibility. 6 weeks later: 3 qualified opportunities, €45K in new pipeline.
+
+RUTTENS+LAB is that audit — €1,995 fixed fee, 2 weeks, no retainer after.
+
+Worth 20 minutes to see if it fits?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+One thing I hear constantly from industrial leaders: "Marketing costs money but I can't tell you what it generates."
+
+That's exactly what LAB diagnoses in 2 weeks — where the pipeline is leaking and what to fix first.
+
+If it's not the right moment, just say so — happy to stay in touch.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last note from me on this.
+
+If 2026 GTM planning is on the table, I'm happy to spend 20 minutes sharing what I'm seeing across the sector — no pitch, just a useful conversation.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🚀 A2 — Startup CEO/Founder</div>
+    <div class="campaign-meta"><strong>Target:</strong> 10–30 FTE · B2B SaaS/Tech<br><strong>Pain:</strong> Founder doing it all · Urgent revenue in 90 days · No repeatable pipeline</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I help B2B startup founders build their first GTM system before they need to hire a full CMO. Saw {{companyName}} — happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Most B2B founders I talk to are running sales, marketing, and product simultaneously. Revenue targets are urgent but there's no repeatable pipeline yet.
+
+I ran RUTTENS+LAB for a SaaS startup last quarter — 22 FTE, pre-Series A. 2-week audit. Output: a clear ICP, 3 priority channels, and a 90-day GTM roadmap they could actually execute.
+
+€1,995. 2 weeks. No ongoing commitment.
+
+Worth a 20-minute call?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+If timing isn't right, no problem — I know this phase is intense for most founders.
+
+One thing that might be useful regardless: I'm publishing a short B2B GTM checklist for founders next week. Happy to send it over.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last message on this.
+
+If you're thinking about 2026 pipeline and want a fresh outside view — I'm happy to spend 20 minutes on it, no pitch.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🦝 A3 — Agency MD</div>
+    <div class="campaign-meta"><strong>Target:</strong> 10–50 FTE · Digital/Marketing Agency<br><strong>Pain:</strong> Content without conversion · Not enough leads · New business = all referrals</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I help agency MDs build their own new business pipeline — not just deliver it for clients. Happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Agency MDs tell me the same thing: "We do great work for clients but our own pipeline is referrals and luck."
+
+I ran RUTTENS+LAB for a digital agency — 18 FTE. They had 3 active referrals and nothing else in the funnel. After 2 weeks: a structured outbound process, a tight ICP, and 2 new pitches within 6 weeks.
+
+Fixed fee, €1,995. 2 weeks. No retainer.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+The biggest gap I see in agency pipelines: 2–3 existing clients generating 80% of revenue, with no system to replace them. LAB diagnoses exactly where new business is getting blocked.
+
+Happy to stay in touch if timing's off.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last note from me.
+
+If 2026 new business growth is on your radar, I'm happy to spend 20 minutes comparing notes — no pitch.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LH PHASE 1 MAP -->
+<div id="tab-lh-map" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">LH Phase 1 — RUTTENS+MAP</div>
+    <div class="page-sub">GTM Strategy · €7,990–€13,990 · 3 months · 3 ICP variants</div>
+  </div>
+  <div class="phase-label phase-p1">Phase 1 · ICP-specific · Run from Jun 5</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">💻 B1 — SaaS CMO/CEO</div>
+    <div class="campaign-meta"><strong>Target:</strong> 40–200 FTE · Series B/C · Europe<br><strong>Pain:</strong> No revenue predictability · RevOps misalignment · Lead-to-deal too low</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I build 90-day GTM strategies for B2B SaaS teams fixing pipeline predictability and RevOps alignment. Happy to connect — Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Most SaaS teams at Series B/C I work with have the same problem: marketing generates leads, sales closes some of them, but no one can tell which channel is actually driving revenue. RevOps patches dashboards instead of running strategy.
+
+RUTTENS+MAP is a 3-month GTM strategy engagement — ICP definition, channel mix, messaging, pipeline architecture, 90-day execution roadmap.
+
+Running it now with a SaaS firm, 65 FTE, €4M ARR. They went from 12% lead-to-deal to 19% in 8 weeks.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+One pattern I keep seeing in B2B SaaS: the moment you tighten your ICP and rebuild the pipeline around it, conversion improves fast — not over quarters, over weeks.
+
+That's the core of MAP. Happy to stay in touch if timing isn't right.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last message from me.
+
+If 2026 GTM planning is on the table and you want an outside view on your pipeline setup, I'm happy to spend 20 minutes — no commitment needed.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">💼 B2 — PE/VC Partner</div>
+    <div class="campaign-meta"><strong>Target:</strong> Investment Director · Partner · Fund ≤€250M<br><strong>Pain:</strong> Agency waste €10–30K/mo · Marketing ROI unclear · S&M misaligned</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I help PE/VC portfolio companies replace agency spend with a proper GTM system — faster pipeline, lower CAC. Happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+The pattern I see in PE-backed companies: burning €10–20K/month on agencies without a clear pipeline ROI. Good product, wrong GTM model, misaligned sales and marketing.
+
+RUTTENS+MAP is a 3-month GTM strategy for portfolio companies — ICP, positioning, pipeline architecture, 90-day roadmap.
+
+Recent example: PE-backed services firm, €8M ARR. Replaced €14K/mo agency retainer. Built an internal pipeline engine in 3 months.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+If you have a portfolio company struggling with pipeline quality or marketing ROI — MAP is designed for exactly that situation. 3 months, fixed scope, measurable output.
+
+Happy to stay in touch.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last note from me.
+
+If there's a portfolio company where marketing spend isn't converting to pipeline, happy to spend 20 minutes comparing notes — no pitch.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🏭 B3 — Industrial MD (Scale / New Market)</div>
+    <div class="campaign-meta"><strong>Target:</strong> 100+ FTE · DACH/Benelux · International expansion or scaling<br><strong>Pain:</strong> No GTM strategy · No analytics · International expansion without a system</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I help industrial leaders in BE/NL/DACH build a structured 3-month GTM strategy — ICP, channels, pipeline. Happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Industrial companies often have strong products and a good sales team — but no systematic GTM. Marketing runs independently, there's no pipeline model, and new market entry is driven by gut feel.
+
+RUTTENS+MAP gives you a structured 3-month GTM strategy: ICP definition, messaging, channel mix, pipeline model, 90-day roadmap. Fixed scope, €7,990–€13,990.
+
+Running it now for a BE industrial firm (110 FTE) targeting DACH expansion.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+The most common gap I see in industrial B2B: strong sales execution with no pipeline system behind it. Every quarter depends on who calls who first.
+
+MAP fixes that at the structural level. Happy to stay in touch if timing isn't right.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last message on this.
+
+If 2026 GTM planning or new market entry is on the agenda, happy to spend 20 minutes — no commitment.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LH PHASE 1 MAX -->
+<div id="tab-lh-max" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">LH Phase 1 — RUTTENS+MAX</div>
+    <div class="page-sub">Fractional CMO · €2,499–€3,990/mo · 6–12 months · 3 ICP variants</div>
+  </div>
+  <div class="phase-label phase-p1">Phase 1 · Run from Jun 5 · For pre-qualified strategic prospects</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">💻 C1 — SaaS CEO / Founder (post-Series A)</div>
+    <div class="campaign-meta"><strong>Target:</strong> 40–200 FTE · No full-time CMO<br><strong>Pain:</strong> Outgrown founder-led marketing · Not ready to hire €120K+ CMO · Agency not filling strategic gap</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I'm a fractional CMO for B2B SaaS teams that need senior marketing leadership without the full-time hire. Happy to connect — Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+A lot of SaaS CEOs reach me at the same point: they've outgrown founder-led marketing, they're not ready to hire a full-time CMO at €120K+, and an agency isn't filling the strategic gap.
+
+RUTTENS+MAX is a fractional CMO engagement — I embed with your team for 6–12 months, own the GTM strategy and execution, and work like an internal CMO.
+
+Current: Series B SaaS (65 FTE), PE-backed industrial (110 FTE), B2B tech (40 FTE). All running without a full-time CMO.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, quick follow-up.
+
+One thing that usually tips the decision: the fractional model gives you CMO-level strategy without the risk of a full-time hire. If it doesn't work in 3 months, you stop. No notice period, no severance.
+
+Happy to stay connected if timing isn't right.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last message from me.
+
+If you're navigating the "do we hire a CMO or not" question for 2026, happy to spend 20 minutes sharing how other SaaS CEOs are solving it — no pitch.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">📊 C2 — CMO / VP Marketing (needs senior backup)</div>
+    <div class="campaign-meta"><strong>Target:</strong> SaaS · Series B/C · Team too thin for strategy + execution<br><strong>Pain:</strong> Board pressure on pipeline · Needs senior external thinking</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I work as fractional CMO and strategic backup for marketing leaders who need senior firepower without adding headcount. Happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Some CMOs use MAX not as a replacement, but as a strategic layer — a senior external who owns specific workstreams (pipeline architecture, RevOps alignment, board reporting) while you run the team.
+
+I'm currently embedded with 3 B2B SaaS/tech teams in that model. One went from 0% inbound to 35% inbound pipeline share in 6 months.
+
+Worth 20 minutes to explore?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+If you're carrying both strategy and execution for a growing team, MAX is designed to give you a senior external partner for the parts that need it most — without the political weight of a new hire.
+
+Happy to stay in touch.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last note from me.
+
+If the senior bandwidth question comes up in 2026 planning, I'm happy to spend 20 minutes on it — no commitment.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">💼 C3 — PE/VC Portfolio Company (CMO gap)</div>
+    <div class="campaign-meta"><strong>Target:</strong> Post-investment · Scaling phase<br><strong>Pain:</strong> No senior marketing ownership · Agency burning cash · Pipeline = founder relationships only</div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, I act as fractional CMO for PE portfolio companies — building the GTM engine without the full-time cost. Happy to connect. Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, thanks for connecting.
+
+Post-investment, marketing in PE-backed companies is usually one of three things: absent, outsourced to an agency burning €15K+/mo, or run by someone too junior to own GTM strategy.
+
+RUTTENS+MAX gives you a fractional CMO for 6–12 months — embedded, strategic, accountable for pipeline. Not an agency. A CMO who shows up weekly.
+
+One portfolio company I work with went from €0 inbound to 35% inbound pipeline share in 6 months.
+
+Worth 20 minutes?
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Follow-Up 1</span><span class="step-timing">Day 7</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, following up briefly.
+
+If you have a portfolio company where marketing is the gap — no senior ownership, agency spend without results, or pipeline that relies on founder relationships — MAX is the fastest fix.
+
+Happy to stay in touch.
+
+Phil · RUTTENS.COM</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu2">👋 Follow-Up 2</span><span class="step-timing">Day 10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi {{firstName}}, last message on this.
+
+If a portfolio company is heading into a growth phase with no CMO in place, happy to spend 20 minutes — no commitment needed.
+
+Phil · RUTTENS.COM</pre></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ICP MANUAL DMs -->
+<div id="tab-icp-dms" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">ICP Connection DMs — Manual</div>
+    <div class="page-sub">Personal 1:1 outreach · Give → give → ask · Quiz is fun, never first · No links in connection note</div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">🐆 Persona 1 — Founder Still Running Sales</div>
+    <div class="persona-desc">B2B SaaS/services · €1–5M ARR · Closes 80% of deals personally · knows they're the bottleneck</div>
+    <div class="dm-steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · no links</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [Name] — really like what you're building at [Company]. I work with founders right at the point where doing all the selling yourself stops scaling. Always glad to swap notes with people in the thick of it. Would be good to connect.</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">After accept · value, no pitch</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Thanks for connecting, [Name]. Quick one — I wrote a piece on the exact ceiling founder-led sales hits (€0–1M works brilliantly, €3–5M breaks). If it's useful: [link to "Every founder hits the same ceiling" post]. Curious — where does it creak most for you right now, the volume of calls or the handover?</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Message 2</span><span class="step-timing">Only if they reply · soft quiz</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Makes sense. If you ever want a 2-min gut-check, I built a (slightly tongue-in-cheek) "GTM Animal" quiz — it names the ceiling your stage is about to hit and 3 moves for it. No email wall: ruttens.com/quiz. Most founders land on Cheetah or Lone Wolf 🙂</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="persona-block">
+    <div class="persona-title">🦓 Persona 2 — Industrial SME, Great Product, No Engine</div>
+    <div class="persona-desc">€10–20M turnover · Belgian/EU industrial · Wins on merit + referrals + trade shows · New buyers never see them</div>
+    <div class="dm-steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · no links</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [Name] — [Company]'s work in [sector] caught my eye; clearly a product that wins on merit. I help industrial SMEs turn that into pipeline without a big agency or rebrand. Would enjoy connecting with someone building real things.</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">After accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Thanks [Name]. Most industrial firms I meet have the same quiet problem: the product is excellent, but growth still depends on referrals and the odd trade show. I broke down how one €12M Belgian industrial added €45K of pipeline in 6 weeks with a simple engine they ran themselves — happy to send it. Is referral-dependence the main thing for you, or visibility to new buyers?</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Message 2</span><span class="step-timing">If they reply · soft credibility</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>If it helps, this teardown shows how a €3M firm miscounted its real cost-per-customer by 4× before scaling spend — the kind of thing worth checking before investing: [CAC teardown post]. No agenda, just useful.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="persona-block">
+    <div class="persona-title">🦬 Persona 3 — Tech Scale-up With Team but No CMO</div>
+    <div class="persona-desc">Series A/B SaaS · 40–80 FTE · Marketers doing the work, nobody owns the number · Board asks for metrics they can't produce</div>
+    <div class="dm-steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · no links</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [Name] — following [Company]'s growth post-[round]. I work with scale-ups that have a marketing team but no CMO yet, getting the board the metrics it actually wants. Would be great to connect.</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">After accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Thanks for connecting, [Name]. The pattern I see at your stage: talented team, lots of activity, but "we got good engagement" doesn't survive a board meeting. I shared the 5 pipeline numbers a board actually wants on a Monday — useful as a checklist: [5 pipeline numbers post]. Who owns the pipeline number on your side today?</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Message 2</span><span class="step-timing">If they reply · alignment</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>If the marketing↔sales handoff is part of it, this 2-hour fix kills the blame game permanently: [SP-3 Kartik / alignment post]. Happy to talk it through sometime — no pitch.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="persona-block">
+    <div class="persona-title">🐅 Persona 4 — PE/VC Operating Partner</div>
+    <div class="persona-desc">Runs GTM across a portfolio · Every company on different €15K/mo agency, none provable · Wants investor-ready metrics + one playbook</div>
+    <div class="dm-steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · no links</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [Name] — I work at the portfolio-GTM level: standardising how companies build pipeline so the numbers are investor-ready and the spend is provable. Suspect we cross paths often; would value connecting.</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">After accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Thanks [Name]. The recurring story across portfolios I see: each company paying €5–15K/month to a different agency, none able to prove the return. I wrote up how one fractional operator fixes GTM across companies (typical saving €5–15K each/month). Worth a look if it's relevant: [WC-11 / portfolio post]. How are you handling GTM consistency across the portfolio now?</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Message 2</span><span class="step-timing">If they reply · credibility</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>For context on how I work, a few operators and founders described it better than I could: [SP-1 "Don't take my word for it" carousel]. Glad to compare notes on portfolio approaches anytime.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="persona-block">
+    <div class="persona-title">🦝 Persona 5 — Agency That Builds Pipeline for Everyone but Itself</div>
+    <div class="persona-desc">10–25 FTE marketing/creative agency · New business = referrals + luck · The cobbler's children</div>
+    <div class="dm-steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤300 chars · no links</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [Name] — admire [Agency]'s work. Couldn't resist reaching out on the classic agency irony: you build pipeline for clients all day, and your own new-biz runs on referrals. I help agencies fix exactly that. Would be good to connect.</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 Message 1</span><span class="step-timing">After accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Thanks [Name]. I worked with an 18-person agency that went from 3 referral sources to a structured outbound motion → new pitches in 6 weeks, content engine running in ~2 hours/week. Same things you sell, finally pointed at yourselves. Happy to share how. Is new-biz consistency the itch, or capacity to run it?</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ Message 2</span><span class="step-timing">If they reply · peer proof</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>If you want a peer's view rather than mine — a recruiter who places senior marketers put it well: [SP-8 Richard Washington]. No agenda, just enjoy talking shop with people who get it.</pre></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- GTM ANIMAL DMs -->
+<div id="tab-animal-dms" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">GTM Animal DMs — Quiz-Led Sequences</div>
+    <div class="page-sub">LH Rev 3 · Animal-mapped per ICP · CTAs: ruttens.com/pipeline-leaks + ruttens.com/quiz · No service pitch in M1–M3</div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🐆 Cheetah — Founders / Startups</div>
+    <div class="campaign-meta"><strong>Why Cheetah:</strong> Sprints without a system — fast GTM, no time to slow down, tires before the herd catches up · <em>Hint: "speed over structure?"</em></div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 M1 — Connection</span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — most B2B founders lose pipeline at the same 3 points, not the product. Free guide: ruttens.com/pipeline-leaks. Also: guessing you're a Cheetah 🐆 on my GTM quiz (speed over structure?). Am I right? ruttens.com/quiz</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 M2 — Value</span><span class="step-timing">2–3 days after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hey [First name],
+
+Thanks for connecting.
+
+Pipeline Leaks guide is here: ruttens.com/pipeline-leaks — 7 points where early-stage B2B revenue disappears before sales ever sees it.
+
+And if you want to find your specific leak: ruttens.com/quiz — it's a 10-question GTM diagnostic. Takes 3 min. Shows you exactly where the gap is, no pitch at the end.
+
+Curious what it says for you.
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ M3 — Soft bump</span><span class="step-timing">5–7 days after M2, no reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hey [First name] — quick one.
+
+What's the biggest bottleneck in your pipeline right now — lead volume, quality, or handover to sales?
+
+Curious which of the 7 leaks hits closest.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🦓 Zebra — Industrial SME</div>
+    <div class="campaign-meta"><strong>Why Zebra:</strong> Every industrial co looks identical in the herd — differentiation is the survival problem · <em>Hint: "hard to stand out in the herd?"</em></div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 M1 — Connection</span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — industrial B2B companies often lose deals before the pitch because they look identical to competitors. Free guide: ruttens.com/pipeline-leaks. Guessing you're a Zebra 🦓 (hard to stand out in the herd?). ruttens.com/quiz</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 M2 — Value</span><span class="step-timing">2–3 days after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name],
+
+Thanks for connecting.
+
+Pipeline Leaks guide is here: ruttens.com/pipeline-leaks — built for B2B companies where the real problem is positioning, not the product. Prospects can't explain why you over the next supplier.
+
+If you want to find where it's leaking specifically: ruttens.com/quiz — 10-question GTM diagnostic, 3 min, written output. No pitch.
+
+Let me know what it shows.
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ M3 — Soft bump</span><span class="step-timing">5–7 days after M2, no reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — one question.
+
+Do your best prospects already know they have a problem you solve? Or do you usually have to create that awareness first?
+
+That one answer tells me which pipeline leak is costing you the most.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🦬 Bison — Tech Scale-up</div>
+    <div class="campaign-meta"><strong>Why Bison:</strong> Heavy momentum, hard to redirect — GTM traction that stops scaling with revenue · <em>Hint: "traction but the motion's wrong?"</em></div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 M1 — Connection</span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — scale-ups often hit a point where GTM traction stops scaling with revenue. Classic Bison 🦬 problem (momentum, wrong direction). Free guide: ruttens.com/pipeline-leaks. Check: ruttens.com/quiz</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 M2 — Value</span><span class="step-timing">2–3 days after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hey [First name],
+
+Thanks for connecting.
+
+Pipeline Leaks guide is here: ruttens.com/pipeline-leaks — written for companies past €1M ARR where rising CAC and longer cycles signal the GTM isn't scaling with the product.
+
+To find your specific leak: ruttens.com/quiz — 10-question GTM diagnostic, 3 min, written output.
+
+Curious what it shows.
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ M3 — Soft bump</span><span class="step-timing">5–7 days after M2, no reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hey [First name] — quick check.
+
+What does your CAC look like vs 18 months ago?
+
+Rising acquisition cost is usually the first signal that GTM isn't scaling with the product. Curious where you're sitting.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🐅 Leopard — PE / VC</div>
+    <div class="campaign-meta"><strong>Why Leopard:</strong> Strategic, patient, precision-strikes — waits for the right moment, doesn't miss twice · <em>Hint: "strategic, selective, precision when it matters?"</em></div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 M1 — Connection</span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — most PE portfolios have 2–3 companies with invisible pipeline problems the founders can't name. Free guide worth sharing: ruttens.com/pipeline-leaks. Guessing you're a Leopard 🐅 (strategic, selective, precision when it matters?). ruttens.com/quiz</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 M2 — Value</span><span class="step-timing">2–3 days after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name],
+
+Thanks for connecting.
+
+Pipeline Leaks guide is here: ruttens.com/pipeline-leaks — worth passing to 1–2 portfolio founders. It maps the 7 points where B2B revenue disappears before QBR numbers flag it.
+
+The GTM diagnostic at ruttens.com/quiz also works well for founders — 10 questions, 3 min, written output. Useful pre-QBR self-assessment.
+
+Happy to be a sounding board if relevant.
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ M3 — Soft bump</span><span class="step-timing">5–7 days after M2, no reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — quick question.
+
+Do any of your portfolio companies have a GTM problem right now — pipeline stalling, positioning unclear, or revenue stuck at a plateau?
+
+Happy to be a sounding board. No agenda.</pre></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="campaign-block">
+    <div class="campaign-title">🦝 Raccoon — Agencies</div>
+    <div class="campaign-meta"><strong>Why Raccoon:</strong> Resourceful, cobbles solutions from what's available — scrappiness that doesn't scale · <em>Hint: "resourceful by necessity?"</em></div>
+    <div class="steps">
+      <div class="step-card"><div class="step-header"><span class="step-label conn">🔗 M1 — Connection</span><span class="step-timing">≤300 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — agencies lose retainers when they can't prove pipeline impact to clients. Free guide: ruttens.com/pipeline-leaks. Guessing you're a Raccoon 🦝 (resourceful by necessity?). ruttens.com/quiz</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label m1">📨 M2 — Value</span><span class="step-timing">2–3 days after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hey [First name],
+
+Thanks for connecting.
+
+Pipeline Leaks guide is here: ruttens.com/pipeline-leaks — useful for agency teams who need to show clients where revenue is leaking, and why it's a GTM problem, not a channel budget problem.
+
+The quiz at ruttens.com/quiz also works as a client diagnostic — run it with them in 3 min, they see their own gaps in writing. Good conversation starter at renewal.
+
+Let me know what comes up.
+
+Phil</pre></div></div>
+      <div class="step-card"><div class="step-header"><span class="step-label fu1">↩️ M3 — Soft bump</span><span class="step-timing">5–7 days after M2, no reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div><div class="step-body"><pre>Hi [First name] — one question.
+
+What's harder to prove to clients right now — that marketing generates pipeline, or that pipeline converts?
+
+The answer usually tells me where the leak is.</pre></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RECRUITER RESPONSES -->
+<div id="tab-recruiter" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">Recruiter Response Templates</div>
+    <div class="page-sub">3 versions × 2 contexts · Links: ruttens.com/cmo · ruttens.com/about · ruttens.com/quiz</div>
+  </div>
+
+  <div class="section-h2">📋 Context: PERMANENT ROLES</div>
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version va">Version A — Direct &amp; Confident</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Thanks for reaching out. I'm open to the right permanent CMO or VP Marketing role — B2B SaaS, fintech, or tech scale-up, ideally EU/UK-based or remote-friendly.
+
+A quick snapshot:
+- 25+ years B2B marketing, last 5 in CMO/VP roles
+- €8m+ pipeline attributed, 20%+ quarterly MQL/SQL growth across multiple orgs
+- Board-level reporting, full P&L ownership, AI-enhanced team workflows
+
+Full background + 3 downloadable CVs (VP Marketing, Fractional CMO, Head of GTM) at ruttens.com/cmo
+More on my approach and recent work: ruttens.com/about
+
+One thing worth noting — I'm heads-down all summer building my own AI-based system and new client solutions, so I have a strong enough network and pipeline for now. But I'm genuinely open to the right permanent opportunity and happy to have a conversation.
+
+If you have something that fits, let's talk. And if I'm not the right match but you're looking to place B2B marketing leaders in my network — happy to refer you to the right person.
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: Cold recruiter you don't know · formal outreach</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version vb">Version B — Warmer / Relationship-first</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Good to hear from you. I'm selectively exploring permanent CMO/VP Marketing opportunities — the right role, right stage, right leadership team.
+
+My sweet spot: B2B scale-ups (SaaS, fintech, tech) where marketing needs to be rebuilt or sharpened into a proper revenue engine. I've done this across 5+ organisations, with board-level results to show.
+
+You can find everything you need — background, metrics, and 3 downloadable CVs — at ruttens.com/cmo
+For a fuller picture of how I work: ruttens.com/about
+
+I should mention: I'm spending the summer heads-down on building my own AI systems and new solutions — I'm not actively job-hunting. But if the opportunity genuinely fits, I'm worth a call. And if not for me, I'm happy to point you toward someone great in my network.
+
+One more thing — I built a GTM diagnostic quiz that takes 2 minutes and gives you a personalised GTM Animal playbook. Curious if it gives you a useful lens for the profiles you place: ruttens.com/quiz
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: Recruiter you've met / mutual connection / more senior role</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version vc">Version C — Short / No Fluff</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Open to the right permanent CMO or VP Marketing role. B2B focus, EU/UK, board-level experience.
+
+All the detail you need — CVs, metrics, background — at ruttens.com/cmo
+My approach and recent work: ruttens.com/about
+
+Heads-up: I'm deep in building my own AI systems this summer, so I'm not actively searching. But the right fit is worth a conversation. If I'm not your match, happy to refer you to someone who is.
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: LinkedIn DM, WhatsApp, or when they've clearly read your profile</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-h2">📋 Context: INTERIM / FRACTIONAL ROLES</div>
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version va">Version A — Direct &amp; Confident</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Thanks for reaching out. Interim and fractional engagements are exactly where I play — I can move fast, come with a proven playbook, and deliver measurable results without a long ramp.
+
+My profile:
+- 12+ fractional and interim CMO mandates delivered
+- Available for 3–6 month interim, fractional (2–3 days/week), or advisory arrangements
+- B2B SaaS · Fintech · Tech scale-ups · EU/UK
+
+3 CVs (including a dedicated Fractional CMO version) + full background at ruttens.com/cmo
+More on how I work: ruttens.com/about
+
+Fair to say: I'm also spending the summer building my own AI-based system and new solutions — my own pipeline is strong. But if you have an urgent brief where the fit is right, I'm worth a call. And if not, I'm happy to refer you to the right person in my network.
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: Cold recruiter, formal outreach, urgent brief</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version vb">Version B — Warmer / Relationship-first</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Good to hear from you. Fractional and interim CMO is genuinely my sweet spot — I can step in quickly, get aligned fast, and deliver without needing six months of onboarding.
+
+I've done 12+ of these engagements across B2B SaaS, fintech, and tech scale-ups. I typically work at 2–3 days/week fractional or full-time for defined interim periods.
+
+Everything you need — including a dedicated Fractional CMO CV — is at ruttens.com/cmo
+How I work and recent results: ruttens.com/about
+
+Worth knowing: I'm heads-down this summer building my own AI systems and new client solutions. So I'm selective. But the right urgent brief still gets my full attention. And if it's not a match, I'll gladly point you toward someone in my network.
+
+Also — I built a 2-minute GTM diagnostic that gives a personalised playbook based on GTM type. Might be a useful lens for the profiles you place: ruttens.com/quiz
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: Recruiter you've met / mutual connection / senior role</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-header"><span class="rec-version vc">Version C — Short / No Fluff</span><button class="copy-btn" onclick="copyCard(this)">Copy</button></div>
+      <div class="rec-card-body"><pre>Hi [Name],
+
+Fractional and interim CMO is my core. 12+ mandates delivered. Fast start, no long ramp.
+
+B2B SaaS · Fintech · Tech scale-ups. EU/UK. 2–3 days/week or full-time interim.
+
+Dedicated Fractional CMO CV + full background: ruttens.com/cmo
+My approach: ruttens.com/about
+
+Heads-down on my own AI systems this summer, but open to the right urgent brief. If I'm not the fit, happy to refer you to someone who is.
+
+Phil</pre></div>
+      <div class="rec-usage">Use for: LinkedIn DM, WhatsApp, short-form reply</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG -->
+<div id="tab-config" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">Config &amp; Rules</div>
+    <div class="page-sub">LH settings · CTA map · Voice rules · Do Not Touch</div>
+  </div>
+  <div class="section-h2">LH Config (locked)</div>
+  <table class="config-table">
+    <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Connection request note</td><td>✅ Include (personalised per ICP)</td></tr>
+      <tr><td>Connection cadence</td><td>Every 2 days · 08:30–10:30 AM Brussels</td></tr>
+      <tr><td>Message 1 timing</td><td>Day 1–2 after connection accepted</td></tr>
+      <tr><td>Follow-up 1</td><td>Day 7 — if no reply to M1</td></tr>
+      <tr><td>Follow-up 2</td><td>Day 10 — if no reply to FU1</td></tr>
+      <tr><td>Daily send limit</td><td>30 messages total</td></tr>
+      <tr><td>Work hours</td><td>08:30–10:30 Brussels (Mon–Fri)</td></tr>
+      <tr><td>⚠️ DO NOT TOUCH</td><td>KIT Weekly Messenger · trigger trig_01Q2REoQgZxueUTtSnkyVpQH</td></tr>
+    </tbody>
+  </table>
+  <div class="section-h2">Phase 0 CTA Rules</div>
+  <ul class="rules-list">
+    <li><strong>M1 CTA:</strong> Tally qualifier → https://tally.so/r/Xx185Y ("which solution is right for you?")</li>
+    <li><strong>FU1 CTA:</strong> Revenue Scan booking → https://tally.so/r/0Qj0b0</li>
+    <li><strong>FU2:</strong> Soft keep-in-touch — NO CTA link</li>
+    <li><strong>Never in Phase 0:</strong> LAB, MAP, MAX, SPRINT, pricing, "fractional CMO as a service"</li>
+  </ul>
+  <div class="section-h2">Voice Rules (locked)</div>
+  <ul class="rules-list">
+    <li><strong>Direct, first-person, specific numbers throughout.</strong> Anonymised real client references ("65 FTE SaaS", "€8M ARR PE-backed").</li>
+    <li><strong>CTA always:</strong> "BOOK A REVENUE SCAN · RUTTENS.COM" or "20-minute call"</li>
+    <li><strong>Follow-ups:</strong> different angle each time, no repetition of M1</li>
+    <li><strong>Never:</strong> synergy, leverage, ecosystem, holistic, best practices (standalone), unlock</li>
+    <li><strong>Sign-off:</strong> always "Phil" or "Phil · RUTTENS.COM"</li>
+    <li><strong>Connection note:</strong> under 200 chars, no hard sell, soft framing. No links in connection note (LinkedIn flags them).</li>
+    <li><strong>Manual DMs:</strong> Give → give → then (maybe) ask. Two value touches before any quiz/offer mention. One question per message.</li>
+    <li><strong>Quiz framing:</strong> Fun, optional, second message at earliest. Never in the connection note.</li>
+  </ul>
+  <div class="section-h2">Implementation Checklist</div>
+  <ul class="rules-list">
+    <li>Load M1s into LinkedHelper per campaign (one campaign per ICP)</li>
+    <li>Set M2 to send 2–3 days after connection accepted</li>
+    <li>Set M3 to send 5–7 days after M2 if no reply</li>
+    <li>No book-a-call message until prospect has engaged with M2 or M3</li>
+    <li>Verify ruttens.com/pipeline-leaks is live and loads cleanly</li>
+    <li>Verify ruttens.com/quiz is live and renders on mobile</li>
+  </ul>
+</div>
+
+<!-- LH CAMPAIGN SCRIPTS v2 -->
+<div id="tab-lh-campaigns" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">LH Campaign Scripts</div>
+    <div class="page-sub">GTM Animal outreach · v2 2026-05-19 · 5 campaigns · Connection + Cold + FU1 + FU2 + FU3 · CTA: ruttens.com/quiz</div>
+  </div>
+  <div class="phase-label phase-p1">⚡ Phase 2 ACTIVE from Jun 22 — quiz is LIVE · Variables: {First Name} {Company Name}</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🏢 C1 — RUTTENS_Agency_SalesMkt · 2,195 contacts</div>
+    <div class="campaign-meta"><strong>Target:</strong> CMO / Head of New Biz / Founder · marketing &amp; digital agencies<br><strong>Hook:</strong> "You build pipeline for clients — now build your own"</div>
+    <div class="icp-chips">
+      <span class="chip chip-icp">🏢 Agency</span>
+      <span class="chip chip-icp">📊 Sales + Mkt</span>
+      <span class="chip chip-animal">🦓 Zebra</span>
+      <span class="chip chip-animal">🦝 Raccoon</span>
+      <span class="chip chip-count">2,195 contacts</span>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤200 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — your work at {Company Name} caught my eye. I work with B2B founders + agencies on revenue-engine clarity. Worth a conversation?</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">❄️ Cold Message <span class="lv-badge lv-l1">L1 · After Accept</span></span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+Most agencies I talk to build great pipelines — for their clients.
+
+When I ask about their own pipeline: "80% referrals, 20% inbound that comes and goes."
+
+That's the Zebra pattern. Team momentum, real instincts — but not consistent month to month.
+
+Get your personalised B2B revenue plan → ruttens.com/quiz
+12 questions · 2 minutes · your archetype + 5 next actions + 8-page playbook.
+
+Curious which one you'd land on.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ FU1</span><span class="step-timing">Day +4</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — quick nudge.
+
+Your B2B revenue plan takes 2 minutes. You'll get your GTM archetype, the 3 things holding your pipeline back, and your top 5 next actions — free, no call.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">↩️ FU2</span><span class="step-timing">Day +10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+You're in the bucket of 2,000+ agency leaders I'm sending this to.
+
+ruttens.com/quiz — 2 minutes, your personalised result and playbook.
+
+If now's not right, no problem — last message from me.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu3">👋 FU3</span><span class="step-timing">Day +21 · engaged-not-converted</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — the full GTM Animal Quiz is now live.
+
+12 questions, 2 minutes. Your archetype + 3 personalised growth moves + 5 next actions + 8-page playbook — instant.
+
+ruttens.com/quiz
+
+If your agency's own new-biz engine has felt inconsistent, this names the pattern and gives you the fix.
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🏭 C2 — RUTTENS_Industrial_FounderCEO · 683 contacts</div>
+    <div class="campaign-meta"><strong>Target:</strong> CEO / MD / Owner · industrial SMEs · BE/NL/DACH/FR<br><strong>Hook:</strong> "Your reputation is real. Your new pipeline is thin."</div>
+    <div class="icp-chips">
+      <span class="chip chip-icp">🏭 Industrial</span>
+      <span class="chip chip-icp">👔 Founder/CEO</span>
+      <span class="chip chip-animal">🐘 Elephant</span>
+      <span class="chip chip-animal">🦬 Bison</span>
+      <span class="chip chip-count">683 contacts</span>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤200 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — saw what {Company Name} has built. I work with industrial leaders on getting visible to buyers who don't know you yet. Worth a conversation?</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">❄️ Cold Message <span class="lv-badge lv-l1">L1 · After Accept</span></span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+Two patterns I see constantly with industrial leaders running real businesses:
+
+Elephant — respected, trusted, loyal accounts. But new buyers don't know you exist unless someone introduces them.
+
+Bison — you won the category. Now you're defending instead of hunting.
+
+Your work at {Company Name} suggests one of these. The question is which — and what your top 5 moves are in the next 90 days.
+
+Get your personalised B2B revenue plan → ruttens.com/quiz
+12 questions · 2 minutes · archetype + 5 next actions + 8-page playbook.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ FU1</span><span class="step-timing">Day +4</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — quick nudge.
+
+2 minutes. Your GTM archetype + the 3 things holding your revenue engine back + your top 5 next actions. Free. 8-page playbook instant.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">↩️ FU2</span><span class="step-timing">Day +10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+One example: industrial SME (€12M turnover) took the quiz — result: Bison. We built a quiet outbound motion that didn't disrupt the brand. €45K new pipeline in 6 weeks.
+
+Their 5 next actions came directly from the playbook.
+
+Your spot: ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu3">👋 FU3</span><span class="step-timing">Day +21</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — the full GTM Animal Quiz is now live.
+
+12 questions, 2 minutes. Archetype + 3 growth moves + 5 next actions + 8-page playbook — all instant, all free.
+
+ruttens.com/quiz
+
+If "your reputation is bigger than your new-business pipeline" sounds familiar, this names it and fixes it.
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🏭 C3 — RUTTENS_Industrial_SalesMkt · 1,459 contacts</div>
+    <div class="campaign-meta"><strong>Target:</strong> CMO / Sales Director / Marketing Manager · industrial companies<br><strong>Hook:</strong> "Your great product deserves more than a brochure and a trade show"</div>
+    <div class="icp-chips">
+      <span class="chip chip-icp">🏭 Industrial</span>
+      <span class="chip chip-icp">📊 Sales + Mkt</span>
+      <span class="chip chip-animal">🦓 Zebra</span>
+      <span class="chip chip-animal">🐘 Elephant</span>
+      <span class="chip chip-count">1,459 contacts</span>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤200 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — your role at {Company Name} stands out. I work with industrial marketing + sales leaders on making the engine modern without breaking the brand. Worth talking?</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">❄️ Cold Message <span class="lv-badge lv-l1">L1 · After Accept</span></span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+Two GTM patterns dominate industrial marketing teams:
+
+Zebra — team energy, real instincts, some brand. But months you can't explain.
+
+Elephant — strong reputation, loyal customers. But marketing = brochures and trade shows. No real new-business engine.
+
+Both are fixable. Both have a specific 90-day path and 5 next actions.
+
+Get your personalised B2B revenue plan → ruttens.com/quiz
+12 questions · 2 minutes · archetype + 5 next actions + 8-page playbook.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ FU1</span><span class="step-timing">Day +4</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+2 minutes. You'll get your GTM archetype, the 3 specific things holding your pipeline back, and your top 5 next actions — free, personalised, no call.
+
+One client: industrial CMO got Zebra. Lead-to-deal jumped 12% → 19% in 8 weeks using the playbook.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">↩️ FU2</span><span class="step-timing">Day +10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — last nudge.
+
+Your personalised B2B revenue plan: ruttens.com/quiz
+
+Inconsistent pipeline → Zebra playbook. Invisible to new buyers → Elephant playbook. You get the right one based on your answers.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu3">👋 FU3</span><span class="step-timing">Day +21</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — full GTM Animal Quiz is now live.
+
+12 questions, 2 minutes. Archetype + 3 personalised growth moves + top 5 next actions + 8-page playbook tailored to industrial marketing teams.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">💻 C4 — RUTTENS_SaaS_FounderCEO · 824 contacts</div>
+    <div class="campaign-meta"><strong>Target:</strong> Founder / CEO · B2B SaaS · early to growth stage<br><strong>Hook:</strong> "You built it on your network. Now build a system that doesn't need you."</div>
+    <div class="icp-chips">
+      <span class="chip chip-icp">💻 SaaS</span>
+      <span class="chip chip-icp">👔 Founder/CEO</span>
+      <span class="chip chip-animal">🐆 Cheetah</span>
+      <span class="chip chip-animal">🦝 Raccoon</span>
+      <span class="chip chip-animal">🦓 Zebra</span>
+      <span class="chip chip-count">824 contacts</span>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤200 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — {Company Name} is building something interesting. I work with B2B SaaS founders on getting out of being the engine. Worth a quick conversation?</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">❄️ Cold Message <span class="lv-badge lv-l1">L1 · After Accept</span></span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+3 founder patterns I see at €2–15M ARR:
+
+Cheetah — pure speed. Deals close on energy and relationships. Pipeline invisible until then.
+
+Raccoon — wins on insight. System lives in your head. Can't hand it off.
+
+Zebra — team momentum building. But months are uneven and you can't say why.
+
+All three have the same ceiling: scaling means cloning you. And there are 5 specific moves to break out of it.
+
+Get your personalised B2B revenue plan → ruttens.com/quiz
+12 questions · 2 minutes · archetype + 5 next actions + 8-page playbook.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ FU1</span><span class="step-timing">Day +4</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+2 minutes, free. You'll get your GTM archetype + the 3 things holding your revenue engine back + your top 5 next actions — personalised to your stage.
+
+Most SaaS founders self-guess Zebra. About 30% land on Raccoon once they answer honestly. That gap matters.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">↩️ FU2</span><span class="step-timing">Day +10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+One example: founder of 40-FTE B2B SaaS, result: Zebra. Used the 5 next actions from the playbook. Built first proper GTM system. Inbound pipeline: 0% → 35% in 6 months.
+
+Your spot: ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu3">👋 FU3</span><span class="step-timing">Day +21</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — full GTM Animal Quiz is live.
+
+12 questions, 2 min. Archetype + 3 growth moves + top 5 next actions + 8-page playbook, personalised to your stage.
+
+ruttens.com/quiz
+
+"I am the engine and that's the problem" → this gives you the 90-day path to change it.
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">💻 C5 — RUTTENS_SaaS_SalesMkt · 1,082 contacts</div>
+    <div class="campaign-meta"><strong>Target:</strong> CMO / CRO / VP Marketing / VP Sales · B2B SaaS<br><strong>Hook:</strong> "Your sales team needs a real GTM engine — not just more leads"</div>
+    <div class="icp-chips">
+      <span class="chip chip-icp">💻 SaaS</span>
+      <span class="chip chip-icp">📊 CMO/CRO/VP</span>
+      <span class="chip chip-animal">🦓 Zebra</span>
+      <span class="chip chip-animal">🐅 Leopard</span>
+      <span class="chip chip-count">1,082 contacts</span>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🔗 Connection Note <span class="lv-badge lv-l2">L2 · 2nd Degree</span></span><span class="step-timing">≤200 chars</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — your work at {Company Name} caught my eye. I work with B2B SaaS revenue leaders on the system layer — pipeline that holds across the quarter. Worth a conversation?</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">❄️ Cold Message <span class="lv-badge lv-l1">L1 · After Accept</span></span><span class="step-timing">Day 1–2 after accept</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+The gap between a Zebra and a Leopard in B2B SaaS isn't talent. It's system.
+
+Zebra: team momentum, real instincts, inconsistent results.
+Leopard: pipeline within 10% of forecast, written ICP, aligned S&M.
+
+Most growth-stage revenue leaders are operating Zebra — but want Leopard outcomes. That's a specific 90-day path, not a hire. And there are 5 precise moves to get there.
+
+Get your personalised B2B revenue plan → ruttens.com/quiz
+12 questions · 2 minutes · archetype + 5 next actions + 8-page playbook.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">↩️ FU1</span><span class="step-timing">Day +4</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name},
+
+2 minutes. Your GTM archetype + the 3 things holding your revenue engine back + your top 5 next actions — personalised, free, no call.
+
+B2B SaaS CRO (65 FTE, €4M ARR): result Zebra. Lead-to-deal lifted 12% → 19% in 8 weeks.
+
+ruttens.com/quiz
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu2">↩️ FU2</span><span class="step-timing">Day +10</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — last nudge.
+
+ruttens.com/quiz
+
+If forecasting still feels like a confidence game, you're probably Zebra. The playbook gives you the Leopard path — step by step, top 5 actions first.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu3">👋 FU3</span><span class="step-timing">Day +21</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi {First Name} — full GTM Animal Quiz is now live.
+
+12 questions, 2 min. Your archetype + 3 personalised growth moves + top 5 next actions + 8-page playbook.
+
+ruttens.com/quiz
+
+Sales-marketing alignment still negotiated every Monday? This names the pattern and gives you the fix.
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUIZ OUTREACH REFERENCE -->
+<div id="tab-quiz-outreach" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">Quiz Outreach Reference</div>
+    <div class="page-sub">3 quiz variants × 4 personas · Short cheat sheet for manual LinkedIn DMs · v2 2026-05-19 · CTA: ruttens.com/quiz</div>
+  </div>
+
+  <div class="section-h2">The 3 Quiz Variants</div>
+  <table class="config-table">
+    <thead><tr><th>Variant</th><th>Angle</th><th>Tone</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td>🔵 Lead to Deal</td><td>Why deals stall or slow down. Conversion-focused.</td><td>Direct, analytical</td><td>Apollo cold / Sales Nav exec targets</td></tr>
+      <tr><td>⚡ 2-Minute Quiz</td><td>Speed is the hook. Respects their time.</td><td>No-nonsense, efficient</td><td>LinkedIn DM to warm contacts</td></tr>
+      <tr><td>🐾 GTM Animal Quiz</td><td>Fun, identity-based, curiosity hook.</td><td>Light, playful, insightful</td><td>LinkedIn DM / warm batches / social</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-h2">Short Versions — All Personas × All Variants</div>
+  <table class="config-table">
+    <thead><tr><th>Persona</th><th>🔵 Lead to Deal</th><th>⚡ 2-Minute</th><th>🐾 GTM Animal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>CEO / CFO</strong></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — built a 2-min quiz that maps exactly where your pipeline stalls and gives you your top 5 fixes. Free: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2 minutes. Your top 5 revenue moves, free, no call: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — are you more Cheetah, Zebra, or Elephant? 3-min quiz, top 5 moves, one-page summary in your inbox. Free: ruttens.com/quiz</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Commercial Leader</strong></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — built a 2-min diagnostic for commercial leaders that maps where leads stall and gives your top 5 fixes. Free: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2 minutes. Your commercial pattern, top 5 moves, free: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — are you more Zebra or Leopard? 3-min quiz, top 5 moves, one-page summary in your inbox. Free: ruttens.com/quiz</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Partner / VC / PE</strong></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2-min commercial diagnostic for B2B founders. Maps where pipeline breaks and gives top 5 fixes. Useful for portfolio reviews: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2-min founder commercial diagnostic. Good for portfolio health checks: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — quick one for your founders: Cheetah, Raccoon, or Elephant? 3-min quiz, top 5 moves, one-page summary in their inbox: ruttens.com/quiz</pre></td>
+      </tr>
+      <tr>
+        <td><strong>Agency MD</strong></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2-min quiz that shows exactly where your OWN pipeline stalls. You do this for clients. Now your turn: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — 2 minutes on your own pipeline. Top 5 moves at the end. About time: ruttens.com/quiz</pre></td>
+        <td><pre style="font-size:11px;margin:0;white-space:pre-wrap;background:none;border:none;padding:0">Hi {First Name} — Zebra, Raccoon, or Elephant? Your own new business. 3-min quiz, one-page summary in your inbox. Free: ruttens.com/quiz</pre></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+  <div class="section-h2">A/B Test Guide</div>
+  <table class="config-table">
+    <thead><tr><th>Metric</th><th>🐾 GTM Animal</th><th>🔵 Lead to Deal</th></tr></thead>
+    <tbody>
+      <tr><td>Click / open rate</td><td>✅ Typically wins</td><td>Lower</td></tr>
+      <tr><td>Reply quality / intent</td><td>Lower</td><td>✅ Typically wins</td></tr>
+      <tr><td>Recommendation</td><td colspan="2">Run both on same list — adopt winner per segment after 50 sends minimum</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+  <div class="section-h2">Reply Follow-up Hook</div>
+  <div class="step-card">
+    <div class="step-header"><span class="step-label fu1">↩️ Reply hook</span><span class="step-timing">Only after engagement / reply</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+    <div class="step-body"><pre>If you want to go deeper on the specifics, I run a free 20-minute Revenue Scan — no prep needed, just a conversation. Happy to share a link if useful.</pre></div>
+  </div>
+</div>
+
+<!-- COFFEE OUTREACH DMs -->
+<div id="tab-coffee-dms" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">Coffee Outreach DMs</div>
+    <div class="page-sub">Market research coffee template · 3 versions × EN + NL · Reusable for any city visit · 4 honest questions format</div>
+  </div>
+
+  <div class="section-h2">The 4 Market Research Questions</div>
+  <table class="config-table">
+    <thead><tr><th>#</th><th>Question</th></tr></thead>
+    <tbody>
+      <tr><td>Q1</td><td>What's actually generating pipeline for you right now — and what just looks good on paper?</td></tr>
+      <tr><td>Q2</td><td>Where do deals stall most? And what's usually the real reason?</td></tr>
+      <tr><td>Q3</td><td>How much of your content is driving actual conversations versus just impressions?</td></tr>
+      <tr><td>Q4</td><td>Are you using AI in your GTM yet — experimenting, embedded, or still figuring out?</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-h2">Usage Guide</div>
+  <table class="config-table">
+    <thead><tr><th>Version</th><th>Use when</th><th>Tone</th></tr></thead>
+    <tbody>
+      <tr><td><strong>V1 Warm</strong></td><td>Close connections, met IRL, chatted recently</td><td>Personal, first-name, casual</td></tr>
+      <tr><td><strong>V2 Mid-warm</strong></td><td>Solid LI connection, same industry, met once</td><td>Professional but human</td></tr>
+      <tr><td><strong>V3 Punchy</strong></td><td>C-suite, time-poor, don't know well</td><td>Ultra-brief, respects time</td></tr>
+    </tbody>
+  </table>
+  <div class="phase-label phase-p0">💡 Tip: Add one personal line at top of V1/V2 before the city/date line — e.g. "Saw your post on [X] last week" or "We met at [event]"</div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">V1 — WARM (close connection, met IRL)</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🇬🇧 English</span><span class="step-timing">V1 Warm</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hey [Name],
+
+I'll be in [City] on [Date] — would you be up for a 30-min coffee? [Time] works, or anytime in the afternoon. Even [Alt day] if that's more relaxed.
+
+No pitch, no services talk — I genuinely promise.
+
+I'm doing a round of conversations with B2B leaders to get honest, ground-level input on where GTM and pipeline is really heading. Four questions I'd love your take on:
+
+1. What's actually generating pipeline right now — and what just looks good on paper?
+2. Where do deals stall most for you? And what's the real reason behind it?
+3. How much of your content is creating real conversations versus just traffic?
+4. AI in your GTM — experimenting, already embedded, or still figuring it out?
+
+If you're open to it: I'll write up a short summary of your perspective and share it with my 26K LinkedIn network. Your name, your insights — good visibility for you, real signal for others.
+
+Something for your time: free GTM diagnostic (3 min) → ruttens.com/quiz + B2B Revenue Playbook → ruttens.com/playbook
+
+Are you free?
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label conn">🇧🇪 Nederlands</span><span class="step-timing">V1 Warm</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hey [Name],
+
+Ik ben [datum] in [Stad] — heb je zin in een koffie van 30 minuten? [Tijd] of 's middags werkt perfect. Of [alternatief] als dat rustiger is.
+
+Geen verkooppraatje, beloof ik oprecht.
+
+Ik doe een ronde gesprekken met B2B-leiders om te begrijpen wat er echt speelt in GTM en pipeline. Vier vragen waarop ik graag jouw eerlijke mening hoor:
+
+1. Wat genereert nu écht pipeline voor jullie — en wat ziet er gewoon goed uit op papier?
+2. Waar stagneert een deal het vaakst? En wat is de échte reden?
+3. Hoeveel van jullie content zorgt voor échte gesprekken versus enkel impressies?
+4. AI in jullie GTM — al aan het experimenteren, ingevoerd, of nog aan het aftasten?
+
+Als je er open voor staat: ik schrijf een korte samenvatting van jouw inzichten en deel die met mijn 26.000 LinkedIn-connecties.
+
+Alvast iets voor je tijd: gratis GTM-diagnose (3 min) → ruttens.com/quiz + B2B Revenue Playbook → ruttens.com/playbook
+
+Ben je vrij?
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">V2 — MID-WARM (met once / solid LI connection)</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">🇬🇧 English</span><span class="step-timing">V2 Mid-warm</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hi [Name],
+
+I'll be in [City] on [Date] for a handful of market research conversations — and thought of you.
+
+Not selling anything. I promise. I'm spending the day asking B2B leaders four honest questions:
+
+1. What's actually generating pipeline right now?
+2. Where do deals stall — and what's the real blocker?
+3. Is your content driving revenue conversations or just impressions?
+4. How are you thinking about AI in your commercial/GTM motion?
+
+30 minutes, coffee, zero pitch. And if you're open to it: I'll write up a short summary of your perspective and share it with my 26K connections.
+
+Something in return: free GTM diagnostic (3 min) → ruttens.com/quiz + B2B Revenue Playbook → ruttens.com/playbook
+
+Available at [time], afternoon, or [alt day] if that's easier.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label m1">🇧🇪 Nederlands</span><span class="step-timing">V2 Mid-warm</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>Hoi [Name],
+
+Ik ben op [datum] in [Stad] voor een reeks marktgesprekken — en dacht meteen aan jou.
+
+Geen diensten, geen pitch, beloofd. Ik stel die dag B2B-leiders vier eerlijke vragen:
+
+1. Wat genereert nu écht pipeline voor jullie?
+2. Waar stagneert een deal — en wat is de echte blokkade?
+3. Zorgt jullie content voor omzetgesprekken of enkel voor statistieken?
+4. Hoe kijken jullie naar AI in jullie commerciële aanpak?
+
+30 minuten koffie, nul verkooppraatje. En als je er open voor staat: ik schrijf een korte samenvatting van jouw perspectief en deel die met mijn 26.000 connecties.
+
+Iets van mijn kant: gratis GTM-diagnose (3 min) → ruttens.com/quiz + B2B Revenue Playbook → ruttens.com/playbook
+
+Beschikbaar om [tijdstip] of [alternatief].
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">V3 — PUNCHY (C-suite / time-poor)</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">🇬🇧 English</span><span class="step-timing">V3 Punchy</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>[Name] — I'll be in [City] on [Date].
+
+30-min coffee? Not selling. I'm running a round of market conversations with B2B leaders — four questions, your honest answers, that's it.
+
+1. What's creating pipeline right now — really?
+2. Where do deals stall, and why really?
+3. Is your content driving revenue conversations or just metrics?
+4. AI in your GTM: experimenting, embedded, or avoiding it?
+
+If you're open: I write up your take and share it with my 26K network. Good visibility for you.
+
+Something for your time: ruttens.com/quiz (free 3-min GTM diagnostic) + ruttens.com/playbook
+
+[Time] or afternoon on [Date] — or [alt day] if that's easier.
+
+Phil</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header"><span class="step-label fu1">🇧🇪 Nederlands</span><span class="step-timing">V3 Punchy</span><button class="copy-btn" onclick="copyStep(this)">Copy</button></div>
+        <div class="step-body"><pre>[Name] — ik ben op [datum] in [Stad].
+
+30 minuten koffie? Ik kom niet verkopen. Ik doe een ronde met B2B-leiders — vier vragen, jouw eerlijke antwoorden, dat is alles.
+
+1. Wat creëert nu écht pipeline bij jullie?
+2. Waar stagneert een deal — en waarom écht?
+3. Zorgt jullie content voor omzetgesprekken of enkel voor cijfers?
+4. AI in jullie GTM: aan het experimenteren, al ingevoerd, of afwachtend?
+
+Als je er open voor staat: ik schrijf jouw perspectief neer en deel het met mijn 26.000 connecties.
+
+Alvast iets voor je tijd: ruttens.com/quiz (gratis 3-min GTM-diagnose) + ruttens.com/playbook
+
+[Tijdstip] of 's middags op [datum] — of [alternatief].
+
+Phil</pre></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- WARM-UP: INDUSTRIAL / SME -->
+<div id="tab-warmup-industrial" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">♻️ Warm-Up — Industrial / SME</div>
+    <div class="page-sub">Re-engage ex-prospects, ex-clients, DDM connections · 3 personas · LI DM + Email per persona</div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CEO / MD / GM</div>
+    <div class="persona-desc">Manufacturing · Logistics · Cleantech · B2B Services · 80–300 people</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name] — been a while. Quick check-in.
+
+I've been working with industrial B2B companies on building a commercial engine that generates new accounts consistently — not just referrals.
+
+Is new revenue at [Company] tracking where you needed it to be this year?
+
+If there's a gap, this is a good starting point → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Mid-year check — is new business where it needs to be, [Name]?
+
+Hi [Name],
+
+Hope you're well. Been a while — you came to mind on something new I'm building.
+
+I work with industrial B2B companies (80–300 people) on:
+→ Diagnosing exactly what's blocking new revenue
+→ Building a commercial engine that generates new accounts — not just referrals
+→ Getting the team aligned and moving in 90 days
+
+Is the new-business engine at [Company] performing where you need it?
+
+Free 60-min Revenue Scan: ruttens.com/scan
+2-min GTM diagnostic + playbook: ruttens.com/quiz
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CFO / Finance Director</div>
+    <div class="persona-desc">Industrial B2B · Commercial finance · ROI visibility</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick one.
+
+I've been working with industrial companies on one CFO question: which marketing and sales spend is actually generating closed deals — and which isn't traceable.
+
+Is commercial ROI clearly visible and defensible at [Company] right now?
+
+If not, this helps → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Can you trace commercial spend to closed deals at [Company]?
+
+Hi [Name],
+
+Hope you're well. Quick note — been building something relevant for commercial finance.
+
+At most industrial companies I work with, the challenge isn't effort — it's visibility:
+→ Marketing spend that can't be linked to specific deals
+→ Commercial costs rising without a clear ROI story
+→ No consistent way to forecast what the sales engine will produce
+
+I run a 60-minute Revenue Scan that maps exactly this.
+
+Free diagnostic: ruttens.com/scan
+Offer overview: ruttens.com/pricing
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CCO / Commercial Director / Head of Sales</div>
+    <div class="persona-desc">Industrial B2B · Deal velocity · Marketing → sales handoff</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick check-in.
+
+I've been working with commercial leaders at industrial companies on one thing: deals that take too long or die quietly — and what actually fixes it.
+
+How are deal velocity and the marketing → sales handoff working at [Company] right now?
+
+Worth exploring if there's friction → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Are deals moving fast enough at [Company]? Check-in.
+
+Hi [Name],
+
+Hope you're well. Quick reconnect — been building something specific for commercial leaders.
+
+The pattern I see most often in industrial B2B:
+→ Strong product + real clients — but new business is inconsistent
+→ Marketing → sales handoff is where deals quietly die
+→ Deal cycles are longer than they need to be, and no one can explain why
+
+I help commercial leaders fix this — diagnosis in 60 minutes, system built in 90 days.
+
+Free Revenue Scan: ruttens.com/scan
+Free Revenue Playbook: ruttens.com/playbook
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WARM-UP: TECH SCALE-UP -->
+<div id="tab-warmup-tech" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">♻️ Warm-Up — Tech Scale-up</div>
+    <div class="page-sub">Re-engage ex-prospects, ex-clients, DDM connections · 3 personas · LI DM + Email per persona</div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CEO / Founder-CEO</div>
+    <div class="persona-desc">SaaS · B2B Tech · Series A–C · Board-level commercial pressure</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick check-in.
+
+I've been working with Series A–B scale-up CEOs on a specific gap: the commercial engine that should be generating deals but isn't reliable enough for the board.
+
+Is revenue performance at [Company] tracking where your investors expect it?
+
+If there's a gap, this is a good starting point → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Is your commercial engine board-ready, [Name]? Check-in.
+
+Hi [Name],
+
+Good to be back in touch. I've been building something new and you came to mind.
+
+I work with Series A–C B2B scale-ups on closing the gap between commercial activity and board-level results:
+→ Diagnosing exactly where the revenue engine is leaking
+→ Fixing the marketing → sales handoff (where most deals disappear)
+→ Building a 90-day commercial system with board-ready KPIs
+
+Is [Company] generating the deal flow your H2 targets need?
+
+Free 60-min Revenue Scan: ruttens.com/scan
+See how it works: ruttens.com
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CFO (Scale-up)</div>
+    <div class="persona-desc">Series A–C · Commercial ROI · CAC visibility · Board defensibility</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick one.
+
+I've been helping scale-up CFOs get a clearer read on one question: which commercial spend is actually generating closed deals, and which isn't traceable.
+
+Is CAC and marketing ROI clearly visible and defensible at [Company] right now?
+
+This helps → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Is your commercial ROI story board-defensible, [Name]?
+
+Hi [Name],
+
+Hope you're well. Wanted to reconnect — been working on something relevant for growth-stage finance.
+
+What I see consistently across Series A–B companies:
+→ Burn is well-managed, but which spend generates deals is unclear
+→ CAC is climbing without a clean explanation
+→ Marketing ROI is measured in activity, not closed revenue
+
+I run a 60-minute Revenue Scan that maps this — then builds the commercial system to fix it.
+
+Free diagnostic: ruttens.com/scan
+Full offer overview: ruttens.com/pricing
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CRO / CCO / VP Revenue</div>
+    <div class="persona-desc">Scale-up · Deal conversion · Forecasting · Marketing → sales SLA</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick check-in.
+
+I've been working with scale-up revenue leaders on one thing: when lead-to-deal conversion should be improving but isn't — and what specifically to fix.
+
+How's forecasting accuracy and deal velocity at [Company] right now?
+
+Worth a look if there's friction → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Lead-to-deal where it needs to be at [Company]?
+
+Hi [Name],
+
+Hope things are going well. Quick reconnect — been building something specific for CROs and CCOs.
+
+The gap I see most often at scale-ups:
+→ Strong product-market fit, but conversion is inconsistent quarter to quarter
+→ Marketing and sales both doing their part — but the handoff leaks
+→ Forecasting is a confidence game, not a model
+
+I diagnose exactly where the system is losing deals — then build the fix in 90 days.
+
+Free 60-min Revenue Scan: ruttens.com/scan
+More on how I work: ruttens.com
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WARM-UP: PE/VC PORTFOLIO -->
+<div id="tab-warmup-pevc" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">♻️ Warm-Up — PE/VC Portfolio</div>
+    <div class="page-sub">Re-engage ex-prospects, ex-clients, DDM connections · 3 personas · LI DM + Email per persona</div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">Portfolio CEO</div>
+    <div class="persona-desc">PE-backed · Growth equity · Post-acquisition · Board review pressure</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while — quick check-in.
+
+I've been working with PE-backed CEOs on one challenge: building a commercial engine that hits growth targets consistently — not just when market conditions cooperate.
+
+Is the commercial system at [Company] board-ready going into H2?
+
+Good place to start → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Is your commercial narrative board-ready, [Name]?
+
+Hi [Name],
+
+Hope you're well. Wanted to reconnect — you came to mind on something new.
+
+I work with PE-backed portfolio CEOs on commercial clarity:
+→ Getting a clean picture of what's generating revenue and what isn't
+→ Aligning the team around shared commercial metrics
+→ Delivering a board-ready GTM narrative in 90 days
+
+Is the commercial system at [Company] performing where it needs to be?
+
+Free 60-min Revenue Scan: ruttens.com/scan
+PE/VC-specific context: ruttens.com/pe-vc
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CFO (PE Portfolio)</div>
+    <div class="persona-desc">PE-backed · Commercial efficiency · EBITDA contribution · Board KPIs</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], quick check-in.
+
+I've been working with PE portfolio CFOs on commercial efficiency — making sure commercial spend shows up as EBITDA contribution, not just activity.
+
+Is commercial ROI clearly traceable and board-defensible at [Company] right now?
+
+This might be useful → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Is commercial spend showing up in EBITDA at [Company], [Name]?
+
+Hi [Name],
+
+Good to be back in touch. A quick thought for portfolio context.
+
+What I help PE-backed CFOs with:
+→ Mapping which commercial activities generate closed deals (vs. noise)
+→ Identifying efficiency gaps before the board asks
+→ Building board-ready KPIs for the commercial function
+
+If the commercial P&amp;L is hard to defend or getting harder to forecast — start here.
+
+Free 60-min diagnostic: ruttens.com/scan
+PE/VC context: ruttens.com/pe-vc
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona-block">
+    <div class="persona-title">CCO / CRO (Portfolio)</div>
+    <div class="persona-desc">PE-backed · Multi-BU GTM · Commercial system · Forecasting across sites</div>
+    <div class="dm-steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LI DM</span>
+          <span class="step-timing">Direct message — warm reconnect (3–4 lines)</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], been a while.
+
+I've been working with portfolio commercial leaders on one recurring challenge: multiple BUs running GTM differently — and the performance gap between them widening.
+
+Is there a consistent commercial system running across [Company] right now?
+
+Worth exploring → ruttens.com/scan</pre></div>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">📧 Email</span>
+          <span class="step-timing">Subject + body — bullets, concrete, with links</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Subject: Consistent GTM across BUs at [Company] — are you there yet?
+
+Hi [Name],
+
+Hope you're well. Quick reconnect — been building something specific for portfolio commercial leaders.
+
+The pattern I see most often across PE-backed companies:
+→ Each BU or site runs GTM slightly differently
+→ What works in one unit doesn't scale to the others
+→ Commercial metrics are hard to consolidate for board review
+
+I build one shared GTM system across BUs — without killing what's working locally.
+
+Free 60-min Revenue Scan: ruttens.com/scan
+PE/VC context: ruttens.com/pe-vc
+
+Phil · RUTTENS.COM</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-summer-scan-dm1" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">☀️ Summer Scan Campaign · DM 1</div>
+    <div class="page-sub">Connection Request + Landing Page Intro · Best sent: Mon–Wed AM</div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">📎 DM 1: Connection Request with Landing Page Link</div>
+    <div class="campaign-meta"><strong>When:</strong> Initial cold outreach with connection request | <strong>Timing:</strong> Mon–Wed, 8–10am CET for best engagement</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LinkedIn DM</span>
+          <span class="step-timing">Copy this exact message — fill placeholders</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name],
+
+Came across your profile — [brief reason: e.g. "noticed you're scaling the GTM team at [Company]" / "saw your post on pipeline efficiency"].
+
+I run a free 30-minute pre-summer GTM scan for B2B revenue leaders — we look at where pipeline is quietly leaking before July hits.
+
+Just put together a short page on it: ruttens.com/summer-scan
+
+No pitch, no slide deck — just a straight diagnosis. Happy to share what I'd look at for [Company] specifically.
+
+Worth a quick call?
+
+Thomas</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🎯 Variable Placeholders</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">Variables to Replace</span>
+          <span class="step-timing">Before sending, fill these in</span>
+        </div>
+        <div class="step-body"><pre>[Name] = recipient first name
+[Company] = their company name
+
+[brief reason] options:
+  • "noticed you're scaling the GTM team at [Company]"
+  • "saw your post on pipeline efficiency"
+  • "your team is scaling hard in Q3"
+  • "noticed your profile in [industry]"
+
+Landing page CTA:
+  → ruttens.com/summer-scan</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-summer-scan-dm2" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">☀️ Summer Scan Campaign · DM 2</div>
+    <div class="page-sub">Post Engagement Follow-up · Send within 24h of like/comment/share</div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">📎 DM 2: Follow-up After Post Engagement</div>
+    <div class="campaign-meta"><strong>When:</strong> Target has liked, commented, or shared your post · <strong>Timing:</strong> Send within 24 hours for 35–45% reply rate (vs 12–18% cold)</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">💬 LinkedIn DM</span>
+          <span class="step-timing">Copy this message — personalize [brackets]</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Hi [Name], thanks for the [like/comment] — glad it resonated.
+
+The SPF analogy is one I use a lot with clients. Most B2B teams are more exposed than they think heading into Q3.
+
+I put together a short landing page with the full scan premise: ruttens.com/summer-scan — if you want to run one for [Company], I've got a couple of spots left before the summer.
+
+30 minutes, free, no strings. Just a sharp outside perspective on where the gaps are.
+
+Thomas</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">🎯 Variable Placeholders</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">Variables to Replace</span>
+          <span class="step-timing">Before sending, fill these in</span>
+        </div>
+        <div class="step-body"><pre>[Name] = recipient first name
+[Company] = their company name
+
+[like/comment] = "like" or "comment" based on engagement
+  (Copy from what they actually did)
+
+Landing page CTA:
+  → ruttens.com/summer-scan
+
+Send timing:
+  • Within 24 hours of engagement
+  • Best on same day if possible
+  • Can repeat to same person if they engage multiple times</pre></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENTERPRISE POSTS TAB -->
+<div id="tab-enterprise-posts" class="tab-section">
+  <div class="page-header">
+    <div class="page-title">🏢 Enterprise LinkedIn Posts</div>
+    <div class="page-sub">7 posts · Microsoft-locked enterprises · CEO/CFO + CMO/ABM tracks · Jul 1–17 2026</div>
+  </div>
+
+  <div class="icp-chips">
+    <span class="chip chip-icp">CEO / CFO · 3k–10k FTE</span>
+    <span class="chip chip-icp">CMO / CRO / CCO · 10k+ FTE</span>
+    <span class="chip chip-animal">Microsoft-only stack</span>
+    <span class="chip chip-animal">Copilot-enabled · pipeline-stuck</span>
+    <span class="chip chip-count">CTA: ruttens.com/scan</span>
+  </div>
+
+  <div class="phase-label phase-p0">CEO / CFO TRACK — Posts E1–E3</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E1 — Copilot ROI <span style="font-size:11px;font-weight:400;color:var(--gray)">Tue Jul 1 · Text</span></div>
+    <div class="campaign-meta">ICP: <strong>CEO / CFO · 3,000–10,000 FTE</strong> · Hook: Your CFO just asked why €X in Copilot licenses hasn't moved revenue.</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Your CFO just asked why €X in Copilot licenses hasn't moved revenue.
+
+The answer isn't uncomfortable. It's structural.
+
+Copilot was built for productivity.
+→ Summarise meetings
+→ Draft emails
+→ Explain documents
+
+Not for GTM.
+→ Diagnose why pipeline stalled in Q2
+→ Reposition against a competitor who just moved upmarket
+→ Build an account plan your sales team actually uses
+
+At 3,000+ FTE, there's no workaround. IT policy blocks ChatGPT and Claude at the network level. Procurement for anything new takes 6–18 months. Your team isn't using unauthorised tools. They're just going without.
+
+So the pipeline stays stuck. The AI rollout becomes a cost item with no measurable return. And the board asks questions nobody can answer cleanly.
+
+The missing piece isn't a new tool. It's a commercial layer — built inside the Microsoft environment you already own.
+
+SharePoint, Teams, and Copilot can drive pipeline. They need to be structured for it first.
+
+Bookmark this for your next Microsoft EA review.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one pipeline metric your board keeps asking about?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E2 — Locked Environment <span style="font-size:11px;font-weight:400;color:var(--gray)">Thu Jul 3 · Text</span></div>
+    <div class="campaign-meta">ICP: <strong>CEO / CFO · 3,000–10,000 FTE</strong> · Hook: At 5,000 FTE, your team can't just open a ChatGPT tab and fix the problem.</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>At 5,000 FTE, your team can't just open a ChatGPT tab and fix the problem.
+
+I hear this a lot: "We'd love to test more AI. But IT won't allow it."
+
+That's not a complaint. That's the reality of enterprise AI governance in 2026.
+→ Non-Microsoft AI tools blocked at the network level
+→ Data residency rules prevent external model access
+→ New procurement: 6–18 months minimum
+
+Companies that use this as an excuse to do nothing fall further behind every quarter.
+
+Companies that build inside the constraints they have? They move.
+
+What that looks like in practice:
+→ SharePoint structured as a commercial intelligence layer — account plans, competitive plays, pipeline frameworks
+→ Teams workflows that give sales reps everything for a call without leaving the Microsoft environment
+→ A Copilot prompt library built for your specific deals, segments, and buying stages
+
+No new tool. No CIO conversation. No procurement process.
+
+Just the commercial system your Microsoft stack was always capable of running.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one Microsoft tool your team underuses most — SharePoint, Teams, or Copilot itself?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E3 — AYA Proof Post <span style="font-size:11px;font-weight:400;color:var(--gray)">Tue Jul 8 · Image</span></div>
+    <div class="campaign-meta">ICP: <strong>CEO / CFO · 3,000–10,000 FTE</strong> · Visual: AYA 3 BUs case study card (navy/amber)</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label conn">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Three business units. One Microsoft environment. No shared way to talk about pipeline.
+
+That's what I walked into at AYA Energy.
+
+Post-merger. Three BUs — each with different markets, different sales teams, different ideas about what a good lead looked like. One Microsoft Enterprise Agreement covering all of them.
+
+The ask: build revenue visibility across three teams without forcing system consolidation.
+
+What we built, inside their existing Microsoft stack:
+→ A shared GTM framework in SharePoint — one structure, three market contexts
+→ A pipeline review process through Teams that didn't require consensus on definitions
+→ A Copilot prompt set for each BU, tailored to their specific buyers
+
+No new procurement. No CIO meeting. No 18-month rollout.
+
+Six weeks in, the CFO had pipeline visibility across all three BUs for the first time post-merger. The CEO stopped getting three different answers to the same question.
+
+That's what building the commercial layer inside Microsoft looks like in practice.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the hardest GTM challenge after a merger or reorg for your team?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="phase-label phase-p1">CMO / ABM TRACK — Posts E4–E7</div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E4 — ABM No New Tool <span style="font-size:11px;font-weight:400;color:var(--gray)">Thu Jul 10 · Text</span></div>
+    <div class="campaign-meta">ICP: <strong>CMO / CRO / CCO · 10,000+ FTE</strong> · Hook: Your CMO wants account-based marketing (ABM). Your CIO says no to new tools.</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Your CMO wants account-based marketing (ABM). Your CIO says no to new tools.
+
+Both can be right.
+
+ABM doesn't require a dedicated platform. Most teams spend €40K+ on software before they've built the plays that would make it work.
+
+What account-based marketing (ABM) actually requires:
+→ A list of 20–50 named accounts with real intelligence — who to contact, what they care about, where they are in the buying cycle
+→ Content and messaging mapped to specific buying stages for those accounts
+→ A multi-threaded engagement plan coordinating sales and marketing touchpoints
+→ A consistent way to review and update account status
+
+None of that requires a new platform. It requires structure.
+
+In SharePoint: account intelligence docs that Copilot retrieves and synthesises in seconds.
+In Teams: channel-based account reviews that keep sales and marketing aligned without email threads.
+In Copilot: call prep, email sequencing, account status summaries — automatically, from the intelligence you've built.
+
+ABM inside your Microsoft stack. Without the procurement conversation.
+
+Save this for your next ABM planning session.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Which part of ABM breaks down first for your team — the list, the content, or the coordination?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E5 — Copilot ABM Gap <span style="font-size:11px;font-weight:400;color:var(--gray)">Tue Jul 15 · Text</span></div>
+    <div class="campaign-meta">ICP: <strong>CMO / CRO · 10,000+ FTE</strong> · Hook: Copilot is very good at writing emails to people you've already decided to target.</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>Copilot is very good at writing emails to people you've already decided to target.
+
+It's not good at deciding who to target, why now, or what to say that's different from every other vendor in their inbox.
+
+That's the gap in most enterprise account-based marketing (ABM) programs in 2026.
+
+Copilot can:
+→ Draft a follow-up after a Teams call
+→ Summarise an account's recent news
+→ Personalise a template at scale
+
+Copilot can't:
+→ Tell you which of your 200 named accounts is in-market right now
+→ Build a multi-threaded engagement plan for your top 10 strategic accounts
+→ Reposition your message when a competitor moves into your lane
+
+So the ABM program runs. Emails go out. Copilot makes the process faster. But the strategic thinking — which accounts, which message, which play — still sits with one or two people who are already stretched.
+
+The fix isn't more AI. It's building the intelligence layer that Copilot draws from.
+
+That's what I build inside your Microsoft stack.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the hardest part of running ABM inside a large enterprise right now?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E6 — 3 Cases Credibility <span style="font-size:11px;font-weight:400;color:var(--gray)">Wed Jul 16 · Carousel</span></div>
+    <div class="campaign-meta">ICP: <strong>CMO / CRO / CCO · 10,000+ FTE</strong> · AYA / KooKoo / DPG · 6 slides</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>I've helped three commercial teams run account-based marketing (ABM) inside Microsoft stacks.
+
+Here's what works — and what doesn't.
+
+What works:
+
+AYA Energy (post-merger, 3 BUs): Built account intelligence directly in SharePoint. Copilot retrieved account context for any sales call in under 30 seconds. Multi-threading became the default, not the exception.
+
+KooKoo / Ellis (multi-site): ABM plays were failing because sales reps couldn't maintain account knowledge across sites. Rebuilt the account layer in SharePoint with Teams-integrated review cadences. Adoption reached consistent use within four weeks.
+
+DPG Media (European media group): ABM strategy existed in a deck. No operational layer. Built the account planning framework in SharePoint with Copilot prompts for campaign alignment. The strategy became executable.
+
+What doesn't work:
+
+→ Buying an ABM platform before you have account intelligence to feed it
+→ Asking Copilot to do strategic ABM work it wasn't designed for
+→ Running ABM plays in email threads instead of structured channels
+
+The pattern: teams that succeed with ABM inside Microsoft aren't using better tools. They've built better structure.
+
+→ ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+Which of those failure modes do you see most often at your company?</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-block">
+    <div class="campaign-title">E7 — Conversion / Revenue Scan CTA <span style="font-size:11px;font-weight:400;color:var(--gray)">Thu Jul 17 · Text</span></div>
+    <div class="campaign-meta">ICP: <strong>CEO / CFO / CMO · all enterprise tiers</strong> · Hook: If you're Copilot-only and your pipeline still isn't moving, here's how we'd start.</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label m1">POST COPY</span>
+          <button class="copy-btn" onclick="copyStep(this)">Copy</button>
+        </div>
+        <div class="step-body"><pre>If you're Copilot-only and your pipeline still isn't moving, here's how we'd start.
+
+Not a pitch. A diagnostic.
+
+In 20 minutes, I can tell you:
+→ Where the gap sits between your Copilot rollout and your pipeline performance
+→ Whether the fix is in how SharePoint is structured, how Teams is being used, or something else entirely
+→ What a realistic commercial layer looks like inside your specific Microsoft environment
+
+I've done this with B2B energy companies, multi-site operations, and European media groups. The constraint is always slightly different. The approach is the same: work inside what you have, build what's missing, hand it over.
+
+No deck. No methodology presentation. Just a specific read on your situation and what to fix first.
+
+Free. 20 minutes. You leave with clarity.
+
+→ Book at ruttens.com/scan
+
+BOOK A REVENUE SCAN · RUTTENS.COM
+
+What's the one Copilot use case that hasn't delivered for your team yet?</pre></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function doCopy(text, btn) {
+  // Try modern clipboard API first, fall back to execCommand
+  const succeed = () => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(succeed).catch(() => execFallback(text, succeed));
+  } else {
+    execFallback(text, succeed);
+  }
+}
+
+function execFallback(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+function copyStep(btn) {
+  const card = btn.closest('.step-card');
+  doCopy(card.querySelector('pre').textContent, btn);
+}
+
+function copyCard(btn) {
+  const card = btn.closest('.rec-card');
+  doCopy(card.querySelector('pre').textContent, btn);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Fy25 Action Checklist",
+  "schemaVersion": 1
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+ FY25 Action Checklist · W25</title>
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --accent: #E63946;
+    --gold: #F4A261;
+    --teal: #2EC4B6;
+    --green: #06D6A0;
+    --purple: #7B2D8B;
+    --bg: #F8F9FA;
+    --card: #FFFFFF;
+    --text: #1D3557;
+    --muted: #6C757D;
+    --border: #DEE2E6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+  body { padding: 24px 32px 60px; max-width: 1100px; margin: 0 auto; }
+
+  .page-header { border-bottom: 3px solid var(--navy); padding-bottom: 12px; margin-bottom: 20px; }
+  .page-header h1 { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .page-header .meta { font-size: 12px; color: var(--muted); margin-top: 4px; display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .banner {
+    background: #FFF3CD;
+    border: 1px solid #FFC107;
+    border-left: 4px solid #FFC107;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #856404;
+  }
+  .banner strong { color: #533f03; }
+  .banner-danger {
+    background: #FFE0E0;
+    border: 1px solid var(--accent);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .banner-success {
+    background: #D4EDDA;
+    border: 1px solid #C3E6CB;
+    border-left: 4px solid var(--green);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #155724;
+  }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .kpi-card.accent-left { border-left: 4px solid var(--navy); }
+  .kpi-card.accent-gold { border-left: 4px solid var(--gold); }
+  .kpi-card.accent-green { border-left: 4px solid var(--green); }
+  .kpi-card.accent-red { border-left: 4px solid var(--accent); }
+  .kpi-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .kpi-value { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin: 24px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; }
+  th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 6px 10px; background: var(--bg); border-bottom: 2px solid var(--border); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.015); }
+
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .pill-green { background: #D4EDDA; color: #155724; }
+  .pill-red { background: #FFE0E0; color: var(--accent); }
+  .pill-gold { background: #FFF3CD; color: #856404; }
+  .pill-grey { background: #E9ECEF; color: var(--muted); }
+  .pill-teal { background: #D1ECF1; color: #0c5460; }
+  .pill-navy { background: var(--navy); color: #fff; }
+  .pill-purple { background: #E8D5F0; color: var(--purple); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>RUTTENS+ FY25 Action Checklist</h1>
+  <div class="meta">
+    <span><strong>Updated:</strong> 17 Jun 2026</span>
+    <span><strong>Week:</strong> W25 · Jun 16–20, 2026</span>
+    <span><strong>Phase:</strong> Full sprint · Client delivery + site deployment</span>
+  </div>
+</div>
+
+<!-- CRITICAL ALERTS -->
+<div class="banner-danger">🚫 FINEKO — DO NOT PAY · 3 invoices awaiting written confirmation before any payment</div>
+<div class="banner-success">🏆 EREA D1 APPROVED · Revenue +35.4% (€2,736,528) · AOV +44.6% · D2 delivered Jun 15</div>
+<div class="banner-success">✅ AYA Phase 1→2 UNDERWAY · Louis accepted Phase 2 Option B (40h/mo €4,000/mo @ €100/h) · Invoices 2026-010 + 2026-013 PAID</div>
+<div class="banner-success">✅ Site Mastery + Nav fixed · Testimonials all done (Jun 14) · Cohort Session 1 assets complete</div>
+
+<!-- KPI CARDS -->
+<div class="kpi-grid">
+  <div class="kpi-card accent-green">
+    <div class="kpi-label">Cash (approx)</div>
+    <div class="kpi-value">€30k</div>
+    <div class="kpi-sub">Current liquid</div>
+  </div>
+  <div class="kpi-card accent-gold">
+    <div class="kpi-label">Pending Revenue</div>
+    <div class="kpi-value">€24k</div>
+    <div class="kpi-sub">Outstanding / in pipeline</div>
+  </div>
+  <div class="kpi-card accent-left">
+    <div class="kpi-label">Total Q2–Q4</div>
+    <div class="kpi-value">€54k</div>
+    <div class="kpi-sub">Cash + pending</div>
+  </div>
+  <div class="kpi-card accent-red">
+    <div class="kpi-label">Next Payments</div>
+    <div class="kpi-value">€2,240</div>
+    <div class="kpi-sub">Acerta Jun 19 + GoDaddy Jun 21</div>
+  </div>
+</div>
+
+<h2>Finance Actions</h2>
+<table>
+  <thead><tr><th>#</th><th>Action</th><th>Status</th><th>Detail / Amount</th><th>Deadline</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>1A</td>
+      <td><strong>Fineko — DO NOT PAY</strong></td>
+      <td><span class="pill pill-red">DO NOT PAY</span></td>
+      <td>3 invoices: 25003880 (€1,936) · 26000628 (€1,512.50) · 26001218 (€1,512.50) — total €4,960.50 at risk</td>
+      <td>Awaiting written confirmation</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Acerta payment</td>
+      <td><span class="pill pill-gold">DUE SOON</span></td>
+      <td>€2,240.73 — social contributions</td>
+      <td>Jun 19, 2026 (2 days)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>GoDaddy auto-renew</td>
+      <td><span class="pill pill-gold">CHECK</span></td>
+      <td>Verify domain renewals (~Jun 21)</td>
+      <td>~Jun 21, 2026 (4 days)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>MeDirect €30k DCA deploy</td>
+      <td><span class="pill pill-gold">PENDING</span></td>
+      <td>Deploy cash per DCA plan</td>
+      <td>Jun–Jul 2026</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Monthly recurring DCA</td>
+      <td><span class="pill pill-gold">PENDING</span></td>
+      <td>Set up monthly auto-DCA per allocation</td>
+      <td>Jun 2026</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>LinkedHelper — EXPIRED</td>
+      <td><span class="pill pill-red">EXPIRED</span></td>
+      <td>LH subscription lapsed — Phase 1 engagement manual only</td>
+      <td>Renewal decision needed</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Client Actions</h2>
+<table>
+  <thead><tr><th>#</th><th>Client</th><th>Action</th><th>Status</th><th>Notes</th><th>Deadline</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>C1</td>
+      <td><strong>EREA</strong></td>
+      <td>D2 brief + launch</td>
+      <td><span class="pill pill-green">DELIVERED</span></td>
+      <td>D1 APPROVED: Rev +35.4% (€2,736,528) · AOV +44.6% · D2 delivered Jun 15 · Next milestone TBD</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>C2</td>
+      <td><strong>AYA</strong></td>
+      <td>Phase 2 execution — Louis approved Option B</td>
+      <td><span class="pill pill-green">ACTIVE</span></td>
+      <td>Phase 2: 40h/mo €4,000/mo @ €100/h (rolling). Portal 148176566 EU1 ONLY. Invoices 2026-010 + 2026-013 PAID. Phase 1→2 underway.</td>
+      <td>Ongoing</td>
+    </tr>
+    <tr>
+      <td>C3</td>
+      <td><strong>Ruttens Site</strong></td>
+      <td>Homepage + Solutions + Mastery + Testimonials + Nav</td>
+      <td><span class="pill pill-green">DEPLOYED</span></td>
+      <td>Homepage (Jun 14), Mastery HTML + dropdown fix (Jun 15), Testimonials all done (Jun 14), Nav fixed. Netlify redeploy completed.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>C4</td>
+      <td><strong>Ruttens Cohort</strong></td>
+      <td>Session 1 assets + Session 2 running</td>
+      <td><span class="pill pill-teal">IN PROGRESS</span></td>
+      <td>Session 1: 5 enrolment assets done. Session 2 running. Pending: HTML slide conversion, Tally form fix, webinar date</td>
+      <td>Session 1 EOW Jun 21</td>
+    </tr>
+    <tr>
+      <td>C5</td>
+      <td><strong>XiltriX</strong></td>
+      <td>Backgrounder v2 GTM Radar rebuild</td>
+      <td><span class="pill pill-green">SHIPPED</span></td>
+      <td>Jun 16: Radar one-pager rebuilt with bigger radar + 2×2 quadrant + emoji agenda + RUTTENS+ brand. HTML master at CLAUDE/SKILLS/prospect-scan/samples/</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>GTM / LinkedIn Actions</h2>
+<table>
+  <thead><tr><th>#</th><th>Action</th><th>Status</th><th>Detail</th><th>Deadline</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>G1</td>
+      <td>LH Phase 1 — engagement (manual)</td>
+      <td><span class="pill pill-gold">BLOCKED</span></td>
+      <td>LinkedHelper subscription expired. Engagement engagement paused. Phase 2 (Jun 22+) requires renewal decision or manual alternative.</td>
+      <td>Decision by Jun 22</td>
+    </tr>
+    <tr>
+      <td>G2</td>
+      <td>Tally forms 1/2/3</td>
+      <td><span class="pill pill-green">LIVE</span></td>
+      <td>3 lead capture forms published and live on ruttens.com</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>G3</td>
+      <td>Site deploy: Netlify redeploy</td>
+      <td><span class="pill pill-green">DONE</span></td>
+      <td>All Netlify deploys (homepage, solutions, pricing, mastery, testimonials, nav fixes) completed Jun 15</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>G4</td>
+      <td>Zen Doc — lifestyle decision review</td>
+      <td><span class="pill pill-gold">PENDING</span></td>
+      <td>Complete before major decisions (deferred but flagged as important)</td>
+      <td>TBD</td>
+    </tr>
+    <tr>
+      <td>G5</td>
+      <td>Substack S3</td>
+      <td><span class="pill pill-green">SCHEDULED</span></td>
+      <td>Issue 3 published Jun 15</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>G6</td>
+      <td>Pipeline Sheet fix</td>
+      <td><span class="pill pill-gold">PENDING</span></td>
+      <td>Fix rows 21-35 E/F in MASTER Pipeline sheet</td>
+      <td>W25</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>DCA Allocation (€30k MeDirect deploy)</h2>
+<table>
+  <thead><tr><th>ETF</th><th>Allocation %</th><th>Amount (€30k)</th><th>Ticker</th></tr></thead>
+  <tbody>
+    <tr><td>MSCI World</td><td>35%</td><td>€10,500</td><td>IWDA/SWRD</td></tr>
+    <tr><td>S&P 500</td><td>20%</td><td>€6,000</td><td>SXR8/VUSA</td></tr>
+    <tr><td>Emerging Markets</td><td>10%</td><td>€3,000</td><td>EMIM</td></tr>
+    <tr><td>Europe STOXX</td><td>10%</td><td>€3,000</td><td>MEUD</td></tr>
+    <tr><td>Tech / Nasdaq</td><td>10%</td><td>€3,000</td><td>QDVE/EQQQ</td></tr>
+    <tr><td>Small Cap</td><td>5%</td><td>€1,500</td><td>WSML</td></tr>
+    <tr><td>Real Estate / REIT</td><td>5%</td><td>€1,500</td><td>EPRE</td></tr>
+    <tr><td>Cash reserve</td><td>5%</td><td>€1,500</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h2>Quick Reference</h2>
+<table>
+  <thead><tr><th>Account / Item</th><th>Status</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>AYA HubSpot</td><td><span class="pill pill-red">148176566 EU1 ONLY</span></td><td>NEVER use 148163851</td></tr>
+    <tr><td>SCAN Price</td><td><span class="pill pill-green">€499</span></td><td>NOT €399 — locked</td></tr>
+    <tr><td>Fineko</td><td><span class="pill pill-red">DO NOT PAY</span></td><td>3 invoices · awaiting written confirmation</td></tr>
+    <tr><td>Acerta</td><td><span class="pill pill-red">€2,240.73</span></td><td>Due Jun 19 (2 days)</td></tr>
+    <tr><td>GoDaddy</td><td><span class="pill pill-gold">CHECK</span></td><td>Auto-renew ~Jun 21</td></tr>
+    <tr><td>LH Subscription</td><td><span class="pill pill-red">EXPIRED</span></td><td>Phase 1 engagement paused · renewal decision needed</td></tr>
+  </tbody>
+</table>
+
+<script>
+(function() {
+  var KEY = 'ruttens-cb-jun17';
+  function getState() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { return {}; } }
+  function saveState(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e) {} }
+  // Note: This checklist is status-only; no checkboxes in current version
+  document.addEventListener('DOMContentLoaded', function() {
+    // Preserve any future checkbox state
+  });
+})();
+</script>
+</body>
+</html>

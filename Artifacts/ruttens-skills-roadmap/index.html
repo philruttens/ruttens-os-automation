@@ -1,0 +1,471 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ruttens Skills Roadmap",
+  "schemaVersion": 1
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUTTENS+ OS — Skills &amp; MCP Roadmap Wk 25</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Inter, system-ui, sans-serif; background: #f4f6f8; color: #1a1a2e; display: flex; min-height: 100vh; font-size: 14px; }
+  .sidebar { width: 220px; min-width: 220px; background: #0D1B2A; color: #fff; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; padding: 24px 0; }
+  .sidebar-brand { padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-brand h2 { font-size: 13px; font-weight: 700; color: #F5A623; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sidebar-brand p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .sidebar nav { padding: 16px 0; flex: 1; }
+  .sidebar nav a { display: flex; align-items: center; gap: 10px; padding: 9px 20px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12.5px; font-weight: 500; transition: all 0.15s; border-left: 3px solid transparent; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: #fff; background: rgba(245,166,35,0.12); border-left-color: #F5A623; }
+  .sidebar nav a .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); flex-shrink: 0; }
+  .sidebar nav a:hover .dot, .sidebar nav a.active .dot { background: #F5A623; }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: rgba(255,255,255,0.4); }
+  .main { flex: 1; overflow-y: auto; }
+  .section { padding: 36px 40px; border-bottom: 1px solid #e5e9ef; scroll-margin-top: 0; }
+  .section:last-child { border-bottom: none; }
+  .section-label { font-size: 10px; font-weight: 700; color: #F5A623; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .section-title { font-size: 22px; font-weight: 700; color: #0D1B2A; margin-bottom: 4px; }
+  .section-sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+  .title-section { background: #0D1B2A; color: #fff; padding: 32px 40px; }
+  .title-section h1 { font-size: 28px; font-weight: 800; color: #fff; }
+  .title-section .badge { display: inline-block; background: #F5A623; color: #0D1B2A; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 12px; vertical-align: middle; }
+  .title-section .meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 12px; }
+  .title-section .meta-item { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .title-section .meta-item span { color: #F5A623; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: #fff; border-radius: 10px; padding: 20px; border: 1px solid #e5e9ef; }
+  .card-label { font-size: 11px; color: #6b7280; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; }
+  .card-value { font-size: 28px; font-weight: 800; color: #0D1B2A; margin: 6px 0 2px; }
+  .card-sub { font-size: 12px; color: #6b7280; }
+  .card.accent { border-top: 3px solid #F5A623; }
+  .card.green { border-top: 3px solid #10b981; }
+  .card.red { border-top: 3px solid #ef4444; }
+  .card.blue { border-top: 3px solid #3b82f6; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th { background: #f8f9fb; text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e5e9ef; }
+  td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+  .st { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .st-live { background: #d1fae5; color: #065f46; }
+  .st-missing { background: #fee2e2; color: #991b1b; }
+  .st-nice { background: #fef3c7; color: #92400e; }
+  .st-removed { background: #f3f4f6; color: #6b7280; }
+  .st-pending { background: #eff6ff; color: #1d4ed8; }
+  .st-done { background: #d1fae5; color: #065f46; }
+  .st-tbc { background: #f3f4f6; color: #6b7280; }
+  .prose { font-size: 14px; line-height: 1.7; color: #374151; }
+  .prose p { margin-bottom: 12px; }
+  .prose strong { color: #0D1B2A; }
+  .divider { height: 1px; background: #e5e9ef; margin: 20px 0; }
+  .tag { display: inline-block; background: #f3f4f6; color: #374151; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin: 2px; }
+  .progress-wrap { background: #e5e9ef; border-radius: 100px; height: 8px; margin-top: 6px; overflow: hidden; }
+  .progress-bar { height: 100%; border-radius: 100px; background: #F5A623; }
+  .metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .metric { flex: 1; min-width: 140px; background: #fff; border: 1px solid #e5e9ef; border-radius: 8px; padding: 14px 16px; }
+  .metric-label { font-size: 11px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .metric-val { font-size: 22px; font-weight: 800; color: #0D1B2A; margin-top: 4px; }
+  .metric-target { font-size: 11px; color: #9ca3af; }
+  .cb { width:15px; height:15px; border:1.5px solid #a8a29e; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-top:2px; user-select:none; }
+  .cb.done { background:#10b981; border-color:#10b981; }
+  .cb.done::after { content:'&#x2713;'; color:#fff; font-size:10px; font-weight:700; }
+  tr.row-done td:not(:first-child) { text-decoration: line-through; opacity: 0.45; }
+  .today-banner { background: linear-gradient(90deg,#F5A623,#f59f0b); color: #0D1B2A; padding: 10px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.4px; border-bottom: 3px solid #d97706; text-align: center; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>RUTTENS+ OS</h2>
+    <p>Skills &amp; MCP Roadmap &middot; Wk 25</p>
+  </div>
+  <nav>
+    <a href="#title" class="active"><span class="dot"></span> Overview</a>
+    <a href="#summary"><span class="dot"></span> Executive Summary</a>
+    <a href="#decisions"><span class="dot"></span> Key Decisions</a>
+    <a href="#actions"><span class="dot"></span> Action Items</a>
+    <a href="#timeline"><span class="dot"></span> Timeline &amp; Setup</a>
+    <a href="#budget"><span class="dot"></span> MCP Stack Status</a>
+    <a href="#metrics"><span class="dot"></span> Artifact Inventory</a>
+    <a href="#next"><span class="dot"></span> Next Steps</a>
+    <a href="#appendix"><span class="dot"></span> Appendix</a>
+  </nav>
+  <div class="sidebar-footer">Philippe Ruttens &middot; Jun 2026</div>
+</aside>
+
+<main class="main">
+  <!-- DAILY PROGRESS BANNER -->
+  <div id="prog-banner" style="position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid #e5e9ef;padding:10px 32px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;white-space:nowrap;">Daily Progress</span>
+    <div style="flex:1;background:#f3f4f6;border-radius:3px;height:9px;overflow:hidden;min-width:80px;">
+      <div id="prog-bar" style="height:100%;width:0%;border-radius:3px;background:#ef4444;transition:width .4s,background .4s;"></div>
+    </div>
+    <span id="prog-pct" style="font-size:14px;font-weight:800;color:#ef4444;min-width:38px;text-align:right;">0%</span>
+    <span id="prog-label" style="font-size:11px;color:#9ca3af;white-space:nowrap;">0 / 0 done</span>
+    <button onclick="resetProgress()" style="font-size:11px;padding:4px 10px;border:1px solid #e5e9ef;border-radius:5px;cursor:pointer;background:#f9fafb;color:#6b7280;">&#8635; Reset</button>
+  </div>
+
+  <div class="today-banner">&#x1f7e2; WK 25 LIVE &middot; Jun 9&ndash;13, 2026 &middot; Meta-refresh sprint complete &middot; 24 artifacts live &middot; 47+ MCPs</div>
+
+  <section class="title-section" id="title">
+    <h1>Skills &amp; MCP Roadmap <span class="badge">Wk 25</span></h1>
+    <div class="meta">
+      <div class="meta-item">Holiday: <span>&#x2705; May 15 &rarr; Jun 4 DONE</span></div>
+      <div class="meta-item">Back in Brussels: <span>Jun 5, 2026</span></div>
+      <div class="meta-item">Last refreshed: <span>2026-06-13</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="summary">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Executive Summary</div>
+    <div class="section-sub">MCP stack health and post-holiday sprint status &mdash; refreshed 13 Jun, 2026</div>
+
+    <div class="card-grid">
+      <div class="card green">
+        <div class="card-label">MCPs Connected</div>
+        <div class="card-value">47+</div>
+        <div class="card-sub">47 MCPs &mdash; 17 new plugins added Jun 2026</div>
+      </div>
+      <div class="card green">
+        <div class="card-label">MCPs Missing</div>
+        <div class="card-value">0</div>
+        <div class="card-sub">None &mdash; all target MCPs connected</div>
+      </div>
+      <div class="card accent">
+        <div class="card-label">Live Artifacts</div>
+        <div class="card-value">24</div>
+        <div class="card-sub">Full RUTTENS+ OS suite live</div>
+      </div>
+      <div class="card blue">
+        <div class="card-label">Scheduled Tasks</div>
+        <div class="card-value">3/3</div>
+        <div class="card-sub">Inbox digest &middot; weekly refresh &middot; Fri status</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p><strong>Stack is fully operational and expanded post-holiday.</strong> Back from Greece Jun 5. This session (Jun 13): all 6 stale artifacts refreshed to today's state. MCP count grew from 30+ to 47+ with 17 new plugins added during and after the holiday window. GA4 and LinkedIn Ads are now live. All MCPs are connected.</p>
+      <p><strong>24 artifacts now live.</strong> Full RUTTENS+ OS suite operational: client dashboards (AYA, EREA, Wayfina), personal OS, finance/FI tracker, Greece trip planner (completed), lean protocol tracker, skills roadmap, inbox triage, and all supporting artifacts.</p>
+      <p><strong>All 3 scheduled tasks live.</strong> Inbox digest (Mon&ndash;Fri 07:00 BE), weekly Monday refresh (06:00 BE), Friday client status drafts (17:00 BE) running autonomously.</p>
+    </div>
+  </section>
+
+  <section class="section" id="decisions">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Key Decisions</div>
+    <div class="section-sub">Locked stack and tool decisions</div>
+
+    <table>
+      <thead><tr><th>Decision</th><th>What was decided</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fireflies replaces Granola</strong></td><td>All meeting transcripts via Fireflies only. Granola removed from stack permanently.</td><td><span class="st st-done">&#x1f512; LOCKED May 7</span></td></tr>
+        <tr><td><strong>Storage: Google Drive only</strong></td><td>All outputs to /RUTTENS+OS/. Never iCloud, never /Documents/</td><td><span class="st st-done">&#x1f512; LOCKED May 7</span></td></tr>
+        <tr><td><strong>Browser: Comet</strong></td><td>Comet is daily browser. All Google Workspace files open in Comet, not Microsoft apps.</td><td><span class="st st-done">&#x1f512; LOCKED May 7</span></td></tr>
+        <tr><td><strong>GA4 MCP</strong></td><td>GA4 MCP installed and connected post-holiday Jun 2026.</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+        <tr><td><strong>LinkedIn Ads/Insights MCP</strong></td><td>LinkedIn Ads MCP installed and connected post-holiday Jun 2026.</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+        <tr><td><strong>Scheduled tasks</strong></td><td>3 tasks live: inbox digest &middot; weekly refresh &middot; Friday status</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="actions">
+    <div class="section-label">Section 4</div>
+    <div class="section-title">Action Items</div>
+    <div class="section-sub">Today Fri Jun 13, 2026 &amp; tomorrow Mon Jun 16, 2026</div>
+
+    <strong style="font-size:12px;display:block;margin-bottom:8px;color:#F5A623;">&#x1f4cc; TODAY &mdash; Fri Jun 13, 2026</strong>
+    <table>
+      <thead><tr><th style="width:28px"></th><th>Who</th><th>What</th><th>When</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Review all 6 updated artifacts &mdash; confirm content is accurate</td><td>Today EOD</td><td><span class="st st-pending">&#x1f7e1; Today</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Send Wayfina email: share ruttens.com/services + testimonial request + October seed</td><td>Today</td><td><span class="st st-pending">&#x1f7e1; Today</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Review lean protocol tracker &mdash; confirm Week 1 food log entries</td><td>Today</td><td><span class="st st-pending">&#x1f7e1; Today</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Gmail vacation auto-reply (May 15 &rarr; Jun 4) &mdash; set pre-holiday</td><td>May 14 EOD</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>LinkedHelper P0 campaigns Started</td><td>May 14 EOD</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb done"></div></td><td><strong>Phil</strong></td><td>Install GA4 + LinkedIn Ads MCPs post-holiday</td><td>Jun 5+</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+      </tbody>
+    </table>
+
+    <div style="height:16px"></div>
+    <strong style="font-size:12px;display:block;margin-bottom:8px;color:#3b82f6;">&#x1f4cc; TOMORROW &mdash; Mon Jun 16, 2026</strong>
+    <table>
+      <thead><tr><th style="width:28px"></th><th>Who</th><th>What</th><th>When</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Wayfina follow-up if no reply to Jun 13 email &mdash; check inbox</td><td>Mon Jun 16</td><td><span class="st st-tbc">&#x23f3; Pending</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>AYA: check post-holiday pipeline + schedule next session</td><td>Mon Jun 16</td><td><span class="st st-tbc">&#x23f3; Pending</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Install Ahrefs Cowork plugin (available in marketplace)</td><td>Mon Jun 16</td><td><span class="st st-nice">&#x1f7e1; Nice to have</span></td></tr>
+        <tr><td style="text-align:center;padding:8px 4px"><div class="cb"></div></td><td><strong>Phil</strong></td><td>Matt Church framework session: separate Cowork task using EAGLE Drive folder</td><td>Jun 16+</td><td><span class="st st-tbc">TBC &mdash; parked</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="timeline">
+    <div class="section-label">Section 5</div>
+    <div class="section-title">Setup Timeline</div>
+    <div class="section-sub">Sprint milestones and MCP setup window</div>
+
+    <table>
+      <thead><tr><th>Date</th><th>Task</th><th>Who</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>May 7</strong></td><td>Memory v2 live &middot; Taxonomy v3 executed &middot; Stack verified &middot; Granola removed</td><td>Claude + Phil</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>May 8&ndash;10</strong></td><td>30 LinkedIn posts &middot; 4 dashboards rebuilt &middot; Netlify + scheduled tasks</td><td>Claude</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>May 12</strong></td><td>AYA Phase 2 proposal sent &middot; EREA prep deck</td><td>Claude</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>May 13</strong></td><td>EREA Phase 1 audit review meeting &middot; AYA V2 review meeting</td><td>Phil + Claude</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>May 14</strong></td><td>Meta-refresh sprint: all live artifacts refreshed. Pre-flight check. Sprint freeze.</td><td>Claude + Phil</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>May 15 &rarr; Jun 4</strong></td><td>Phil on holiday (Greece: Athens &rarr; Serifos &rarr; Sifnos &rarr; Folegandros) &middot; Scheduled tasks ran autonomously</td><td>System</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>Jun 5</strong></td><td>Phil returned to Brussels &middot; AYA debrief &middot; Post-holiday pipeline restart</td><td>Phil</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>Jun 12</strong></td><td>Wayfina Phase 2 call (S9 &middot; ~21 min) &middot; Investor focus confirmed &middot; October campaign agreed</td><td>Phil + Alex</td><td><span class="st st-done">&#x2705; Done</span></td></tr>
+        <tr><td><strong>Jun 13, 2026 (TODAY)</strong></td><td>Meta-refresh sprint: all 6 stale live artifacts updated. 24 artifacts live. 47+ MCPs. Wayfina Wk 25 full rewrite.</td><td>Claude</td><td><span class="st st-pending">&#x23f3; In progress</span></td></tr>
+        <tr><td><strong>Jun 16+</strong></td><td>Dropbox &rarr; Drive migration via Movebot (Jul 2026). Re-evaluate Fineko BV (parked). Ahrefs plugin.</td><td>Phil</td><td><span class="st st-tbc">Upcoming</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="budget">
+    <div class="section-label">Section 6</div>
+    <div class="section-title">Full MCP Stack Status</div>
+    <div class="section-sub">Connected vs missing vs removed &mdash; verified live Jun 13, 2026</div>
+
+    <table>
+      <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Gmail</td><td>Primary comms &mdash; inbox triage, draft creation</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Google Drive</td><td>Single source of truth &mdash; all file ops</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Google Calendar</td><td>Meeting + deadline source</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>HubSpot</td><td>AYA CRM &mdash; portal 148176566 (EU1)</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Apollo</td><td>Lead enrichment + prospecting (skills: enrich-lead, prospect, sequence-load)</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Slack</td><td>Team comms &mdash; standup, summarize, draft-announcement skills</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Fireflies</td><td>Meeting transcripts (replaced Granola May 7)</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Canva</td><td>All visuals + brand kit (MCP + skill, Drive import URL pattern locked)</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Notion</td><td>Page/database management for Matt Church framework + sales</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Linear</td><td>Productivity / issue tracking</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Zoom</td><td>Video meetings &middot; transcripts &middot; recordings via Zoom MCP</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Supermetrics</td><td>Cross-channel data aggregation</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>LinkedHelper</td><td>LinkedIn outreach automation (MCP + skill) &mdash; P0 campaigns live</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Make (Integromat)</td><td>Automation workflows</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Mailchimp</td><td>Email campaigns</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Wix</td><td>Website management</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>DocuSign</td><td>Contract signing</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Figma</td><td>Design files + Code Connect</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Gamma</td><td>Presentation generation</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Bitly</td><td>Link shortening + tracking</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Vibe Prospecting</td><td>B2B prospecting enrichment</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Apify</td><td>Web scraping &middot; RAG browser</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Netlify</td><td>Deploy client dashboards</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Typeform &middot; Tally</td><td>Survey + forms</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Zoho CRM</td><td>CRM alternative</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>GA4</td><td>Web analytics &mdash; EREA + AYA &middot; installed Jun 2026</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>LinkedIn Ads/Insights</td><td>Campaign tracking for EREA &middot; installed Jun 2026</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>PowerPoint &middot; Word &middot; PDF Tools</td><td>Document creation + form filling</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td>Cowork Artifacts &middot; Scheduled Tasks &middot; Skills</td><td>Cowork native tools</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <table>
+      <thead><tr><th>Tool</th><th>Why it matters</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>&#x26aa; Ahrefs</strong></td><td>SEO audit capability &mdash; Cowork plugin available, not yet installed</td><td><span class="st st-tbc">&#x26aa; Jun 16+</span></td></tr>
+        <tr><td><strong>&#x26aa; Dropbox</strong></td><td>Migration to Drive planned July 2026 via Movebot</td><td><span class="st st-tbc">&#x26aa; Jul 2026</span></td></tr>
+        <tr><td><strong>&#x274c; Granola</strong></td><td>Replaced by Fireflies May 7 &mdash; do not reconnect (DROPPED per memory)</td><td><span class="st st-removed">&#x274c; DROPPED</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="metrics">
+    <div class="section-label">Section 7</div>
+    <div class="section-title">Artifact Inventory</div>
+    <div class="section-sub">All Cowork live artifacts &mdash; status as of Jun 13, 2026 (meta-refresh sprint)</div>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Total live artifacts</div>
+        <div class="metric-val">24</div>
+        <div class="metric-target">Client + personal + finance + skills + ops + travel</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Refreshed Jun 13</div>
+        <div class="metric-val">6</div>
+        <div class="metric-target">Meta-refresh sprint Jun 13, 2026</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Scheduled tasks live</div>
+        <div class="metric-val">3/3</div>
+        <div class="metric-target">All running autonomously</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Artifact ID</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>admin-finances</strong></td><td>Phil's Admin + Finance status, subscription audit, return plan</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-investment-dashboard</strong></td><td>FI portfolio dashboard &mdash; FI %, DCA, FY25 close, BV/tax</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-fy25-action-checklist</strong></td><td>18-task FY25 close + Q2-Q4 plan</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-skills-roadmap</strong></td><td>This artifact &mdash; MCP stack, scheduled tasks, artifact inventory</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>ruttens-folder-file-mapping</strong></td><td>Drive folder architecture, file inventory, cleanup plan</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-personal-weekly-dashboard</strong></td><td>Phil's weekly OS &mdash; sprint progress, actions, deadlines</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-client-weekly-aya</strong></td><td>AYA client weekly dashboard &mdash; GTM, pipeline, sessions</td><td><span class="st st-live">&#x2705; Live (refreshed Jun 13)</span></td></tr>
+        <tr><td><strong>ruttens-client-weekly-erea</strong></td><td>EREA client weekly dashboard &mdash; audit, campaigns, pipeline</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>ruttens-client-weekly-wayfina</strong></td><td>Wayfina client weekly &mdash; Wk 25, S9 Jun 12 debrief, Oct campaign</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>ruttens-client-simple-template</strong></td><td>Cross-client session debrief template</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>inbox-triage</strong></td><td>Live Gmail inbox triage v2.3 &mdash; domain-matched client mail</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>lean-protocol-tracker</strong></td><td>8-week lean protocol tracker &mdash; started Jun 8, Wk 1 live</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>greece-holiday-2026</strong></td><td>Greece trip planner &mdash; COMPLETED May 15&ndash;Jun 4, all paid &#x2705;</td><td><span class="st st-live">&#x2705; Refreshed Jun 13</span></td></tr>
+        <tr><td><strong>ruttens-investment-tracker (xlsx)</strong></td><td>Portfolio Excel workbook &mdash; FI tracker, DCA, BV projections</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+        <tr><td><strong>Other artifacts (10+)</strong></td><td>Finance, operations, personal, sprint artifacts</td><td><span class="st st-live">&#x2705; Live</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">&#x23f0; Scheduled Tasks (LIVE)</strong>
+    <table>
+      <thead><tr><th>Task</th><th>Schedule</th><th>Action</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Daily Inbox Digest</strong></td><td>Mon&ndash;Fri 07:00 BE</td><td>Pull Gmail unread &rarr; flag urgent &rarr; email digest to Phil</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+        <tr><td><strong>Weekly Monday Refresh</strong></td><td>Mon 06:00 BE</td><td>Refresh Cowork dashboards from Gmail/Cal/Drive</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+        <tr><td><strong>Friday Client Status</strong></td><td>Fri 17:00 BE</td><td>Draft client status emails &rarr; save to Gmail Drafts</td><td><span class="st st-done">&#x2705; Live</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="next">
+    <div class="section-label">Section 8</div>
+    <div class="section-title">Next Steps &amp; Dependencies</div>
+    <div class="section-sub">What Phil needs to do today (Jun 13) vs this week (Jun 16+)</div>
+
+    <div class="prose">
+      <p><strong>Phil to do today Jun 13:</strong> Send Wayfina email (ruttens.com/services + testimonial request + October seed). Review all 6 updated artifacts. Check lean protocol tracker Week 1 entries.</p>
+      <p><strong>Phil to do Mon Jun 16:</strong> Follow up Wayfina if no reply. AYA: check pipeline + schedule next session. Consider Ahrefs plugin install. Matt Church framework session (parked).</p>
+      <p><strong>July 2026:</strong> Dropbox &rarr; Drive migration via Movebot. Re-evaluate Fineko BV (parked).</p>
+      <p><strong>Ongoing:</strong> 3 scheduled tasks running autonomously. 24 artifacts live and refreshable. Stack fully operational at 47+ MCPs.</p>
+    </div>
+  </section>
+
+  <section class="section" id="appendix">
+    <div class="section-label">Section 9</div>
+    <div class="section-title">Appendix</div>
+    <div class="section-sub">Stack reference, Netlify sites, drive paths</div>
+
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">&#x1f680; Netlify Sites (deploy-ready)</strong>
+    <table>
+      <thead><tr><th>Site</th><th>URL</th><th>Drive folder</th></tr></thead>
+      <tbody>
+        <tr><td>AYA GTM Dashboard</td><td>aya-gtm-dash.netlify.app</td><td>/RUTTENS+OS/_DEPLOY/netlify-aya/</td></tr>
+        <tr><td>EREA Briefing 2026</td><td>erea-briefing-2026.netlify.app</td><td>/RUTTENS+OS/_DEPLOY/netlify-erea/</td></tr>
+        <tr><td>Wayfina Dashboard</td><td>wayfina.netlify.app</td><td>/RUTTENS+OS/_DEPLOY/netlify-wayfina/</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <strong style="font-size:13px;display:block;margin-bottom:12px;">&#x1f4c1; Key Drive Paths</strong>
+    <table>
+      <thead><tr><th>Path</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>/RUTTENS+OS/CLAUDE/</td><td>Cross-session bootstrap hub &mdash; read CLAUDE_SETUP.md at session start</td></tr>
+        <tr><td>/RUTTENS+OS/CLAUDE_MEMORY.md</td><td>Live memory v2 &mdash; approved May 7</td></tr>
+        <tr><td>/RUTTENS+OS/00_MASTER/URL_Library_v2/</td><td>URL Library Phase 2 MVP &mdash; 4,751 clean + 783 shortlist</td></tr>
+        <tr><td>/RUTTENS+OS/Live_Artifacts/</td><td>HTML backup copies of all Cowork artifacts</td></tr>
+        <tr><td>/RUTTENS+OS/_HANDOVERS/</td><td>Session handover files per client</td></tr>
+        <tr><td>/RUTTENS+OS/_LINKEDIN/</td><td>30-post queue (W20&ndash;W27, 4/week)</td></tr>
+        <tr><td>/RUTTENS+OS/05_Clients/</td><td>AYA / EREA / Wayfina / Fineko (parked)</td></tr>
+        <tr><td>EAGLE folder</td><td>Matt Church framework &mdash; separate session Jun 16+</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+  document.querySelectorAll('.cb').forEach(cb => cb.addEventListener('click', () => {
+    cb.classList.toggle('done');
+    const tr = cb.closest('tr');
+    if (tr) tr.classList.toggle('row-done', cb.classList.contains('done'));
+    if(window.updateProgress) window.updateProgress();
+  }));
+  window.updateProgress = function(){
+    var all=document.querySelectorAll('.cb');
+    var done=[].filter.call(all,function(el){return el.classList.contains('done');}).length;
+    var total=all.length;
+    var pct=total?Math.round(done/total*100):0;
+    var bar=document.getElementById('prog-bar');
+    var pctEl=document.getElementById('prog-pct');
+    var lbl=document.getElementById('prog-label');
+    var col=pct===100?'#10b981':pct>=75?'#38B6FF':pct>=40?'#f59e0b':'#ef4444';
+    if(bar){bar.style.width=pct+'%';bar.style.background=col;}
+    if(pctEl){pctEl.textContent=pct+'%';pctEl.style.color=col;}
+    if(lbl) lbl.textContent=done+' / '+total+' done';
+  };
+  window.resetProgress = function(){
+    document.querySelectorAll('.cb').forEach(function(el){
+      el.classList.remove('done');
+      var tr=el.closest('tr');
+      if(tr) tr.classList.remove('row-done');
+    });
+    try{localStorage.removeItem('ruttens-cb-ruttens-skills-roadmap');}catch(e){}
+    window.updateProgress();
+  };
+</script>
+<script>
+/* Stable-key checkbox persistence — survives refreshes */
+(function(){
+  const ns='ruttens-cb-'+(location.pathname.match(/Artifacts\/([^\/]+)/)||[,'unknown'])[1];
+  function stableKey(cb){
+    let t=cb.closest('tr,li,.action-row,.action-box,.email');
+    if(t){
+      const txt=(t.innerText||t.textContent||'').trim().replace(/\s+/g,' ').slice(0,120);
+      if(txt) return txt;
+    }
+    return cb.dataset.cbKey||cb.id||cb.name||('idx-'+[...document.querySelectorAll('input[type=checkbox],.cb')].indexOf(cb));
+  }
+  function load(){
+    document.querySelectorAll('input[type="checkbox"], .cb').forEach(cb=>{
+      const k=ns+'::'+stableKey(cb);
+      cb.dataset.cbKey=k;
+      const saved=localStorage.getItem(k);
+      if(saved==='1'){
+        if(cb.tagName==='INPUT') cb.checked=true;
+        else cb.classList.add('done');
+        cb.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+      const persist=()=>{
+        const on = cb.tagName==='INPUT' ? cb.checked : cb.classList.contains('done');
+        localStorage.setItem(k, on?'1':'0');
+      };
+      cb.addEventListener('change',persist);
+      cb.addEventListener('click',()=>setTimeout(persist,30));
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',load);
+  else { load(); window.updateProgress(); }
+})();
+</script>
+
+</body>
+</html>

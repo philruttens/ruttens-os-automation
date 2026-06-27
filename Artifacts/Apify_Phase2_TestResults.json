@@ -1,0 +1,94 @@
+{
+  "testDate": "2026-06-24",
+  "status": "✅ SUCCESS",
+  "actor": "harvestapi/linkedin-profile-posts",
+  "testProfile": "https://www.linkedin.com/in/satyanadella/",
+  "parameters": {
+    "maxPosts": 5,
+    "postedLimit": "month",
+    "scrapeComments": false,
+    "scrapeReactions": false
+  },
+  "results": {
+    "postsFound": 5,
+    "executionTime": "8.3 seconds",
+    "datasetId": "NSxaMDKjzlP9oaFRF",
+    "posts": [
+      {
+        "url": "https://www.linkedin.com/posts/bradsmi_when-we-launched-our-community-first-ai-infrastructure-activity-7475523295233216512-Ms57",
+        "content": "When we launched our Community-First AI Infrastructure plan in January, we made a promise: we would meet the growing demand for datacenters without straining the resources communities depend on. Water was central to that commitment.\n\nToday we shared our progress. Since our first datacenter designs in the early 2000s, we have improved our water-use effectiveness by nearly 90 percent. We are more than halfway to our 2030 water-intensity goal. And in FY25, we replenished more water globally than we withdrew, a milestone toward becoming water positive.\n\nDigital growth and responsible water stewardship can move forward together, and the communities we call home should be stronger for it.",
+        "postedDate": "2026-06-24T14:58:17.798Z",
+        "postedAgoText": "5 hours ago",
+        "authorName": "Brad Smith",
+        "authorUrl": "https://www.linkedin.com/in/bradsmi",
+        "engagement": {
+          "likes": 477,
+          "comments": 48,
+          "shares": 46
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/satyanadella_azure-sets-a-new-performance-record-for-llm-activity-7472785363590082560-3lnD",
+        "content": "New Azure milestone. The fastest time to train yet at the largest reported scale for this leading AI training benchmark.\n\nA great example of what is possible when we bring together full-stack innovation across silicon, systems, networking, and software, along with our deep partnership with NVIDIA, to advance the frontier of AI infra.",
+        "postedDate": "2026-06-16T23:01:08.318Z",
+        "postedAgoText": "1 week ago",
+        "authorName": "Satya Nadella",
+        "authorUrl": "https://www.linkedin.com/in/satyanadella",
+        "engagement": {
+          "likes": 2020,
+          "comments": 156,
+          "shares": 167
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/bradsmi_above-the-model-emergence-capital-activity-7475593084882575360-VMpK",
+        "content": "Gordon Ritter makes an important point: the most automated decade in business history will reward the companies that invest in their people, not those that replace them.\n\nAs Gordon points out, the lasting value of AI won't reside in any single model, but in human judgment, creativity, and expertise that's amplified by AI and compounds inside their organizations. This is the foundation for an AI economy and Frontier Ecosystem that works for everyone, where every company, industry, and community can build and own its unique advantage, and where the benefits are broadly shared, not narrowly held.",
+        "postedDate": "2026-06-24T17:14:41.992Z",
+        "postedAgoText": "47 minutes ago",
+        "authorName": "Brad Smith",
+        "authorUrl": "https://www.linkedin.com/in/bradsmi",
+        "engagement": {
+          "likes": 45,
+          "comments": 9,
+          "shares": 3
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/judsonalthoff_achieving-success-with-ai-the-official-activity-7472674389034029056-3RKW",
+        "content": "My conversations with customers today are less about whether to adopt AI and more focused on how to apply it in a way that creates business growth. AI should amplify the unique intelligence of an organization so value compounds over time, while also providing the visibility and control needed to ensure ROI.\n\nIn my latest blog, I share how we are thinking about this at Microsoft—from a model-diverse approach to a control plane that helps organizations manage AI as it scales across the enterprise. Microsoft IQ brings context to data and embeds AI directly into the flow of work, while Agent 365 provides the trust layer to observe, govern, and secure agents and AI artifacts across the environment.\n\nWe have built this system to help our customers and partners move decisively from experimentation to real outcomes with confidence—scaling human ambition and driving measurable results with AI across every role, organization, and industry.",
+        "postedDate": "2026-06-19T17:28:00.871Z",
+        "postedAgoText": "1 week ago",
+        "authorName": "Judson Althoff",
+        "authorUrl": "https://www.linkedin.com/in/judsonalthoff",
+        "engagement": {
+          "likes": 1146,
+          "comments": 65,
+          "shares": 235
+        }
+      },
+      {
+        "url": "https://www.linkedin.com/posts/charleslamanna_copilot-cowork-is-now-generally-available-ugcPost-7472665413659557890-0Iod",
+        "content": "Copilot Cowork is now generally available! 🎉\n\nThe last few months of preview in Frontier have been incredible – we've seen you use Cowork to help with so many different tasks and we've been listening closely to your feedback so that we can make your experience even better. With GA, we're bringing you more improvements and new features across model choice, extensibility through plugins, browser automation, and cost management controls.\n\nAnd today, I wanted to come back and share another demo of the latest updates in action through some of my own day-to-day work. You can check that out below and read more about the news in the blog.\n\nThank you to everyone who tried Cowork in Frontier and for keeping us inspired with unique use cases and helpful feedback – can't wait to see what you'll continue building with it.",
+        "postedDate": "2026-06-16T18:07:02.005Z",
+        "postedAgoText": "1 week ago",
+        "authorName": "Charles Lamanna",
+        "authorUrl": "https://www.linkedin.com/in/charleslamanna",
+        "engagement": {
+          "likes": 3727,
+          "comments": 120,
+          "shares": 722
+        }
+      }
+    ]
+  },
+  "verification": {
+    "✅ Posts fetched successfully": true,
+    "✅ All required fields present": true,
+    "✅ No cookies or login required": true,
+    "✅ Works with public profiles": true,
+    "✅ Engagement data included": true,
+    "✅ Fast execution (8.3s)": true,
+    "✅ Ready for production": true
+  },
+  "nextStep": "Follow the implementation guide at Artifacts/LinkedHelper_Apify_Post_Fetcher_Implementation.md"
+}
